@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup | Group Chat App</title>
+  <link rel="stylesheet" href="/css/signup.css" />
+  <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+</head>
+<body>
+  <div class="signup-container">
+    <h2>Sign up for Group Chat App</h2>
+    <form onsubmit="handleUserSignup(event)">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="phoneNumber">Phone Number</label>
+      <input type="tel" id="phoneNumber" name="phoneNumber" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required />
+
+
+
+      <button type="submit">Sign Up</button>
+    </form>
+    <p id="signupError" class="error-msg"></p>
+    <p class="login-link">Already have an account? <a href="./login">Login here</a></p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/js/signup.js"></script>
+</body>
+</html>
