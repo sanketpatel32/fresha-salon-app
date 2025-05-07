@@ -1,0 +1,88 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.services-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping to the next row */
+    gap: 20px; /* Space between cards */
+    padding: 20px;
+    justify-content: flex-start; /* Align items to the left */
+}
+
+.service-card {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: calc(20% - 20px); /* Each card takes 20% of the row minus the gap */
+    padding: 20px;
+    text-align: center;
+    box-sizing: border-box; /* Ensures padding is included in the width */
+    text-decoration: none; /* Remove underline from links */
+    color: inherit; /* Inherit text color */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.service-card:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor:pointer;
+}
+
+.service-card h3 {
+    margin: 0 0 10px;
+    color: #333;
+}
+
+.service-card p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.service-card .statusbar {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.main-menu-btn {
+    margin: 20px auto; /* Center the button horizontally */
+    display: block; /* Ensure it's treated as a block element */
+    padding: 12px 20px;
+    width: 200px; /* Set a fixed width for consistency */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px; /* Slightly larger border radius for a modern look */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.main-menu-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.main-menu-btn:active {
+    background-color: #004494;
+    transform: scale(0.98); /* Slight shrink effect on click */
+}

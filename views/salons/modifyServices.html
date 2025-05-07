@@ -3,9 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Modify Services | Fresha</title>
+    <link rel="stylesheet" href="/css/salons/modifyServices.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    Welcome to the modify services page!<br>
+    <header>
+        <h1>All Services</h1>
+    </header>
+    <main>
+        <div id="services-container" class="services-container">
+            <!-- Cards will be dynamically added here -->
+        </div>
+    </main>
+    
+    <button onclick="window.location.href=`http://localhost:3000/api/salonsdashboard`" class="main-menu-btn">Main Menu</button>
+    <script src="/js/salons/modifyServices.js"></script>
 </body>
 </html>

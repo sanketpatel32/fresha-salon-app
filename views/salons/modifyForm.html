@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modify Service</title>
+    <link rel="stylesheet" href="/css/salons/modifyForm.css" />
+    <script src="/js/salons/modifyForm.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Modify Service</h1>
+    </header>
+    <main>
+        <form id="modifyServiceForm">
+            <label for="name">Service Name</label>
+            <input type="text" id="name" name="name" required />
+
+            <label for="price">Price</label>
+            <input type="number" id="price" name="price" step="0.01" required />
+
+            <label for="duration">Duration (in minutes)</label>
+            <input type="number" id="duration" name="duration" required />
+
+            <label for="statusbar">Status</label>
+            <select id="statusbar" name="statusbar" required>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+
+            <!-- Update Service Button -->
+            <button type="submit" class="update-btn">Update Service</button>
+
+            <!-- Additional Buttons -->
+            <button id="removeServiceBtn" class="remove-btn" type="button">Remove Service</button>
+            <button onclick="window.location.href='http://localhost:3000/api/salonsdashboard'" class="main-menu-btn" type="button">Main Menu</button>
+        </form>
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>

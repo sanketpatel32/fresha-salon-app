@@ -27,7 +27,12 @@ const Services = sequelize.define('services', {
             model: 'salons', // Name of the salons table
             key: 'id'
         }
-    }
+    },
+    statusbar: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'active' // Default status is 'active'
+    },
 }, { timestamps: true });
 
 module.exports = Services;
