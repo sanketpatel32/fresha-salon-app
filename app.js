@@ -16,7 +16,7 @@ const app = express();
 
 // Middleware setup
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(cors({ credentials: true })); // Adjust the origin as needed
 app.use('/api', routes);
 
@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 
 // Sync database and start the server
 sequelize
-  .sync({ force: false }) // Set force to true only for development/testing purposes
+  .sync({ force: true }) // Set force to true only for development/testing purposes
   .then(() => {
     app.listen(process.env.PORT || 3000, () => {
       console.log(`Server is running on port ${process.env.PORT || 3000}`);

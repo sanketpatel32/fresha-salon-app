@@ -9,9 +9,9 @@
 </head>
 <body>
   <div class="signup-container">
-    <h2>Sign up for Group Chat App</h2>
-    <form onsubmit="handleUserSignup(event)">
-      <label for="name">Name</label>
+    <h2>Resgister your salon in Fresha</h2>
+    <form onsubmit="handleSalonSignup(event)">
+      <label for="name">Salon Name</label>
       <input type="text" id="name" name="name" required />
 
       <label for="phoneNumber">Phone Number</label>
@@ -23,7 +23,17 @@
       <label for="password">Password</label>
       <input type="password" id="password" name="password" required />
 
+      <label for="address">Address</label>
+      <input type="text" id="address" name="address" required />
 
+      <label for="pricing">pricing</label>
+      <select name="pricing" id="pricing">
+        <option value="low">low</option>
+        <option value="medium">medium</option>
+        <option value="high">high</option>
+      </select>
+
+     
 
       <button type="submit">Sign Up</button>
     </form>
