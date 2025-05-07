@@ -14,7 +14,7 @@ const isAuth = (req, res, next) => {
 
         // Decode the token to inspect the expiration time
         const decodedToken = jwt.decode(token);
-        const expTime = new Date(decodedToken.exp * 1000); // Convert Unix timestamp to Date
+        const expTime = new Date(decodedToken.exp * 10000); // Convert Unix timestamp to Date
         console.log("Token expires at:", expTime);
 
         next();

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../utils/database');
 
-const staff = sequelize.define('staff', {
+const Staff = sequelize.define('staff', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -24,15 +24,20 @@ const staff = sequelize.define('staff', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    address : {
-        type: Sequelize.STRING,
-        allowNull: true
+    salonId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'salons', // Name of the target table
+            key: 'id' // Key in the target table
+        },
+        onDelete: 'CASCADE' // Delete staff if the associated salon is deleted
     },
-    documentNumber: {
+    statusbar: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false,
+        defaultValue: 'active' // Default status is 'active'
     },
+}, { timestamps: true });
 
-}, {timestamps:true});
-
-module.exports = staff;
+module.exports = Staff;

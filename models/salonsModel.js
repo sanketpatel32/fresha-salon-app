@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../utils/database');
-const Services = require('./servicesModel'); // Import the services model
 
 const Salons = sequelize.define('salons', {
     id: {
@@ -39,9 +38,5 @@ const Salons = sequelize.define('salons', {
         defaultValue: 'active' // Default status is 'active'
     },
 }, { timestamps: true });
-
-// Establish the relationship
-Salons.hasMany(Services, { foreignKey: 'salonId', onDelete: 'CASCADE' });
-Services.belongsTo(Salons, { foreignKey: 'salonId' });
 
 module.exports = Salons;

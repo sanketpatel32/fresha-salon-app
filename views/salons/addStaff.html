@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Staff</title>
+    <link rel="stylesheet" href="/css/salons/addStaff.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+    <header>
+        <h1>Add Staff</h1>
+    </header>
+    <main>
+        <form id="addStaffForm">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter staff name" required />
+
+            <label for="phoneNumber">Phone Number</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Enter phone number" required />
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter email" required />
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter password" required />
+            <!-- Buttons Container -->
+            <div class="button-container">
+                <button type="submit" class="add-btn">Add Staff</button>
+                <button onclick="window.location.href='http://localhost:3000/api/salonsdashboard'" class="main-menu-btn" type="button">Main Menu</button>
+            </div>
+        </form>
+    </main>
+</body>
+<script src="/js/salons/addStaff.js"></script>
+
+</html>

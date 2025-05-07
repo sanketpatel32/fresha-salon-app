@@ -2,14 +2,13 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const http = require('http');
-const fs = require('fs');
 const dotenv = require('dotenv');
 dotenv.config();
 
 // Import custom services and routes
 const routes = require('./routes/indexRoutes');
 const sequelize = require('./utils/database');
+require('./models/associations'); // Import relationships
 
 // Initialize express app
 const app = express();
@@ -28,13 +27,9 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-
-
-
-
 // Sync database and start the server
 sequelize
-  .sync({ force: false}) // Set force to true only for development/testing purposes
+  .sync({ alter: false }) // Use alter to update the schema without dropping data
   .then(() => {
     app.listen(process.env.PORT || 3000, () => {
       console.log(`Server is running on port ${process.env.PORT || 3000}`);
