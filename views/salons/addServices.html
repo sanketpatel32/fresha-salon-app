@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Service | Fresha</title>
+    <link rel="stylesheet" href="/css/salons/addServices.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Add a New Service</h1>
+        <form id="addServiceForm" onsubmit="handleAddService(event)">
+            <label for="name">Service Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter service name" required />
+
+            <label for="price">Price</label>
+            <input type="number" id="price" name="price" placeholder="Enter price" step="0.01" required />
+
+            <label for="duration">Duration (in minutes)</label>
+            <input type="number" id="duration" name="duration" placeholder="Enter duration" required />
+
+            <button type="submit">Add Service</button>
+        </form>
+        <p id="errorMessage" class="error-msg"></p>
+        <button onclick="window.location.href=`http://localhost:3000/api/salonsdashboard`" class="main-menu-btn">Main Menu</button>
+    </div>
+    <script src="/js/salons/addServices.js"></script>
+</body>
+</html>

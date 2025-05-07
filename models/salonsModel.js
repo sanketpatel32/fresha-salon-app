@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../utils/database');
+const Services = require('./servicesModel'); // Import the services model
 
-const salons = sequelize.define('salons', {
+const Salons = sequelize.define('salons', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -28,11 +29,19 @@ const salons = sequelize.define('salons', {
         type: Sequelize.STRING,
         allowNull: false
     },
-
-    pricing : {
+    pricing: {
         type: Sequelize.STRING,
         allowNull: false
     },
-}, {timestamps:true});
+    statusbar: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'active' // Default status is 'active'
+    },
+}, { timestamps: true });
 
-module.exports = salons;
+// Establish the relationship
+Salons.hasMany(Services, { foreignKey: 'salonId', onDelete: 'CASCADE' });
+Services.belongsTo(Salons, { foreignKey: 'salonId' });
+
+module.exports = Salons;

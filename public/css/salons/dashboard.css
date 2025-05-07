@@ -19,7 +19,6 @@ header h1 {
 
 main {
     padding: 20px;
-    text-align: center;
 }
 
 main h2 {
@@ -30,4 +29,60 @@ main h2 {
 main p {
     color: #555;
     font-size: 16px;
+    margin-bottom: 20px;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+section h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+.flex-container {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap; /* Allows wrapping to the next row if needed */
+    justify-content: flex-start; /* Align items to the start of the row */
+}
+
+.flex-box {
+    width: 300px; /* Fixed width for each box */
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-decoration: none; /* Remove underline from links */
+    color: inherit; /* Inherit text color */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.flex-box:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+    margin-top: 20px;
+    text-align: center;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-top: 1px solid #ddd;
+}
+
+.logout-btn {
+    padding: 10px 20px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.logout-btn:hover {
+    background-color: #cc0000;
 }

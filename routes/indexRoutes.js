@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+
+const authMiddleware = require('../middlewares/authMiddleware');
+
 const userRoutes = require('./userRoutes');
 const businessRoutes = require('./buisnessRoutes');
 const userDashboardRoutes = require('./userDashboard');

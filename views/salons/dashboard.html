@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salon Admin Panel | Fresha</title>
     <link rel="stylesheet" href="/css/salons/dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <header>
@@ -13,6 +14,40 @@
     <main>
         <h2>Welcome to your dashboard!</h2>
         <p>Manage your salon's details, bookings, and more.</p>
+
+        <section id="services">
+            <h3>Services</h3>
+            <div class="flex-container">
+                <a href="salonsdashboard/services/add" class="flex-box">Add Service</a>
+                <a href="salonsdashboard/services/modify" class="flex-box">Modify Service</a>
+                <a href="./services/modify-salon" class="flex-box">Modify Salon</a>
+            </div>
+        </section>
+        
+        <section id="staff">
+            <h3>Staff</h3>
+            <div class="flex-container">
+                <a href="/staff/add" class="flex-box">Add Staff</a>
+                <a href="/staff/remove" class="flex-box">Remove Staff</a>
+            </div>
+        </section>
+
+        <section id="appointments">
+            <h3>Appointments</h3>
+            <div class="flex-container">
+                <a href="/appointments/scheduled" class="flex-box">Scheduled Appointments</a>
+                <a href="/appointments/completed" class="flex-box">Completed Appointments</a>
+            </div>
+        </section>
     </main>
+    <footer>
+        <button onclick="handleLogout()" class="logout-btn">Logout</button>
+    </footer>
+    <script>
+        function handleLogout() {
+            localStorage.removeItem("token"); // Remove the token from localStorage
+            window.location.href = "/"; // Redirect to the login page
+        }
+    </script>
 </body>
 </html>
