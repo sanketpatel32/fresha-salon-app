@@ -4,9 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fresha</title>
+    <link rel="stylesheet" href="/css/user/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/user/dashboard.js" defer></script>
 </head>
 <body>
-    <h1>Welcome user</h1>
-    
+    <header>
+        <h1>Welcome, User</h1>
+        <div class="header-buttons">
+            <button onclick="window.location.href='/user/bookedAppointments'">Booked Appointment</button>
+            <button onclick="window.location.href='/user/editProfile'">Edit Profile</button>
+            <button onclick="window.location.href='/logout'">Logout</button>
+        </div>
+    </header>
+    <main>
+        <section id="salons-container" class="salons-container">
+            <!-- Salon cards will be dynamically added here -->
+        </section>
+    </main>
 </body>
 </html>

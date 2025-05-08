@@ -14,5 +14,6 @@ router.get('/login', (req, res) => {
 
 router.post('/signup', salonController.salonSignup);
 router.post('/login', salonController.salonLogin);
+router.get('/getall', salonController.getAllSalons);
 
 module.exports = router;

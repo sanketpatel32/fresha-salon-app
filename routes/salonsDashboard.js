@@ -30,9 +30,18 @@ router.get('/staff/add', (req, res) =>{
     res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'addStaff.html'));
 })   
 router.post('/staff/add', authMiddleware, salonStaff.addStaff);
+
+router.get('/staff/assignStaff', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'assignStaffService.html'));
+})
+router.get('/staff/getallstaff', authMiddleware, salonStaff.getStaff);
+
+router.get('/staff/staffModifyForm', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'staffModifyForm.html'));
+});
+router.get('/staff/getStaff', authMiddleware, salonStaff.getStaffById);
+router.put('/staff/assignServices', authMiddleware, salonStaff.assignServices);
+router.put('/staff/updateStatus', authMiddleware, salonStaff.updateStatus);
 // router.put('/staff/update/:id', authMiddleware, salonServices.updateStaff);
-
-
-
 
 module.exports = router;

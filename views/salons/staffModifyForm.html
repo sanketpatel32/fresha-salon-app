@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Services to Staff</title>
+    <link rel="stylesheet" href="/css/salons/staffModifyForm.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Assign Services to Staff</h1>
+    </header>
+    <main>
+        <section id="staffDetails" class="card">
+            <!-- Staff details will be dynamically loaded here -->
+        </section>
+        <section id="serviceAssignment" class="card">
+            <h2>Available Services</h2>
+            <form id="assignServicesForm">
+                <div id="servicesList" class="services-list">
+                    <!-- Services checkboxes will be dynamically loaded here -->
+                </div>
+                <button type="submit" class="assign-btn">Assign Services</button>
+            </form>
+        </section>
+        <button class="main-menu-btn" onclick="window.location.href='/salonsdashboard'">Main Menu</button>
+    </main>
+    <script src="/js/salons/staffModifyForm.js"></script>
+</body>
+</html>

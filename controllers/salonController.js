@@ -53,8 +53,26 @@ const salonLogin = async (req, res) => {
     }
 
 }
-
+const getAllSalons = async (req, res) => {
+    try {
+        const salons = await salonModel.findAll();
+        if (!salons || salons.length === 0) {
+            return res.status(404).json({ message: "No salons found" });
+        }
+        // Exclude sensitive information like password from the response
+        salons.forEach(salon => {
+            delete salon.dataValues.password;
+            delete salon.dataValues.createdAt;
+            delete salon.dataValues.updatedAt;
+        });
+        res.status(200).json(salons);
+    } catch (err) {
+        console.error("Error fetching salons:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
 module.exports = {
     salonSignup,
     salonLogin,
+    getAllSalons
 };
