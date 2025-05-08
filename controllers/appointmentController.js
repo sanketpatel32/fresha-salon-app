@@ -2,6 +2,7 @@ const appointmentModel = require('../models/appointmentModel');
 const staffModel = require('../models/staffModel'); // Assuming you have a staff model
 const Services = require('../models/servicesModel'); // Assuming you have a service model
 const Salons = require('../models/salonsModel'); // Assuming you have a salon model
+const userModel = require('../models/userModel'); // Assuming you have a user model
 const { Op } = require('sequelize');
 
 const appointmentChecker = async (req, res) => {
@@ -96,7 +97,45 @@ const getAllAppointmentsByUserId = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+const getScheduledAppointmentsBySalonId = async (req, res) => {
+    const salonId = req.user.salonId; // Get salonId from request parameters
+    try{
+        // Fetch all appointments for the given salonId
+        const appointments = await appointmentModel.findAll({
+            where: { salonId },
+            include: [
+                {
+                    model: staffModel,
+                    as: 'staff', // Use the alias defined in the association
+                    attributes: ['name', 'phoneNumber'], // Include staff details
+                },
+                {
+                    model: Services,
+                    as: 'service', // Use the alias defined in the association
+                    attributes: ['name'], // Include service details
+                },
+                {
+                    model: Salons,
+                    as: 'salon', // Use the alias defined in the association
+                    attributes: ['name'], // Include salon name
+                },
+                {
+                    model: userModel,
+                    as: 'user', // Use the alias defined in the association
+                    attributes: ['name', 'phoneNumber'], // Include user details
+                }
+            ],
+        });
+
+        res.status(200).json(appointments);
+    }
+    catch(error) {
+        console.error('Error fetching scheduled appointments:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
 module.exports = {
     appointmentChecker,
-    getAllAppointmentsByUserId
+    getAllAppointmentsByUserId,
+    getScheduledAppointmentsBySalonId,
 };

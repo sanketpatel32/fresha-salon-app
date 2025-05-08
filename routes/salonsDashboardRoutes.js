@@ -49,5 +49,7 @@ router.get('/managament/changeSalonDetail', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'changeSalonDetail.html'));
 });
 
-
+router.get('/managament/salonSceduledAppointments', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'salonSceduledAppointments.html'));
+});
 module.exports = router;

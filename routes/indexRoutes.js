@@ -6,8 +6,8 @@ const authMiddleware = require('../middlewares/authMiddleware');
 const userRoutes = require('./userRoutes');
 const businessRoutes = require('./buisnessRoutes');
 const userDashboardRoutes = require('./userDashboard');
-const businessDashboardRoutes = require('./salonsDashboard');
-const appointmentRoutes = require('./appointment');
+const businessDashboardRoutes = require('./salonsDashboardRoutes');
+const appointmentRoutes = require('./appointmentRoutes');
 const paymentRoutes = require('./paymentroutes');
 
 router.use('/user', userRoutes);

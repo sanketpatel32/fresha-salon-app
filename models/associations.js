@@ -3,6 +3,7 @@ const Staff = require('./staffModel');
 const Services = require('./servicesModel');
 const StaffServices = require('./StaffServices');
 const Appointment = require('./appointmentModel'); // Import the Appointment model
+const User = require('./userModel'); // Import the User model
 
 // Define One-to-Many Relationship between Salons and Staff
 Salons.hasMany(Staff, { foreignKey: 'salonId', onDelete: 'CASCADE' });
@@ -21,12 +22,15 @@ Staff.hasMany(Appointment, { foreignKey: 'staffId', onDelete: 'CASCADE' });
 Appointment.belongsTo(Staff, { foreignKey: 'staffId', as: 'staff' }); // Alias as 'staff'
 
 // Define One-to-Many Relationship between Salons and Appointments
-// Define One-to-Many Relationship between Salons and Appointments
 Salons.hasMany(Appointment, { foreignKey: 'salonId', onDelete: 'CASCADE' });
 Appointment.belongsTo(Salons, { foreignKey: 'salonId', as: 'salon' }); // Alias as 'salon'
 
 // Define One-to-Many Relationship between Services and Appointments
 Services.hasMany(Appointment, { foreignKey: 'serviceId', onDelete: 'CASCADE' });
-Appointment.belongsTo(Services, { foreignKey: 'serviceId' });
+Appointment.belongsTo(Services, { foreignKey: 'serviceId', as: 'service' }); // Alias as 'service'
 
-module.exports = { Salons, Staff, Services, StaffServices, Appointment };
+// Define One-to-Many Relationship between Users and Appointments
+User.hasMany(Appointment, { foreignKey: 'userId', onDelete: 'CASCADE' });
+Appointment.belongsTo(User, { foreignKey: 'userId', as: 'user' }); // Alias as 'user'
+
+module.exports = { Salons, Staff, Services, StaffServices, Appointment, User };
