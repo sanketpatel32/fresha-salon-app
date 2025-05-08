@@ -14,7 +14,7 @@
         <div class="header-buttons">
             <button onclick="window.location.href='/user/bookedAppointments'">Booked Appointment</button>
             <button onclick="window.location.href='/user/editProfile'">Edit Profile</button>
-            <button onclick="window.location.href='/logout'">Logout</button>
+            <button onclick = "handleLogout()">Logout</button>
         </div>
     </header>
     <main>
@@ -23,4 +23,10 @@
         </section>
     </main>
 </body>
+<script>
+    function handleLogout() {
+        localStorage.removeItem("token"); 
+        window.location.href = "/"; 
+    }
+</script>
 </html>

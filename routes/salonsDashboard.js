@@ -44,4 +44,10 @@ router.put('/staff/assignServices', authMiddleware, salonStaff.assignServices);
 router.put('/staff/updateStatus', authMiddleware, salonStaff.updateStatus);
 // router.put('/staff/update/:id', authMiddleware, salonServices.updateStaff);
 
+
+router.get('/managament/changeSalonDetail', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'changeSalonDetail.html'));
+});
+
+
 module.exports = router;

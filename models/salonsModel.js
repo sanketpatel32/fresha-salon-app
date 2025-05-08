@@ -37,6 +37,21 @@ const Salons = sequelize.define('salons', {
         allowNull: false,
         defaultValue: 'active' // Default status is 'active'
     },
+    workingDays: {
+        type: Sequelize.JSON, // Store working days as a JSON array
+        allowNull: true,
+        defaultValue: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'] // Default to Monday to Saturday
+    },
+    openingTime: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 11 // Default opening time (11 AM)
+    },
+    closingTime: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 23 // Default closing time (11 PM)
+    },
 }, { timestamps: true });
 
 module.exports = Salons;

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Salon Details</title>
+    <link rel="stylesheet" href="/css/salons/changeSalonDetail.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/salons/changeSalonDetail.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Change Salon Details</h1>
+    </header>
+    <main>
+        <form id="salon-details-form">
+            <label for="name">Salon Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" required>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" required></textarea>
+
+            <label>Working Days:</label>
+            <div id="workingDays" class="working-days">
+                <label><input type="checkbox" value="mon" id="mon"> Monday</label>
+                <label><input type="checkbox" value="tue" id="tue"> Tuesday</label>
+                <label><input type="checkbox" value="wed" id="wed"> Wednesday</label>
+                <label><input type="checkbox" value="thu" id="thu"> Thursday</label>
+                <label><input type="checkbox" value="fri" id="fri"> Friday</label>
+                <label><input type="checkbox" value="sat" id="sat"> Saturday</label>
+                <label><input type="checkbox" value="sun" id="sun"> Sunday</label>
+            </div>
+
+            <label>Opening and Closing Time:</label>
+            <div class="time-container">
+                <input type="number" id="openingTime" name="openingTime" min="0" max="23" required>
+                <span>to</span>
+                <input type="number" id="closingTime" name="closingTime" min="0" max="23" required>
+            </div>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </main>
+</body>
+</html>

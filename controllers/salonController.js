@@ -72,7 +72,7 @@ const getAllSalons = async (req, res) => {
     }
 }
 const getSalonById = async (req, res) => {
-    const salonId  = req.query.salonId;
+    const salonId  = req.query.salonId ;
     console.log("Salon ID:", salonId); // Log the salon ID for debugging
     try {
         const salon = await salonModel.findOne({ where: { id: salonId } });
@@ -89,9 +89,58 @@ const getSalonById = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 }
+const getSalonBySalonId = async (req, res) => {
+    console.log("Request user:", req.user); // Log the request user for debugging
+    const salonId  = req.user.salonId ;
+
+    try {
+        const salon = await salonModel.findOne({ where: { id: salonId } });
+        if (!salon) {
+            return res.status(404).json({ message: "Salon not found" });
+        }
+        // Exclude sensitive information like password from the response
+        delete salon.dataValues.password;
+        delete salon.dataValues.createdAt;
+        delete salon.dataValues.updatedAt;
+        res.status(200).json(salon);
+    } catch (err) {
+        console.error("Error fetching salon:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
+const updateSalonDetails = async (req, res) => {
+    const { salonId, name, phoneNumber, address, workingDays, openingTime, closingTime } = req.body;
+
+    try {
+        // Find the salon by ID
+        const salon = await salonModel.findOne({ where: { id: salonId } });
+        if (!salon) {
+            return res.status(404).json({ message: "Salon not found" });
+        }
+
+        // Update the salon details
+        await salon.update({
+            name,
+            phoneNumber,
+            address,
+            workingDays,
+            openingTime,
+            closingTime
+        });
+
+        res.status(200).json({ message: "Salon details updated successfully" });
+    } catch (err) {
+        console.error("Error updating salon details:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
+
+
 module.exports = {
     salonSignup,
     salonLogin,
     getAllSalons,
-    getSalonById
+    getSalonById,
+    getSalonBySalonId,
+    updateSalonDetails
 };

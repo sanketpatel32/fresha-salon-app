@@ -21,13 +21,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <p><strong>Email:</strong> ${salon.email}</p>
                     <p><strong>Address:</strong> ${salon.address}</p>
                     <p><strong>Pricing:</strong> ${salon.pricing}</p>
-                    <p><strong>Status:</strong> ${salon.statusbar}</p>
+                    <p><strong>Status:</strong> ${salon.statusbar === 'active' ? "Opened" : "Temperorily Closed"}</p>
+                    <p><strong>Working Days:</strong> ${salon.workingDays ? salon.workingDays.join(', ') : 'Not Available'}</p>
+                    <p><strong>Working Hours:</strong> ${salon.openingTime}:00 - ${salon.closingTime}:00 </p>
                 `;
 
-                // Add click event listener to redirect to the base URL
+                // Add click event listener to redirect to the salon services page
                 card.addEventListener("click", () => {
                     localStorage.setItem("salonId", salon.id); // Store the salon ID in local storage
-                    window.location.href = "/api/userdashboard/salonservices"; // Redirect to Google
+                    window.location.href = "/api/userdashboard/salonservices"; // Redirect to salon services
                 });
 
                 salonsContainer.appendChild(card);
