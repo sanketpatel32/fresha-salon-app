@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 
 // Sync database and start the server
 sequelize
-  .sync({ alter: true }) // Use alter to update the schema without dropping data
+  .sync({ alter: false}) // Use alter to update the schema without dropping data
   .then(() => {
     app.listen(process.env.PORT || 3000, () => {
       console.log(`Server is running on port ${process.env.PORT || 3000}`);

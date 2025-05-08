@@ -1,6 +1,7 @@
 const appointmentModel = require('../models/appointmentModel');
 const staffModel = require('../models/staffModel'); // Assuming you have a staff model
 const Services = require('../models/servicesModel'); // Assuming you have a service model
+const Salons = require('../models/salonsModel'); // Assuming you have a salon model
 const { Op } = require('sequelize');
 
 const appointmentChecker = async (req, res) => {
@@ -63,7 +64,39 @@ const appointmentChecker = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+const getAllAppointmentsByUserId = async (req, res) => {
+    const userId = req.user.userId; // Get userId from request parameters
 
+    try {
+        // Fetch all appointments for the given userId
+        const appointments = await appointmentModel.findAll({
+            where: { userId },
+            include: [
+                {
+                    model: staffModel,
+                    as: 'staff', // Use the alias defined in the association
+                    attributes: ['name', 'phoneNumber'], // Include staff details
+                },
+                {
+                    model: Services,
+                    as: 'service', // Use the alias defined in the association
+                    attributes: ['name'], // Include service details
+                },
+                {
+                    model: Salons,
+                    as: 'salon', // Use the alias defined in the association
+                    attributes: ['name'], // Include salon name
+                },
+            ],
+        });
+
+        res.status(200).json(appointments);
+    } catch (error) {
+        console.error('Error fetching appointments:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
 module.exports = {
     appointmentChecker,
+    getAllAppointmentsByUserId
 };

@@ -14,4 +14,9 @@ router.get('/getAllActiveServicesBySalonId',salonServices.getAllActiveServicesBy
 router.get('/appointmentPage', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'user', 'appointmentPage.html'));
 });
+
+router.get('/bookedAppointments', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'user', 'bookedAppointments.html'));
+}
+);
 module.exports = router;
