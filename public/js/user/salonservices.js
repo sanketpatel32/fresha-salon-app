@@ -35,6 +35,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <p><strong>Duration:</strong> ${service.duration || "N/A"} min</p>
                 `;
 
+                // Add click event listener to the card
+                card.addEventListener("click", () => {
+                    localStorage.setItem("serviceId", service.id);
+                    localStorage.setItem("serviceName", service.name); // Store the service name if needed
+                    localStorage.setItem("servicePrice", service.price); // Store the service price if needed
+                    localStorage.setItem("serviceDuration", service.duration); // Store the service duration if needed
+                    // alert(`Service ID ${service.id} selected!`);
+                    // Redirect to another page if needed
+                    window.location.href = "/api/userdashboard/appointmentPage";
+                });
+
                 servicesContainer.appendChild(card);
             });
         } else {

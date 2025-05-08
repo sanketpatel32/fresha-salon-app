@@ -22,7 +22,7 @@ router.get('/services/modifyForm', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'modifyForm.html'));
 });
 
-router.get('/services/get/:id', authMiddleware, salonServices.getServiceById);
+router.get('/services/get/:id', salonServices.getServiceById);
 router.put('/services/update/:id', authMiddleware, salonServices.updateService);
 router.delete('/services/delete/:id', authMiddleware, salonServices.deleteService);
 

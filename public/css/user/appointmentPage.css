@@ -1,0 +1,105 @@
+/* General Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.appointment-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.left-side {
+    flex: 1;
+    padding: 20px;
+    background-color: #f1f1f1;
+    border-right: 1px solid #ddd;
+}
+
+.right-side {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+select, button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.message {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Staff Container Styling */
+/* Staff Container Styling */
+.staff-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to the next row */
+    gap: 15px; /* Add spacing between cards */
+    margin-top: 20px;
+    justify-content: space-between; /* Distribute cards evenly */
+}
+
+.staff-card {
+    flex: 1 1 calc(45% - 15px); /* Each card takes 45% of the container width minus the gap */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center-align text inside the card */
+}
+
+.staff-card p {
+    margin: 5px 0;
+}
+.pay-now-button {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pay-now-button:hover {
+    background-color: #218838;
+}
