@@ -27,8 +27,6 @@ const addService = async (req, res) => {
 const getAllServices = async (req, res) => {
     try {
         const salonId = req.user.salonId; 
-        console.log("Salon ID:", req.user.salonId); 
-
         // Use findAll to fetch all services for the given salonId
         const services = await servicesModel.findAll({
             where: { salonId } // Filter by salonId
@@ -41,7 +39,24 @@ const getAllServices = async (req, res) => {
     }
 };
 
+const getAllActiveServicesBySalonId = async (req, res) => {
+    try {
+        const salonId = req.query.salonId // Get the salon ID from the request
 
+        // Fetch all active services for the given salon ID
+        const services = await servicesModel.findAll({
+            where: {
+                salonId,
+                statusbar: "active" // Filter for services with status "active"
+            }
+        });
+
+        return res.status(200).json(services);
+    } catch (error) {
+        console.error("Error in getAllActiveServicesBySalonId:", error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
 
 const getServiceById = async (req, res) => {
     try {
@@ -108,5 +123,6 @@ module.exports = {
     getAllServices,
     getServiceById,
     updateService,
-    deleteService
+    deleteService,
+    getAllActiveServicesBySalonId
 };

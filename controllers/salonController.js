@@ -71,8 +71,27 @@ const getAllSalons = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 }
+const getSalonById = async (req, res) => {
+    const salonId  = req.query.salonId;
+    console.log("Salon ID:", salonId); // Log the salon ID for debugging
+    try {
+        const salon = await salonModel.findOne({ where: { id: salonId } });
+        if (!salon) {
+            return res.status(404).json({ message: "Salon not found" });
+        }
+        // Exclude sensitive information like password from the response
+        delete salon.dataValues.password;
+        delete salon.dataValues.createdAt;
+        delete salon.dataValues.updatedAt;
+        res.status(200).json(salon);
+    } catch (err) {
+        console.error("Error fetching salon:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
 module.exports = {
     salonSignup,
     salonLogin,
-    getAllSalons
+    getAllSalons,
+    getSalonById
 };

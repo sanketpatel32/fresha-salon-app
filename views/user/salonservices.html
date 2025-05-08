@@ -3,9 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Salon Services</title>
+    <link rel="stylesheet" href="/css/user/salonservices.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/user/salonservices.js" defer></script>
 </head>
 <body>
-    Welcome, User
+    <header>
+        <h1 id="salon-name">Welcome to <span></span></h1>
+        <div class="header-buttons">
+            <button onclick="window.location.href='/api/userdashboard'">Main Menu</button>
+            <button  onclick="handleLogout()">Logout</button>
+        </div>
+    </header>
+    <main>
+        <section id="services-container" class="services-container">
+            <!-- Services will be dynamically added here -->
+        </section>
+    </main>
 </body>
+<script>
+    function handleLogout() {
+        localStorage.removeItem("token"); 
+        window.location.href = "/"; 
+    }
+</script>
 </html>
