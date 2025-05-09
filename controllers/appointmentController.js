@@ -82,7 +82,7 @@ const appointmentChecker = async (req, res) => {
 };
 
 const getAllAppointmentsByUserId = async (req, res) => {
-    const userId = req.user.userId || req.query.userId; // Get userId from request parameters
+    const userId = req.query.userId; // Get userId from request parameters
 
     try {
         // Fetch all appointments for the given userId

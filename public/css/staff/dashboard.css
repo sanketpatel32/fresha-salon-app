@@ -1,0 +1,119 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f6fb;
+    margin: 0;
+    padding: 0;
+    color: #222e50;
+}
+
+.dashboard-header {
+    background-color: #222e50;
+    color: #fff;
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(34, 46, 80, 0.08);
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#logout-btn {
+    background: #ff4d4f;
+    color: #fff;
+    border: none;
+    padding: 10px 26px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(255,77,79,0.13);
+    letter-spacing: 0.5px;
+}
+#logout-btn:hover {
+    background: #d9363e;
+    box-shadow: 0 4px 16px rgba(255,77,79,0.18);
+}
+
+.dashboard-sections {
+    max-width: 1050px;
+    margin: 36px auto;
+    padding: 0 20px;
+}
+
+.appointments-section {
+    margin-bottom: 44px;
+}
+
+.appointments-section h2 {
+    color: #222e50;
+    margin-bottom: 18px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+.appointments-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding-bottom: 8px;
+}
+
+.appointment-card {
+    background: #fff;
+    border: 1.5px solid #e6e8ec;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(34,46,80,0.10);
+    padding: 22px 20px 18px 20px;
+    width: 320px;
+    min-width: 240px;
+    box-sizing: border-box;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    margin-bottom: 8px;
+    position: relative;
+}
+.appointment-card:hover {
+    box-shadow: 0 8px 24px rgba(34,46,80,0.16);
+    border-color: #b2b7c2;
+    transform: translateY(-2px) scale(1.02);
+}
+
+.appointment-card h3 {
+    margin: 0 0 10px 0;
+    color: #007bff;
+    font-size: 1.18rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.appointment-card p {
+    margin: 6px 0;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.review-btn {
+    margin-top: 14px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 9px 22px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.10);
+}
+.review-btn:hover {
+    background: #0056b3;
+    box-shadow: 0 4px 16px rgba(0,123,255,0.16);
+}

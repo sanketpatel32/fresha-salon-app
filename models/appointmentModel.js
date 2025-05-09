@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/database'); // Adjust the path to your database connection file
 
+
 const Appointment = sequelize.define('Appointment', {
     id: {
         type: DataTypes.INTEGER,
@@ -35,6 +36,14 @@ const Appointment = sequelize.define('Appointment', {
     endTime: {
         type: DataTypes.TIME, // Store the end time (HH:mm:ss)
         allowNull: false,
+    },
+    staffReview: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    userReview: {
+        type: DataTypes.STRING,
+        allowNull: true,
     },
 });
 

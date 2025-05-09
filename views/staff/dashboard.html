@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard</title>
+    <link rel="stylesheet" href="/css/staff/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>Welcome, <span id="staff-name"></span>!</h1>
+        <button id="logout-btn">Logout</button>
+    </div>
+    <div class="dashboard-sections">
+        <div class="appointments-section">
+            <h2>Upcoming Appointments</h2>
+            <div id="upcoming-appointments" class="appointments-container"></div>
+        </div>
+        <div class="appointments-section">
+            <h2>Completed Appointments</h2>
+            <div id="completed-appointments" class="appointments-container"></div>
+        </div>
+    </div>
+    <script src="/js/staff/dashboard.js"></script>
+</body>
+</html>
