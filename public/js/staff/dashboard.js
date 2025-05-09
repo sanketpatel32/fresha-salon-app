@@ -45,12 +45,48 @@ document.addEventListener("DOMContentLoaded", async () => {
             `;
 
             if (appDate < now) {
-                // Completed appointment: add review button
-                const reviewBtn = document.createElement("button");
-                reviewBtn.textContent = "Write Review";
-                reviewBtn.className = "review-btn";
-                reviewBtn.onclick = () => window.location.href = `/review/${app.id}`;
-                card.appendChild(reviewBtn);
+                // Completed appointment: staff review section
+                if (!app.staffReview) {
+                    // Show review button if not submitted
+                    const reviewBtn = document.createElement("button");
+                    reviewBtn.textContent = "Write Staff Review";
+                    reviewBtn.className = "review-btn";
+                    reviewBtn.onclick = () => {
+                        // Inline review form
+                        const form = document.createElement("form");
+                        form.innerHTML = `
+                            <textarea placeholder="Write your review for the customer..." required style="width:100%;min-height:60px;"></textarea>
+                            <button type="submit" class="review-submit-btn">Submit</button>
+                        `;
+                        form.onsubmit = async (e) => {
+                            e.preventDefault();
+                            const review = form.querySelector("textarea").value;
+                            try {
+                                await axios.put(`${baseurl}/appointment/staffreview/${app.id}`, { review }, {
+                                    headers: { Authorization: `Bearer ${token}` }
+                                });
+                                form.innerHTML = "<span style='color:green;'>Thank you for your review!</span>";
+                            } catch (err) {
+                                form.innerHTML = "<span style='color:red;'>Failed to submit review.</span>";
+                            }
+                        };
+                        card.replaceChild(form, reviewBtn);
+                    };
+                    card.appendChild(reviewBtn);
+                } else {
+                    // Show the staff review if already submitted
+                    const reviewText = document.createElement("div");
+                    reviewText.classList.add("review-text");
+                    reviewText.innerHTML = `<strong>Your staff review:</strong> ${app.staffReview}`;
+                    card.appendChild(reviewText);
+                }
+
+                // Show user review (customer review) or "Yet to receive"
+                const userReviewDiv = document.createElement("div");
+                userReviewDiv.classList.add("user-review-section");
+                userReviewDiv.innerHTML = `<strong>User Review:</strong> ${app.userReview ? app.userReview : "<em>Yet to receive</em>"}`;
+                card.appendChild(userReviewDiv);
+
                 completedContainer.appendChild(card);
             } else {
                 upcomingContainer.appendChild(card);

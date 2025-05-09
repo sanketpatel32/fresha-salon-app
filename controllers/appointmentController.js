@@ -241,9 +241,47 @@ const mailAppointment = async (req, res) => {
     }
 };
 
+// Example: controllers/appointmentController.js
+const updateCustomerReview = async (req, res) => {
+    const { appointmentId } = req.params;
+    const { review } = req.body;
+
+    try {
+        const appointment = await appointmentModel.findByPk(appointmentId);
+        if (!appointment) {
+            return res.status(404).json({ message: "Appointment not found" });
+        }
+        appointment.userReview = review;
+        await appointment.save();
+        res.status(200).json({ message: "Review submitted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+
+const updateStaffReview = async (req, res) => {
+    const { appointmentId } = req.params;
+    const { review } = req.body;
+
+    try {
+        const appointment = await appointmentModel.findByPk(appointmentId);
+        if (!appointment) {
+            return res.status(404).json({ message: "Appointment not found" });
+        }
+        appointment.staffReview = review;
+        await appointment.save();
+        res.status(200).json({ message: "Staff review submitted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
 module.exports = {
     appointmentChecker,
     getAllAppointmentsByUserId,
     getScheduledAppointmentsBySalonId,
     mailAppointment,
+    updateCustomerReview,
+    updateStaffReview,
 };
