@@ -13,7 +13,8 @@ const handleUserLogin = async (event) => {
         const response = await axios.post(`${baseurl}/user/login`, { email, password });
 
         if (response.status === 200) {
-            const { token } = response.data; // Get JWT token
+            const { token,userId } = response.data; // Get JWT token
+            localStorage.setItem("userId", userId); // Store userId in local storage
             localStorage.setItem("token", token); // Store JWT in local storage
             window.location.href = "/api/userdashboard"; // Redirect to the home page
         }

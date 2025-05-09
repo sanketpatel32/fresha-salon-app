@@ -2,7 +2,7 @@ const baseurl = "http://127.0.0.1:3000/api"; // Define the base URL
 
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
-
+    const userId = localStorage.getItem("userId");
     if (!token) {
         alert("You are not logged in. Please log in to view your appointments.");
         window.location.href = "api/userdashboard/login"; // Redirect to login page
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         // Fetch all appointments for the user using axios
-        const response = await axios.get(`${baseurl}/appointment/getall`, {
+        const response = await axios.get(`${baseurl}/appointment/getall?userId=${userId}`, {
             headers: {
                 Authorization: `Bearer ${token}` // Add token to the request headers
             }

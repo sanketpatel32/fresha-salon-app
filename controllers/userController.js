@@ -4,9 +4,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const Sequelize = require('sequelize'); 
 
-
 const handleUserSignup = async (req, res) => {
-    const { name, email, password,phoneNumber } = req.body;
+    const { name, email, password, phoneNumber } = req.body;
 
     try {
         // Check if the user already exists
@@ -18,12 +17,16 @@ const handleUserSignup = async (req, res) => {
 
         // Hash the password before storing it
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = await userModel.create({ name, email, password: hashedPassword,phoneNumber });
+        const newUser = await userModel.create({ name, email, password: hashedPassword, phoneNumber });
 
         // Generate JWT token
         const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(201).json({ message: "User created successfully", token });
+        res.status(201).json({ 
+            message: "User created successfully", 
+            token, 
+            userId: newUser.id // Include userId in the response
+        });
     } catch (err) {
         console.error("Error during signup:", err);
         res.status(500).json({ message: "Internal server error" });
@@ -49,13 +52,16 @@ const handleUserLogin = async (req, res) => {
         // Generate JWT token
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(200).json({ message: "User logged in successfully", token });
+        res.status(200).json({ 
+            message: "User logged in successfully", 
+            token, 
+            userId: user.id // Include userId in the response
+        });
     } catch (err) {
         console.error("Error logging in user:", err);
         res.status(500).json({ error: "Internal server error" });
     }
 };
-
 
 const searchUsers = async (req, res) => {
     const { query } = req.query; // Get the search query from the request
@@ -80,7 +86,4 @@ const searchUsers = async (req, res) => {
     }
 };
 
-
-
-
-module.exports = { handleUserLogin, handleUserSignup ,searchUsers};
+module.exports = { handleUserLogin, handleUserSignup, searchUsers };

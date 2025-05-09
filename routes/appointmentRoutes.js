@@ -8,4 +8,6 @@ router.post('/check',  appointmentController.appointmentChecker);
 router.get('/getAll', authMiddleware, appointmentController.getAllAppointmentsByUserId);
 
 router.get('/sceduledAppointments', authMiddleware, appointmentController.getScheduledAppointmentsBySalonId);
+
+router.post('/mail',appointmentController.mailAppointment);
 module.exports = router;

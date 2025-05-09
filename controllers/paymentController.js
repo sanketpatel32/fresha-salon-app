@@ -76,22 +76,20 @@ exports.getPaymentStatus_ = async (req, res) => {
     const orderStatus = await getPaymentStatus(orderId);
 
     // Update payment status in the database
-
     const order = await Payment.findOne({ where: { orderId } });
-    // console.log("Order:", order); // Log the order for debugging
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
+
     // Update the order's status
-
     order.paymentStatus = orderStatus;
-
     await order.save();
+
     if (orderStatus === "Success") {
       // Update the user's balance or perform any other necessary actions here
       const paymentDetails = await Payment.findOne({ where: { orderId } });
       try {
-        appointmentModel.create({
+        await appointmentModel.create({
           staffId: paymentDetails.staffId,
           salonId: paymentDetails.salonId,
           serviceId: paymentDetails.serviceId,
@@ -103,29 +101,71 @@ exports.getPaymentStatus_ = async (req, res) => {
       } catch (error) {
         console.error("Error saving appointment:", error.message);
       }
-
     }
-    // const htmlTemp = TemplateGenerator(order.orderId, orderStatus, order.orderAmount)
-    const htmlResponse = `
-    <html>
-      <head>
-        <title>Payment Status</title>
-      </head>
-      <body>
-        <h1>Payment Status</h1>
-        <p>Order ID: ${order.orderId}</p>
-        <p>Status: ${order.paymentStatus}</p>
-        <p>Amount: ${order.orderAmount}</p>
-                  <a href="/api/userdashboard">Go to Dashboard</a> 
-      </body>
-    </html>
-  `;
-    res.send(htmlResponse); // Send the HTML response
 
+    // Generate the HTML response with additional details
+    const htmlResponse = `
+      <html>
+        <head>
+          <title>Payment Status</title>
+        </head>
+        <body>
+          <div style="text-align: center; font-family: Arial, sans-serif; margin: 20px;">
+            <h1 style="color: #4CAF50;">Payment Status</h1>
+            <p style="font-size: 18px;">Your payment was processed successfully!</p>
+            <table border="1" cellpadding="10" cellspacing="0" style="margin: 20px auto; border-collapse: collapse; font-size: 16px;">
+              <tr>
+                <th style="text-align: left;">Payment Status:</th>
+                <td><strong>${order.paymentStatus}</strong></td>
+              </tr>
+              <tr>
+                <th style="text-align: left;">Order ID:</th>
+                <td>${order.orderId}</td>
+              </tr>
+              <tr>
+                <th style="text-align: left;">Amount:</th>
+                <td>₹${order.orderAmount}</td>
+              </tr>
+              <tr>
+                <th style="text-align: left;">Appointment Date:</th>
+                <td>${order.dateSelected}</td>
+              </tr>
+              <tr>
+                <th style="text-align: left;">Appointment Time:</th>
+                <td>${order.timeSelected} - ${order.endTime}</td>
+              </tr>
+            </table>
+            <a href="/api/userdashboard" style="text-decoration: none; font-size: 18px; color: #007BFF;">Go to Dashboard</a>
+            <br><br>
+            <button onclick="sendEmailNotification()" style="font-size: 16px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Email Notification</button>
+            <p style="margin-top: 20px; font-size: 16px;">Thank you for your payment!<br>We appreciate your business.</p>
+          </div>
+          <script>
+            function sendEmailNotification() {
+              fetch('http://localhost:3000/api/appointment/mail', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ orderId: '${order.orderId}' })
+              })
+              .then(response => response.json())
+              .then(data => {
+                alert(data.message || 'Email notification sent successfully!');
+              })
+              .catch(error => {
+                console.error('Error sending email notification:', error);
+                alert('Failed to send email notification.');
+              });
+            }
+          </script>
+        </body>
+      </html>
+    `;
+
+    res.send(htmlResponse); // Send the HTML response
   } catch (error) {
     console.error("Error fetching payment status:", error.message);
     res.status(500).json({ message: "Error fetching payment status" });
   }
 };
-
-
