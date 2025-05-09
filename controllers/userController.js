@@ -85,5 +85,48 @@ const searchUsers = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+const getUserProfile = async (req, res) => {
+    const userId = req.query.userId; // Get the user ID from the JWT token
 
-module.exports = { handleUserLogin, handleUserSignup, searchUsers };
+    try {
+        const user = await userModel.findOne({ where: { id: userId } });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Exclude sensitive information like password from the response
+        delete user.dataValues.password;
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error("Error fetching user profile:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+const editProfile = async (req, res) => {
+    const userId = req.query.userId; // Get the user ID from the JWT token
+    const { name, email, phoneNumber } = req.body;
+
+    try {
+        const user = await userModel.findOne({ where: { id: userId } });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Update user details
+        user.name = name;
+        user.email = email;
+        user.phoneNumber = phoneNumber;
+
+        await user.save();
+
+        res.status(200).json({ message: "Profile updated successfully", user });
+    } catch (error) {
+        console.error("Error updating profile:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+module.exports = { handleUserLogin, handleUserSignup, searchUsers, getUserProfile, editProfile };

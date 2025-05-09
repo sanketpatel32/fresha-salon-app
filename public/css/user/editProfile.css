@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6fb;
+    margin: 0;
+    padding: 0;
+}
+header {
+    display: flex;
+    align-items: center;
+    background: #222e50;
+    color: #fff;
+    padding: 18px 24px;
+    box-shadow: 0 2px 8px rgba(34, 46, 80, 0.08);
+}
+header h2 {
+    flex: 1;
+    text-align: center;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+#main-menu-btn {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#main-menu-btn:hover {
+    background: #0056b3;
+}
+.edit-profile-container {
+    max-width: 400px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(34,46,80,0.10);
+    padding: 32px 28px 24px 28px;
+}
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #222e50;
+    font-weight: 600;
+}
+input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
+    width: 100%;
+    padding: 9px 10px;
+    margin-bottom: 18px;
+    border: 1.5px solid #e6e8ec;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+button[type="submit"] {
+    width: 100%;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 0;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+button[type="submit"]:hover {
+    background: #0056b3;
+}
+#edit-profile-message {
+    margin-top: 16px;
+    text-align: center;
+    font-weight: 600;
+}
