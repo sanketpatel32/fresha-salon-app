@@ -26,6 +26,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin','adminlogin.html'));
+});
+
 
 // Sync database and start the server
 sequelize

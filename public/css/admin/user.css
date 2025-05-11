@@ -1,0 +1,109 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6fb;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background: #222e50;
+    color: #fff;
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#logout-btn {
+    background: #ff4d4f;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#logout-btn:hover {
+    background: #d9363e;
+}
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin: 32px 0 24px 0;
+    gap: 10px;
+}
+#search-input {
+    width: 320px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1.5px solid #e6e8ec;
+    font-size: 1rem;
+}
+#search-btn {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#search-btn:hover {
+    background: #0056b3;
+}
+#users-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+}
+.user-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(34,46,80,0.10);
+    padding: 22px 20px 18px 20px;
+    width: 340px;
+    min-width: 240px;
+    box-sizing: border-box;
+    border: 1.5px solid #e6e8ec;
+    position: relative;
+}
+.user-card h3 {
+    margin: 0 0 10px 0;
+    color: #007bff;
+    font-size: 1.18rem;
+    font-weight: 700;
+}
+.user-card p {
+    margin: 6px 0;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.delete-btn {
+    background: #ff4d4f;
+    color: #fff;
+    border: none;
+    padding: 7px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    transition: background 0.2s;
+}
+.delete-btn:hover {
+    background: #d9363e;
+}
+.no-users {
+    text-align: center;
+    color: #888;
+    margin-top: 40px;
+    font-size: 1.2rem;
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Users</title>
+    <link rel="stylesheet" href="/css/admin/user.css">
+</head>
+<body>
+    <header>
+        <h2>Users</h2>
+        <button id="logout-btn">Logout</button>
+    </header>
+    <main>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search by name, email, or phone...">
+            <button id="search-btn">Search</button>
+        </div>
+        <div id="users-container"></div>
+        <div id="no-users" class="no-users" style="display:none;">No users found.</div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/admin/user.js"></script>
+</body>
+</html>

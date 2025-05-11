@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        body {
+            background: #f4f6fb;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .login-container {
+            max-width: 350px;
+            margin: 80px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(34,46,80,0.10);
+            padding: 32px 28px 24px 28px;
+        }
+        h2 {
+            text-align: center;
+            color: #222e50;
+            margin-bottom: 24px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #222e50;
+            font-weight: 600;
+        }
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 9px 10px;
+            margin-bottom: 18px;
+            border: 1.5px solid #e6e8ec;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 0;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .login-message {
+            margin-top: 14px;
+            text-align: center;
+            color: #ff4d4f;
+            font-weight: 600;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form id="admin-login-form">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+        <div class="login-message" id="login-message"></div>
+    </div>
+    <script>
+        document.getElementById('admin-login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const msgDiv = document.getElementById('login-message');
+            msgDiv.textContent = "";
+
+            try {
+                const res = await axios.post('http://localhost:3000/api/admin/login', { email, password });
+                msgDiv.style.color = "green";
+                msgDiv.textContent = "Login successful!";
+                // Optionally store token and redirect
+                localStorage.setItem("adminToken", res.data.token);
+                window.location.href = "api/admin/dashboard";
+            } catch (err) {
+                msgDiv.style.color = "#ff4d4f";
+                msgDiv.textContent = err.response?.data?.error || "Login failed.";
+            }
+        });
+    </script>
+</body>
+</html>

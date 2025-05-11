@@ -1,0 +1,63 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6fb;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background: #222e50;
+    color: #fff;
+    padding: 24px 0;
+    text-align: center;
+    margin-bottom: 32px;
+}
+.card-container {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 40px;
+}
+.admin-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(34,46,80,0.10);
+    padding: 32px 36px;
+    width: 260px;
+    text-align: center;
+    transition: box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+}
+.admin-card:hover {
+    box-shadow: 0 8px 32px rgba(34,46,80,0.18);
+    transform: translateY(-4px) scale(1.03);
+}
+.admin-card h2 {
+    color: #007bff;
+    margin-bottom: 12px;
+}
+#logout-btn {
+    background: #ff4d4f;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-left: 16px;
+}
+#logout-btn:hover {
+    background: #d9363e;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #222e50;
+    color: #fff;
+    padding: 24px 32px;
+}
+header h1 {
+    margin: 0;
+}
