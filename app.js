@@ -6,7 +6,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 // Import custom services and routes
-const routes = require('./routes/indexRoutes');
+const apiroutes = require('./routes/apiRoutes');
+const indexRoutes = require('./routes/indexRoutes');
 const sequelize = require('./utils/database');
 require('./models/associations'); // Import relationships
 
@@ -17,15 +18,17 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({ credentials: true })); // Adjust the origin as needed
-app.use('/api', routes);
+app.use('/',indexRoutes)
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'views', 'index.html'));
+// });
+app.use('/api', apiroutes);
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Root route to serve the main HTML file
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
-});
+
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'admin','adminlogin.html'));
 });

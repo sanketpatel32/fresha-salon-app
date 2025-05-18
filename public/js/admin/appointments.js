@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.getElementById("logout-btn").onclick = function() {
         localStorage.removeItem("adminToken");
-        window.location.href = "/admin";
+        window.location.href = "/";
     };
 
     const container = document.getElementById("appointments-container");

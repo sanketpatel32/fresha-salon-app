@@ -16,7 +16,7 @@ const handleStaffLogin = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        // Compare the hashed password
+        
         // const isMatch = await bcrypt.compare(password, user.password);
         const isMatch = password === user.password
         if (!isMatch) {
@@ -46,7 +46,7 @@ const getAppointments = async (req, res) => {
             { model: userModel, as: 'user', attributes: ['name'] }
         ]
     });
-    res.json(appointments);
+    res.status(200).json(appointments);
 };
 module.exports = {
     handleStaffLogin,

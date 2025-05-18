@@ -94,7 +94,7 @@ document.getElementById("removeServiceBtn").addEventListener("click", async () =
 
         if (response.status === 200) {
             alert("Service removed successfully!");
-            window.location.href = "http://localhost:3000/api/salonsdashboard";
+            window.location.href = "http://localhost:3000/salonsdashboard";
         } else {
             alert("Failed to remove service.");
         }

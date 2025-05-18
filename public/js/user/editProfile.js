@@ -3,7 +3,7 @@ const userId = localStorage.getItem("userId");
 const token = localStorage.getItem("token");
 
 document.getElementById("main-menu-btn").onclick = () => {
-    window.location.href = "/api/userdashboard";
+    window.location.href = "/userdashboard";
 };
 
 document.addEventListener("DOMContentLoaded", async () => {

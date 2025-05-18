@@ -46,9 +46,9 @@ document.getElementById("addStaffForm").addEventListener("submit", async (event)
         console.error("Error adding staff:", error);
 
         if (error.response) {
-            console.log("Error Response:", error.response);
-            console.log("Status Code:", error.response.status);
-            console.log("Data:", error.response.data);
+            // console.log("Error Response:", error.response);
+            // console.log("Status Code:", error.response.status);
+            // console.log("Data:", error.response.data);
 
             if (error.response.data && error.response.data.message) {
                 alert(`Error: ${error.response.data.message}`);

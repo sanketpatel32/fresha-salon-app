@@ -1,23 +1,22 @@
 const baseurl = "http://127.0.0.1:3000/api"; // Define the base URL
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
+    const token = localStorage.getItem("token"); 
 
     if (!token) {
         alert("You are not logged in. Please log in to view appointments.");
-        window.location.href = "/api/salonsdashboard"; // Redirect to login page
+        window.location.href = "/"; // Redirect to login page
         return;
     }
 
     try {
-        // Fetch all appointments for the salon using axios
         const response = await axios.get(`${baseurl}/appointment/sceduledAppointments`, {
             headers: {
-                Authorization: `Bearer ${token}` // Add token to the request headers
+                Authorization: `Bearer ${token}` 
             }
         });
 
-        const appointments = response.data; // Extract appointments from the response
+        const appointments = response.data; 
         const upcomingContainer = document.getElementById("upcoming-appointments");
         const pastContainer = document.getElementById("past-appointments");
 
@@ -39,10 +38,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             `;
 
             if (appointmentDate >= today) {
-                // Upcoming appointment
                 upcomingContainer.appendChild(appointmentCard);
             } else {
-                // Past appointment
                 pastContainer.appendChild(appointmentCard);
             }
         });

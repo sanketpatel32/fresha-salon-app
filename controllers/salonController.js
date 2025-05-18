@@ -73,13 +73,12 @@ const getAllSalons = async (req, res) => {
 }
 const getSalonById = async (req, res) => {
     const salonId  = req.query.salonId ;
-    console.log("Salon ID:", salonId); // Log the salon ID for debugging
+    // console.log("Salon ID:", salonId); 
     try {
         const salon = await salonModel.findOne({ where: { id: salonId } });
         if (!salon) {
             return res.status(404).json({ message: "Salon not found" });
         }
-        // Exclude sensitive information like password from the response
         delete salon.dataValues.password;
         delete salon.dataValues.createdAt;
         delete salon.dataValues.updatedAt;
@@ -89,8 +88,8 @@ const getSalonById = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 }
+
 const getSalonBySalonId = async (req, res) => {
-    console.log("Request user:", req.user); // Log the request user for debugging
     const salonId  = req.user.salonId ;
 
     try {

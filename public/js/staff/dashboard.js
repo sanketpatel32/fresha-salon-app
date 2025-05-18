@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!token || !staffId) {
         alert("You are not logged in. Please log in.");
-        window.location.href = "api/staff/login";
+        window.location.href = "/staff/login"; 
         return;
     }
 

@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 // Add click event listener to redirect to the salon services page
                 card.addEventListener("click", () => {
                     localStorage.setItem("salonId", salon.id); // Store the salon ID in local storage
-                    window.location.href = "/api/userdashboard/salonservices"; // Redirect to salon services
+                    window.location.href = "/userdashboard/salonservices"; // Redirect to salon services
                 });
 
                 salonsContainer.appendChild(card);

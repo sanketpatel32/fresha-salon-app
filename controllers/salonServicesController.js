@@ -4,7 +4,7 @@ const addService = async (req, res) => {
     try {
         const { name, price, duration } = req.body;
         const salonId = req.user.salonId; 
-        console.log("Salon ID:", req.user.salonId); 
+        // console.log("Salon ID:", req.user.salonId); 
         if (!name || !price || !duration) {
             return res.status(400).json({ message: 'All fields are required' });
         }
@@ -43,11 +43,11 @@ const getAllActiveServicesBySalonId = async (req, res) => {
     try {
         const salonId = req.query.salonId // Get the salon ID from the request
 
-        // Fetch all active services for the given salon ID
+
         const services = await servicesModel.findAll({
             where: {
                 salonId,
-                statusbar: "active" // Filter for services with status "active"
+                statusbar: "active" 
             }
         });
 

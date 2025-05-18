@@ -62,8 +62,7 @@ const getStaffById = async (req, res) => {
             include: [
                 {
                     model: servicesModel,
-                    attributes: ['id', 'name'], // Include only service ID and name
-                    through: { attributes: [] } // Exclude join table attributes
+                    attributes: ['id', 'name'], 
                 }
             ]
         });

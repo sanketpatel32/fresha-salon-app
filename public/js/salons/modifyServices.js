@@ -38,10 +38,9 @@ const renderServices = (services) => {
     container.innerHTML = ""; // Clear existing content
 
     services.forEach((service) => {
-        const card = document.createElement("div"); // Changed to a div for better control
+        const card = document.createElement("div"); 
         card.className = "service-card";
         card.onclick = () => {
-            // Redirect to google.com (you can change this URL manually later)
             window.location.href = `${baseurl}/salonsdashboard/services/modifyForm?id=${service.id}`;
         };
         
@@ -55,5 +54,4 @@ const renderServices = (services) => {
         container.appendChild(card);
     });
 };
-// Fetch services on page load
 fetchServices();

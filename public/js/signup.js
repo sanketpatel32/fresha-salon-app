@@ -25,7 +25,7 @@ const handleUserSignup = async (event) => {
             const { token } = response.data; // Get JWT token
             localStorage.setItem("token", token); // Store JWT in local storage
 
-            window.location.href = "/api/userdashboard"; // Redirect to the expense page
+            window.location.href = "/userdashboard"; // Redirect to the expense page
         }
     } catch (error) {
         if (error.response) {

@@ -1,4 +1,4 @@
-const baseurl = "http://127.0.0.1:3000/api";
+const baseurl = "http://127.0.0.1:3000";
 
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("adminToken");

@@ -25,7 +25,7 @@ const handleUserSignup = async (req, res) => {
         res.status(201).json({ 
             message: "User created successfully", 
             token, 
-            userId: newUser.id // Include userId in the response
+            userId: newUser.id 
         });
     } catch (err) {
         console.error("Error during signup:", err);
@@ -55,7 +55,7 @@ const handleUserLogin = async (req, res) => {
         res.status(200).json({ 
             message: "User logged in successfully", 
             token, 
-            userId: user.id // Include userId in the response
+            userId: user.id 
         });
     } catch (err) {
         console.error("Error logging in user:", err);
@@ -64,10 +64,10 @@ const handleUserLogin = async (req, res) => {
 };
 
 const searchUsers = async (req, res) => {
-    const { query } = req.query; // Get the search query from the request
+    const { query } = req.query; 
 
     try {
-        // Search for users by name, email, or phone number
+        
         const users = await userModel.findAll({
             where: {
                 [Sequelize.Op.or]: [
@@ -76,7 +76,7 @@ const searchUsers = async (req, res) => {
                     { phoneNumber: { [Sequelize.Op.like]: `%${query}%` } },
                 ],
             },
-            attributes: ['id', 'name', 'email', 'phoneNumber'], // Return only relevant fields
+            attributes: ['id', 'name', 'email', 'phoneNumber'], 
         });
 
         res.status(200).json({ status: "Success", users });
@@ -86,7 +86,7 @@ const searchUsers = async (req, res) => {
     }
 };
 const getUserProfile = async (req, res) => {
-    const userId = req.query.userId; // Get the user ID from the JWT token
+    const userId = req.query.userId; 
 
     try {
         const user = await userModel.findOne({ where: { id: userId } });
@@ -95,7 +95,7 @@ const getUserProfile = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Exclude sensitive information like password from the response
+        
         delete user.dataValues.password;
 
         res.status(200).json(user);

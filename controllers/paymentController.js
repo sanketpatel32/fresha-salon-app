@@ -6,7 +6,7 @@ const {
 const Payment = require("../models/paymentModel");
 const userModel = require("../models/userModel");
 const appointmentModel = require("../models/appointmentModel");
-const { endianness } = require("os");
+
 // const TemplateGenerator = require("../Template/htmltemp");
 
 
@@ -36,9 +36,9 @@ exports.processPayment = async (req, res) => {
     );
     const [hours, minutes] = req.body.time.split(":").map(Number);
     const startDate = new Date();
-    startDate.setHours(hours, minutes, 0); // Set the time to timeSelected
-    const endDate = new Date(startDate.getTime() + req.body.duration * 60 * 1000); // Add duration in milliseconds
-    const endTime = endDate.toTimeString().slice(0, 5); // Format as "HH:mm"
+    startDate.setHours(hours, minutes, 0); 
+    const endDate = new Date(startDate.getTime() + req.body.duration * 60 * 1000); 
+    const endTime = endDate.toTimeString().slice(0, 5);
 
 
     //* Save payment details to the database

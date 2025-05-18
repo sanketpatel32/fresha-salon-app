@@ -91,7 +91,7 @@
                 msgDiv.textContent = "Login successful!";
                 // Optionally store token and redirect
                 localStorage.setItem("adminToken", res.data.token);
-                window.location.href = "api/admin/dashboard";
+                window.location.href = "admin/dashboard";
             } catch (err) {
                 msgDiv.style.color = "#ff4d4f";
                 msgDiv.textContent = err.response?.data?.error || "Login failed.";

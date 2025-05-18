@@ -16,7 +16,7 @@ const handleUserLogin = async (event) => {
             const { token,userId } = response.data; // Get JWT token
             localStorage.setItem("userId", userId); // Store userId in local storage
             localStorage.setItem("token", token); // Store JWT in local storage
-            window.location.href = "/api/userdashboard"; // Redirect to the home page
+            window.location.href = "/userdashboard"; // Redirect to the home page
         }
     } catch (error) {
         if (error.response) {
@@ -54,7 +54,7 @@ const handleSalonLogin = async (event) => {
         if (response.status === 200) {
             const { token } = response.data; // Get JWT token
             localStorage.setItem("token", token); // Store JWT in local storage
-            window.location.href = "/api/salonsdashboard"; // Redirect to the home page
+            window.location.href = "/salonsdashboard"; // Redirect to the home page
         }
     } catch (error) {
         if (error.response) {

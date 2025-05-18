@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        // Fetch salon details (optional, if you want to display the salon name)
+        // Fetch salon details 
         const salonResponse = await axios.get(`${baseurl}/buisness/getSalonById?salonId=${salonId}`);
         const salon = salonResponse.data;
         salonNameElement.textContent = salon.name;
@@ -38,12 +38,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 // Add click event listener to the card
                 card.addEventListener("click", () => {
                     localStorage.setItem("serviceId", service.id);
-                    localStorage.setItem("serviceName", service.name); // Store the service name if needed
-                    localStorage.setItem("servicePrice", service.price); // Store the service price if needed
-                    localStorage.setItem("serviceDuration", service.duration); // Store the service duration if needed
+                    localStorage.setItem("serviceName", service.name); 
+                    localStorage.setItem("servicePrice", service.price); 
+                    localStorage.setItem("serviceDuration", service.duration); 
                     // alert(`Service ID ${service.id} selected!`);
-                    // Redirect to another page if needed
-                    window.location.href = "/api/userdashboard/appointmentPage";
+                    window.location.href = "/userdashboard/appointmentPage";
                 });
 
                 servicesContainer.appendChild(card);

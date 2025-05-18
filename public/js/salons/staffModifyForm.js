@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 if (assignResponse.status === 200) {
                     alert("Services assigned successfully!");
-                    window.location.href = "/api/salonsdashboard/staff/assignStaff"; // Redirect to staff list
+                    window.location.href = "/salonsdashboard/staff/assignStaff"; // Redirect to staff list
                 }
             } catch (error) {
                 console.error("Error assigning services:", error);

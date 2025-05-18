@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const staffContainer = document.getElementById("staff-container");
     const payNowButton = document.getElementById("pay-now");
 
-    // Populate date and time dropdowns (retain old functionality)
+    // Populate date and time dropdowns based on salon working days and service duration
     const populateDateAndTimeDropdowns = async () => {
         try {
             const salonId = JSON.parse(localStorage.getItem("salonId"));
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const salon = salonResponse.data;
 
             const today = new Date();
-            const workingDays = salon.workingDays; // e.g., ['mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+            const workingDays = salon.workingDays;
             const nextWorkingDays = [];
             let currentDate = new Date(today);
 
@@ -34,13 +34,34 @@ document.addEventListener("DOMContentLoaded", async () => {
                 dateSelect.appendChild(option);
             });
 
-            const openingTime = salon.openingTime; // e.g., 11
-            const closingTime = salon.closingTime; // e.g., 23
-            for (let hour = openingTime; hour < closingTime; hour++) {
-                const option = document.createElement("option");
-                option.value = `${hour}:00`;
-                option.textContent = `${hour}:00`;
-                timeSelect.appendChild(option);
+            // Generate time slots based on service duration
+            const openingTime = salon.openingTime; // e.g., 9
+            const closingTime = salon.closingTime; // e.g., 18
+            const serviceDuration = parseInt(localStorage.getItem("serviceDuration")) || 30; // in minutes
+
+            timeSelect.innerHTML = "";
+            for (
+                let hour = openingTime, minute = 0;
+                hour < closingTime || (hour === closingTime && minute === 0);
+            ) {
+                const formattedHour = hour.toString().padStart(2, "0");
+                const formattedMinute = minute.toString().padStart(2, "0");
+                const timeValue = `${formattedHour}:${formattedMinute}`;
+
+                // Only add slots that fit within closing time
+                const endMinutes = hour * 60 + minute + serviceDuration;
+                if (endMinutes <= closingTime * 60) {
+                    const option = document.createElement("option");
+                    option.value = timeValue;
+                    option.textContent = timeValue;
+                    timeSelect.appendChild(option);
+                }
+
+                minute += serviceDuration;
+                if (minute >= 60) {
+                    hour += Math.floor(minute / 60);
+                    minute = minute % 60;
+                }
             }
         } catch (error) {
             console.error("Error populating date and time dropdowns:", error);
@@ -49,7 +70,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await populateDateAndTimeDropdowns();
 
-    // Handle form submission (retain old functionality and add new features)
     const form = document.getElementById("appointment-form");
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -58,7 +78,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const selectedTime = timeSelect.value;
 
         try {
-            
             const FormData = {
                 dateSelect: selectedDate,
                 time: selectedTime,
@@ -67,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 serviceName: localStorage.getItem("serviceName"),
                 servicePrice: localStorage.getItem("servicePrice"),
                 serviceDuration: localStorage.getItem("serviceDuration"),
-                duration: 30, // Example duration
+                duration: 30,
             };
             console.log("Form Data:", FormData);
             const response = await axios.post(`${baseurl}/appointment/check`, FormData);
@@ -77,7 +96,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 messageDiv.textContent = "You can book an appointment.";
                 messageDiv.style.color = "green";
 
-                staffContainer.innerHTML = ""; // Clear previous staff options
+                staffContainer.innerHTML = "";
                 staffList.forEach((staff) => {
                     const staffCard = document.createElement("div");
                     staffCard.classList.add("staff-card");
@@ -91,7 +110,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 payNowButton.style.display = "block";
 
-                // Add an onClick event listener to the "Pay Now" button
                 payNowButton.onclick = async () => {
                     const selectedStaff = document.querySelector('input[name="staff"]:checked');
                     if (!selectedStaff) {
@@ -107,22 +125,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                     console.log("Payment Data:", paymentData);
 
                     try {
-                        // Fetch payment session ID from backend
-                        const token = localStorage.getItem("token"); // Retrieve token from localStorage
-                        const response = await axios.post(`${baseurl}/pay`, paymentData,{
+                        const token = localStorage.getItem("token");
+                        const response = await axios.post(`${baseurl}/pay`, paymentData, {
                             headers: {
-                                Authorization: `Bearer ${token}` // Add token to the request headers
+                                Authorization: `Bearer ${token}`
                             }
                         });
                         const data = response.data;
                         const paymentSessionId = data.paymentSessionId;
                         const orderId = data.orderId;
 
-                        // Initialize Cashfree checkout
                         const cashfree = Cashfree({ mode: "sandbox" });
                         const checkoutOptions = {
                             paymentSessionId: paymentSessionId,
-                            redirectTarget: "_self", // Redirect after payment
+                            redirectTarget: "_self",
                         };
 
                         const result = await cashfree.checkout(checkoutOptions);
@@ -133,7 +149,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                         } else if (result.paymentDetails) {
                             console.log("Payment completed. Checking status...");
 
-                            // Fetch payment status
                             const statusResponse = await axios.get(`${baseurl}/payurl/${orderId}`);
                             const statusData = statusResponse.data;
                             alert("Your payment is " + statusData.orderStatus);
@@ -148,8 +163,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             } else {
                 messageDiv.textContent = "No staff available for the selected time.";
                 messageDiv.style.color = "red";
-                staffContainer.innerHTML = ""; // Clear staff options
-                payNowButton.style.display = "none"; // Hide the "Pay Now" button
+                staffContainer.innerHTML = "";
+                payNowButton.style.display = "none";
             }
         } catch (error) {
             console.error("Error checking availability:", error);

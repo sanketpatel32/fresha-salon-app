@@ -1,9 +1,9 @@
 const appointmentModel = require('../models/appointmentModel');
-const staffModel = require('../models/staffModel'); // Assuming you have a staff model
-const Services = require('../models/servicesModel'); // Assuming you have a service model
-const Salons = require('../models/salonsModel'); // Assuming you have a salon model
-const userModel = require('../models/userModel'); // Assuming you have a user model
-const Payment = require('../models/paymentModel'); // Assuming you have a payment model
+const staffModel = require('../models/staffModel');
+const Services = require('../models/servicesModel');
+const Salons = require('../models/salonsModel');
+const userModel = require('../models/userModel');
+const Payment = require('../models/paymentModel');
 const { Op } = require('sequelize');
 
 const { v4: uuidv4 } = require('uuid');
@@ -20,28 +20,29 @@ const sender = {
     name: 'Tech Support by Sanket'
 };
 
+// Checks staff availability for a given service, date, and time
 const appointmentChecker = async (req, res) => {
     try {
         const { dateSelect, time, salonId, serviceId, duration } = req.body;
 
         // Calculate the end time of the appointment
-        const startTime = time; // e.g., "11:00"
+        const startTime = time;
         const endTime = new Date(new Date(`1970-01-01T${time}`).getTime() + duration * 60 * 1000)
             .toTimeString()
-            .slice(0, 5); // Format as HH:mm
+            .slice(0, 5);
 
         // Step 1: Get all staff who provide the specified service
         const staffForService = await staffModel.findAll({
             include: [
                 {
                     model: Services,
-                    as: 'services', // Use the alias defined in the association
-                    where: { id: serviceId }, // Filter by serviceId
-                    attributes: [], // Do not fetch unnecessary fields
+                    as: 'services',
+                    where: { id: serviceId },
+                    attributes: [],
                 },
             ],
-            where: { salonId }, // Filter by salonId
-            attributes: ['id', 'name', 'phoneNumber'], // Fetch only the required fields
+            where: { salonId },
+            attributes: ['id', 'name', 'phoneNumber'],
         });
 
         // Extract staff IDs
@@ -50,21 +51,21 @@ const appointmentChecker = async (req, res) => {
         // Step 2: Check for staff availability
         const unavailableStaff = await appointmentModel.findAll({
             where: {
-                staffId: staffIds, // Filter by staff IDs
+                staffId: staffIds,
                 salonId,
-                date: dateSelect, // Check for the same date
+                date: dateSelect,
                 [Op.or]: [
                     {
                         time: {
-                            [Op.lt]: endTime, // Start time overlaps
+                            [Op.lt]: endTime,
                         },
                         endTime: {
-                            [Op.gt]: startTime, // End time overlaps
+                            [Op.gt]: startTime,
                         },
                     },
                 ],
             },
-            attributes: ['staffId'], // Only fetch staff IDs with appointments
+            attributes: ['staffId'],
         });
 
         // Step 3: Filter out unavailable staff
@@ -73,7 +74,6 @@ const appointmentChecker = async (req, res) => {
             (staff) => !unavailableStaffIds.includes(staff.id)
         );
 
-        // Respond with the available staff
         res.status(200).json(freeStaff);
     } catch (error) {
         console.error('Error in appointmentChecker:', error);
@@ -82,27 +82,26 @@ const appointmentChecker = async (req, res) => {
 };
 
 const getAllAppointmentsByUserId = async (req, res) => {
-    const userId = req.query.userId; // Get userId from request parameters
+    const userId = req.query.userId;
 
     try {
-        // Fetch all appointments for the given userId
         const appointments = await appointmentModel.findAll({
             where: { userId },
             include: [
                 {
                     model: staffModel,
-                    as: 'staff', // Use the alias defined in the association
-                    attributes: ['name', 'phoneNumber'], // Include staff details
+                    as: 'staff',
+                    attributes: ['name', 'phoneNumber'],
                 },
                 {
                     model: Services,
-                    as: 'service', // Use the alias defined in the association
-                    attributes: ['name'], // Include service details
+                    as: 'service',
+                    attributes: ['name'],
                 },
                 {
                     model: Salons,
-                    as: 'salon', // Use the alias defined in the association
-                    attributes: ['name'], // Include salon name
+                    as: 'salon',
+                    attributes: ['name'],
                 },
             ],
         });
@@ -115,31 +114,30 @@ const getAllAppointmentsByUserId = async (req, res) => {
 };
 
 const getScheduledAppointmentsBySalonId = async (req, res) => {
-    const salonId = req.user.salonId; // Get salonId from request parameters
+    const salonId = req.user.salonId;
     try {
-        // Fetch all appointments for the given salonId
         const appointments = await appointmentModel.findAll({
             where: { salonId },
             include: [
                 {
                     model: staffModel,
-                    as: 'staff', // Use the alias defined in the association
-                    attributes: ['name', 'phoneNumber'], // Include staff details
+                    as: 'staff',
+                    attributes: ['name', 'phoneNumber'],
                 },
                 {
                     model: Services,
-                    as: 'service', // Use the alias defined in the association
-                    attributes: ['name'], // Include service details
+                    as: 'service',
+                    attributes: ['name'],
                 },
                 {
                     model: Salons,
-                    as: 'salon', // Use the alias defined in the association
-                    attributes: ['name'], // Include salon name
+                    as: 'salon',
+                    attributes: ['name'],
                 },
                 {
                     model: userModel,
-                    as: 'user', // Use the alias defined in the association
-                    attributes: ['name', 'phoneNumber'], // Include user details
+                    as: 'user',
+                    attributes: ['name', 'phoneNumber'],
                 },
             ],
         });
@@ -151,27 +149,27 @@ const getScheduledAppointmentsBySalonId = async (req, res) => {
     }
 };
 
+// Sends appointment details to the customer via email
 const mailAppointment = async (req, res) => {
     const { orderId } = req.body;
 
     try {
-        // Fetch the order details using the orderId
         const order = await Payment.findOne({
             where: { orderId },
             include: [
                 {
                     model: staffModel,
-                    as: 'staff', // Use the alias defined in the association
+                    as: 'staff',
                     attributes: ['name', 'phoneNumber'],
                 },
                 {
                     model: Services,
-                    as: 'service', // Use the alias defined in the association
+                    as: 'service',
                     attributes: ['name'],
                 },
                 {
                     model: Salons,
-                    as: 'salon', // Use the alias defined in the association
+                    as: 'salon',
                     attributes: ['name'],
                 },
             ],
@@ -181,14 +179,12 @@ const mailAppointment = async (req, res) => {
             return res.status(404).json({ message: "Order not found" });
         }
 
-        // Fetch the customer details using the customerID from the order
         const customer = await userModel.findOne({ where: { id: order.customerID } });
 
         if (!customer) {
             return res.status(404).json({ message: "Customer not found" });
         }
 
-        // Prepare email content
         const toEmail = customer.email;
         const subject = "Your Appointment Details";
         const textContent = `
@@ -224,7 +220,6 @@ const mailAppointment = async (req, res) => {
             <p>Best regards,<br>Fresha Team</p>
         `;
 
-        // Send the email using Brevo (Sendinblue)
         const response = await tranEmailApi.sendTransacEmail({
             sender,
             to: [{ email: toEmail }],
@@ -241,7 +236,7 @@ const mailAppointment = async (req, res) => {
     }
 };
 
-// Example: controllers/appointmentController.js
+// Update user review for an appointment
 const updateCustomerReview = async (req, res) => {
     const { appointmentId } = req.params;
     const { review } = req.body;
@@ -259,7 +254,7 @@ const updateCustomerReview = async (req, res) => {
     }
 };
 
-
+// Update staff review for an appointment
 const updateStaffReview = async (req, res) => {
     const { appointmentId } = req.params;
     const { review } = req.body;
