@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log("Selected Staff ID:", staffId); // Debugging line
         if (!staffId) {
             alert("No staff selected. Redirecting to staff list...");
-            window.location.href = "/salonsdashboard/staff"; // Redirect to staff list
+            window.location.href = "/"; // Redirect to staff list
             return;
         }
 
