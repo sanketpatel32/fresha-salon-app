@@ -135,7 +135,7 @@ exports.getPaymentStatus_ = async (req, res) => {
                 <td>${order.timeSelected} - ${order.endTime}</td>
               </tr>
             </table>
-            <a href="/api/userdashboard" style="text-decoration: none; font-size: 18px; color: #007BFF;">Go to Dashboard</a>
+            <a href="/userdashboard" style="text-decoration: none; font-size: 18px; color: #007BFF;">Go to Dashboard</a>
             <br><br>
             <button onclick="sendEmailNotification()" style="font-size: 16px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Email Notification</button>
             <p style="margin-top: 20px; font-size: 16px;">Thank you for your payment!<br>We appreciate your business.</p>

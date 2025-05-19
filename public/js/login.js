@@ -13,10 +13,10 @@ const handleUserLogin = async (event) => {
         const response = await axios.post(`${baseurl}/user/login`, { email, password });
 
         if (response.status === 200) {
-            const { token,userId } = response.data; // Get JWT token
-            localStorage.setItem("userId", userId); // Store userId in local storage
-            localStorage.setItem("token", token); // Store JWT in local storage
-            window.location.href = "/userdashboard"; // Redirect to the home page
+            const { token,userId } = response.data; 
+            localStorage.setItem("userId", userId); 
+            localStorage.setItem("token", token); 
+            window.location.href = "/userdashboard"; 
         }
     } catch (error) {
         if (error.response) {

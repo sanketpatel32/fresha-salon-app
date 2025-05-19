@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const userId = localStorage.getItem("userId");
     if (!token) {
         alert("You are not logged in. Please log in to view your appointments.");
-        window.location.href = "api/userdashboard/login"; // Redirect to login page
+        window.location.href = "/"; // Redirect to login page
         return;
     }
 
