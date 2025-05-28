@@ -4,15 +4,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const staffDetails = document.getElementById("staffDetails");
     const servicesList = document.getElementById("servicesList");
     const assignServicesForm = document.getElementById("assignServicesForm");
-    const staffStatusDropdown = document.getElementById("staffStatus");
+    // const staffStatusDropdown = document.getElementById("staffStatus");
 
     try {
         // Retrieve the selected staff ID from localStorage
         const staffId = JSON.parse(localStorage.getItem("selectedStaff"));
-        console.log("Selected Staff ID:", staffId); // Debugging line
+        //
         if (!staffId) {
             alert("No staff selected. Redirecting to staff list...");
-            window.location.href = "/"; // Redirect to staff list
+            window.location.href = "/"; 
             return;
         }
 
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             try {
                 // Assign services to the staff
                 const assignResponse = await axios.put(`${baseurl}/salonsdashboard/staff/assignServices?staffid=${staffId}`, {
-                    services: selectedServices // Send the selected services array (can be empty)
+                    services: selectedServices 
                 }, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
