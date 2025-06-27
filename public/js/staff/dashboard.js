@@ -1,4 +1,4 @@
-const baseurl = "http://127.0.0.1:3000/api";
+const baseurl = "https://fresha-salon-app.onrender.com/api";
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("token");
     const staffId = localStorage.getItem("staffId");

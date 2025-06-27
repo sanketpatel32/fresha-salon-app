@@ -1,4 +1,4 @@
-const baseurl = "http://127.0.0.1:3000/api"; // Define the base URL
+const baseurl = "https://fresha-salon-app.onrender.com/api"; // Define the base URL
 
 document.addEventListener("DOMContentLoaded", async () => {
     const dateSelect = document.getElementById("date");
