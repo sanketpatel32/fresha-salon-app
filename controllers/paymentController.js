@@ -142,7 +142,7 @@ exports.getPaymentStatus_ = async (req, res) => {
           </div>
           <script>
             function sendEmailNotification() {
-              fetch('http://localhost:3000/api/appointment/mail', {
+              fetch('https://fresha-salon-app.onrender.com/api/appointment/mail', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

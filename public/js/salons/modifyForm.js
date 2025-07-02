@@ -1,4 +1,4 @@
-const baseurl = "http://localhost:3000/api"; // Base URL for API requests
+const baseurl = "https://fresha-salon-app.onrender.com/api"; // Base URL for API requests
 
 const fetchServiceDetails = async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -94,7 +94,7 @@ document.getElementById("removeServiceBtn").addEventListener("click", async () =
 
         if (response.status === 200) {
             alert("Service removed successfully!");
-            window.location.href = "http://localhost:3000/salonsdashboard";
+            window.location.href = "https://fresha-salon-app.onrender.com/salonsdashboard";
         } else {
             alert("Failed to remove service.");
         }

@@ -1,4 +1,4 @@
-const baseurl = "http://localhost:3000/api"; 
+const baseurl = "https://fresha-salon-app.onrender.com/api"; 
 
 const handleUserLogin = async (event) => {
     event.preventDefault();

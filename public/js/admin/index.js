@@ -1,4 +1,4 @@
-const baseurl = "http://127.0.0.1:3000";
+const baseurl = "https://fresha-salon-app.onrender.com";
 
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("adminToken");

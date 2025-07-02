@@ -1,4 +1,4 @@
-const baseurl = "http://localhost:3000/api"; // Base URL for API requests
+const baseurl = "https://fresha-salon-app.onrender.com/api"; // Base URL for API requests
 
 const handleAddService = async (event) => {
     event.preventDefault();
