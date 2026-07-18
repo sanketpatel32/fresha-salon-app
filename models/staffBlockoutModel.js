@@ -11,7 +11,7 @@ const StaffBlockout = sequelize.define('staffBlockout', {
     staffId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'staff', key: 'id' },
+        references: { model: 'staffs', key: 'id' },
         onDelete: 'CASCADE',
     },
     date: {
