@@ -56,6 +56,10 @@ const Payment = sequelize.define('payment', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
+    duration: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+    },
 
 });
 
