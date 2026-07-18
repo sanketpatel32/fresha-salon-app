@@ -55,6 +55,7 @@ const getStaff = async (req, res) => {
 const getStaffById = async (req, res) => {
     try {
         const staffId = req.query.staffid;
+        const salonId = req.user.salonId;
 
         // Fetch staff details along with assigned services
         const staff = await staffModel.findByPk(staffId, {
@@ -71,6 +72,10 @@ const getStaffById = async (req, res) => {
             return res.status(404).json({ message: "Staff not found" });
         }
 
+        if (staff.salonId !== salonId) {
+            return res.status(403).json({ message: "Unauthorized: Access denied to this staff profile" });
+        }
+
         res.status(200).json(staff);
     } catch (error) {
         console.error("Error fetching staff details:", error);
@@ -81,6 +86,7 @@ const assignServices = async (req, res) => {
     try {
         const staffId = req.query.staffid;
         const { services } = req.body;
+        const salonId = req.user.salonId;
 
         if (!staffId) {
             return res.status(400).json({ message: "Staff ID is required" });
@@ -90,6 +96,10 @@ const assignServices = async (req, res) => {
         const staff = await staffModel.findByPk(staffId);
         if (!staff) {
             return res.status(404).json({ message: "Staff not found" });
+        }
+
+        if (staff.salonId !== salonId) {
+            return res.status(403).json({ message: "Unauthorized: Access denied to modify this staff services" });
         }
 
         // Update assigned services (can handle empty array to remove all services)
@@ -105,6 +115,7 @@ const assignServices = async (req, res) => {
 const updateStatus = async (req, res) => {
     try {
         const { staffId, status } = req.body;
+        const salonId = req.user.salonId;
 
         if (!staffId || !status) {
             return res.status(400).json({ message: "Staff ID and status are required" });
@@ -113,6 +124,10 @@ const updateStatus = async (req, res) => {
         const staff = await staffModel.findByPk(staffId);
         if (!staff) {
             return res.status(404).json({ message: "Staff not found" });
+        }
+
+        if (staff.salonId !== salonId) {
+            return res.status(403).json({ message: "Unauthorized: Access denied to modify this staff member status" });
         }
 
         staff.statusbar = status; // Update the status

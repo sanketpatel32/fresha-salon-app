@@ -108,7 +108,8 @@ const getSalonBySalonId = async (req, res) => {
     }
 }
 const updateSalonDetails = async (req, res) => {
-    const { salonId, name, phoneNumber, address, workingDays, openingTime, closingTime } = req.body;
+    const salonId = req.user.salonId;
+    const { name, phoneNumber, address, workingDays, openingTime, closingTime } = req.body;
 
     try {
         // Find the salon by ID

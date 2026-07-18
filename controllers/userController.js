@@ -86,7 +86,7 @@ const searchUsers = async (req, res) => {
     }
 };
 const getUserProfile = async (req, res) => {
-    const userId = req.query.userId; 
+    const userId = req.user.userId; 
 
     try {
         const user = await userModel.findOne({ where: { id: userId } });
@@ -105,7 +105,7 @@ const getUserProfile = async (req, res) => {
     }
 };
 const editProfile = async (req, res) => {
-    const userId = req.query.userId; // Get the user ID from the JWT token
+    const userId = req.user.userId; // Get the user ID from the JWT token
     const { name, email, phoneNumber } = req.body;
 
     try {
@@ -128,5 +128,6 @@ const editProfile = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
 
 module.exports = { handleUserLogin, handleUserSignup, searchUsers, getUserProfile, editProfile };

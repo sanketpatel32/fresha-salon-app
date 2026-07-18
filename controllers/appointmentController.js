@@ -25,11 +25,14 @@ const appointmentChecker = async (req, res) => {
     try {
         const { dateSelect, time, salonId, serviceId, duration } = req.body;
 
-        // Calculate the end time of the appointment
+        // Calculate the end time of the appointment timezone-independently
         const startTime = time;
-        const endTime = new Date(new Date(`1970-01-01T${time}`).getTime() + duration * 60 * 1000)
-            .toTimeString()
-            .slice(0, 5);
+        const [hours, minutes] = time.split(':').map(Number);
+        const totalMinutes = hours * 60 + minutes + parseInt(duration);
+        const endHours = Math.floor(totalMinutes / 60) % 24;
+        const endMinutes = totalMinutes % 60;
+        const endTime = `${String(endHours).padStart(2, '0')}:${String(endMinutes).padStart(2, '0')}`;
+
 
         // Step 1: Get all staff who provide the specified service
         const staffForService = await staffModel.findAll({

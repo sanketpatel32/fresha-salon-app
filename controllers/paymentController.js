@@ -24,6 +24,9 @@ exports.processPayment = async (req, res) => {
   const customerID = userId.toString();
   const customerPhone = userDetails.phoneNumber; // Assuming you get the phone number from the user details
 
+  const protocol = req.secure || req.headers['x-forwarded-proto'] === 'https' ? 'https' : 'http';
+  const hostUrl = `${protocol}://${req.get('host')}`;
+
   try {
 
     //* Create an order in Cashfree and get the payment session ID
@@ -33,6 +36,7 @@ exports.processPayment = async (req, res) => {
       orderCurrency,
       customerID,
       customerPhone,
+      hostUrl
     );
     const [hours, minutes] = req.body.time.split(":").map(Number);
     const startDate = new Date();
@@ -142,7 +146,7 @@ exports.getPaymentStatus_ = async (req, res) => {
           </div>
           <script>
             function sendEmailNotification() {
-              fetch('https://fresha-salon-app.onrender.com/api/appointment/mail', {
+              fetch('/api/appointment/mail', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
@@ -162,6 +166,7 @@ exports.getPaymentStatus_ = async (req, res) => {
         </body>
       </html>
     `;
+
 
     res.send(htmlResponse); // Send the HTML response
   } catch (error) {

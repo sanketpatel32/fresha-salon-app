@@ -79,11 +79,16 @@ const updateService = async (req, res) => {
     try {
         const { id } = req.params;
         const { name, price, duration, statusbar } = req.body;
+        const salonId = req.user.salonId;
 
         const service = await servicesModel.findOne({ where: { id } });
 
         if (!service) {
             return res.status(404).json({ message: "Service not found" });
+        }
+
+        if (service.salonId !== salonId) {
+            return res.status(403).json({ message: "Unauthorized: Access denied to modify this service" });
         }
 
         service.name = name;
@@ -103,10 +108,15 @@ const updateService = async (req, res) => {
 const deleteService = async (req, res) => {
     try {
         const { id } = req.params;
+        const salonId = req.user.salonId;
         const service = await servicesModel.findOne({ where: { id } });
 
         if (!service) {
             return res.status(404).json({ message: "Service not found" });
+        }
+
+        if (service.salonId !== salonId) {
+            return res.status(403).json({ message: "Unauthorized: Access denied to delete this service" });
         }
 
         await service.destroy();

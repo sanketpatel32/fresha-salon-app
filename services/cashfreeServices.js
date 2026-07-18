@@ -8,9 +8,10 @@ Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
 exports.createOrder = async (
   orderId,
   orderAmount,
-  orderCurrency = "IND",
+  orderCurrency = "INR",
   customerID,
-  customerPhone
+  customerPhone,
+  hostUrl = "https://fresha-salon-app.onrender.com"
 ) => {
   try {
 
@@ -28,8 +29,7 @@ exports.createOrder = async (
       },
 
       order_meta: {
-        // "return_url": "https://www.cashfree.com/devstudio/preview/pg/web/checkout?order_id={order_id}",
-        return_url: `https://fresha-salon-app.onrender.com/api/pay/${orderId}`, //? calling getPaymentStatus
+        return_url: `${hostUrl}/api/pay/${orderId}`, //? calling getPaymentStatus dynamically
         payment_methods: "ccc, upi, nb"
       },
       order_expiry_time: formattedExpiryDate, //!? Set the valid expiry date
@@ -42,6 +42,7 @@ exports.createOrder = async (
     console.error("Error creating order:", error.message);
   }
 };
+
 
 
 exports.getPaymentStatus = async (orderId) => {
