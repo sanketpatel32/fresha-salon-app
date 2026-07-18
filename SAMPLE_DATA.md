@@ -2,6 +2,8 @@
 
 This project comes pre-seeded with premium mock data to help you test all the interactive dashboards and portals instantly out-of-the-box.
 
+> **Setup note:** Sample data is auto-seeded into a local `database.sqlite` file on first boot. If the database already exists from an older version of the app (e.g. before staff password hashing), delete `database.sqlite` once and restart the server (`npm start`) to re-seed. Staff passwords are now stored hashed; the documented login passwords (`staff123`) are unchanged.
+
 ---
 
 ## 🔑 Login Portals & Accounts
