@@ -2154,6 +2154,9 @@ function SalonDashboard({ session, showToast }) {
 function StaffDashboard({ session, showToast }) {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [noteApptId, setNoteApptId] = useState(null);
+  const [noteText, setNoteText] = useState('');
+  const [showNoteModal, setShowNoteModal] = useState(false);
 
   useEffect(() => {
     const fetchStaffSchedules = async () => {
@@ -2168,6 +2171,36 @@ function StaffDashboard({ session, showToast }) {
     };
     fetchStaffSchedules();
   }, [session.id]);
+
+  const handleStatusChange = async (apptId, newStatus) => {
+    try {
+      await axios.put(`/api/appointment/status/${apptId}`, { status: newStatus });
+      showToast(`Appointment ${newStatus}.`, 'success');
+      // refresh list
+      const res = await axios.get(`/api/staff/appointments?staffId=${session.id}`);
+      setAppointments(res.data);
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to update status', 'error');
+    }
+  };
+
+  const handleOpenNote = (apptId, currentNote) => {
+    setNoteApptId(apptId);
+    setNoteText(currentNote || '');
+    setShowNoteModal(true);
+  };
+
+  const handleSaveNote = async () => {
+    try {
+      await axios.put(`/api/appointment/staffreview/${noteApptId}`, { review: noteText });
+      showToast('Note saved.', 'success');
+      setShowNoteModal(false);
+      const res = await axios.get(`/api/staff/appointments?staffId=${session.id}`);
+      setAppointments(res.data);
+    } catch (err) {
+      showToast('Failed to save note', 'error');
+    }
+  };
 
   return (
     <div className="container" style={{ padding: '40px 24px' }}>
@@ -2199,6 +2232,8 @@ function StaffDashboard({ session, showToast }) {
                 <th>Appointment Slot</th>
                 <th>Customer Review Notes</th>
                 <th>Internal Therapist Notes</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -2221,10 +2256,48 @@ function StaffDashboard({ session, showToast }) {
                       <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>None entered by manager</span>
                     )}
                   </td>
+                  <td>
+                    <span className={`badge ${appt.status === 'confirmed' ? 'badge-success' : appt.status === 'pending' ? 'badge-warning' : appt.status === 'completed' ? 'badge-info' : 'badge-danger'}`}>
+                      {appt.status || 'confirmed'}
+                    </span>
+                  </td>
+                  <td style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {appt.status === 'pending' && (
+                      <>
+                        <button onClick={() => handleStatusChange(appt.id, 'confirmed')} className="btn btn-primary btn-sm">Accept</button>
+                        <button onClick={() => handleStatusChange(appt.id, 'declined')} className="btn btn-danger btn-sm">Decline</button>
+                      </>
+                    )}
+                    {appt.status === 'confirmed' && (
+                      <button onClick={() => handleStatusChange(appt.id, 'completed')} className="btn btn-secondary btn-sm">Mark Complete</button>
+                    )}
+                    <button onClick={() => handleOpenNote(appt.id, appt.staffReview)} className="btn btn-secondary btn-sm">
+                      {appt.staffReview ? 'Edit Note' : 'Add Note'}
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+      {showNoteModal && (
+        <div className="modal-backdrop">
+          <div className="modal-content">
+            <h3 className="panel-title">Therapist Note</h3>
+            <div className="form-group">
+              <textarea
+                className="form-textarea"
+                placeholder="Service notes, client preferences, follow-up..."
+                value={noteText}
+                onChange={e => setNoteText(e.target.value)}
+              />
+            </div>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
+              <button onClick={() => setShowNoteModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
+              <button onClick={handleSaveNote} className="btn btn-primary btn-sm">Save Note</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
