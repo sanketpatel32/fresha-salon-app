@@ -1511,6 +1511,7 @@ function SalonDashboard({ session, showToast }) {
   const [salonDays, setSalonDays] = useState('');
   const [salonOpen, setSalonOpen] = useState('');
   const [salonClose, setSalonClose] = useState('');
+  const [salonRequiresApproval, setSalonRequiresApproval] = useState(false);
 
   // Staff review/notes state
   const [selectedApptId, setSelectedApptId] = useState(null);
@@ -1527,6 +1528,7 @@ function SalonDashboard({ session, showToast }) {
       setSalonDays(res.data.workingDays || '');
       setSalonOpen(res.data.openingTime?.slice(0, 5) || '');
       setSalonClose(res.data.closingTime?.slice(0, 5) || '');
+      setSalonRequiresApproval(res.data.requiresApproval || false);
     } catch (err) {
       console.error('Error fetching salon profile details', err);
     }
@@ -1681,7 +1683,8 @@ function SalonDashboard({ session, showToast }) {
         address: salonAddress,
         workingDays: salonDays,
         openingTime: salonOpen,
-        closingTime: salonClose
+        closingTime: salonClose,
+        requiresApproval: salonRequiresApproval
       });
       showToast('Salon details updated successfully!', 'success');
       fetchSalonProfile();
@@ -2106,6 +2109,21 @@ function SalonDashboard({ session, showToast }) {
               <div className="form-group">
                 <label className="form-label">Closing Time</label>
                 <input type="time" className="form-input" style={{ paddingLeft: '16px' }} value={salonClose} onChange={e => setSalonClose(e.target.value)} required />
+              </div>
+              <div className="form-group" style={{ gridColumn: 'span 2', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <input
+                  type="checkbox"
+                  id="requiresApproval"
+                  checked={salonRequiresApproval}
+                  onChange={e => setSalonRequiresApproval(e.target.checked)}
+                  style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                />
+                <label htmlFor="requiresApproval" style={{ cursor: 'pointer' }}>
+                  <strong>Require approval for new bookings</strong>
+                  <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+                    When on, new paid bookings start as "pending" until a staff member or you accept them. When off, bookings are "confirmed" instantly.
+                  </div>
+                </label>
               </div>
               <div style={{ gridColumn: 'span 2', marginTop: '12px' }}>
                 <button type="submit" className="btn btn-primary">Save Salon Profile</button>
