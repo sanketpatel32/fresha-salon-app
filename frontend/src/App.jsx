@@ -1218,36 +1218,38 @@ function AppointmentBooking({ session, showToast }) {
             </button>
             
             {/* Fail-safe Simulator button during local testing */}
-            <button 
-              onClick={async () => {
-                if (!selectedStaffId) return showToast('Please select staff', 'error');
-                setBookingLoading(true);
-                try {
-                  const paymentPayload = {
-                    servicePrice: service.price,
-                    dateSelect: selectedDate,
-                    time: selectedTime,
-                    staffId: parseInt(selectedStaffId),
-                    serviceId: parseInt(serviceId),
-                    salonId: parseInt(salonId),
-                    duration: service.duration
-                  };
-                  const res = await axios.post('/api/pay/', paymentPayload);
-                  const { orderId } = res.data;
-                  await axios.get(`/api/pay/${orderId}`);
-                  showToast("Local simulator payment success!", "success");
-                  navigate('/customer/bookings');
-                } catch (simErr) {
-                  showToast("Local simulator booking error", "error");
-                } finally {
-                  setBookingLoading(false);
-                }
-              }}
-              className="btn btn-secondary btn-sm"
-              style={{ width: '100%', marginTop: '8px', fontSize: '12px', borderStyle: 'dashed' }}
-            >
-              Simulate Secure Booking (Fast Dev Bypass)
-            </button>
+            {import.meta.env.DEV && (
+              <button
+                onClick={async () => {
+                  if (!selectedStaffId) return showToast('Please select staff', 'error');
+                  setBookingLoading(true);
+                  try {
+                    const paymentPayload = {
+                      servicePrice: service.price,
+                      dateSelect: selectedDate,
+                      time: selectedTime,
+                      staffId: parseInt(selectedStaffId),
+                      serviceId: parseInt(serviceId),
+                      salonId: parseInt(salonId),
+                      duration: service.duration
+                    };
+                    const res = await axios.post('/api/pay/', paymentPayload);
+                    const { orderId } = res.data;
+                    await axios.get(`/api/pay/${orderId}`);
+                    showToast("Local simulator payment success!", "success");
+                    navigate('/customer/bookings');
+                  } catch (simErr) {
+                    showToast("Local simulator booking error", "error");
+                  } finally {
+                    setBookingLoading(false);
+                  }
+                }}
+                className="btn btn-secondary btn-sm"
+                style={{ width: '100%', marginTop: '8px', fontSize: '12px', borderStyle: 'dashed' }}
+              >
+                Simulate Secure Booking (Fast Dev Bypass)
+              </button>
+            )}
           </div>
         </div>
       )}
