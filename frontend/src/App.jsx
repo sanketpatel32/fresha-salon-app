@@ -773,7 +773,6 @@ function CustomerDashboard({ session }) {
   const [salons, setSalons] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
-  const [favorites, setFavorites] = useState([]);
   const [favoriteSalonIds, setFavoriteSalonIds] = useState(new Set());
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const navigate = useNavigate();
