@@ -153,7 +153,7 @@ app.listen(PORT, () => {
   console.log(`==================================================\n`);
 
   sequelize
-    .sync({ alter: false })
+    .sync()
     .then(async () => {
       console.log('✅ Database synced successfully.');
       await seedSampleData();
