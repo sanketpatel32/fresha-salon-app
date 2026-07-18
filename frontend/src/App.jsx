@@ -1612,6 +1612,15 @@ function SalonDashboard({ session, showToast }) {
   const [staffReviewText, setStaffReviewText] = useState('');
   const [showNoteModal, setShowNoteModal] = useState(false);
 
+  // Blockout state
+  const [blockouts, setBlockouts] = useState([]);
+  const [showBlockoutModal, setShowBlockoutModal] = useState(false);
+  const [blockoutStaffId, setBlockoutStaffId] = useState(null);
+  const [blockoutDate, setBlockoutDate] = useState('');
+  const [blockoutStart, setBlockoutStart] = useState('');
+  const [blockoutEnd, setBlockoutEnd] = useState('');
+  const [blockoutReason, setBlockoutReason] = useState('');
+
   const fetchSalonProfile = async () => {
     try {
       const res = await axios.get('/api/buisness/getsalonbyIdSalonId');
@@ -1679,12 +1688,22 @@ function SalonDashboard({ session, showToast }) {
     }
   };
 
+  const fetchBlockouts = async () => {
+    try {
+      const res = await axios.get('/api/salonsdashboard/staff/blockouts');
+      setBlockouts(res.data);
+    } catch (err) {
+      console.error('Error fetching blockouts', err);
+    }
+  };
+
   useEffect(() => {
     fetchSalonProfile();
     fetchServices();
     fetchStaff();
     fetchAppointments();
     fetchAnalytics();
+    fetchBlockouts();
   }, []);
 
   // Services Management handlers
@@ -1837,6 +1856,42 @@ function SalonDashboard({ session, showToast }) {
       fetchAppointments();
     } catch (err) {
       showToast(err.response?.data?.message || 'Failed to update status', 'error');
+    }
+  };
+
+  const handleOpenBlockout = (staffId) => {
+    setBlockoutStaffId(staffId);
+    setBlockoutDate(new Date().toISOString().slice(0, 10));
+    setBlockoutStart('12:00');
+    setBlockoutEnd('13:00');
+    setBlockoutReason('');
+    setShowBlockoutModal(true);
+  };
+
+  const handleSaveBlockout = async () => {
+    try {
+      await axios.post('/api/salonsdashboard/staff/blockouts', {
+        staffId: blockoutStaffId,
+        date: blockoutDate,
+        startTime: blockoutStart,
+        endTime: blockoutEnd,
+        reason: blockoutReason,
+      });
+      showToast('Blockout added.', 'success');
+      setShowBlockoutModal(false);
+      fetchBlockouts();
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to add blockout', 'error');
+    }
+  };
+
+  const handleRemoveBlockout = async (id) => {
+    try {
+      await axios.delete(`/api/salonsdashboard/staff/blockouts/${id}`);
+      showToast('Blockout removed.', 'success');
+      fetchBlockouts();
+    } catch (err) {
+      showToast('Failed to remove blockout', 'error');
     }
   };
 
@@ -2309,9 +2364,20 @@ function SalonDashboard({ session, showToast }) {
                             </span>
                           </td>
                           <td>
-                            <button onClick={() => handleOpenAssign(st)} className="btn btn-secondary btn-sm">
-                              Assign
-                            </button>
+                            <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
+                              <button onClick={() => handleOpenAssign(st)} className="btn btn-secondary btn-sm">Assign</button>
+                              <button onClick={() => handleOpenBlockout(st.id)} className="btn btn-secondary btn-sm">Block out</button>
+                            </div>
+                            {blockouts.filter(b => b.staffId === st.id).length > 0 && (
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                {blockouts.filter(b => b.staffId === st.id).map(b => (
+                                  <span key={b.id} className="badge badge-warning" style={{ fontSize: '11px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '6px' }}>
+                                    <span>{b.date} {b.startTime}-{b.endTime}{b.reason ? ` · ${b.reason}` : ''}</span>
+                                    <button onClick={() => handleRemoveBlockout(b.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: 0 }}>×</button>
+                                  </span>
+                                ))}
+                              </div>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -2450,6 +2516,37 @@ function SalonDashboard({ session, showToast }) {
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
               <button onClick={() => setShowNoteModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
               <button onClick={handleSaveStaffNote} className="btn btn-primary btn-sm">Save Note</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showBlockoutModal && (
+        <div className="modal-backdrop">
+          <div className="modal-content">
+            <h3 className="panel-title">Block out staff time</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Mark this staff member unavailable for a specific date and time range. Blocked slots won't show as bookable.</p>
+            <div className="form-group">
+              <label className="form-label">Date</label>
+              <input type="date" className="form-input" style={{ paddingLeft: '16px' }} value={blockoutDate} onChange={e => setBlockoutDate(e.target.value)} required />
+            </div>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label className="form-label">Start time</label>
+                <input type="time" className="form-input" style={{ paddingLeft: '16px' }} value={blockoutStart} onChange={e => setBlockoutStart(e.target.value)} required />
+              </div>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label className="form-label">End time</label>
+                <input type="time" className="form-input" style={{ paddingLeft: '16px' }} value={blockoutEnd} onChange={e => setBlockoutEnd(e.target.value)} required />
+              </div>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Reason (optional)</label>
+              <input type="text" className="form-input" style={{ paddingLeft: '16px' }} placeholder="Lunch, leave, etc." value={blockoutReason} onChange={e => setBlockoutReason(e.target.value)} />
+            </div>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
+              <button onClick={() => setShowBlockoutModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
+              <button onClick={handleSaveBlockout} className="btn btn-primary btn-sm">Save Blockout</button>
             </div>
           </div>
         </div>
