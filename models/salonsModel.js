@@ -52,6 +52,11 @@ const Salons = sequelize.define('salons', {
         allowNull: false,
         defaultValue: '20:00'
     },
+    requiresApproval: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
 }, { timestamps: true });
 
 module.exports = Salons;

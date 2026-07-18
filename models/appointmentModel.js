@@ -45,6 +45,19 @@ const Appointment = sequelize.define('Appointment', {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'confirmed',
+        validate: {
+            isIn: [['pending', 'confirmed', 'declined', 'completed', 'cancelled']]
+        }
+    },
+    rating: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        validate: { min: 1, max: 5 }
+    },
 });
 
 module.exports = Appointment;
