@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const salonModel = require('../models/salonsModel');
 const servicesModel = require('../models/servicesModel');
 const staffServicesModel = require('../models/StaffServices');
+const StaffBlockout = require('../models/staffBlockoutModel');
 
 const addStaff = async (req, res) => {
     try {
@@ -141,10 +142,91 @@ const updateStatus = async (req, res) => {
         res.status(500).json({ message: "Failed to update status" });
     }
 };
+// Salon owner adds a blockout (staff unavailable for a date + time range).
+const addBlockout = async (req, res) => {
+    try {
+        const { staffId, date, startTime, endTime, reason } = req.body;
+        const salonId = req.user.salonId;
+
+        if (!staffId || !date || !startTime || !endTime) {
+            return res.status(400).json({ message: 'staffId, date, startTime, endTime are required' });
+        }
+
+        const staff = await staffModel.findByPk(staffId);
+        if (!staff) {
+            return res.status(404).json({ message: 'Staff not found' });
+        }
+        if (staff.salonId !== salonId) {
+            return res.status(403).json({ message: 'Not authorized: staff belongs to another salon' });
+        }
+
+        const blockout = await StaffBlockout.create({ staffId, date, startTime, endTime, reason: reason || null });
+        return res.status(201).json({ message: 'Blockout added successfully', blockout });
+    } catch (error) {
+        console.error('Error adding blockout:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// List blockouts for the salon owner's salon (optionally filtered by staffId).
+const getBlockouts = async (req, res) => {
+    try {
+        const salonId = req.user.salonId;
+        const { staffId } = req.query;
+
+        const staffMembers = await staffModel.findAll({
+            where: { salonId },
+            attributes: ['id'],
+        });
+        const staffIds = staffMembers.map(s => s.id);
+        if (staffIds.length === 0) return res.status(200).json([]);
+
+        const where = { staffId: staffIds };
+        if (staffId) where.staffId = parseInt(staffId, 10);
+
+        const blockouts = await StaffBlockout.findAll({
+            where,
+            include: [{ model: staffModel, as: 'staff', attributes: ['id', 'name'] }],
+            order: [['date', 'ASC'], ['startTime', 'ASC']],
+        });
+        return res.status(200).json(blockouts);
+    } catch (error) {
+        console.error('Error fetching blockouts:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// Remove a blockout by id (owner only — must belong to a staff in their salon).
+const removeBlockout = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const salonId = req.user.salonId;
+
+        const blockout = await StaffBlockout.findByPk(id, {
+            include: [{ model: staffModel, as: 'staff' }],
+        });
+        if (!blockout) {
+            return res.status(404).json({ message: 'Blockout not found' });
+        }
+        if (!blockout.staff || blockout.staff.salonId !== salonId) {
+            return res.status(403).json({ message: 'Not authorized' });
+        }
+
+        await blockout.destroy();
+        return res.status(200).json({ message: 'Blockout removed successfully' });
+    } catch (error) {
+        console.error('Error removing blockout:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 module.exports = {
     addStaff,
     getStaff,
     getStaffById,
     assignServices,
-    updateStatus
+    updateStatus,
+    addBlockout,
+    getBlockouts,
+    removeBlockout,
 };

@@ -42,6 +42,9 @@ router.get('/staff/staffModifyForm', (req, res) => {
 router.get('/staff/getStaff', authMiddleware, salonStaff.getStaffById);
 router.put('/staff/assignServices', authMiddleware, salonStaff.assignServices);
 router.put('/staff/updateStatus', authMiddleware, salonStaff.updateStatus);
+router.post('/staff/blockouts', authMiddleware, salonStaff.addBlockout);
+router.get('/staff/blockouts', authMiddleware, salonStaff.getBlockouts);
+router.delete('/staff/blockouts/:id', authMiddleware, salonStaff.removeBlockout);
 
 // router.put('/staff/update/:id', authMiddleware, salonServices.updateStaff);
 
