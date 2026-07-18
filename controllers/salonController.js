@@ -1,6 +1,33 @@
 const salonModel = require('../models/salonsModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const sequelize = require('../utils/database');
+const appointmentModel = require('../models/appointmentModel');
+const { Op } = require('sequelize');
+
+// Attach avgRating + reviewCount to each salon by aggregating its appointments' ratings.
+const attachRatings = async (salons) => {
+    const salonIds = salons.map(s => s.id);
+    if (salonIds.length === 0) return;
+
+    const rows = await appointmentModel.findAll({
+        where: { salonId: salonIds, rating: { [Op.ne]: null } },
+        attributes: [
+            'salonId',
+            [sequelize.fn('AVG', sequelize.col('rating')), 'avgRating'],
+            [sequelize.fn('COUNT', sequelize.col('rating')), 'reviewCount'],
+        ],
+        group: ['salonId'],
+        raw: true,
+    });
+    const map = {};
+    rows.forEach(r => { map[r.salonId] = { avgRating: parseFloat(r.avgRating), reviewCount: parseInt(r.reviewCount, 10) }; });
+    salons.forEach(s => {
+        const m = map[s.id];
+        s.dataValues.avgRating = m ? m.avgRating : null;
+        s.dataValues.reviewCount = m ? m.reviewCount : 0;
+    });
+};
 
 const salonSignup = async (req, res) => {
     const { name, phoneNumber, email, password, address, pricing } = req.body;
@@ -65,6 +92,7 @@ const getAllSalons = async (req, res) => {
             delete salon.dataValues.createdAt;
             delete salon.dataValues.updatedAt;
         });
+        await attachRatings(salons);
         res.status(200).json(salons);
     } catch (err) {
         console.error("Error fetching salons:", err);
@@ -82,6 +110,7 @@ const getSalonById = async (req, res) => {
         delete salon.dataValues.password;
         delete salon.dataValues.createdAt;
         delete salon.dataValues.updatedAt;
+        await attachRatings([salon]);
         res.status(200).json(salon);
     } catch (err) {
         console.error("Error fetching salon:", err);
