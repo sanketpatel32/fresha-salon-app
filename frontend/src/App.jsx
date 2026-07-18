@@ -1575,6 +1575,8 @@ function SalonDashboard({ session, showToast }) {
   const [services, setServices] = useState([]);
   const [staff, setStaff] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  const [analytics, setAnalytics] = useState(null);
+  const [analyticsLoading, setAnalyticsLoading] = useState(false);
   
   // Services form state
   const [serviceName, setServiceName] = useState('');
@@ -1648,11 +1650,24 @@ function SalonDashboard({ session, showToast }) {
     }
   };
 
+  const fetchAnalytics = async () => {
+    setAnalyticsLoading(true);
+    try {
+      const res = await axios.get('/api/salonsdashboard/analytics');
+      setAnalytics(res.data);
+    } catch (err) {
+      console.error('Error fetching analytics', err);
+    } finally {
+      setAnalyticsLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchSalonProfile();
     fetchServices();
     fetchStaff();
     fetchAppointments();
+    fetchAnalytics();
   }, []);
 
   // Services Management handlers
@@ -1808,11 +1823,6 @@ function SalonDashboard({ session, showToast }) {
     }
   };
 
-  // Calculate total revenue
-  const totalRevenue = appointments
-    .filter(appt => appt.service?.price)
-    .reduce((acc, appt) => acc + parseFloat(appt.service.price), 0);
-
   return (
     <div className="dashboard-container">
       {/* Sidebar navigation */}
@@ -1859,79 +1869,131 @@ function SalonDashboard({ session, showToast }) {
               <span className="badge badge-info">Partner Status: Active</span>
             </div>
 
-            <div className="stats-grid">
-              <div className="stat-card">
-                <div className="stat-icon success">
-                  <CreditCard size={24} />
+            {analyticsLoading && !analytics ? (
+              <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Loading analytics...</div>
+            ) : analytics ? (
+              <>
+                <div className="stats-grid">
+                  <div className="stat-card">
+                    <div className="stat-icon success"><CreditCard size={24} /></div>
+                    <div>
+                      <div className="stat-value">₹{Number(analytics.totalRevenue || 0).toLocaleString()}</div>
+                      <div className="stat-label">Total Revenue (paid)</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <div className="stat-icon primary"><Calendar size={24} /></div>
+                    <div>
+                      <div className="stat-value">{Object.values(analytics.statusCounts).reduce((a, b) => a + b, 0)}</div>
+                      <div className="stat-label">Total Bookings</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <div className="stat-icon accent"><CheckCircle size={24} /></div>
+                    <div>
+                      <div className="stat-value">{analytics.statusCounts.completed || 0}</div>
+                      <div className="stat-label">Completed</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <div className="stat-icon warning"><Clock size={24} /></div>
+                    <div>
+                      <div className="stat-value">{(analytics.statusCounts.pending || 0) + (analytics.statusCounts.confirmed || 0)}</div>
+                      <div className="stat-label">Upcoming</div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div className="stat-value">₹{totalRevenue}</div>
-                  <div className="stat-label">Total Revenue</div>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon primary">
-                  <Calendar size={24} />
-                </div>
-                <div>
-                  <div className="stat-value">{appointments.length}</div>
-                  <div className="stat-label">Total Bookings</div>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon accent">
-                  <ListFilter size={24} />
-                </div>
-                <div>
-                  <div className="stat-value">{services.length}</div>
-                  <div className="stat-label">Services Menu</div>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon warning">
-                  <UserCheck size={24} />
-                </div>
-                <div>
-                  <div className="stat-value">{staff.length}</div>
-                  <div className="stat-label">Active Staff</div>
-                </div>
-              </div>
-            </div>
 
-            <div className="booking-panel">
-              <h3 className="panel-title">Upcoming Client Bookings</h3>
-              {appointments.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)' }}>
-                  No bookings scheduled.
+                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px', marginTop: '24px' }}>
+                  {/* Bar chart: bookings per day, last 7 days */}
+                  <div className="booking-panel">
+                    <h3 className="panel-title">Bookings — Last 7 Days</h3>
+                    {(() => {
+                      const data = analytics.bookingsPerDay || [];
+                      const max = Math.max(1, ...data.map(d => d.count));
+                      return (
+                        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '12px', height: '160px', padding: '12px 0', borderBottom: '1px solid var(--border-color)' }}>
+                          {data.map((d, i) => (
+                            <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                              <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{d.count}</div>
+                              <div style={{
+                                width: '100%', maxWidth: '48px',
+                                height: `${(d.count / max) * 120}px`,
+                                minHeight: d.count > 0 ? '8px' : '2px',
+                                background: d.count > 0 ? 'var(--primary)' : 'var(--border-color)',
+                                borderRadius: '6px 6px 0 0',
+                                transition: 'height 0.3s ease',
+                              }} />
+                              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                                {new Date(d.date).toLocaleDateString('en-US', { weekday: 'short' })}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    })()}
+                  </div>
+
+                  {/* Top services */}
+                  <div className="booking-panel">
+                    <h3 className="panel-title">Top Services</h3>
+                    {(analytics.topServices || []).length === 0 ? (
+                      <div style={{ padding: '16px', color: 'var(--text-muted)', fontSize: '14px' }}>No bookings yet.</div>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '8px 0' }}>
+                        {(analytics.topServices || []).map((s, i) => (
+                          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span className="badge badge-info">{i + 1}</span>
+                              <strong>{s.name}</strong>
+                            </span>
+                            <span style={{ color: 'var(--text-secondary)' }}>{s.count} booking{s.count === 1 ? '' : 's'}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              ) : (
-                <div className="table-container">
-                  <table className="premium-table">
-                    <thead>
-                      <tr>
-                        <th>Customer</th>
-                        <th>Service</th>
-                        <th>Assigned Staff</th>
-                        <th>Date / Time</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {appointments.slice(0, 5).map(appt => (
-                        <tr key={appt.id}>
-                          <td>
-                            <strong>{appt.user?.name}</strong>
-                            <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{appt.user?.phoneNumber}</div>
-                          </td>
-                          <td>{appt.service?.name}</td>
-                          <td>{appt.staff?.name}</td>
-                          <td>{appt.date} @ {appt.time}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+
+                <div className="booking-panel" style={{ marginTop: '24px' }}>
+                  <h3 className="panel-title">Upcoming Client Bookings</h3>
+                  {appointments.filter(a => a.status === 'confirmed' || a.status === 'pending').length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)' }}>No upcoming bookings.</div>
+                  ) : (
+                    <div className="table-container">
+                      <table className="premium-table">
+                        <thead>
+                          <tr>
+                            <th>Customer</th>
+                            <th>Service</th>
+                            <th>Assigned Staff</th>
+                            <th>Date / Time</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {appointments
+                            .filter(a => a.status === 'confirmed' || a.status === 'pending')
+                            .slice(0, 5)
+                            .map(appt => (
+                              <tr key={appt.id}>
+                                <td>
+                                  <strong>{appt.user?.name}</strong>
+                                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{appt.user?.phoneNumber}</div>
+                                </td>
+                                <td>{appt.service?.name}</td>
+                                <td>{appt.staff?.name}</td>
+                                <td>{appt.date} @ {appt.time}</td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Unable to load analytics.</div>
+            )}
           </>
         )}
 
