@@ -773,6 +773,9 @@ function CustomerDashboard({ session }) {
   const [salons, setSalons] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState([]);
+  const [favoriteSalonIds, setFavoriteSalonIds] = useState(new Set());
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -786,14 +789,43 @@ function CustomerDashboard({ session }) {
         setLoading(false);
       }
     };
+    const fetchFavorites = async () => {
+      try {
+        const res = await axios.get('/api/user/favorites');
+        setFavoriteSalonIds(new Set(res.data.map(s => s.id)));
+      } catch (err) {
+        // Not logged in or no favorites — fine, ignore.
+      }
+    };
     fetchSalons();
+    fetchFavorites();
   }, []);
 
-  const filteredSalons = salons.filter(salon => 
-    salon.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    salon.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (salon.pricing && salon.pricing.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const toggleFavorite = async (salonId) => {
+    const isFav = favoriteSalonIds.has(salonId);
+    // Optimistic UI update
+    const next = new Set(favoriteSalonIds);
+    if (isFav) next.delete(salonId); else next.add(salonId);
+    setFavoriteSalonIds(next);
+    try {
+      if (isFav) {
+        await axios.delete(`/api/user/favorites/${salonId}`);
+      } else {
+        await axios.post('/api/user/favorites', { salonId });
+      }
+    } catch (err) {
+      // Revert on failure
+      setFavoriteSalonIds(favoriteSalonIds);
+    }
+  };
+
+  const filteredSalons = salons
+    .filter(salon => !showFavoritesOnly || favoriteSalonIds.has(salon.id))
+    .filter(salon => 
+      salon.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      salon.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (salon.pricing && salon.pricing.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
 
   return (
     <div className="container" style={{ padding: '40px 24px' }}>
@@ -815,6 +847,14 @@ function CustomerDashboard({ session }) {
             />
           </div>
         </div>
+        <button
+          onClick={() => setShowFavoritesOnly(v => !v)}
+          className={`btn btn-sm ${showFavoritesOnly ? 'btn-primary' : 'btn-secondary'}`}
+          style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+        >
+          <Star size={16} fill={showFavoritesOnly ? 'currentColor' : 'none'} />
+          {showFavoritesOnly ? 'Showing Favorites' : 'Favorites'}
+        </button>
       </div>
 
       {loading ? (
@@ -831,17 +871,35 @@ function CustomerDashboard({ session }) {
         <div className="grid-cards">
           {filteredSalons.map(salon => (
             <div key={salon.id} className="card">
-              <div className="card-header-image" style={{ background: salon.pricing === 'Premium' ? 'linear-gradient(135deg, #7c3aed, #ec4899)' : salon.pricing === 'Affordable' ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #f59e0b, #d97706)' }}>
+              <div className="card-header-image" style={{ background: salon.pricing === 'Premium' ? 'linear-gradient(135deg, #7c3aed, #ec4899)' : salon.pricing === 'Affordable' ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #f59e0b, #d97706)', position: 'relative' }}>
                 <span className="card-badge">{salon.pricing || 'Moderate'}</span>
                 <Scissors size={40} style={{ opacity: 0.8 }} />
+                <button
+                  onClick={(e) => { e.stopPropagation(); toggleFavorite(salon.id); }}
+                  style={{
+                    position: 'absolute', top: '8px', right: '8px',
+                    background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%',
+                    width: '32px', height: '32px', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                  }}
+                  title={favoriteSalonIds.has(salon.id) ? 'Remove from favorites' : 'Add to favorites'}
+                >
+                  <Star size={16} fill={favoriteSalonIds.has(salon.id) ? '#f59e0b' : 'none'} color="#f59e0b" />
+                </button>
               </div>
               <div className="card-body">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
                   <h3 className="card-title" style={{ margin: 0 }}>{salon.name}</h3>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '14px', color: 'var(--warning)', fontWeight: 600 }}>
-                    <Star size={14} fill="currentColor" />
-                    <span>{(4.5 + (salon.id % 6) * 0.1).toFixed(1)}</span>
-                    <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: '12px' }}>({(12 + salon.id * 7)})</span>
+                    {salon.avgRating ? (
+                      <>
+                        <Star size={14} fill="currentColor" />
+                        <span>{Number(salon.avgRating).toFixed(1)}</span>
+                        <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: '12px' }}>({salon.reviewCount})</span>
+                      </>
+                    ) : (
+                      <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: '12px' }}>No ratings yet</span>
+                    )}
                   </div>
                 </div>
                 <div className="card-info">
