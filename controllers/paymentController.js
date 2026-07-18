@@ -6,6 +6,7 @@ const {
 const Payment = require("../models/paymentModel");
 const userModel = require("../models/userModel");
 const appointmentModel = require("../models/appointmentModel");
+const salonModel = require("../models/salonsModel");
 
 // const TemplateGenerator = require("../Template/htmltemp");
 
@@ -90,9 +91,10 @@ exports.getPaymentStatus_ = async (req, res) => {
     await order.save();
 
     if (orderStatus === "Success") {
-      // Update the user's balance or perform any other necessary actions here
       const paymentDetails = await Payment.findOne({ where: { orderId } });
       try {
+        const salon = await salonModel.findByPk(paymentDetails.salonId);
+        const initialStatus = salon && salon.requiresApproval ? 'pending' : 'confirmed';
         await appointmentModel.create({
           staffId: paymentDetails.staffId,
           salonId: paymentDetails.salonId,
@@ -101,6 +103,7 @@ exports.getPaymentStatus_ = async (req, res) => {
           date: paymentDetails.dateSelected,
           time: paymentDetails.timeSelected,
           endTime: paymentDetails.endTime,
+          status: initialStatus,
         });
       } catch (error) {
         console.error("Error saving appointment:", error.message);
