@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../utils/database');
-const { Endpoint } = require('aws-sdk');
-const e = require('express');
 
 const Payment = sequelize.define('payment', {
     id: {

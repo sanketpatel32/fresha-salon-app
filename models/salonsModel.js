@@ -43,14 +43,14 @@ const Salons = sequelize.define('salons', {
         defaultValue: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'] // Default to Monday to Saturday
     },
     openingTime: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 11 // Default opening time (11 AM)
+        defaultValue: '09:00'
     },
     closingTime: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 23 // Default closing time (11 PM)
+        defaultValue: '20:00'
     },
 }, { timestamps: true });
 
