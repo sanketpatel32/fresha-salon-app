@@ -10,9 +10,11 @@ const businessDashboardRoutes = require('./salonsDashboardRoutes');
 const appointmentRoutes = require('./appointmentRoutes');
 const paymentRoutes = require('./paymentroutes');
 const staffRoutes = require('./staffRoutes')
+const favoriteRoutes = require('./favoriteRoutes');
 const adminRoutes = require('./adminRoutes');
 
 router.use('/user', userRoutes);
+router.use('/user/favorites', favoriteRoutes);
 router.use('/buisness', businessRoutes);
 router.use('/userdashboard', userDashboardRoutes);
 router.use('/salonsdashboard', businessDashboardRoutes);
