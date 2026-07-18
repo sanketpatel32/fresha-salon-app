@@ -1366,6 +1366,17 @@ function BookedAppointments({ session, showToast }) {
     }
   };
 
+  const handleCancel = async (apptId) => {
+    if (!confirm('Cancel this appointment? This cannot be undone.')) return;
+    try {
+      await axios.put(`/api/appointment/cancel/${apptId}`);
+      showToast('Appointment cancelled.', 'success');
+      fetchBookings();
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to cancel appointment', 'error');
+    }
+  };
+
   return (
     <div className="container" style={{ padding: '40px 24px' }}>
       <h1 className="dashboard-title" style={{ marginBottom: '24px' }}>My Appointments</h1>
@@ -1386,6 +1397,7 @@ function BookedAppointments({ session, showToast }) {
                 <th>Service</th>
                 <th>Staff Assigned</th>
                 <th>Scheduled Slot</th>
+                <th>Status</th>
                 <th>Your Feedback</th>
                 <th>Therapist Note</th>
                 <th>Actions</th>
@@ -1402,6 +1414,11 @@ function BookedAppointments({ session, showToast }) {
                     <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{appt.time} - {appt.endTime}</div>
                   </td>
                   <td>
+                    <span className={`badge ${appt.status === 'confirmed' ? 'badge-success' : appt.status === 'pending' ? 'badge-warning' : appt.status === 'completed' ? 'badge-info' : appt.status === 'cancelled' ? 'badge-danger' : appt.status === 'declined' ? 'badge-danger' : 'badge-warning'}`}>
+                      {appt.status || 'confirmed'}
+                    </span>
+                  </td>
+                  <td>
                     {appt.userReview ? (
                       <span style={{ fontSize: '13px', fontStyle: 'italic', color: 'var(--text-secondary)' }}>"{appt.userReview}"</span>
                     ) : (
@@ -1415,13 +1432,21 @@ function BookedAppointments({ session, showToast }) {
                       <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>None yet</span>
                     )}
                   </td>
-                  <td>
-                    <button 
-                      onClick={() => handleOpenReview(appt.id, appt.userReview)} 
+                  <td style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    <button
+                      onClick={() => handleOpenReview(appt.id, appt.userReview)}
                       className="btn btn-secondary btn-sm"
                     >
                       <Star size={14} /> {appt.userReview ? 'Edit Review' : 'Add Review'}
                     </button>
+                    {(appt.status === 'confirmed' || appt.status === 'pending') && (
+                      <button
+                        onClick={() => handleCancel(appt.id)}
+                        className="btn btn-danger btn-sm"
+                      >
+                        Cancel
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
