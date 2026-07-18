@@ -4,6 +4,7 @@ const Services = require('../models/servicesModel');
 const Salons = require('../models/salonsModel');
 const userModel = require('../models/userModel');
 const Payment = require('../models/paymentModel');
+const StaffBlockout = require('../models/staffBlockoutModel');
 const { Op } = require('sequelize');
 const { canTransition, canCancel } = require('../utils/statusRules');
 
@@ -52,6 +53,21 @@ const appointmentChecker = async (req, res) => {
         // Extract staff IDs
         const staffIds = staffForService.map((staff) => staff.id);
 
+        // Step 1.5: Exclude staff who have a blockout overlapping the requested slot.
+        const blockedStaff = await StaffBlockout.findAll({
+            where: {
+                staffId: staffIds,
+                date: dateSelect,
+                startTime: { [Op.lt]: endTime },
+                endTime: { [Op.gt]: startTime },
+            },
+            attributes: ['staffId'],
+        });
+        const blockedStaffIds = blockedStaff.map(b => b.staffId);
+        const availableStaffAfterBlocks = staffForService.filter(
+            (staff) => !blockedStaffIds.includes(staff.id)
+        );
+
         // Step 2: Check for staff availability
         const unavailableStaff = await appointmentModel.findAll({
             where: {
@@ -75,7 +91,7 @@ const appointmentChecker = async (req, res) => {
 
         // Step 3: Filter out unavailable staff
         const unavailableStaffIds = unavailableStaff.map((appointment) => appointment.staffId);
-        const freeStaff = staffForService.filter(
+        const freeStaff = availableStaffAfterBlocks.filter(
             (staff) => !unavailableStaffIds.includes(staff.id)
         );
 
