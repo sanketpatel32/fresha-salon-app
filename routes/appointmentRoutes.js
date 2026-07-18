@@ -14,4 +14,8 @@ router.post('/mail',appointmentController.mailAppointment);
 router.put('/review/:appointmentId', appointmentController.updateCustomerReview);
 router.put('/staffreview/:appointmentId', appointmentController.updateStaffReview);
 
+// Status workflow (Phase 2)
+router.put('/cancel/:appointmentId', authMiddleware, appointmentController.cancelAppointment);
+router.put('/status/:appointmentId', authMiddleware, appointmentController.updateAppointmentStatus);
+
 module.exports = router;

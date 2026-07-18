@@ -5,6 +5,7 @@ const Salons = require('../models/salonsModel');
 const userModel = require('../models/userModel');
 const Payment = require('../models/paymentModel');
 const { Op } = require('sequelize');
+const { canTransition, canCancel } = require('../utils/statusRules');
 
 const { v4: uuidv4 } = require('uuid');
 const Sib = require('sib-api-v3-sdk');
@@ -57,6 +58,7 @@ const appointmentChecker = async (req, res) => {
                 staffId: staffIds,
                 salonId,
                 date: dateSelect,
+                status: { [Op.notIn]: ['cancelled', 'declined'] },
                 [Op.or]: [
                     {
                         time: {
@@ -275,6 +277,77 @@ const updateStaffReview = async (req, res) => {
     }
 };
 
+// Customer cancels their own appointment (must be >24h before start).
+const cancelAppointment = async (req, res) => {
+    const { appointmentId } = req.params;
+    const userId = req.user.userId;
+
+    try {
+        const appointment = await appointmentModel.findByPk(appointmentId);
+        if (!appointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+        // Ownership: only the booking customer may cancel.
+        if (appointment.userId !== userId) {
+            return res.status(403).json({ message: 'Not authorized to cancel this appointment' });
+        }
+
+        // Build the start Date from date + time fields (SQLite returns DATEONLY string + TIME string).
+        const startAt = new Date(`${appointment.date}T${appointment.time}`);
+        if (!canCancel(appointment.status, startAt)) {
+            return res.status(400).json({ message: 'This appointment can no longer be cancelled (status or <24h window).' });
+        }
+
+        appointment.status = 'cancelled';
+        await appointment.save();
+        res.status(200).json({ message: 'Appointment cancelled successfully', appointment });
+    } catch (error) {
+        console.error('Error cancelling appointment:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Staff or salon owner updates an appointment's status
+// (accept pending -> confirmed, decline pending -> declined, complete confirmed -> completed).
+const updateAppointmentStatus = async (req, res) => {
+    const { appointmentId } = req.params;
+    const { status: newStatus } = req.body;
+
+    try {
+        const appointment = await appointmentModel.findByPk(appointmentId);
+        if (!appointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+
+        // Authorization: caller must be either the salon owner of this salon, or a staff member of this salon.
+        const salonId = req.user.salonId;
+        const staffId = req.user.staffId;
+        if (salonId === undefined && staffId === undefined) {
+            return res.status(403).json({ message: 'Not authorized' });
+        }
+        if (salonId !== undefined && appointment.salonId !== salonId) {
+            return res.status(403).json({ message: 'Not authorized: appointment belongs to a different salon' });
+        }
+        if (staffId !== undefined) {
+            // Staff may only act on appointments assigned to themselves.
+            if (appointment.staffId !== staffId) {
+                return res.status(403).json({ message: 'Not authorized: this appointment is not assigned to you' });
+            }
+        }
+
+        if (!canTransition(appointment.status, newStatus)) {
+            return res.status(400).json({ message: `Cannot move appointment from '${appointment.status}' to '${newStatus}'` });
+        }
+
+        appointment.status = newStatus;
+        await appointment.save();
+        res.status(200).json({ message: `Appointment ${newStatus}`, appointment });
+    } catch (error) {
+        console.error('Error updating appointment status:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     appointmentChecker,
     getAllAppointmentsByUserId,
@@ -282,4 +355,6 @@ module.exports = {
     mailAppointment,
     updateCustomerReview,
     updateStaffReview,
+    cancelAppointment,
+    updateAppointmentStatus,
 };
