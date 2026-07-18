@@ -1,0 +1,52 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# One-click deploy: New > Blueprint > pick this repo.
+#
+# Cost notes:
+#   - Web service (free plan) sleeps after 15 min of inactivity and spins
+#     back up on the next request (~30-60s cold start).
+#   - PostgreSQL (free plan) is free for 90 days from creation, then ~$7/mo.
+#     See DEPLOYMENT.md for how to handle the 90-day limit.
+
+services:
+  - type: web
+    name: fresha-salon-app
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22.14.0"
+      # Randomly generated on first deploy, reused on subsequent deploys.
+      - key: JWT_SECRET
+        generateValue: true
+      # Admin login credentials for /admin. Change ADMIN_USER to suit.
+      - key: ADMIN_USER
+        value: admin
+      - key: ADMIN_PASS
+        generateValue: true
+      # Brevo (Sendinblue) — appointment confirmation emails.
+      # Fill these in manually in the Render dashboard after the first deploy.
+      # The app boots fine without them; only the email-send code path fails.
+      - key: BREVO_API_KEY
+        sync: false
+      - key: SENDER_EMAIL
+        sync: false
+      # Wired to the managed Postgres instance below.
+      - key: DATABASE_URL
+        fromDatabase:
+          postgresName: fresha-db
+          property: connectionString
+
+  - type: pserv
+    name: fresha-db
+    runtime: postgresql
+    plan: free
+    region: oregon
+    # Postgres IP allow-list. 0.0.0.0/0 lets the Render web service reach it.
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: everywhere

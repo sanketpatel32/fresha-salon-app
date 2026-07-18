@@ -33,6 +33,12 @@ app.use(cors({ origin: true, credentials: true }));
 // app.use('/',indexRoutes) // Disabled old html views
 app.use('/api', apiroutes);
 
+// Lightweight health probe for Render's health check. Deliberately has no
+// DB dependency so the service is not killed during a slow DB connect.
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', uptime: process.uptime() });
+});
+
 // Serve static files of compiled React frontend
 app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 app.use(express.static(path.join(__dirname, 'public')));
