@@ -1388,10 +1388,12 @@ function EditProfile({ session, showToast }) {
 
 /* User Booked Appointments list & submit reviews */
 function BookedAppointments({ session, showToast }) {
+  const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
   const [reviewText, setReviewText] = useState('');
   const [selectedApptId, setSelectedApptId] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [rating, setRating] = useState(0);
 
   const fetchBookings = async () => {
     try {
@@ -1406,15 +1408,16 @@ function BookedAppointments({ session, showToast }) {
     fetchBookings();
   }, [session.id]);
 
-  const handleOpenReview = (apptId, currentReview) => {
+  const handleOpenReview = (apptId, currentReview, currentRating) => {
     setSelectedApptId(apptId);
     setReviewText(currentReview || '');
+    setRating(currentRating || 0);
     setShowModal(true);
   };
 
   const handleSubmitReview = async () => {
     try {
-      await axios.put(`/api/appointment/review/${selectedApptId}`, { review: reviewText });
+      await axios.put(`/api/appointment/review/${selectedApptId}`, { review: reviewText, rating });
       showToast('Review submitted successfully!', 'success');
       setShowModal(false);
       fetchBookings();
@@ -1491,7 +1494,13 @@ function BookedAppointments({ session, showToast }) {
                   </td>
                   <td style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     <button
-                      onClick={() => handleOpenReview(appt.id, appt.userReview)}
+                      onClick={() => navigate(`/customer/book/${appt.salon?.id || appt.salonId}/${appt.service?.id || appt.serviceId}`)}
+                      className="btn btn-secondary btn-sm"
+                    >
+                      Book Again
+                    </button>
+                    <button
+                      onClick={() => handleOpenReview(appt.id, appt.userReview, appt.rating)}
                       className="btn btn-secondary btn-sm"
                     >
                       <Star size={14} /> {appt.userReview ? 'Edit Review' : 'Add Review'}
@@ -1517,6 +1526,22 @@ function BookedAppointments({ session, showToast }) {
           <div className="modal-content">
             <h3 className="panel-title">Write feedback</h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Share your experience with the team.</p>
+            <div style={{ marginBottom: '16px' }}>
+              <div style={{ fontSize: '14px', marginBottom: '8px', color: 'var(--text-secondary)' }}>Your rating</div>
+              <div style={{ display: 'flex', gap: '4px' }}>
+                {[1,2,3,4,5].map(n => (
+                  <button
+                    key={n}
+                    type="button"
+                    onClick={() => setRating(n)}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                    title={`${n} star${n > 1 ? 's' : ''}`}
+                  >
+                    <Star size={28} fill={n <= rating ? '#f59e0b' : 'none'} color="#f59e0b" />
+                  </button>
+                ))}
+              </div>
+            </div>
             <div className="form-group">
               <textarea 
                 className="form-textarea" 
