@@ -1577,7 +1577,12 @@ function SalonDashboard({ session, showToast }) {
   const [appointments, setAppointments] = useState([]);
   const [analytics, setAnalytics] = useState(null);
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
-  
+
+  // Calendar state
+  const [calendarWeek, setCalendarWeek] = useState(new Date().toISOString().slice(0, 10));
+  const [calendarAppointments, setCalendarAppointments] = useState([]);
+  const [calendarLoading, setCalendarLoading] = useState(false);
+
   // Services form state
   const [serviceName, setServiceName] = useState('');
   const [servicePrice, setServicePrice] = useState('');
@@ -1659,6 +1664,18 @@ function SalonDashboard({ session, showToast }) {
       console.error('Error fetching analytics', err);
     } finally {
       setAnalyticsLoading(false);
+    }
+  };
+
+  const fetchCalendar = async (weekDate) => {
+    setCalendarLoading(true);
+    try {
+      const res = await axios.get(`/api/salonsdashboard/calendar?week=${weekDate}`);
+      setCalendarAppointments(res.data);
+    } catch (err) {
+      console.error('Error fetching calendar', err);
+    } finally {
+      setCalendarLoading(false);
     }
   };
 
@@ -1845,6 +1862,9 @@ function SalonDashboard({ session, showToast }) {
           </button>
           <button onClick={() => setActiveTab('appointments')} className={`btn sidebar-nav-item ${activeTab === 'appointments' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
             <Calendar size={18} /> Schedules ({appointments.length})
+          </button>
+          <button onClick={() => { setActiveTab('calendar'); fetchCalendar(calendarWeek); }} className={`btn sidebar-nav-item ${activeTab === 'calendar' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
+            <Calendar size={18} /> Calendar
           </button>
           <button onClick={() => setActiveTab('services')} className={`btn sidebar-nav-item ${activeTab === 'services' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
             <ListFilter size={18} /> Catalog Services
@@ -2074,6 +2094,102 @@ function SalonDashboard({ session, showToast }) {
                 </table>
               </div>
             )}
+          </>
+        )}
+
+        {activeTab === 'calendar' && (
+          <>
+            <div className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 className="dashboard-title">Weekly Schedule</h2>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <button onClick={() => {
+                  const prev = new Date(calendarWeek);
+                  prev.setDate(prev.getDate() - 7);
+                  const prevStr = prev.toISOString().slice(0, 10);
+                  setCalendarWeek(prevStr);
+                  fetchCalendar(prevStr);
+                }} className="btn btn-secondary btn-sm">← Prev Week</button>
+                <button onClick={() => {
+                  const next = new Date(calendarWeek);
+                  next.setDate(next.getDate() + 7);
+                  const nextStr = next.toISOString().slice(0, 10);
+                  setCalendarWeek(nextStr);
+                  fetchCalendar(nextStr);
+                }} className="btn btn-secondary btn-sm">Next Week →</button>
+              </div>
+            </div>
+
+            {(() => {
+              // Compute the 7 days of the week containing calendarWeek.
+              const base = new Date(calendarWeek);
+              const dayOfWeek = (base.getDay() + 6) % 7;
+              const monday = new Date(base);
+              monday.setDate(base.getDate() - dayOfWeek);
+              const days = Array.from({ length: 7 }, (_, i) => {
+                const d = new Date(monday);
+                d.setDate(monday.getDate() + i);
+                return d.toISOString().slice(0, 10);
+              });
+
+              const staffRows = staff.length > 0 ? staff : [];
+
+              if (calendarLoading) {
+                return <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Loading calendar...</div>;
+              }
+
+              if (staffRows.length === 0) {
+                return <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Add staff members to see the schedule grid.</div>;
+              }
+
+              return (
+                <div style={{ overflowX: 'auto' }}>
+                  <table className="premium-table" style={{ minWidth: '900px' }}>
+                    <thead>
+                      <tr>
+                        <th style={{ position: 'sticky', left: 0, background: 'var(--bg-secondary)' }}>Staff</th>
+                        {days.map(d => (
+                          <th key={d} style={{ textAlign: 'center' }}>
+                            <div>{new Date(d).toLocaleDateString('en-US', { weekday: 'short' })}</div>
+                            <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 400 }}>{new Date(d).getDate()}</div>
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {staffRows.map(st => (
+                        <tr key={st.id}>
+                          <td style={{ position: 'sticky', left: 0, background: 'var(--bg-secondary)', fontWeight: 600 }}>{st.name}</td>
+                          {days.map(d => {
+                            const dayAppts = calendarAppointments.filter(a => a.staffId === st.id && a.date === d);
+                            return (
+                              <td key={d} style={{ verticalAlign: 'top', padding: '6px', minWidth: '120px' }}>
+                                {dayAppts.length === 0 ? (
+                                  <span style={{ color: 'var(--text-muted)', fontSize: '12px' }}>—</span>
+                                ) : (
+                                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                    {dayAppts.map(a => (
+                                      <div key={a.id} style={{
+                                        background: a.status === 'cancelled' || a.status === 'declined' ? 'var(--bg-tertiary)' : 'var(--primary)',
+                                        color: a.status === 'cancelled' || a.status === 'declined' ? 'var(--text-muted)' : 'white',
+                                        padding: '4px 6px', borderRadius: '4px', fontSize: '11px',
+                                        textDecoration: a.status === 'cancelled' || a.status === 'declined' ? 'line-through' : 'none',
+                                      }} title={`${a.user?.name || ''} — ${a.service?.name || ''} (${a.status})`}>
+                                        <div style={{ fontWeight: 600 }}>{a.time}</div>
+                                        <div style={{ opacity: 0.9 }}>{a.user?.name || 'Customer'}</div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              );
+            })()}
           </>
         )}
 
