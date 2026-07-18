@@ -125,11 +125,12 @@ const seedSampleData = async () => {
     const s6 = await Services.create({ name: 'Express Dry Cut', price: 350, duration: 15, statusbar: 'active', salonId: salon3.id });
     const s7 = await Services.create({ name: 'Basic Head Massage & Wash', price: 250, duration: 15, statusbar: 'active', salonId: salon3.id });
 
-    // 4. Create Staff (password: staff123)
-    const staff1 = await Staff.create({ name: 'Dr. Sarah Jenkins', phoneNumber: '9876543101', email: 'sarah@orchid.com', password: 'staff123', statusbar: 'active', salonId: salon1.id });
-    const staff2 = await Staff.create({ name: 'Marcus Aurelius', phoneNumber: '9876543102', email: 'marcus@orchid.com', password: 'staff123', statusbar: 'active', salonId: salon1.id });
-    const staff3 = await Staff.create({ name: 'James Oliver', phoneNumber: '9876543103', email: 'james@aura.com', password: 'staff123', statusbar: 'active', salonId: salon2.id });
-    const staff4 = await Staff.create({ name: 'Tina Miller', phoneNumber: '9876543104', email: 'tina@vibe.com', password: 'staff123', statusbar: 'active', salonId: salon3.id });
+    // 4. Create Staff (password: staff123) — hashed with bcrypt
+    const hashedStaffPassword = await bcrypt.hash('staff123', 10);
+    const staff1 = await Staff.create({ name: 'Dr. Sarah Jenkins', phoneNumber: '9876543101', email: 'sarah@orchid.com', password: hashedStaffPassword, statusbar: 'active', salonId: salon1.id });
+    const staff2 = await Staff.create({ name: 'Marcus Aurelius', phoneNumber: '9876543102', email: 'marcus@orchid.com', password: hashedStaffPassword, statusbar: 'active', salonId: salon1.id });
+    const staff3 = await Staff.create({ name: 'James Oliver', phoneNumber: '9876543103', email: 'james@aura.com', password: hashedStaffPassword, statusbar: 'active', salonId: salon2.id });
+    const staff4 = await Staff.create({ name: 'Tina Miller', phoneNumber: '9876543104', email: 'tina@vibe.com', password: hashedStaffPassword, statusbar: 'active', salonId: salon3.id });
 
     // 5. Associate Staff with Services
     await staff1.setServices([s1, s2, s3]);
