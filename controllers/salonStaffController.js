@@ -1,4 +1,5 @@
 const staffModel = require('../models/staffModel');
+const bcrypt = require('bcrypt');
 const salonModel = require('../models/salonsModel');
 const servicesModel = require('../models/servicesModel');
 const staffServicesModel = require('../models/StaffServices');
@@ -13,12 +14,13 @@ const addStaff = async (req, res) => {
             return res.status(404).json({ message: 'Salon not found' });
         }
 
-        // Create the staff member
+        // Create the staff member (password hashed with bcrypt)
+        const hashedPassword = await bcrypt.hash(password, 10);
         const staff = await staffModel.create({
             name,
             phoneNumber,
             email,
-            password,
+            password: hashedPassword,
             salonId,
         });
 
