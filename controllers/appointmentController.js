@@ -241,10 +241,10 @@ const mailAppointment = async (req, res) => {
     }
 };
 
-// Update user review for an appointment
+// Update user review (and optional 1-5 rating) for an appointment
 const updateCustomerReview = async (req, res) => {
     const { appointmentId } = req.params;
-    const { review } = req.body;
+    const { review, rating } = req.body;
 
     try {
         const appointment = await appointmentModel.findByPk(appointmentId);
@@ -252,6 +252,13 @@ const updateCustomerReview = async (req, res) => {
             return res.status(404).json({ message: "Appointment not found" });
         }
         appointment.userReview = review;
+        if (rating !== undefined && rating !== null) {
+            const r = parseInt(rating, 10);
+            if (Number.isNaN(r) || r < 1 || r > 5) {
+                return res.status(400).json({ message: "rating must be an integer between 1 and 5" });
+            }
+            appointment.rating = r;
+        }
         await appointment.save();
         res.status(200).json({ message: "Review submitted successfully" });
     } catch (error) {
