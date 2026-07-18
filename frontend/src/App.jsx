@@ -974,6 +974,11 @@ function SalonServices() {
             <MapPin size={16} /> {salon.address}
           </p>
           <div style={{ display: 'flex', gap: '24px', marginTop: '16px', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '14px', background: 'var(--bg-tertiary)', padding: '6px 12px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Star size={14} fill="currentColor" style={{ color: 'var(--warning)' }} />
+              <strong>{salon.avgRating ? Number(salon.avgRating).toFixed(1) : 'New'}</strong>
+              <span style={{ color: 'var(--text-muted)' }}>· {salon.reviewCount} review{salon.reviewCount === 1 ? '' : 's'}</span>
+            </span>
             <span style={{ fontSize: '14px', background: 'var(--bg-tertiary)', padding: '6px 12px', borderRadius: '20px' }}>
               <strong>Pricing standard:</strong> {salon.pricing || 'Premium'}
             </span>
