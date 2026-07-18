@@ -20,10 +20,16 @@ require('./models/associations'); // Import relationships
 // Initialize express app
 const app = express();
 
+// Trust Render's load balancer so req.protocol and secure cookies are
+// reported correctly behind TLS termination.
+app.set('trust proxy', 1);
+
 // Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors({ credentials: true })); // Adjust the origin as needed
+// Reflect the request origin when credentials are involved so the
+// same-origin SPA can call /api while keeping cookies/Authorization safe.
+app.use(cors({ origin: true, credentials: true }));
 // app.use('/',indexRoutes) // Disabled old html views
 app.use('/api', apiroutes);
 

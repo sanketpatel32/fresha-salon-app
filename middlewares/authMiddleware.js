@@ -11,12 +11,6 @@ const isAuth = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded; // Attach decoded user info to request
-
-        // Decode the token to inspect the expiration time
-        const decodedToken = jwt.decode(token);
-        const expTime = new Date(decodedToken.exp * 10000); // Convert Unix timestamp to Date
-        console.log("Token expires at:", expTime);
-
         next();
     } catch (error) {
         console.error("JWT Verification Error:", error.message);
