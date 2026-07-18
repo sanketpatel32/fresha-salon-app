@@ -6,6 +6,7 @@ const Appointment = require('./appointmentModel'); // Import the Appointment mod
 const User = require('./userModel'); // Import the User model
 const Payment = require('./paymentModel'); // Import the Payment model
 const Favorite = require('./favoriteModel');
+const StaffBlockout = require('./staffBlockoutModel');
 
 // ==================== SALON RELATIONS ====================
 // Salons <-> Staff (One-to-Many)
@@ -61,4 +62,8 @@ Favorite.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 Salons.hasMany(Favorite, { foreignKey: 'salonId', onDelete: 'CASCADE' });
 Favorite.belongsTo(Salons, { foreignKey: 'salonId', as: 'salon' });
 
-module.exports = { Salons, Staff, Services, StaffServices, Appointment, User, Payment, Favorite };
+// ==================== STAFF BLOCKOUTS ====================
+Staff.hasMany(StaffBlockout, { foreignKey: 'staffId', onDelete: 'CASCADE' });
+StaffBlockout.belongsTo(Staff, { foreignKey: 'staffId', as: 'staff' });
+
+module.exports = { Salons, Staff, Services, StaffServices, Appointment, User, Payment, Favorite, StaffBlockout };
