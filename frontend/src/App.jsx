@@ -1708,6 +1708,16 @@ function SalonDashboard({ session, showToast }) {
     }
   };
 
+  const handleApptStatus = async (apptId, newStatus) => {
+    try {
+      await axios.put(`/api/appointment/status/${apptId}`, { status: newStatus });
+      showToast(`Appointment ${newStatus}.`, 'success');
+      fetchAppointments();
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to update status', 'error');
+    }
+  };
+
   // Calculate total revenue
   const totalRevenue = appointments
     .filter(appt => appt.service?.price)
@@ -1857,6 +1867,7 @@ function SalonDashboard({ session, showToast }) {
                       <th>Service details</th>
                       <th>Assigned Therapist</th>
                       <th>Scheduled Slot</th>
+                      <th>Status</th>
                       <th>Customer Feedback</th>
                       <th>Therapist Note</th>
                       <th>Action</th>
@@ -1873,6 +1884,11 @@ function SalonDashboard({ session, showToast }) {
                         <td>{appt.staff?.name}</td>
                         <td>{appt.date} @ {appt.time}</td>
                         <td>
+                          <span className={`badge ${appt.status === 'confirmed' ? 'badge-success' : appt.status === 'pending' ? 'badge-warning' : appt.status === 'completed' ? 'badge-info' : 'badge-danger'}`}>
+                            {appt.status || 'confirmed'}
+                          </span>
+                        </td>
+                        <td>
                           {appt.userReview ? (
                             <span style={{ fontSize: '13px', fontStyle: 'italic', color: 'var(--text-secondary)' }}>"{appt.userReview}"</span>
                           ) : (
@@ -1886,7 +1902,16 @@ function SalonDashboard({ session, showToast }) {
                             <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>None</span>
                           )}
                         </td>
-                        <td>
+                        <td style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                          {appt.status === 'pending' && (
+                            <>
+                              <button onClick={() => handleApptStatus(appt.id, 'confirmed')} className="btn btn-primary btn-sm">Accept</button>
+                              <button onClick={() => handleApptStatus(appt.id, 'declined')} className="btn btn-danger btn-sm">Decline</button>
+                            </>
+                          )}
+                          {appt.status === 'confirmed' && (
+                            <button onClick={() => handleApptStatus(appt.id, 'completed')} className="btn btn-secondary btn-sm">Mark Complete</button>
+                          )}
                           <button onClick={() => handleOpenStaffNote(appt.id, appt.staffReview)} className="btn btn-secondary btn-sm">
                             <Plus size={14} /> Staff Note
                           </button>
