@@ -16,6 +16,9 @@ const adminRoutes = require('./adminRoutes');
 
 router.use('/user', userRoutes);
 router.use('/user/favorites', favoriteRoutes);
+// Correctly-spelled mount + legacy alias (the frontend still calls /buisness).
+// New code should target /business; /buisness stays for backward compatibility.
+router.use('/business', businessRoutes);
 router.use('/buisness', businessRoutes);
 router.use('/userdashboard', userDashboardRoutes);
 router.use('/salonsdashboard', businessDashboardRoutes);

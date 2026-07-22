@@ -3,11 +3,12 @@ const {
   getPaymentStatus,
   verifyWebhook,
 } = require("../services/cashfreeServices");
+const {
+  finalizeAppointmentFromPayment,
+  getAuthoritativePrice,
+} = require("../services/paymentService");
 const Payment = require("../models/paymentModel");
 const userModel = require("../models/userModel");
-const appointmentModel = require("../models/appointmentModel");
-const salonModel = require("../models/salonsModel");
-const servicesModel = require("../models/servicesModel");
 const crypto = require("crypto");
 
 /**
@@ -25,11 +26,11 @@ exports.processPayment = async (req, res) => {
 
   try {
     // 1. Look up the real price from the DB — never trust the client.
-    const service = await servicesModel.findByPk(serviceId);
-    if (!service) {
+    const priceResult = await getAuthoritativePrice(serviceId, salonId);
+    if (priceResult === null) {
       return res.status(404).json({ message: "Service not found" });
     }
-    if (service.salonId !== salonId) {
+    if (priceResult.mismatch) {
       return res.status(400).json({ message: "Service does not belong to this salon" });
     }
 
@@ -40,7 +41,7 @@ exports.processPayment = async (req, res) => {
 
     // Use a cryptographically random order id (not a predictable timestamp).
     const orderId = "ORDER-" + crypto.randomBytes(8).toString("hex");
-    const orderAmount = service.price; // from the DB, authoritative
+    const orderAmount = priceResult.price; // from the DB, authoritative
     const orderCurrency = "INR";
     const customerID = userId.toString();
     const customerPhone = userDetails.phoneNumber;
@@ -91,36 +92,6 @@ exports.processPayment = async (req, res) => {
     console.error("Error processing payment:", error.message);
     res.status(500).json({ message: "Error processing payment" });
   }
-};
-
-/**
- * Shared logic for finalizing a successful payment into an appointment.
- * Used by both the browser-redirect handler and the webhook handler.
- *
- * Idempotent: if an appointment already exists for this orderId, it returns
- * the existing one instead of creating a duplicate.
- */
-const finalizeAppointmentFromPayment = async (order) => {
-  // Idempotency: don't create a second appointment for the same payment.
-  const existing = await appointmentModel.findOne({ where: { orderId: order.orderId } });
-  if (existing) {
-    return existing;
-  }
-
-  const salon = await salonModel.findByPk(order.salonId);
-  const initialStatus = salon && salon.requiresApproval ? "pending" : "confirmed";
-
-  return appointmentModel.create({
-    orderId: order.orderId,
-    staffId: order.staffId,
-    salonId: order.salonId,
-    serviceId: order.serviceId,
-    userId: order.customerID,
-    date: order.dateSelected,
-    time: order.timeSelected,
-    endTime: order.endTime,
-    status: initialStatus,
-  });
 };
 
 /**
