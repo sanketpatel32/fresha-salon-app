@@ -1,28 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Link, useNavigate, useParams, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import { 
-  Scissors, Sparkles, Clock, User, Mail, Phone, MapPin, 
-  Calendar, CreditCard, Lock, Plus, Edit, Trash2, LogOut, 
-  Star, CheckCircle, AlertCircle, Eye, Settings, ShieldAlert, 
-  Search, ListFilter, UserCheck, Activity, Award, Sun, Moon
+import {
+  Scissors, Sparkles, Clock, User, Mail, Phone, MapPin,
+  Calendar, CreditCard, Lock, Plus, Edit, Trash2, LogOut,
+  Star, CheckCircle, AlertCircle, Settings, ShieldAlert,
+  Search, ListFilter, UserCheck, Activity, Sun, Moon, Menu, X
 } from 'lucide-react';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
+import Modal from './components/Modal.jsx';
+import ConfirmDialog from './components/ConfirmDialog.jsx';
+import Skeleton, { SkeletonCardGrid, SkeletonTable } from './components/Skeleton.jsx';
 
 
 /* Global Axios Base URL setup */
 axios.defaults.baseURL = window.location.origin;
 
-// Global Axios request/response interceptors for automatic logout on token expiry
+// Router-aware session-expiry handler. Instead of a hard window.location
+// reload (which discards in-progress form state and pollutes history), we
+// clear storage + dispatch a custom event that the App component listens for
+// to reset React state and navigate via React Router.
+const AUTH_EXPIRED_EVENT = 'fresha:auth-expired';
+const clearSessionStorage = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('role');
+  localStorage.removeItem('userId');
+  localStorage.removeItem('salonId');
+  localStorage.removeItem('staffId');
+};
+
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('role');
-      localStorage.removeItem('userId');
-      localStorage.removeItem('salonId');
-      localStorage.removeItem('staffId');
-      window.location.href = '/user/login';
+      clearSessionStorage();
+      // Notify the app to reset state + redirect. The App component (inside
+      // the Router) listens and calls navigate() with the right role login.
+      window.dispatchEvent(new CustomEvent(AUTH_EXPIRED_EVENT));
     }
     return Promise.reject(error);
   }
@@ -103,19 +117,62 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div className="app-wrapper">
-        <Navbar session={userSession} onLogout={handleLogout} theme={theme} onToggleTheme={toggleTheme} />
-        
+      <AppInner
+        userSession={userSession}
+        theme={theme}
+        toast={toast}
+        onToggleTheme={toggleTheme}
+        onLogin={handleLogin}
+        onLogout={handleLogout}
+        showToast={showToast}
+        onDismissToast={() => setToast(null)}
+      />
+    </BrowserRouter>
+  );
+}
+
+/**
+ * Lives inside the Router so it can use useNavigate() for the router-aware
+ * 401/403 redirect (replaces the old hard window.location reload).
+ */
+function AppInner({ userSession, theme, toast, onToggleTheme, onLogin, onLogout, showToast, onDismissToast }) {
+  const navigate = useNavigate();
+
+  // On auth expiry (token revoked / expired), reset state and redirect to the
+  // role-appropriate login — without a full page reload.
+  useEffect(() => {
+    const handler = () => {
+      onLogout();
+      showToast('Your session has expired. Please sign in again.', 'error');
+      const role = localStorage.getItem('role') || '';
+      const loginPath =
+        role === 'salon' ? '/buisness/login'
+        : role === 'staff' ? '/staff/login'
+        : role === 'admin' ? '/admin/login'
+        : '/user/login';
+      navigate(loginPath);
+    };
+    window.addEventListener(AUTH_EXPIRED_EVENT, handler);
+    return () => window.removeEventListener(AUTH_EXPIRED_EVENT, handler);
+  }, [navigate, onLogout, showToast]);
+
+  return (
+    <div className="app-wrapper">
+      {/* Skip link — visible on keyboard focus, jumps past the navbar */}
+      <a href="#main-content" className="skip-link">Skip to content</a>
+      <Navbar session={userSession} onLogout={onLogout} theme={theme} onToggleTheme={onToggleTheme} />
+
+      <main id="main-content" role="main">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           
           {/* Auth Routes */}
-          <Route path="/user/login" element={userSession.token ? <Navigate to={`/${userSession.role}/dashboard`} /> : <UserLogin onLogin={handleLogin} showToast={showToast} />} />
+          <Route path="/user/login" element={userSession.token ? <Navigate to={`/${userSession.role}/dashboard`} /> : <UserLogin onLogin={onLogin} showToast={showToast} />} />
           <Route path="/user/signup" element={userSession.token ? <Navigate to={`/${userSession.role}/dashboard`} /> : <UserSignup showToast={showToast} />} />
-          <Route path="/buisness/login" element={userSession.token ? <Navigate to={`/${userSession.role}/dashboard`} /> : <SalonLogin onLogin={handleLogin} showToast={showToast} />} />
+          <Route path="/buisness/login" element={userSession.token ? <Navigate to={`/${userSession.role}/dashboard`} /> : <SalonLogin onLogin={onLogin} showToast={showToast} />} />
           <Route path="/buisness/signup" element={userSession.token ? <Navigate to={`/${userSession.role}/dashboard`} /> : <SalonSignup showToast={showToast} />} />
-          <Route path="/staff/login" element={userSession.token ? <Navigate to={`/${userSession.role}/dashboard`} /> : <StaffLogin onLogin={handleLogin} showToast={showToast} />} />
-          <Route path="/admin/login" element={userSession.token ? <Navigate to={`/${userSession.role}/dashboard`} /> : <AdminLogin onLogin={handleLogin} showToast={showToast} />} />
+          <Route path="/staff/login" element={userSession.token ? <Navigate to={`/${userSession.role}/dashboard`} /> : <StaffLogin onLogin={onLogin} showToast={showToast} />} />
+          <Route path="/admin/login" element={userSession.token ? <Navigate to={`/${userSession.role}/dashboard`} /> : <AdminLogin onLogin={onLogin} showToast={showToast} />} />
 
           {/* Protected Routes */}
           <Route path="/customer/dashboard" element={<ProtectedRoute session={userSession} allowedRole="customer"><CustomerDashboard session={userSession} /></ProtectedRoute>} />
@@ -124,24 +181,24 @@ export default function App() {
           <Route path="/customer/salonservices/:salonId" element={<ProtectedRoute session={userSession} allowedRole="customer"><SalonServices /></ProtectedRoute>} />
           <Route path="/customer/book/:salonId/:serviceId" element={<ProtectedRoute session={userSession} allowedRole="customer"><AppointmentBooking session={userSession} showToast={showToast} /></ProtectedRoute>} />
           <Route path="/customer/bookings" element={<ProtectedRoute session={userSession} allowedRole="customer"><BookedAppointments session={userSession} showToast={showToast} /></ProtectedRoute>} />
-          
+
           {/* Salon Owner Routes */}
           <Route path="/salon/dashboard" element={<ProtectedRoute session={userSession} allowedRole="salon"><SalonDashboard session={userSession} showToast={showToast} /></ProtectedRoute>} />
           <Route path="/salonsdashboard" element={<Navigate to="/salon/dashboard" />} /> {/* Backward compatibility */}
-          
+
           {/* Staff Owner Routes */}
           <Route path="/staff/dashboard" element={<ProtectedRoute session={userSession} allowedRole="staff"><StaffDashboard session={userSession} showToast={showToast} /></ProtectedRoute>} />
-          
+
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<ProtectedRoute session={userSession} allowedRole="admin"><AdminDashboard session={userSession} showToast={showToast} /></ProtectedRoute>} />
-          
+
           {/* Catch All Redirect */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-        
-        {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
-      </div>
-    </BrowserRouter>
+      </main>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={onDismissToast} />}
+    </div>
   );
 }
 
@@ -162,36 +219,56 @@ function ProtectedRoute({ session, allowedRole, children }) {
 
 /* Navbar Component */
 function Navbar({ session, onLogout, theme, onToggleTheme }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header className="navbar">
       <div className="container nav-container">
-        <Link to="/" className="nav-brand">
+        <Link to="/" className="nav-brand" onClick={() => setMenuOpen(false)}>
           <Scissors size={28} /> Fresha
         </Link>
-        <nav className="nav-links">
-          <Link to="/" className="nav-link">Home</Link>
-          
+        <button
+          className="nav-toggle"
+          onClick={() => setMenuOpen(o => !o)}
+          aria-expanded={menuOpen}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-controls="primary-nav"
+        >
+          {menuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+        <nav
+          id="primary-nav"
+          className={`nav-links ${menuOpen ? 'nav-links-expanded' : 'nav-links-collapsed'}`}
+        >
+          <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>Home</Link>
+
           {session.token && session.role === 'customer' && (
             <>
-              <Link to="/customer/dashboard" className="nav-link">Find Salons</Link>
-              <Link to="/customer/bookings" className="nav-link">My Bookings</Link>
-              <Link to="/customer/edit-profile" className="nav-link">Edit Profile</Link>
+              <Link to="/customer/dashboard" className="nav-link" onClick={() => setMenuOpen(false)}>Find Salons</Link>
+              <Link to="/customer/bookings" className="nav-link" onClick={() => setMenuOpen(false)}>My Bookings</Link>
+              <Link to="/customer/edit-profile" className="nav-link" onClick={() => setMenuOpen(false)}>Edit Profile</Link>
             </>
           )}
 
           {session.token && session.role === 'salon' && (
-            <Link to="/salon/dashboard" className="nav-link">Business Console</Link>
+            <Link to="/salon/dashboard" className="nav-link" onClick={() => setMenuOpen(false)}>Business Console</Link>
           )}
 
           {session.token && session.role === 'staff' && (
-            <Link to="/staff/dashboard" className="nav-link">Staff Console</Link>
+            <Link to="/staff/dashboard" className="nav-link" onClick={() => setMenuOpen(false)}>Staff Console</Link>
           )}
 
           {session.token && session.role === 'admin' && (
-            <Link to="/admin/dashboard" className="nav-link">Admin Console</Link>
+            <Link to="/admin/dashboard" className="nav-link" onClick={() => setMenuOpen(false)}>Admin Console</Link>
           )}
 
-          <button onClick={onToggleTheme} className="btn btn-secondary btn-icon-only" style={{ padding: '8px', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Toggle light/dark mode">
+          <button
+            onClick={onToggleTheme}
+            className="btn btn-secondary btn-icon-only"
+            style={{ padding: '8px', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            title="Toggle light/dark mode"
+          >
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
@@ -201,8 +278,8 @@ function Navbar({ session, onLogout, theme, onToggleTheme }) {
             </button>
           ) : (
             <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              <Link to="/user/login" className="btn btn-secondary btn-sm">Sign In</Link>
-              <Link to="/buisness/login" className="btn btn-primary btn-sm">Business</Link>
+              <Link to="/user/login" className="btn btn-secondary btn-sm" onClick={() => setMenuOpen(false)}>Sign In</Link>
+              <Link to="/buisness/login" className="btn btn-primary btn-sm" onClick={() => setMenuOpen(false)}>Business</Link>
             </div>
           )}
         </nav>
@@ -857,9 +934,7 @@ function CustomerDashboard({ session }) {
       </div>
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '60px' }}>
-          <h2>Finding partner salons...</h2>
-        </div>
+        <SkeletonCardGrid count={6} />
       ) : filteredSalons.length === 0 ? (
         <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
           <Scissors size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
@@ -955,8 +1030,14 @@ function SalonServices() {
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: '100px' }}>
-        <h2>Loading salon catalog...</h2>
+      <div className="container" style={{ padding: '40px 24px' }}>
+        <div className="salon-hero">
+          <Skeleton height="2rem" width="50%" />
+          <Skeleton height="1rem" width="70%" />
+          <Skeleton height="1.5rem" width="40%" />
+        </div>
+        <h2 className="section-head"><Skeleton height="1.5rem" width="180px" /></h2>
+        <SkeletonCardGrid count={4} />
       </div>
     );
   }
@@ -1392,6 +1473,7 @@ function BookedAppointments({ session, showToast }) {
   const [selectedApptId, setSelectedApptId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [rating, setRating] = useState(0);
+  const [cancelTarget, setCancelTarget] = useState(null);
 
   const fetchBookings = async () => {
     try {
@@ -1425,13 +1507,18 @@ function BookedAppointments({ session, showToast }) {
   };
 
   const handleCancel = async (apptId) => {
-    if (!confirm('Cancel this appointment? This cannot be undone.')) return;
+    setCancelTarget(apptId);
+  };
+
+  const confirmCancel = async () => {
     try {
-      await axios.put(`/api/appointment/cancel/${apptId}`);
+      await axios.put(`/api/appointment/cancel/${cancelTarget}`);
       showToast('Appointment cancelled.', 'success');
       fetchBookings();
     } catch (err) {
       showToast(err.response?.data?.message || 'Failed to cancel appointment', 'error');
+    } finally {
+      setCancelTarget(null);
     }
   };
 
@@ -1555,6 +1642,16 @@ function BookedAppointments({ session, showToast }) {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        open={cancelTarget !== null}
+        title="Cancel appointment?"
+        message="This appointment will be cancelled. This action cannot be undone."
+        confirmLabel="Yes, cancel it"
+        danger
+        onConfirm={confirmCancel}
+        onClose={() => setCancelTarget(null)}
+      />
     </div>
   );
 }
@@ -1581,6 +1678,7 @@ function SalonDashboard({ session, showToast }) {
   const [servicePrice, setServicePrice] = useState('');
   const [serviceDuration, setServiceDuration] = useState('30');
   const [editServiceId, setEditServiceId] = useState(null);
+  const [deleteServiceTarget, setDeleteServiceTarget] = useState(null);
 
   // Staff form state
   const [staffName, setStaffName] = useState('');
@@ -1737,13 +1835,18 @@ function SalonDashboard({ session, showToast }) {
   };
 
   const handleDeleteService = async (serviceId) => {
-    if (!confirm('Are you sure you want to remove this service?')) return;
+    setDeleteServiceTarget(serviceId);
+  };
+
+  const confirmDeleteService = async () => {
     try {
-      await axios.delete(`/api/salonsdashboard/services/delete/${serviceId}`);
+      await axios.delete(`/api/salonsdashboard/services/delete/${deleteServiceTarget}`);
       showToast('Service removed successfully', 'success');
       fetchServices();
     } catch (err) {
       showToast('Error removing service', 'error');
+    } finally {
+      setDeleteServiceTarget(null);
     }
   };
 
@@ -2544,6 +2647,16 @@ function SalonDashboard({ session, showToast }) {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        open={deleteServiceTarget !== null}
+        title="Remove service?"
+        message="This service will be removed from your catalog. Existing bookings are not affected."
+        confirmLabel="Remove service"
+        danger
+        onConfirm={confirmDeleteService}
+        onClose={() => setDeleteServiceTarget(null)}
+      />
     </div>
   );
 }
@@ -2711,6 +2824,7 @@ function AdminDashboard({ session, showToast }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('bookings'); // 'bookings', 'users'
+  const [pendingDelete, setPendingDelete] = useState(null); // { type: 'user'|'appointment', id }
 
   const fetchAllAppointments = async () => {
     try {
@@ -2737,26 +2851,32 @@ function AdminDashboard({ session, showToast }) {
     }
   };
 
-  const handleDeleteUser = async (userId) => {
-    if (!confirm('Are you sure you want to permanently delete this user? All their bookings will be cascade removed.')) return;
-    try {
-      await axios.delete(`/api/admin/users/${userId}`);
-      showToast('User removed successfully', 'success');
-      setUsers(users.filter(u => u.id !== userId));
-      fetchAllAppointments();
-    } catch (err) {
-      showToast('Failed to delete user', 'error');
-    }
+  const handleDeleteUser = (userId) => {
+    setPendingDelete({ type: 'user', id: userId });
   };
 
-  const handleDeleteAppointment = async (apptId) => {
-    if (!confirm('Are you sure you want to delete this appointment?')) return;
+  const handleDeleteAppointment = (apptId) => {
+    setPendingDelete({ type: 'appointment', id: apptId });
+  };
+
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
+    const { type, id } = pendingDelete;
     try {
-      await axios.delete(`/api/admin/appointments/${apptId}`);
-      showToast('Appointment removed successfully', 'success');
-      setAppointments(appointments.filter(a => a.id !== apptId));
+      if (type === 'user') {
+        await axios.delete(`/api/admin/users/${id}`);
+        showToast('User removed successfully', 'success');
+        setUsers(prev => prev.filter(u => u.id !== id));
+        fetchAllAppointments();
+      } else {
+        await axios.delete(`/api/admin/appointments/${id}`);
+        showToast('Appointment removed successfully', 'success');
+        setAppointments(prev => prev.filter(a => a.id !== id));
+      }
     } catch (err) {
-      showToast('Failed to delete appointment', 'error');
+      showToast(`Failed to delete ${type}`, 'error');
+    } finally {
+      setPendingDelete(null);
     }
   };
 
@@ -2883,6 +3003,20 @@ function AdminDashboard({ session, showToast }) {
           )}
         </div>
       )}
+
+      <ConfirmDialog
+        open={pendingDelete !== null}
+        title={pendingDelete?.type === 'user' ? 'Delete user?' : 'Delete appointment?'}
+        message={
+          pendingDelete?.type === 'user'
+            ? 'This user will be permanently deleted. All their bookings will be cascade-removed. This cannot be undone.'
+            : 'This appointment will be permanently deleted. This cannot be undone.'
+        }
+        confirmLabel={pendingDelete?.type === 'user' ? 'Delete user' : 'Delete appointment'}
+        danger
+        onConfirm={confirmDelete}
+        onClose={() => setPendingDelete(null)}
+      />
     </div>
   );
 }

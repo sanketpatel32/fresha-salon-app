@@ -1284,3 +1284,88 @@ textarea:focus-visible,
   outline-offset: 2px;
   border-radius: var(--radius-2xs);
 }
+
+/* ─── Skip link (a11y) ─────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--space-sm);
+  z-index: 2000;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  padding: var(--space-2xs) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  transition: top var(--dur-short) var(--ease-out);
+}
+.skip-link:focus-visible {
+  top: var(--space-sm);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Mobile nav ───────────────────────────────────────────────────────── */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--color-rule-strong);
+  border-radius: var(--radius-xs);
+  padding: var(--space-2xs);
+  color: var(--color-ink);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+  /* Collapsed state: hide the inline links, show them as a dropdown panel. */
+  .nav-links.nav-links-collapsed {
+    display: none;
+  }
+  .nav-links.nav-links-expanded {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-paper);
+    border-bottom: 1px solid var(--color-rule);
+    padding: var(--space-md);
+    gap: var(--space-sm);
+    box-shadow: 0 8px 24px -8px oklch(22% 0.020 60 / 0.15);
+  }
+}
+
+/* ─── Skeleton loaders ─────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-paper-3) 0%,
+    var(--color-rule) 50%,
+    var(--color-paper-3) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.4s var(--ease-in-out) infinite;
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background: var(--color-paper-3);
+  }
+}
