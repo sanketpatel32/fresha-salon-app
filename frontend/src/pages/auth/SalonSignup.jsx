@@ -39,10 +39,11 @@ export default function SalonSignup() {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Salon / Brand Name</label>
+            <label htmlFor="salon-name" className="form-label">Salon / Brand Name</label>
             <div className="form-input-wrapper">
               <Scissors className="form-input-icon" size={18} />
               <input
+                id="salon-name"
                 type="text"
                 required
                 className="form-input"
@@ -53,10 +54,11 @@ export default function SalonSignup() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Business Email</label>
+            <label htmlFor="salon-email" className="form-label">Business Email</label>
             <div className="form-input-wrapper">
               <Mail className="form-input-icon" size={18} />
               <input
+                id="salon-email"
                 type="email"
                 required
                 className="form-input"
@@ -67,11 +69,14 @@ export default function SalonSignup() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Phone Number</label>
+            <label htmlFor="salon-phone" className="form-label">Phone Number</label>
             <div className="form-input-wrapper">
               <Phone className="form-input-icon" size={18} />
               <input
+                id="salon-phone"
                 type="tel"
+                pattern="[0-9]{10}"
+                title="Enter a 10-digit phone number"
                 required
                 className="form-input"
                 placeholder="9876543210"
@@ -81,10 +86,11 @@ export default function SalonSignup() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Address</label>
+            <label htmlFor="salon-address" className="form-label">Address</label>
             <div className="form-input-wrapper">
               <MapPin className="form-input-icon" size={18} />
               <input
+                id="salon-address"
                 type="text"
                 required
                 className="form-input"
@@ -95,10 +101,10 @@ export default function SalonSignup() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Pricing Standard</label>
+            <label htmlFor="salon-pricing" className="form-label">Pricing Standard</label>
             <div className="form-input-wrapper">
               <CreditCard className="form-input-icon" size={18} />
-              <select className="form-select" value={pricing} onChange={e => setPricing(e.target.value)}>
+              <select id="salon-pricing" className="form-select" value={pricing} onChange={e => setPricing(e.target.value)}>
                 <option value="Affordable">Affordable</option>
                 <option value="Moderate">Moderate</option>
                 <option value="Premium">Premium Luxury</option>
@@ -106,11 +112,14 @@ export default function SalonSignup() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Secret Password</label>
+            <label htmlFor="salon-password" className="form-label">Secret Password</label>
             <div className="form-input-wrapper">
               <Lock className="form-input-icon" size={18} />
               <input
+                id="salon-password"
                 type="password"
+                minLength={8}
+                title="At least 8 characters"
                 required
                 className="form-input"
                 placeholder="••••••••"

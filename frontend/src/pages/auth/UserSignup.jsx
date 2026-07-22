@@ -37,10 +37,11 @@ export default function UserSignup() {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Full Name</label>
+            <label htmlFor="signup-name" className="form-label">Full Name</label>
             <div className="form-input-wrapper">
               <User className="form-input-icon" size={18} />
               <input
+                id="signup-name"
                 type="text"
                 required
                 className="form-input"
@@ -51,10 +52,11 @@ export default function UserSignup() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Email Address</label>
+            <label htmlFor="signup-email" className="form-label">Email Address</label>
             <div className="form-input-wrapper">
               <Mail className="form-input-icon" size={18} />
               <input
+                id="signup-email"
                 type="email"
                 required
                 className="form-input"
@@ -65,11 +67,14 @@ export default function UserSignup() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Phone Number</label>
+            <label htmlFor="signup-phone" className="form-label">Phone Number</label>
             <div className="form-input-wrapper">
               <Phone className="form-input-icon" size={18} />
               <input
+                id="signup-phone"
                 type="tel"
+                pattern="[0-9]{10}"
+                title="Enter a 10-digit phone number"
                 required
                 className="form-input"
                 placeholder="9876543210"
@@ -79,11 +84,14 @@ export default function UserSignup() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Password</label>
+            <label htmlFor="signup-password" className="form-label">Password</label>
             <div className="form-input-wrapper">
               <Lock className="form-input-icon" size={18} />
               <input
+                id="signup-password"
                 type="password"
+                minLength={8}
+                title="At least 8 characters"
                 required
                 className="form-input"
                 placeholder="••••••••"

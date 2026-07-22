@@ -8,6 +8,12 @@ const StaffBlockout = require('../models/staffBlockoutModel');
 const { Op } = require('sequelize');
 const { canTransition, canCancel } = require('../utils/statusRules');
 const sequelize = require('../utils/database');
+const {
+  computeEndTime,
+  validateSalonHours,
+  staffForService,
+  conflictingStaffIds,
+} = require('../services/availabilityService');
 
 /**
  * Recompute and persist the denormalized avgRating + reviewCount for a salon.
@@ -48,78 +54,35 @@ const sender = {
     name: 'Tech Support by Sanket'
 };
 
-// Checks staff availability for a given service, date, and time
+// Checks staff availability for a given service, date, and time.
+// Enforces salon working hours/days AND staff conflicts. The conflict
+// detection logic lives in services/availabilityService.js and is shared with
+// the payment finalization path so the rule cannot drift between them.
 const appointmentChecker = async (req, res) => {
     try {
         const { dateSelect, time, salonId, serviceId, duration } = req.body;
 
-        // Calculate the end time of the appointment timezone-independently
         const startTime = time;
-        const [hours, minutes] = time.split(':').map(Number);
-        const totalMinutes = hours * 60 + minutes + parseInt(duration);
-        const endHours = Math.floor(totalMinutes / 60) % 24;
-        const endMinutes = totalMinutes % 60;
-        const endTime = `${String(endHours).padStart(2, '0')}:${String(endMinutes).padStart(2, '0')}`;
+        const endTime = computeEndTime(time, duration);
 
+        // Salon-hours gate. The model stores openingTime/closingTime/workingDays;
+        // before this change they were display-only and never consulted.
+        const salon = await Salons.findByPk(salonId);
+        if (!salon) {
+            return res.status(404).json({ message: 'Salon not found' });
+        }
+        const hoursCheck = validateSalonHours(salon, dateSelect, startTime, endTime);
+        if (!hoursCheck.ok) {
+            return res.status(400).json({ message: hoursCheck.reason });
+        }
 
-        // Step 1: Get all staff who provide the specified service
-        const staffForService = await staffModel.findAll({
-            include: [
-                {
-                    model: Services,
-                    as: 'services',
-                    where: { id: serviceId },
-                    attributes: [],
-                },
-            ],
-            where: { salonId },
-            attributes: ['id', 'name', 'phoneNumber'],
-        });
+        // Staff who provide this service in this salon.
+        const eligibleStaff = await staffForService(salonId, serviceId);
+        const staffIds = eligibleStaff.map((s) => s.id);
 
-        // Extract staff IDs
-        const staffIds = staffForService.map((staff) => staff.id);
-
-        // Step 1.5: Exclude staff who have a blockout overlapping the requested slot.
-        const blockedStaff = await StaffBlockout.findAll({
-            where: {
-                staffId: staffIds,
-                date: dateSelect,
-                startTime: { [Op.lt]: endTime },
-                endTime: { [Op.gt]: startTime },
-            },
-            attributes: ['staffId'],
-        });
-        const blockedStaffIds = blockedStaff.map(b => b.staffId);
-        const availableStaffAfterBlocks = staffForService.filter(
-            (staff) => !blockedStaffIds.includes(staff.id)
-        );
-
-        // Step 2: Check for staff availability
-        const unavailableStaff = await appointmentModel.findAll({
-            where: {
-                staffId: staffIds,
-                salonId,
-                date: dateSelect,
-                status: { [Op.notIn]: ['cancelled', 'declined'] },
-                [Op.or]: [
-                    {
-                        time: {
-                            [Op.lt]: endTime,
-                        },
-                        endTime: {
-                            [Op.gt]: startTime,
-                        },
-                    },
-                ],
-            },
-            attributes: ['staffId'],
-        });
-
-        // Step 3: Filter out unavailable staff
-        const unavailableStaffIds = unavailableStaff.map((appointment) => appointment.staffId);
-        const freeStaff = availableStaffAfterBlocks.filter(
-            (staff) => !unavailableStaffIds.includes(staff.id)
-        );
+        // Filter out staff with a blockout or existing booking that overlaps.
+        const conflicted = await conflictingStaffIds(staffIds, salonId, dateSelect, startTime, endTime);
+        const freeStaff = eligibleStaff.filter((s) => !conflicted.has(s.id));
 
         res.status(200).json(freeStaff);
     } catch (error) {
@@ -300,6 +263,12 @@ const updateCustomerReview = async (req, res) => {
         // Ownership: only the booking customer may review their own appointment.
         if (appointment.userId !== req.user.userId) {
             return res.status(403).json({ message: "Not authorized to review this appointment" });
+        }
+        // Integrity: a review is only meaningful for an appointment that actually
+        // took place. Allowing reviews on pending/cancelled/declined rows pollutes
+        // the salon's denormalized avgRating/reviewCount with phantom ratings.
+        if (appointment.status !== 'completed') {
+            return res.status(400).json({ message: "You can only review appointments that have been completed" });
         }
         appointment.userReview = review;
         if (rating !== undefined && rating !== null) {

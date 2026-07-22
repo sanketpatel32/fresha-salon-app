@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { processPayment, getPaymentStatus_, handleWebhook } = require('../controllers/paymentController');
+const { processPayment, getPaymentStatus_, getStuckPayments, handleWebhook } = require('../controllers/paymentController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const { validate, paymentCreateSchema } = require('../utils/validators');
 
 // Create an order (authenticated customer).
 router.post('/', authMiddleware, authMiddleware.requireRole('customer'), validate(paymentCreateSchema), processPayment);
+
+// Payments with no booking yet (webhook-miss recovery). Authenticated customer.
+// Declared before /:orderId so "stuck" isn't captured as an order id.
+router.get('/stuck', authMiddleware, authMiddleware.requireRole('customer'), getStuckPayments);
 
 // Cashfree webhook — the authoritative payment notification.
 // Public (Cashfree calls it); the signature is verified over req.rawBody,

@@ -337,6 +337,11 @@ textarea:focus-visible,
 }
 
 .role-card {
+  /* Button reset — these render as <button> for keyboard/screen-reader access,
+     but must look identical to the old div cards. */
+  font: inherit;
+  color: inherit;
+  width: 100%;
   background-color: var(--color-paper-2);
   border: 1px solid var(--color-rule);
   border-radius: var(--radius-md);
@@ -884,6 +889,9 @@ textarea:focus-visible,
 }
 
 .slot-btn {
+  /* Rendered as <button> for keyboard access; reset UA button styles. */
+  font: inherit;
+  width: 100%;
   background-color: var(--color-paper);
   border: 1px solid var(--color-rule-strong);
   border-radius: var(--radius-xs);
@@ -908,6 +916,10 @@ textarea:focus-visible,
 }
 
 .staff-select-card {
+  /* Rendered as <button> for keyboard access; reset UA button styles. */
+  font: inherit;
+  width: 100%;
+  text-align: left;
   display: flex;
   align-items: center;
   gap: var(--space-xs);
@@ -1472,4 +1484,59 @@ textarea:focus-visible,
 .pagination-info {
   font-size: var(--text-sm);
   color: var(--color-ink-2);
+}
+
+/* Stuck-payments banner — shown when a payment succeeded but the booking row
+   hasn't materialized yet (webhook-miss / network drop). */
+.stuck-payments-banner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+.stuck-payment-item {
+  background: var(--color-accent-soft, color-mix(in oklab, var(--color-accent) 12%, transparent));
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--color-ink);
+}
+.stuck-payment-item strong {
+  color: var(--color-accent);
+}
+
+/* Star-rating fieldset — resets default fieldset chrome so the legend reads
+   like a label while still announcing the group to assistive tech. */
+.star-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 var(--space-md) 0;
+}
+
+/* ─── Responsive dashboard grids ───────────────────────────────────────────
+   These replace inline gridTemplateColumns styles that had no mobile
+   breakpoint and crushed layouts on narrow screens. Each collapses to a
+   single column under 768px. */
+.grid-dashboard-split {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-lg);
+}
+.grid-with-sidebar {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: var(--space-xl);
+}
+.grid-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+@media (max-width: 768px) {
+  .grid-dashboard-split,
+  .grid-with-sidebar,
+  .grid-two-col {
+    grid-template-columns: 1fr;
+  }
 }

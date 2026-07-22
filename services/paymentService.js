@@ -9,6 +9,7 @@
 const Payment = require('../models/paymentModel');
 const appointmentModel = require('../models/appointmentModel');
 const salonModel = require('../models/salonsModel');
+const { conflictingStaffIds } = require('./availabilityService');
 
 /**
  * Finalize a successful payment into an appointment.
@@ -17,6 +18,13 @@ const salonModel = require('../models/salonsModel');
  * existing one instead of creating a duplicate. This protects against:
  *   - the browser-redirect handler and the webhook firing for the same order
  *   - a user refreshing the success page
+ *
+ * TOCTOU guard: between the customer's availability check and payment, another
+ * customer could have taken the same staff slot. Before creating the row we
+ * re-run the conflict query; if the staff is now busy we refuse the booking and
+ * flip the payment to a distinct "Slot taken" status so the redirect handler can
+ * tell the customer (and an operator can arrange a refund). The money is still
+ * captured by Cashfree — refund handling is a separate flow.
  *
  * @param {object} order - a Payment row (must have orderId, salonId, etc.)
  * @returns {Promise<object>} the appointment (existing or newly created)
@@ -27,6 +35,24 @@ const finalizeAppointmentFromPayment = async (order) => {
   });
   if (existing) {
     return existing;
+  }
+
+  // Re-check the slot is still free. Single-staff scope; returns a Set.
+  const conflicted = await conflictingStaffIds(
+    [order.staffId],
+    order.salonId,
+    order.dateSelected,
+    order.timeSelected,
+    order.endTime
+  );
+  if (conflicted.has(order.staffId)) {
+    // Do not create a clashing appointment. Mark the payment so the failure is
+    // visible rather than silently dropping the booking.
+    order.paymentStatus = 'Slot taken';
+    await order.save();
+    const err = new Error('The selected slot was just taken by another booking');
+    err.code = 'SLOT_TAKEN';
+    throw err;
   }
 
   const salon = await salonModel.findByPk(order.salonId);

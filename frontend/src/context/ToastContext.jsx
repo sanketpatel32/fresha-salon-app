@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { CheckCircle, AlertCircle } from 'lucide-react';
 
 const ToastContext = createContext(null);
@@ -31,11 +31,13 @@ export function useToast() {
 }
 
 function ToastView({ message, type, onClose }) {
-  // Auto-dismiss after 4s.
-  useState(() => {
+  // Auto-dismiss after 4s. Previously this used useState() as if it were
+  // useEffect() — the timer fired once but the cleanup was never wired up by
+  // React, so a re-render before 4s could leak a stale timer.
+  useEffect(() => {
     const t = setTimeout(onClose, 4000);
     return () => clearTimeout(t);
-  });
+  }, [onClose]);
   const isSuccess = type === 'success';
   const isError = type === 'error';
   return (

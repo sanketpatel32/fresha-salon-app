@@ -7,7 +7,10 @@ const {
   finalizeAppointmentFromPayment,
   getAuthoritativePrice,
 } = require("../services/paymentService");
+const { computeEndTime, validateSalonHours } = require("../services/availabilityService");
+const Salons = require("../models/salonsModel");
 const Payment = require("../models/paymentModel");
+const appointmentModel = require("../models/appointmentModel");
 const userModel = require("../models/userModel");
 const crypto = require("crypto");
 
@@ -32,6 +35,17 @@ exports.processPayment = async (req, res) => {
     }
     if (priceResult.mismatch) {
       return res.status(400).json({ message: "Service does not belong to this salon" });
+    }
+
+    // 1b. Enforce salon working hours/days here too. A customer could otherwise
+    //     skip the /appointment/check step and POST straight to /pay with an
+    //     out-of-hours slot. Using the shared helper keeps the rule consistent
+    //     with the checker.
+    const endTime = computeEndTime(time, duration);
+    const salon = await Salons.findByPk(salonId);
+    const hoursCheck = validateSalonHours(salon, dateSelect, time, endTime);
+    if (!hoursCheck.ok) {
+      return res.status(400).json({ message: hoursCheck.reason });
     }
 
     const userDetails = await userModel.findOne({ where: { id: userId } });
@@ -62,12 +76,8 @@ exports.processPayment = async (req, res) => {
       hostUrl
     );
 
-    // 3. Compute the end time for the booking window.
-    const [hours, minutes] = String(time).split(":").map(Number);
-    const startDate = new Date();
-    startDate.setHours(hours, minutes, 0);
-    const endDate = new Date(startDate.getTime() + Number(duration) * 60 * 1000);
-    const endTime = endDate.toTimeString().slice(0, 5);
+    // 3. endTime was computed at step 1b above (timezone-independent string math,
+    //    shared with the checker via availabilityService).
 
     // 4. Persist the pending payment row. A failure here is NOT swallowed —
     //    if we can't record the order, we must not hand the session id back.
@@ -134,6 +144,49 @@ exports.getPaymentStatus_ = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching payment status:", error.message);
+    res.status(500).json({ message: "Error fetching payment status" });
+  }
+};
+
+/**
+ * List the authenticated customer's recent payments that haven't been turned
+ * into a booking yet — either still Pending at the gateway, or marked Success
+ * but with no Appointment row (the webhook-miss case).
+ *
+ * Used by the "My Appointments" page to show a "Payment received, booking
+ * syncing…" banner instead of a bare empty state when a customer paid but the
+ * booking hasn't materialized yet (network drop between Cashfree redirect and
+ * the webhook).
+ */
+exports.getStuckPayments = async (req, res) => {
+  try {
+    const stuck = await Payment.findAll({
+      where: {
+        customerID: req.user.userId,
+        // Only surface payments worth surfacing — drop old/failed ones.
+        paymentStatus: ['Pending', 'Success'],
+      },
+      order: [['createdAt', 'DESC']],
+      limit: 5,
+    });
+
+    const result = await Promise.all(
+      stuck.map(async (p) => {
+        const appt = await appointmentModel.findOne({ where: { orderId: p.orderId } });
+        return {
+          orderId: p.orderId,
+          paymentStatus: p.paymentStatus,
+          orderAmount: p.orderAmount,
+          hasBooking: !!appt,
+          createdAt: p.createdAt,
+        };
+      })
+    );
+
+    // Only return the ones that are genuinely "stuck" (no booking yet).
+    res.json(result.filter((p) => !p.hasBooking));
+  } catch (error) {
+    console.error("Error fetching stuck payments:", error.message);
     res.status(500).json({ message: "Error fetching payment status" });
   }
 };

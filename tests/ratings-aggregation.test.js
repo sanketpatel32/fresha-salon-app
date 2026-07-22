@@ -32,7 +32,7 @@ before(async () => {
 after(async () => { await sequelize.close(); });
 
 test('updateCustomerReview accepts a valid 1-5 rating', async () => {
-    const req = { params: { appointmentId: String(appt1.id) }, body: { review: 'Great', rating: 4 } };
+    const req = { params: { appointmentId: String(appt1.id) }, body: { review: 'Great', rating: 4 }, user: { userId: customer.id } };
     const res = mockRes();
     await updateCustomerReview(req, res);
     assert.equal(res.statusCode, 200);
@@ -42,20 +42,33 @@ test('updateCustomerReview accepts a valid 1-5 rating', async () => {
 });
 
 test('updateCustomerReview rejects rating out of range', async () => {
-    const req = { params: { appointmentId: String(appt1.id) }, body: { rating: 7 } };
+    const req = { params: { appointmentId: String(appt1.id) }, body: { rating: 7 }, user: { userId: customer.id } };
     const res = mockRes();
     await updateCustomerReview(req, res);
     assert.equal(res.statusCode, 400);
 });
 
 test('updateCustomerReview works with review only (no rating) — backward compatible', async () => {
-    const req = { params: { appointmentId: String(appt2.id) }, body: { review: 'Just text' } };
+    const req = { params: { appointmentId: String(appt2.id) }, body: { review: 'Just text' }, user: { userId: customer.id } };
     const res = mockRes();
     await updateCustomerReview(req, res);
     assert.equal(res.statusCode, 200);
     await appt2.reload();
     assert.equal(appt2.userReview, 'Just text');
     assert.equal(appt2.rating, null);
+});
+
+test('updateCustomerReview rejects review on a non-completed appointment', async () => {
+    // A pending appointment cannot be reviewed — customers should only rate
+    // services they actually received.
+    const pending = await Appointment.create({
+        staffId: appt1.staffId, salonId: appt1.salonId, serviceId: appt1.serviceId,
+        userId: customer.id, date: '2026-03-01', time: '09:00', endTime: '09:30', status: 'pending',
+    });
+    const req = { params: { appointmentId: String(pending.id) }, body: { review: 'Nope', rating: 5 }, user: { userId: customer.id } };
+    const res = mockRes();
+    await updateCustomerReview(req, res);
+    assert.equal(res.statusCode, 400);
 });
 
 test('Favorite composite PK prevents duplicate (findOrCreate is idempotent)', async () => {

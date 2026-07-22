@@ -7,6 +7,8 @@ import {
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
 import ConfirmDialog from '../../components/ConfirmDialog.jsx';
+import Modal from '../../components/Modal.jsx';
+import { SkeletonTable } from '../../components/Skeleton.jsx';
 
 /* Salon Dashboard for Partner Business Owners */
 export default function SalonDashboard() {
@@ -21,6 +23,9 @@ export default function SalonDashboard() {
   const [appointments, setAppointments] = useState([]);
   const [analytics, setAnalytics] = useState(null);
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
+  const [servicesLoading, setServicesLoading] = useState(true);
+  const [staffLoading, setStaffLoading] = useState(true);
+  const [appointmentsLoading, setAppointmentsLoading] = useState(true);
 
   // Calendar state
   const [calendarWeek, setCalendarWeek] = useState(new Date().toISOString().slice(0, 10));
@@ -84,29 +89,38 @@ export default function SalonDashboard() {
   };
 
   const fetchServices = async () => {
+    setServicesLoading(true);
     try {
       const res = await axios.get('/api/salonsdashboard/services/getall');
       setServices(res.data);
     } catch (err) {
       console.error('Error fetching services', err);
+    } finally {
+      setServicesLoading(false);
     }
   };
 
   const fetchStaff = async () => {
+    setStaffLoading(true);
     try {
       const res = await axios.get('/api/salonsdashboard/staff/getallstaff');
       setStaff(res.data);
     } catch (err) {
       console.error('Error fetching staff list', err);
+    } finally {
+      setStaffLoading(false);
     }
   };
 
   const fetchAppointments = async () => {
+    setAppointmentsLoading(true);
     try {
       const res = await axios.get('/api/appointment/sceduledAppointments');
       setAppointments(res.data);
     } catch (err) {
       console.error('Error fetching bookings', err);
+    } finally {
+      setAppointmentsLoading(false);
     }
   };
 
@@ -324,6 +338,12 @@ export default function SalonDashboard() {
   };
 
   const handleSaveBlockout = async () => {
+    // Guard: a blockout that ends before it starts is nonsensical and the
+    // availability checker would never match it.
+    if (blockoutEnd <= blockoutStart) {
+      showToast('End time must be after the start time.', 'error');
+      return;
+    }
     try {
       await axios.post('/api/salonsdashboard/staff/blockouts', {
         staffId: blockoutStaffId,
@@ -434,7 +454,7 @@ export default function SalonDashboard() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px', marginTop: '24px' }}>
+                <div className="grid-dashboard-split" style={{ marginTop: '24px' }}>
                   {/* Bar chart: bookings per day, last 7 days */}
                   <div className="booking-panel">
                     <h3 className="panel-title">Bookings — Last 7 Days</h3>
@@ -487,7 +507,9 @@ export default function SalonDashboard() {
 
                 <div className="booking-panel" style={{ marginTop: '24px' }}>
                   <h3 className="panel-title">Upcoming Client Bookings</h3>
-                  {appointments.filter(a => a.status === 'confirmed' || a.status === 'pending').length === 0 ? (
+                  {appointmentsLoading ? (
+                    <SkeletonTable rows={3} cols={6} />
+                  ) : appointments.filter(a => a.status === 'confirmed' || a.status === 'pending').length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)' }}>No upcoming bookings.</div>
                   ) : (
                     <div className="table-container">
@@ -705,11 +727,13 @@ export default function SalonDashboard() {
 
         {/* Tab 3: Services Catalog */}
         {activeTab === 'services' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '32px' }}>
+          <div className="grid-with-sidebar">
             <div className="booking-panel">
               <h3 className="panel-title">Active Services menu</h3>
               <div className="table-container" style={{ border: 'none', boxShadow: 'none' }}>
-                {services.length === 0 ? (
+                {servicesLoading ? (
+                  <SkeletonTable rows={3} cols={3} />
+                ) : services.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
                     No services configured.
                   </div>
@@ -731,8 +755,8 @@ export default function SalonDashboard() {
                           <td>₹{s.price}</td>
                           <td>
                             <div style={{ display: 'flex', gap: '8px' }}>
-                              <button onClick={() => handleEditService(s)} className="btn btn-secondary btn-sm" style={{ padding: '6px' }}><Edit size={14} /></button>
-                              <button onClick={() => handleDeleteService(s.id)} className="btn btn-danger btn-sm" style={{ padding: '6px' }}><Trash2 size={14} /></button>
+                              <button onClick={() => handleEditService(s)} aria-label={`Edit service ${s.name}`} className="btn btn-secondary btn-sm" style={{ padding: '6px' }}><Edit size={14} /></button>
+                              <button onClick={() => handleDeleteService(s.id)} aria-label={`Delete service ${s.name}`} className="btn btn-danger btn-sm" style={{ padding: '6px' }}><Trash2 size={14} /></button>
                             </div>
                           </td>
                         </tr>
@@ -747,12 +771,12 @@ export default function SalonDashboard() {
               <h3 className="panel-title">{editServiceId ? 'Edit Service' : 'Add New Service'}</h3>
               <form onSubmit={handleAddOrUpdateService}>
                 <div className="form-group">
-                  <label className="form-label">Service Title</label>
-                  <input type="text" className="form-input" style={{ paddingLeft: '16px' }} placeholder="Hair Styling" value={serviceName} onChange={e => setServiceName(e.target.value)} required />
+                  <label htmlFor="service-name" className="form-label">Service Title</label>
+                  <input id="service-name" type="text" className="form-input" style={{ paddingLeft: '16px' }} placeholder="Hair Styling" value={serviceName} onChange={e => setServiceName(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Category</label>
-                  <select className="form-select" style={{ paddingLeft: '16px' }} value={serviceCategory} onChange={e => setServiceCategory(e.target.value)}>
+                  <label htmlFor="service-category" className="form-label">Category</label>
+                  <select id="service-category" className="form-select" style={{ paddingLeft: '16px' }} value={serviceCategory} onChange={e => setServiceCategory(e.target.value)}>
                     <option value="Hair">Hair</option>
                     <option value="Spa & Massage">Spa & Massage</option>
                     <option value="Facial & Skin">Facial & Skin</option>
@@ -764,12 +788,12 @@ export default function SalonDashboard() {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Price (INR)</label>
-                  <input type="number" className="form-input" style={{ paddingLeft: '16px' }} placeholder="500" value={servicePrice} onChange={e => setServicePrice(e.target.value)} required />
+                  <label htmlFor="service-price" className="form-label">Price (INR)</label>
+                  <input id="service-price" type="number" min="1" step="1" className="form-input" style={{ paddingLeft: '16px' }} placeholder="500" value={servicePrice} onChange={e => setServicePrice(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Duration (Minutes)</label>
-                  <select className="form-select" style={{ paddingLeft: '16px' }} value={serviceDuration} onChange={e => setServiceDuration(e.target.value)}>
+                  <label htmlFor="service-duration" className="form-label">Duration (Minutes)</label>
+                  <select id="service-duration" className="form-select" style={{ paddingLeft: '16px' }} value={serviceDuration} onChange={e => setServiceDuration(e.target.value)}>
                     <option value="15">15 Minutes</option>
                     <option value="30">30 Minutes</option>
                     <option value="45">45 Minutes</option>
@@ -791,11 +815,13 @@ export default function SalonDashboard() {
 
         {/* Tab 4: Staff members */}
         {activeTab === 'staff' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '32px' }}>
+          <div className="grid-with-sidebar">
             <div className="booking-panel">
               <h3 className="panel-title">Therapist Directory</h3>
               <div className="table-container" style={{ border: 'none', boxShadow: 'none' }}>
-                {staff.length === 0 ? (
+                {staffLoading ? (
+                  <SkeletonTable rows={3} cols={4} />
+                ) : staff.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
                     No staff members added.
                   </div>
@@ -827,9 +853,16 @@ export default function SalonDashboard() {
                             </div>
                           </td>
                           <td>
-                            <span onClick={() => toggleStaffStatus(st.id, st.statusbar)} className={`badge ${st.statusbar === 'active' ? 'badge-success' : 'badge-danger'}`} style={{ cursor: 'pointer' }}>
+                            <button
+                              type="button"
+                              onClick={() => toggleStaffStatus(st.id, st.statusbar)}
+                              aria-pressed={st.statusbar !== 'inactive'}
+                              aria-label={`Staff status: ${st.statusbar || 'active'}. Click to toggle.`}
+                              className={`badge ${st.statusbar === 'active' ? 'badge-success' : 'badge-danger'}`}
+                              style={{ cursor: 'pointer', border: 'none', font: 'inherit' }}
+                            >
                               {st.statusbar || 'active'}
-                            </span>
+                            </button>
                           </td>
                           <td>
                             <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
@@ -841,7 +874,7 @@ export default function SalonDashboard() {
                                 {blockouts.filter(b => b.staffId === st.id).map(b => (
                                   <span key={b.id} className="badge badge-warning" style={{ fontSize: '11px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '6px' }}>
                                     <span>{b.date} {b.startTime}-{b.endTime}{b.reason ? ` · ${b.reason}` : ''}</span>
-                                    <button onClick={() => handleRemoveBlockout(b.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: 0 }}>×</button>
+                                    <button onClick={() => handleRemoveBlockout(b.id)} aria-label={`Remove blockout on ${b.date}`} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: 0 }}>×</button>
                                   </span>
                                 ))}
                               </div>
@@ -859,20 +892,20 @@ export default function SalonDashboard() {
               <h3 className="panel-title">Add Therapist</h3>
               <form onSubmit={handleAddStaff}>
                 <div className="form-group">
-                  <label className="form-label">Full Name</label>
-                  <input type="text" className="form-input" style={{ paddingLeft: '16px' }} placeholder="Dr. Rose" value={staffName} onChange={e => setStaffName(e.target.value)} required />
+                  <label htmlFor="staff-name" className="form-label">Full Name</label>
+                  <input id="staff-name" type="text" className="form-input" style={{ paddingLeft: '16px' }} placeholder="Dr. Rose" value={staffName} onChange={e => setStaffName(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Phone Number</label>
-                  <input type="tel" className="form-input" style={{ paddingLeft: '16px' }} placeholder="9876543210" value={staffPhone} onChange={e => setStaffPhone(e.target.value)} required />
+                  <label htmlFor="staff-phone" className="form-label">Phone Number</label>
+                  <input id="staff-phone" type="tel" pattern="[0-9]{10}" title="Enter a 10-digit phone number" className="form-input" style={{ paddingLeft: '16px' }} placeholder="9876543210" value={staffPhone} onChange={e => setStaffPhone(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Login Email</label>
-                  <input type="email" className="form-input" style={{ paddingLeft: '16px' }} placeholder="rose@glowsalon.com" value={staffEmail} onChange={e => setStaffEmail(e.target.value)} required />
+                  <label htmlFor="staff-email" className="form-label">Login Email</label>
+                  <input id="staff-email" type="email" className="form-input" style={{ paddingLeft: '16px' }} placeholder="rose@glowsalon.com" value={staffEmail} onChange={e => setStaffEmail(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Login Password</label>
-                  <input type="password" className="form-input" style={{ paddingLeft: '16px' }} placeholder="••••••••" value={staffPassword} onChange={e => setStaffPassword(e.target.value)} required />
+                  <label htmlFor="staff-password" className="form-label">Login Password</label>
+                  <input id="staff-password" type="password" minLength={8} title="At least 8 characters" className="form-input" style={{ paddingLeft: '16px' }} placeholder="••••••••" value={staffPassword} onChange={e => setStaffPassword(e.target.value)} required />
                 </div>
                 <button type="submit" className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: '12px' }}>Save Staff Member</button>
               </form>
@@ -884,7 +917,7 @@ export default function SalonDashboard() {
         {activeTab === 'details' && (
           <div className="booking-panel" style={{ maxWidth: '800px' }}>
             <h3 className="panel-title">Salon Settings</h3>
-            <form onSubmit={handleSaveDetails} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <form onSubmit={handleSaveDetails} className="grid-two-col">
               <div className="form-group" style={{ gridColumn: 'span 2' }}>
                 <label className="form-label">Brand / Salon Name</label>
                 <input type="text" className="form-input" style={{ paddingLeft: '16px' }} value={salonName} onChange={e => setSalonName(e.target.value)} required />
@@ -933,92 +966,77 @@ export default function SalonDashboard() {
       </main>
 
       {/* Assign services modal */}
-      {showAssignModal && (
-        <div className="modal-backdrop">
-          <div className="modal-content">
-            <h3 className="panel-title">Assign Menu Services</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Select services that this therapist can perform.</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '250px', overflowY: 'auto' }}>
-              {services.map(ser => {
-                const isChecked = selectedStaffServices.includes(ser.id);
-                return (
-                  <label key={ser.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '15px', cursor: 'pointer' }}>
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={() => {
-                        if (isChecked) {
-                          setSelectedStaffServices(selectedStaffServices.filter(id => id !== ser.id));
-                        } else {
-                          setSelectedStaffServices([...selectedStaffServices, ser.id]);
-                        }
-                      }}
-                    />
-                    <span>{ser.name} (₹{ser.price})</span>
-                  </label>
-                );
-              })}
-            </div>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
-              <button onClick={() => setShowAssignModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
-              <button onClick={handleSaveAssignedServices} className="btn btn-primary btn-sm">Save Assignments</button>
-            </div>
-          </div>
+      <Modal open={showAssignModal} onClose={() => setShowAssignModal(false)} title="Assign Menu Services">
+        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Select services that this therapist can perform.</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '250px', overflowY: 'auto' }}>
+          {services.map(ser => {
+            const isChecked = selectedStaffServices.includes(ser.id);
+            return (
+              <label key={ser.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '15px', cursor: 'pointer' }}>
+                <input
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={() => {
+                    if (isChecked) {
+                      setSelectedStaffServices(selectedStaffServices.filter(id => id !== ser.id));
+                    } else {
+                      setSelectedStaffServices([...selectedStaffServices, ser.id]);
+                    }
+                  }}
+                />
+                <span>{ser.name} (₹{ser.price})</span>
+              </label>
+            );
+          })}
         </div>
-      )}
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
+          <button onClick={() => setShowAssignModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
+          <button onClick={handleSaveAssignedServices} className="btn btn-primary btn-sm">Save Assignments</button>
+        </div>
+      </Modal>
 
       {/* Staff Notes modal */}
-      {showNoteModal && (
-        <div className="modal-backdrop">
-          <div className="modal-content">
-            <h3 className="panel-title">Add Therapist notes</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Leave internal instructions or review notes regarding the service.</p>
-            <div className="form-group">
-              <textarea
-                className="form-textarea"
-                placeholder="Client requested soft styling, noted..."
-                value={staffReviewText}
-                onChange={e => setStaffReviewText(e.target.value)}
-              />
-            </div>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
-              <button onClick={() => setShowNoteModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
-              <button onClick={handleSaveStaffNote} className="btn btn-primary btn-sm">Save Note</button>
-            </div>
-          </div>
+      <Modal open={showNoteModal} onClose={() => setShowNoteModal(false)} title="Add Therapist notes">
+        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Leave internal instructions or review notes regarding the service.</p>
+        <div className="form-group">
+          <textarea
+            className="form-textarea"
+            placeholder="Client requested soft styling, noted..."
+            value={staffReviewText}
+            onChange={e => setStaffReviewText(e.target.value)}
+          />
         </div>
-      )}
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
+          <button onClick={() => setShowNoteModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
+          <button onClick={handleSaveStaffNote} className="btn btn-primary btn-sm">Save Note</button>
+        </div>
+      </Modal>
 
-      {showBlockoutModal && (
-        <div className="modal-backdrop">
-          <div className="modal-content">
-            <h3 className="panel-title">Block out staff time</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Mark this staff member unavailable for a specific date and time range. Blocked slots won't show as bookable.</p>
-            <div className="form-group">
-              <label className="form-label">Date</label>
-              <input type="date" className="form-input" style={{ paddingLeft: '16px' }} value={blockoutDate} onChange={e => setBlockoutDate(e.target.value)} required />
-            </div>
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <div className="form-group" style={{ flex: 1 }}>
-                <label className="form-label">Start time</label>
-                <input type="time" className="form-input" style={{ paddingLeft: '16px' }} value={blockoutStart} onChange={e => setBlockoutStart(e.target.value)} required />
-              </div>
-              <div className="form-group" style={{ flex: 1 }}>
-                <label className="form-label">End time</label>
-                <input type="time" className="form-input" style={{ paddingLeft: '16px' }} value={blockoutEnd} onChange={e => setBlockoutEnd(e.target.value)} required />
-              </div>
-            </div>
-            <div className="form-group">
-              <label className="form-label">Reason (optional)</label>
-              <input type="text" className="form-input" style={{ paddingLeft: '16px' }} placeholder="Lunch, leave, etc." value={blockoutReason} onChange={e => setBlockoutReason(e.target.value)} />
-            </div>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
-              <button onClick={() => setShowBlockoutModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
-              <button onClick={handleSaveBlockout} className="btn btn-primary btn-sm">Save Blockout</button>
-            </div>
+      <Modal open={showBlockoutModal} onClose={() => setShowBlockoutModal(false)} title="Block out staff time">
+        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Mark this staff member unavailable for a specific date and time range. Blocked slots won't show as bookable.</p>
+        <div className="form-group">
+          <label htmlFor="blockout-date" className="form-label">Date</label>
+          <input id="blockout-date" type="date" className="form-input" style={{ paddingLeft: '16px' }} value={blockoutDate} onChange={e => setBlockoutDate(e.target.value)} required />
+        </div>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <div className="form-group" style={{ flex: 1 }}>
+            <label htmlFor="blockout-start" className="form-label">Start time</label>
+            <input id="blockout-start" type="time" className="form-input" style={{ paddingLeft: '16px' }} value={blockoutStart} onChange={e => setBlockoutStart(e.target.value)} required />
+          </div>
+          <div className="form-group" style={{ flex: 1 }}>
+            <label htmlFor="blockout-end" className="form-label">End time</label>
+            <input id="blockout-end" type="time" className="form-input" style={{ paddingLeft: '16px' }} value={blockoutEnd} onChange={e => setBlockoutEnd(e.target.value)} required />
           </div>
         </div>
-      )}
+        <div className="form-group">
+          <label htmlFor="blockout-reason" className="form-label">Reason (optional)</label>
+          <input id="blockout-reason" type="text" className="form-input" style={{ paddingLeft: '16px' }} placeholder="Lunch, leave, etc." value={blockoutReason} onChange={e => setBlockoutReason(e.target.value)} />
+        </div>
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
+          <button onClick={() => setShowBlockoutModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
+          <button onClick={handleSaveBlockout} className="btn btn-primary btn-sm">Save Blockout</button>
+        </div>
+      </Modal>
 
       <ConfirmDialog
         open={deleteServiceTarget !== null}

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { CreditCard } from 'lucide-react';
 import { useToast } from '../../context/ToastContext.jsx';
+import { SkeletonCardGrid } from '../../components/Skeleton.jsx';
 
 export default function AppointmentBooking() {
   const showToast = useToast();
   const { salonId, serviceId } = useParams();
   const [service, setService] = useState(null);
   const [salon, setSalon] = useState(null);
+  const [fetchLoading, setFetchLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [dates, setDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
@@ -37,6 +40,8 @@ export default function AppointmentBooking() {
   // Fetch service & salon data
   useEffect(() => {
     const fetchData = async () => {
+      setFetchLoading(true);
+      setFetchError(false);
       try {
         const servRes = await axios.get(`/api/salonsdashboard/services/get/${serviceId}`);
         setService(servRes.data);
@@ -44,6 +49,9 @@ export default function AppointmentBooking() {
         setSalon(salonRes.data);
       } catch (err) {
         console.error('Error fetching appointment data details', err);
+        setFetchError(true);
+      } finally {
+        setFetchLoading(false);
       }
     };
     fetchData();
@@ -130,7 +138,16 @@ export default function AppointmentBooking() {
     <div className="container" style={{ padding: '40px 24px' }}>
       <h1 className="dashboard-title" style={{ marginBottom: '24px' }}>Configure Booking</h1>
 
-      {service && salon && (
+      {fetchLoading ? (
+        <SkeletonCardGrid count={2} />
+      ) : fetchError ? (
+        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
+          <CreditCard size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+          <h3>Couldn't load this booking</h3>
+          <p style={{ color: 'var(--text-secondary)' }}>The service or salon couldn't be found. It may have been removed.</p>
+          <Link to="/customer/dashboard" className="btn btn-primary btn-sm" style={{ marginTop: '20px' }}>Back to salons</Link>
+        </div>
+      ) : service && salon ? (
         <div className="booking-grid">
           {/* Left panel: Date/Time settings */}
           <div className="booking-panel">
@@ -138,19 +155,22 @@ export default function AppointmentBooking() {
             <form onSubmit={handleCheckAvailability} className="form-stack">
               <div className="form-group">
                 <label className="form-label">Available Date</label>
-                <div className="date-selector-grid">
+                <div className="date-selector-grid" role="group" aria-label="Available dates">
                   {dates.map(date => {
                     const dateObj = new Date(date);
                     const isSelected = selectedDate === date;
                     return (
-                      <div
+                      <button
                         key={date}
+                        type="button"
                         onClick={() => setSelectedDate(date)}
+                        aria-pressed={isSelected}
+                        aria-label={`${dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`}
                         className={`slot-btn ${isSelected ? 'selected' : ''}`}
                       >
-                        <div style={{ fontSize: '12px', opacity: 0.8 }}>{dateObj.toLocaleDateString('en-US', { weekday: 'short' })}</div>
-                        <div style={{ fontSize: '18px', fontWeight: 'bold' }}>{dateObj.getDate()}</div>
-                      </div>
+                        <span style={{ fontSize: '12px', opacity: 0.8 }}>{dateObj.toLocaleDateString('en-US', { weekday: 'short' })}</span>
+                        <span style={{ fontSize: '18px', fontWeight: 'bold' }}>{dateObj.getDate()}</span>
+                      </button>
                     );
                   })}
                 </div>
@@ -158,17 +178,19 @@ export default function AppointmentBooking() {
 
               <div className="form-group">
                 <label className="form-label">Time Slot (Working Hours: {salon.openingTime?.slice(0,5)} - {salon.closingTime?.slice(0,5)})</label>
-                <div className="time-selector-grid">
+                <div className="time-selector-grid" role="group" aria-label="Time slots">
                   {['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'].map(time => {
                     const isSelected = selectedTime === time;
                     return (
-                      <div
+                      <button
                         key={time}
+                        type="button"
                         onClick={() => setSelectedTime(time)}
+                        aria-pressed={isSelected}
                         className={`slot-btn ${isSelected ? 'selected' : ''}`}
                       >
                         {time}
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
@@ -190,19 +212,21 @@ export default function AppointmentBooking() {
                   {availableStaff.map(staff => {
                     const isSelected = selectedStaffId === staff.id;
                     return (
-                      <div
+                      <button
                         key={staff.id}
+                        type="button"
                         onClick={() => setSelectedStaffId(staff.id)}
+                        aria-pressed={isSelected}
                         className={`staff-select-card ${isSelected ? 'selected' : ''}`}
                       >
-                        <div className="profile-avatar staff-avatar">
+                        <span className="profile-avatar staff-avatar" aria-hidden="true">
                           {staff.name.slice(0, 2).toUpperCase()}
-                        </div>
-                        <div className="staff-meta">
-                          <div className="staff-name">{staff.name}</div>
-                          <div className="staff-phone">{staff.phoneNumber}</div>
-                        </div>
-                      </div>
+                        </span>
+                        <span className="staff-meta">
+                          <span className="staff-name">{staff.name}</span>
+                          <span className="staff-phone">{staff.phoneNumber}</span>
+                        </span>
+                      </button>
                     );
                   })}
                 </div>
@@ -286,7 +310,7 @@ export default function AppointmentBooking() {
             )}
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

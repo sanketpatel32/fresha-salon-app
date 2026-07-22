@@ -1,34 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Calendar, Star } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
 import ConfirmDialog from '../../components/ConfirmDialog.jsx';
+import Modal from '../../components/Modal.jsx';
+import { SkeletonTable } from '../../components/Skeleton.jsx';
 
 export default function BookedAppointments() {
   const { userSession } = useAuth();
   const showToast = useToast();
   const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [stuckPayments, setStuckPayments] = useState([]);
   const [reviewText, setReviewText] = useState('');
   const [selectedApptId, setSelectedApptId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [rating, setRating] = useState(0);
   const [cancelTarget, setCancelTarget] = useState(null);
 
-  const fetchBookings = async () => {
+  const fetchBookings = useCallback(async () => {
+    setLoading(true);
+    setLoadError(false);
     try {
       const res = await axios.get(`/api/appointment/getAll?userId=${userSession.id}`);
       setAppointments(res.data);
+      // Only probe for stuck payments when there's reason to: the list is short.
+      // This surfaces "paid but booking not created yet" instead of a bare empty state.
+      try {
+        const stuck = await axios.get('/api/pay/stuck');
+        setStuckPayments(stuck.data);
+      } catch {
+        // Non-critical — don't fail the whole page over this.
+        setStuckPayments([]);
+      }
     } catch (err) {
       console.error('Error fetching appointments', err);
+      setLoadError(true);
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [userSession.id]);
 
   useEffect(() => {
     fetchBookings();
-  }, [userSession.id]);
+  }, [fetchBookings]);
 
   const handleOpenReview = (apptId, currentReview, currentRating) => {
     setSelectedApptId(apptId);
@@ -68,7 +87,29 @@ export default function BookedAppointments() {
     <div className="container" style={{ padding: '40px 24px' }}>
       <h1 className="dashboard-title" style={{ marginBottom: '24px' }}>My Appointments</h1>
 
-      {appointments.length === 0 ? (
+      {stuckPayments.length > 0 && (
+        <div className="stuck-payments-banner">
+          {stuckPayments.map(p => (
+            <div key={p.orderId} className="stuck-payment-item">
+              <strong>Payment received</strong>
+              <span> — we're confirming your booking for order {p.orderId}
+              {p.paymentStatus === 'Success' ? ' (finalizing…)' : ' (awaiting payment confirmation)'}.
+              This usually resolves within a minute. Refresh in a moment.</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {loading ? (
+        <SkeletonTable rows={4} cols={6} />
+      ) : loadError ? (
+        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
+          <Calendar size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+          <h3>Couldn't load your appointments</h3>
+          <p style={{ color: 'var(--text-secondary)' }}>Something went wrong on our end.</p>
+          <button onClick={fetchBookings} className="btn btn-primary btn-sm" style={{ marginTop: '20px' }}>Try again</button>
+        </div>
+      ) : appointments.length === 0 ? (
         <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
           <Calendar size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
           <h3>No Appointments Booked</h3>
@@ -126,12 +167,14 @@ export default function BookedAppointments() {
                     >
                       Book Again
                     </button>
-                    <button
-                      onClick={() => handleOpenReview(appt.id, appt.userReview, appt.rating)}
-                      className="btn btn-secondary btn-sm"
-                    >
-                      <Star size={14} /> {appt.userReview ? 'Edit Review' : 'Add Review'}
-                    </button>
+                    {appt.status === 'completed' && (
+                      <button
+                        onClick={() => handleOpenReview(appt.id, appt.userReview, appt.rating)}
+                        className="btn btn-secondary btn-sm"
+                      >
+                        <Star size={14} /> {appt.userReview ? 'Edit Review' : 'Add Review'}
+                      </button>
+                    )}
                     {(appt.status === 'confirmed' || appt.status === 'pending') && (
                       <button
                         onClick={() => handleCancel(appt.id)}
@@ -148,42 +191,42 @@ export default function BookedAppointments() {
         </div>
       )}
 
-      {showModal && (
-        <div className="modal-backdrop">
-          <div className="modal-content">
-            <h3 className="panel-title">Write feedback</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Share your experience with the team.</p>
-            <div style={{ marginBottom: '16px' }}>
-              <div style={{ fontSize: '14px', marginBottom: '8px', color: 'var(--text-secondary)' }}>Your rating</div>
-              <div className="star-picker">
-                {[1,2,3,4,5].map(n => (
-                  <button
-                    key={n}
-                    type="button"
-                    onClick={() => setRating(n)}
-                    className="star-btn"
-                    title={`${n} star${n > 1 ? 's' : ''}`}
-                  >
-                    <Star size={28} fill={n <= rating ? 'currentColor' : 'none'} />
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="form-group">
-              <textarea
-                className="form-textarea"
-                placeholder="Write your review here..."
-                value={reviewText}
-                onChange={e => setReviewText(e.target.value)}
-              />
-            </div>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
-              <button onClick={() => setShowModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
-              <button onClick={handleSubmitReview} className="btn btn-primary btn-sm">Submit Review</button>
-            </div>
+      <Modal open={showModal} onClose={() => setShowModal(false)} title="Write feedback">
+        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Share your experience with the team.</p>
+        <fieldset className="star-fieldset">
+          <legend style={{ fontSize: '14px', marginBottom: '8px', color: 'var(--text-secondary)' }}>Your rating</legend>
+          <div className="star-picker" role="radiogroup" aria-label="Star rating">
+            {[1,2,3,4,5].map(n => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => setRating(n)}
+                className="star-btn"
+                role="radio"
+                aria-checked={n === rating}
+                aria-label={`${n} star${n > 1 ? 's' : ''}`}
+                title={`${n} star${n > 1 ? 's' : ''}`}
+              >
+                <Star size={28} fill={n <= rating ? 'currentColor' : 'none'} />
+              </button>
+            ))}
           </div>
+        </fieldset>
+        <div className="form-group">
+          <label htmlFor="review-text" className="form-label">Your review</label>
+          <textarea
+            id="review-text"
+            className="form-textarea"
+            placeholder="Write your review here..."
+            value={reviewText}
+            onChange={e => setReviewText(e.target.value)}
+          />
         </div>
-      )}
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
+          <button onClick={() => setShowModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
+          <button onClick={handleSubmitReview} className="btn btn-primary btn-sm">Submit Review</button>
+        </div>
+      </Modal>
 
       <ConfirmDialog
         open={cancelTarget !== null}

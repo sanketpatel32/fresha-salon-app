@@ -57,12 +57,12 @@ test('staff with overlapping blockout excluded', async () => {
 });
 
 test('non-overlapping blockout does not exclude staff', async () => {
-    // Blockout staff2 from 14:00-18:00 on 2026-08-02; requested slot 10:00-10:30 does NOT overlap.
-    await StaffBlockout.create({ staffId: staff2.id, date: '2026-08-02', startTime: '14:00', endTime: '18:00', reason: 'Afternoon off' });
+    // Blockout staff2 from 14:00-18:00 on 2026-08-03 (Mon); requested slot 10:00-10:30 does NOT overlap.
+    await StaffBlockout.create({ staffId: staff2.id, date: '2026-08-03', startTime: '14:00', endTime: '18:00', reason: 'Afternoon off' });
 
     const { appointmentChecker } = require('../controllers/appointmentController');
     const req = {
-        body: { dateSelect: '2026-08-02', time: '10:00', salonId: salon.id, serviceId: service.id, duration: 30 }
+        body: { dateSelect: '2026-08-03', time: '10:00', salonId: salon.id, serviceId: service.id, duration: 30 }
     };
     const res = mockRes();
     await appointmentChecker(req, res);

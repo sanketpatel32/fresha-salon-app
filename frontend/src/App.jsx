@@ -20,7 +20,6 @@ const StaffLogin = lazy(() => import('./pages/auth/StaffLogin.jsx'));
 const AdminLogin = lazy(() => import('./pages/auth/AdminLogin.jsx'));
 
 const CustomerDashboard = lazy(() => import('./pages/customer/CustomerDashboard.jsx'));
-const SalonServices = lazy(() => import('./pages/customer/SalonServices.jsx'));
 const SalonProfile = lazy(() => import('./pages/customer/SalonProfile.jsx'));
 const AppointmentBooking = lazy(() => import('./pages/customer/AppointmentBooking.jsx'));
 const EditProfile = lazy(() => import('./pages/customer/EditProfile.jsx'));
@@ -75,7 +74,6 @@ function AuthGatedRoutes() {
       <Route path="/userdashboard" element={<Navigate to="/customer/dashboard" />} />
       <Route path="/customer/edit-profile" element={<ProtectedRoute allowedRole="customer"><EditProfile /></ProtectedRoute>} />
       <Route path="/customer/salon/:salonId" element={<ProtectedRoute allowedRole="customer"><SalonProfile /></ProtectedRoute>} />
-      <Route path="/customer/salonservices/:salonId" element={<ProtectedRoute allowedRole="customer"><SalonServices /></ProtectedRoute>} />
       <Route path="/customer/book/:salonId/:serviceId" element={<ProtectedRoute allowedRole="customer"><AppointmentBooking /></ProtectedRoute>} />
       <Route path="/customer/bookings" element={<ProtectedRoute allowedRole="customer"><BookedAppointments /></ProtectedRoute>} />
 

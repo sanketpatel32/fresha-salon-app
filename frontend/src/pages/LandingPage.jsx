@@ -24,37 +24,37 @@ export default function LandingPage() {
         <p className="section-sub">Choose your workspace portal below.</p>
 
         <div className="role-cards-grid">
-          <div onClick={() => navigate('/user/login')} className="role-card">
+          <button onClick={() => navigate('/user/login')} className="role-card" type="button">
             <div className="role-icon-wrapper">
               <User size={32} />
             </div>
             <h3>Customer</h3>
             <p>Search premium salons, book appointments, make secure payments and leave feedback.</p>
-          </div>
+          </button>
 
-          <div onClick={() => navigate('/buisness/login')} className="role-card">
+          <button onClick={() => navigate('/buisness/login')} className="role-card" type="button">
             <div className="role-icon-wrapper">
               <Sparkles size={32} />
             </div>
             <h3>Salon Owner</h3>
             <p>Manage services, catalog listings, coordinate staff members, and track customer schedules.</p>
-          </div>
+          </button>
 
-          <div onClick={() => navigate('/staff/login')} className="role-card">
+          <button onClick={() => navigate('/staff/login')} className="role-card" type="button">
             <div className="role-icon-wrapper">
               <Scissors size={32} />
             </div>
             <h3>Salon Staff</h3>
             <p>Check assigned bookings, review appointment details, and look at customer service notes.</p>
-          </div>
+          </button>
 
-          <div onClick={() => navigate('/admin/login')} className="role-card">
+          <button onClick={() => navigate('/admin/login')} className="role-card" type="button">
             <div className="role-icon-wrapper">
               <ShieldAlert size={32} />
             </div>
             <h3>System Admin</h3>
             <p>Admin console to monitor global users, salon listings, and resolve bookings.</p>
-          </div>
+          </button>
         </div>
       </section>
     </div>

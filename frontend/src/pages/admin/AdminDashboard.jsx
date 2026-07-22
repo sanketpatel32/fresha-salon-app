@@ -4,6 +4,7 @@ import { Trash2, Search } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
 import ConfirmDialog from '../../components/ConfirmDialog.jsx';
+import { SkeletonTable } from '../../components/Skeleton.jsx';
 
 /* System Admin Dashboard Console */
 export default function AdminDashboard() {
@@ -13,15 +14,19 @@ export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [bookingsLoading, setBookingsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('bookings'); // 'bookings', 'users'
   const [pendingDelete, setPendingDelete] = useState(null); // { type: 'user'|'appointment', id }
 
   const fetchAllAppointments = async () => {
+    setBookingsLoading(true);
     try {
       const res = await axios.get('/api/admin/appointments/getall');
       setAppointments(res.data);
     } catch (err) {
       console.error('Error fetching admin appointments', err);
+    } finally {
+      setBookingsLoading(false);
     }
   };
 
@@ -95,7 +100,9 @@ export default function AdminDashboard() {
       {activeTab === 'bookings' && (
         <div className="booking-panel">
           <h3 className="panel-title">Active Global Appointments</h3>
-          {appointments.length === 0 ? (
+          {bookingsLoading ? (
+            <SkeletonTable rows={4} cols={6} />
+          ) : appointments.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
               No global schedules found.
             </div>

@@ -29,6 +29,7 @@ export default function CustomerDashboard() {
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [page, setPage] = useState(1);
 
   // Favorites.
@@ -57,6 +58,7 @@ export default function CustomerDashboard() {
   useEffect(() => {
     const fetchSalons = async () => {
       setLoading(true);
+      setLoadError(false);
       try {
         const params = new URLSearchParams();
         if (searchQuery) params.set('q', searchQuery);
@@ -80,6 +82,7 @@ export default function CustomerDashboard() {
         }
       } catch (err) {
         console.error('Error fetching salons', err);
+        setLoadError(true);
       } finally {
         setLoading(false);
       }
@@ -214,6 +217,13 @@ export default function CustomerDashboard() {
       {/* Results */}
       {loading ? (
         <SkeletonCardGrid count={6} />
+      ) : loadError ? (
+        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
+          <Scissors size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+          <h3>Couldn't load salons</h3>
+          <p style={{ color: 'var(--color-ink-2)', marginTop: '8px' }}>Something went wrong on our end.</p>
+          <button onClick={() => { setPage(1); setSearchQuery(''); }} className="btn btn-primary btn-sm" style={{ marginTop: '16px' }}>Try again</button>
+        </div>
       ) : displayed.length === 0 ? (
         <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
           <Scissors size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />

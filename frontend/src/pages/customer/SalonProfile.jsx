@@ -28,14 +28,23 @@ export default function SalonProfile() {
   const navigate = useNavigate();
   const [data, setData] = useState(null); // { salon, services, reviews }
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
+      setLoading(true);
+      setError(false);
       try {
         const res = await axios.get(`/api/buisness/profile/${salonId}`);
         setData(res.data);
       } catch (err) {
-        console.error('Error fetching salon profile', err);
+        // Distinguish a network/server error from a genuine 404 ("not found").
+        const status = err.response?.status;
+        if (status === 404) {
+          setData(null); // genuine not-found
+        } else {
+          setError(true); // something else went wrong
+        }
       } finally {
         setLoading(false);
       }
@@ -52,6 +61,19 @@ export default function SalonProfile() {
           <Skeleton height="1.5rem" width="40%" />
         </div>
         <SkeletonCardGrid count={4} />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container" style={{ padding: '40px 24px' }}>
+        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
+          <Scissors size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+          <h3>Couldn't load this salon</h3>
+          <p style={{ color: 'var(--text-secondary)' }}>Something went wrong. Please try again.</p>
+          <button onClick={() => window.location.reload()} className="btn btn-primary btn-sm" style={{ marginTop: '20px' }}>Try again</button>
+        </div>
       </div>
     );
   }
