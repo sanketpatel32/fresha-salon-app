@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { CreditCard } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
 
 export default function AppointmentBooking() {
-  const { userSession } = useAuth();
   const showToast = useToast();
   const { salonId, serviceId } = useParams();
   const [service, setService] = useState(null);

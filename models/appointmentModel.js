@@ -61,6 +61,7 @@ const Appointment = sequelize.define('Appointment', {
     orderId: {
         type: DataTypes.STRING,
         allowNull: true, // nullable for legacy rows created before this column existed
+        unique: true, // DB-level guard against duplicate appointment creation on payment replay
     },
 });
 

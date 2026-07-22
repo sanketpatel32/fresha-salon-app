@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Search, Star, Scissors, MapPin, Phone, Clock } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext.jsx';
 import { SkeletonCardGrid } from '../../components/Skeleton.jsx';
 
 export default function CustomerDashboard() {
-  const { userSession } = useAuth();
   const [salons, setSalons] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
