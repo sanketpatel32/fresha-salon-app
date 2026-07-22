@@ -45,7 +45,7 @@ const salonSignup = async (req, res) => {
         const newSalon = await salonModel.create({ name, phoneNumber, email, password: hashedPassword, address, pricing });
 
         // Generate JWT token
-        const token = jwt.sign({ salonId: newSalon.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ salonId: newSalon.id, role: 'salon' }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.status(201).json({ message: "Salon created successfully", token });
     } catch (err) {
@@ -71,9 +71,9 @@ const salonLogin = async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ salonId: salon.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ salonId: salon.id, role: 'salon' }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(200).json({ message: "Salon logged in successfully", token });
+        res.status(200).json({ message: "Salon logged in successfully", token, salonId: salon.id });
     } catch (err) {
         console.error("Error logging in salon:", err);
         res.status(500).json({ error: "Internal server error" });

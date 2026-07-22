@@ -7,7 +7,6 @@ const servicesModel = require('../models/servicesModel');
 const staffModel = require('../models/staffModel');
 const { Op } = require('sequelize');
 const adminlogin = async (req, res) => {
-    console.log(req)
     const { email, password } = req.body;
 
     try {
@@ -18,7 +17,7 @@ const adminlogin = async (req, res) => {
         ) {
             // Generate JWT token
             const token = jwt.sign(
-                { admin: email },
+                { admin: email, role: 'admin' },
                 process.env.JWT_SECRET,
                 { expiresIn: '1h' }
             );

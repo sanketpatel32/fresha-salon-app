@@ -103,7 +103,8 @@ const appointmentChecker = async (req, res) => {
 };
 
 const getAllAppointmentsByUserId = async (req, res) => {
-    const userId = req.query.userId;
+    // Always scope to the authenticated customer — never trust a query param.
+    const userId = req.user.userId;
 
     try {
         const appointments = await appointmentModel.findAll({
@@ -249,11 +250,14 @@ const mailAppointment = async (req, res) => {
             htmlContent,
         });
 
-        console.log("✅ Email sent:", response.messageId || response);
-        res.status(200).json({ message: "Email sent successfully", data: response });
+        console.log("✅ Email sent:", response.messageId || '(no message id)');
+        res.status(200).json({ message: "Email sent successfully" });
     } catch (error) {
+        // Log the full error server-side only; return a generic message to the
+        // client so Brevo's API response (which may include internal details)
+        // never leaks out.
         console.error("❌ Error sending email:", error.response?.body || error.message);
-        res.status(500).json({ error: "Failed to send email", details: error.response?.body });
+        res.status(500).json({ error: "Failed to send email" });
     }
 };
 
@@ -266,6 +270,10 @@ const updateCustomerReview = async (req, res) => {
         const appointment = await appointmentModel.findByPk(appointmentId);
         if (!appointment) {
             return res.status(404).json({ message: "Appointment not found" });
+        }
+        // Ownership: only the booking customer may review their own appointment.
+        if (appointment.userId !== req.user.userId) {
+            return res.status(403).json({ message: "Not authorized to review this appointment" });
         }
         appointment.userReview = review;
         if (rating !== undefined && rating !== null) {
@@ -291,6 +299,14 @@ const updateStaffReview = async (req, res) => {
         const appointment = await appointmentModel.findByPk(appointmentId);
         if (!appointment) {
             return res.status(404).json({ message: "Appointment not found" });
+        }
+        // Authorization: caller must be either the salon owner of this salon,
+        // or the staff member assigned to this appointment.
+        if (req.user.salonId !== undefined && appointment.salonId !== req.user.salonId) {
+            return res.status(403).json({ message: "Not authorized: appointment belongs to a different salon" });
+        }
+        if (req.user.staffId !== undefined && appointment.staffId !== req.user.staffId) {
+            return res.status(403).json({ message: "Not authorized: this appointment is not assigned to you" });
         }
         appointment.staffReview = review;
         await appointment.save();

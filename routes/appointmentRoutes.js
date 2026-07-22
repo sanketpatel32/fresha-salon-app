@@ -1,21 +1,28 @@
 const appointmentController = require('../controllers/appointmentController');
-const router  =   require('express').Router();
+const router = require('express').Router();
 const authMiddleware = require('../middlewares/authMiddleware');
+const { validate, appointmentCheckSchema, customerReviewSchema, staffReviewSchema, statusUpdateSchema } = require('../utils/validators');
 
-router.post('/check',  appointmentController.appointmentChecker);
-// router.get('/get/:id', authMiddleware, appointmentController.getAppointmentById);
+// Availability check — requires an authenticated customer.
+router.post('/check', authMiddleware, authMiddleware.requireRole('customer'), validate(appointmentCheckSchema), appointmentController.appointmentChecker);
 
-router.get('/getAll',  appointmentController.getAllAppointmentsByUserId);
+// A customer's own bookings. Scoped to req.user.userId in the controller.
+router.get('/getAll', authMiddleware, authMiddleware.requireRole('customer'), appointmentController.getAllAppointmentsByUserId);
 
-router.get('/sceduledAppointments', authMiddleware, appointmentController.getScheduledAppointmentsBySalonId);
+// Salon-side scheduled appointments (already had auth; now role-gated).
+router.get('/sceduledAppointments', authMiddleware, authMiddleware.requireRole('salon'), appointmentController.getScheduledAppointmentsBySalonId);
 
-router.post('/mail',appointmentController.mailAppointment);
+// Email send after payment — requires an authenticated customer.
+router.post('/mail', authMiddleware, authMiddleware.requireRole('customer'), appointmentController.mailAppointment);
 
-router.put('/review/:appointmentId', appointmentController.updateCustomerReview);
-router.put('/staffreview/:appointmentId', appointmentController.updateStaffReview);
+// Review writing — customer only (ownership checked in the controller).
+router.put('/review/:appointmentId', authMiddleware, authMiddleware.requireRole('customer'), validate(customerReviewSchema), appointmentController.updateCustomerReview);
 
-// Status workflow (Phase 2)
+// Staff/service notes — staff or salon owner (ownership checked in the controller).
+router.put('/staffreview/:appointmentId', authMiddleware, authMiddleware.requireRole('staff', 'salon'), validate(staffReviewSchema), appointmentController.updateStaffReview);
+
+// Status workflow (accept/decline/complete) — salon or staff.
 router.put('/cancel/:appointmentId', authMiddleware, appointmentController.cancelAppointment);
-router.put('/status/:appointmentId', authMiddleware, appointmentController.updateAppointmentStatus);
+router.put('/status/:appointmentId', authMiddleware, authMiddleware.requireRole('salon', 'staff'), validate(statusUpdateSchema), appointmentController.updateAppointmentStatus);
 
 module.exports = router;

@@ -2,18 +2,23 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// Ensure a default secret is set if .env is missing
+// JWT_SECRET is mandatory — without it anyone could forge auth tokens.
+// Refuse to boot rather than fall back to a known default.
 if (!process.env.JWT_SECRET) {
-  process.env.JWT_SECRET = 'fresha_default_secret_key_12345';
+  console.error('FATAL: JWT_SECRET is not set. Generate one with:');
+  console.error('  node -e "console.log(require(\'crypto\').randomBytes(48).toString(\'hex\'))"');
+  console.error('and add it to your .env file (see .env.example).');
+  process.exit(1);
 }
 
 
 // Import custom services and routes
 const apiroutes = require('./routes/apiRoutes');
-const indexRoutes = require('./routes/indexRoutes');
 const sequelize = require('./utils/database');
 require('./models/associations'); // Import relationships
 
@@ -24,13 +29,55 @@ const app = express();
 // reported correctly behind TLS termination.
 app.set('trust proxy', 1);
 
-// Middleware setup
-app.use(express.json());
+// Security headers (CSP disabled for the API server — the SPA sets its own).
+app.use(helmet({ contentSecurityPolicy: false }));
+
+// Body parsing. The verify hook stashes the raw body on req.rawBody so the
+// Cashfree webhook handler can verify the signature over the exact bytes
+// Cashfree signed, even though express.json() also parsed it.
+app.use(express.json({
+  verify: (req, _res, buf) => {
+    req.rawBody = buf;
+  },
+}));
 app.use(express.urlencoded({ extended: false }));
-// Reflect the request origin when credentials are involved so the
-// same-origin SPA can call /api while keeping cookies/Authorization safe.
-app.use(cors({ origin: true, credentials: true }));
-// app.use('/',indexRoutes) // Disabled old html views
+
+// CORS — reflect the request origin when credentials are involved so the
+// same-origin SPA can call /api. If ALLOWED_ORIGINS is set, restrict to that
+// list (for deployments where the frontend is served from a different host).
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
+app.use(cors({
+  origin: allowedOrigins.length > 0 ? allowedOrigins : true,
+  credentials: true,
+}));
+
+// General rate limit — 100 requests / minute / IP.
+const apiLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests, please try again later.' },
+});
+app.use('/api', apiLimiter);
+
+// Stricter rate limit on login endpoints — 5 attempts / 15 minutes / IP,
+// to slow brute-force attacks on the login flows.
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many login attempts, please try again later.' },
+});
+app.use('/api/user/login', loginLimiter);
+app.use('/api/buisness/login', loginLimiter);
+app.use('/api/staff/login', loginLimiter);
+app.use('/api/admin/login', loginLimiter);
+
 app.use('/api', apiroutes);
 
 // Lightweight health probe for Render's health check. Deliberately has no
@@ -49,6 +96,16 @@ app.get('*any', (req, res, next) => {
     return next();
   }
   res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+});
+
+// Global error handler — the last middleware. Logs the full error server-side,
+// returns a generic message to the client so internal details (stack traces,
+// third-party API responses, DB errors) never leak.
+// biome-ignore lint: Express requires all 4 args to identify an error handler
+app.use((err, req, res, _next) => {
+  console.error('Unhandled error:', err);
+  const status = err.status || (err.name === 'SequelizeValidationError' ? 400 : 500);
+  res.status(status).json({ error: status === 400 && err.message ? err.message : 'Internal server error' });
 });
 
 
@@ -171,7 +228,7 @@ app.listen(PORT, () => {
       await seedSampleData();
     })
     .catch((err) => {
-      console.log('⚠️ Database connection failed. Make sure MySQL is running.');
+      console.log('⚠️ Database connection failed. Check your DATABASE_URL (or local SQLite).');
       console.error('Error message:', err.message);
     });
 });

@@ -58,6 +58,10 @@ const Appointment = sequelize.define('Appointment', {
         allowNull: true,
         validate: { min: 1, max: 5 }
     },
+    orderId: {
+        type: DataTypes.STRING,
+        allowNull: true, // nullable for legacy rows created before this column existed
+    },
 });
 
 module.exports = Appointment;

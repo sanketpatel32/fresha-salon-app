@@ -22,7 +22,7 @@ const handleStaffLogin = async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ staffId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ staffId: user.id, role: 'staff' }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.status(200).json({
             message: "Staff logged in successfully",
@@ -36,15 +36,21 @@ const handleStaffLogin = async (req, res) => {
 };
 
 const getAppointments = async (req, res) => {
-    const staffId = req.query.staffId;
-    const appointments = await appointmentModel.findAll({
-        where: { staffId },
-        include: [
-            { model: servicesModel, as: 'service', attributes: ['name'] },
-            { model: userModel, as: 'user', attributes: ['name'] }
-        ]
-    });
-    res.status(200).json(appointments);
+    // Always scope to the authenticated staff member — never trust a query param.
+    const staffId = req.user.staffId;
+    try {
+        const appointments = await appointmentModel.findAll({
+            where: { staffId },
+            include: [
+                { model: servicesModel, as: 'service', attributes: ['name'] },
+                { model: userModel, as: 'user', attributes: ['name', 'phoneNumber'] }
+            ]
+        });
+        res.status(200).json(appointments);
+    } catch (error) {
+        console.error('Error fetching staff appointments:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 };
 module.exports = {
     handleStaffLogin,

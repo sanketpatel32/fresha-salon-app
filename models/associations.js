@@ -66,4 +66,10 @@ Favorite.belongsTo(Salons, { foreignKey: 'salonId', as: 'salon' });
 Staff.hasMany(StaffBlockout, { foreignKey: 'staffId', onDelete: 'CASCADE' });
 StaffBlockout.belongsTo(Staff, { foreignKey: 'staffId', as: 'staff' });
 
+// ==================== PAYMENT <-> APPOINTMENT ====================
+// A payment success creates exactly one appointment; the orderId link makes the
+// creation idempotent (replaying the payment success won't duplicate the booking).
+Payment.hasOne(Appointment, { foreignKey: 'orderId', sourceKey: 'orderId', as: 'appointment' });
+Appointment.belongsTo(Payment, { foreignKey: 'orderId', targetKey: 'orderId', as: 'payment', constraints: false });
+
 module.exports = { Salons, Staff, Services, StaffServices, Appointment, User, Payment, Favorite, StaffBlockout };

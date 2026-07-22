@@ -1,25 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
+const authMiddleware = require('../middlewares/authMiddleware');
+const { validate, adminLoginSchema } = require('../utils/validators');
 
-// Serve the admin login page
-router.get('/dashboard', (req, res) => {
-    res.sendFile(require('path').join(__dirname, '../views/admin/index.html'));
-});
+// Admin login is public (obviously).
+router.post('/login', validate(adminLoginSchema), adminController.adminlogin);
 
-// Handle admin login POST
-router.post('/login', adminController.adminlogin);
+// Every admin data endpoint requires a valid admin token. The old
+// res.sendFile HTML routes are removed — the SPA serves all views now.
+const adminOnly = [authMiddleware, authMiddleware.requireRole('admin')];
 
-router.get('/appointments', (req, res) => {
-    res.sendFile(require('path').join(__dirname, '../views/admin/appointments.html'));
-});
-router.get('/appointments/getall', adminController.getAllAppointments);
-router.delete('/appointments/:id', adminController.deleteAppointment);
-
-router.get('/users', (req, res) => {
-    res.sendFile(require('path').join(__dirname, '../views/admin/user.html'));
-});
-router.get('/users/search', adminController.searchUsers);
-router.delete('/users/:id', adminController.deleteUser);
+router.get('/appointments/getall', adminOnly, adminController.getAllAppointments);
+router.delete('/appointments/:id', adminOnly, adminController.deleteAppointment);
+router.get('/users/search', adminOnly, adminController.searchUsers);
+router.delete('/users/:id', adminOnly, adminController.deleteUser);
 
 module.exports = router;

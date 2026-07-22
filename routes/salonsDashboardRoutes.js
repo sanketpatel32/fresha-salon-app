@@ -1,59 +1,31 @@
 const router = require('express').Router();
-const path = require('path');
 const salonServices = require('../controllers/salonServicesController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const salonStaff = require('../controllers/salonStaffController');
-router.get('/',(req,res)=>{
-    res.sendFile(path.join(__dirname, '..', 'views','salons' ,'dashboard.html'));
-})
+const { validate, serviceAddSchema, serviceUpdateSchema } = require('../utils/validators');
 
+// The dead res.sendFile HTML routes are removed — the SPA serves all views.
+// Every endpoint here is a salon-owner console action, so all require a valid
+// salon token. Individual controllers enforce per-salon ownership where needed.
+const salonOnly = [authMiddleware, authMiddleware.requireRole('salon')];
 
-router.get('/services/add',(req,res)=>{
-    res.sendFile(path.join(__dirname, '..', 'views','salons' ,'addServices.html'));
-})
-router.post('/services/add',authMiddleware, salonServices.addService);
+// Services catalog
+router.post('/services/add', salonOnly, validate(serviceAddSchema), salonServices.addService);
+router.get('/services/getall', salonOnly, salonServices.getAllServices);
+router.get('/services/get/:id', salonOnly, salonServices.getServiceById);
+router.put('/services/update/:id', salonOnly, validate(serviceUpdateSchema), salonServices.updateService);
+router.delete('/services/delete/:id', salonOnly, salonServices.deleteService);
 
-router.get('/services/modify',(req,res)=>{
-    res.sendFile(path.join(__dirname, '..', 'views','salons' ,'modifyServices.html'));
-})
+// Staff management
+router.post('/staff/add', salonOnly, salonStaff.addStaff);
+router.get('/staff/getallstaff', salonOnly, salonStaff.getStaff);
+router.get('/staff/getStaff', salonOnly, salonStaff.getStaffById);
+router.put('/staff/assignServices', salonOnly, salonStaff.assignServices);
+router.put('/staff/updateStatus', salonOnly, salonStaff.updateStatus);
 
-router.get('/services/getall',authMiddleware, salonServices.getAllServices);
-router.get('/services/modifyForm', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'modifyForm.html'));
-});
+// Staff blockouts
+router.post('/staff/blockouts', salonOnly, salonStaff.addBlockout);
+router.get('/staff/blockouts', salonOnly, salonStaff.getBlockouts);
+router.delete('/staff/blockouts/:id', salonOnly, salonStaff.removeBlockout);
 
-router.get('/services/get/:id', salonServices.getServiceById);
-router.put('/services/update/:id', authMiddleware, salonServices.updateService);
-router.delete('/services/delete/:id', authMiddleware, salonServices.deleteService);
-
-router.get('/staff/add', (req, res) =>{
-    res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'addStaff.html'));
-})   
-router.post('/staff/add', authMiddleware, salonStaff.addStaff);
-
-router.get('/staff/assignStaff', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'assignStaffService.html'));
-})
-router.get('/staff/getallstaff', authMiddleware, salonStaff.getStaff);
-
-router.get('/staff/staffModifyForm', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'staffModifyForm.html'));
-});
-router.get('/staff/getStaff', authMiddleware, salonStaff.getStaffById);
-router.put('/staff/assignServices', authMiddleware, salonStaff.assignServices);
-router.put('/staff/updateStatus', authMiddleware, salonStaff.updateStatus);
-router.post('/staff/blockouts', authMiddleware, salonStaff.addBlockout);
-router.get('/staff/blockouts', authMiddleware, salonStaff.getBlockouts);
-router.delete('/staff/blockouts/:id', authMiddleware, salonStaff.removeBlockout);
-
-// router.put('/staff/update/:id', authMiddleware, salonServices.updateStaff);
-
-
-router.get('/managament/changeSalonDetail', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'changeSalonDetail.html'));
-});
-
-router.get('/managament/salonSceduledAppointments', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'views', 'salons', 'salonSceduledAppointments.html'));
-});
 module.exports = router;

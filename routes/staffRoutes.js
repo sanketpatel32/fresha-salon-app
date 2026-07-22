@@ -1,21 +1,18 @@
-// routes/auth.js
 const express = require('express');
-const path = require('path');
 const router = express.Router();
-const staffController = require('../controllers/staffController')
+const staffController = require('../controllers/staffController');
+const authMiddleware = require('../middlewares/authMiddleware');
+const { validate, loginSchema } = require('../utils/validators');
 
+// Staff login is public.
+router.post('/login', validate(loginSchema), staffController.handleStaffLogin);
 
-router.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '..','views','staff' ,'login.html'));
-});
-
-router.post('/login', staffController.handleStaffLogin);
-
-router.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, '..','views','staff' ,'dashboard.html'));
-});
-
-router.get('/appointments',staffController.getAppointments);
-
+// A staff member's own appointments. Scoped to req.user.staffId in the controller.
+router.get(
+    '/appointments',
+    authMiddleware,
+    authMiddleware.requireRole('staff'),
+    staffController.getAppointments
+);
 
 module.exports = router;

@@ -10,14 +10,15 @@ const Payment = sequelize.define('payment', {
     },
     orderId: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     paymentSessionId: {
         type: Sequelize.STRING,
         allowNull: false
     },
     orderAmount: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false
     },
     orderCurrency: {

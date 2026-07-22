@@ -1,9 +1,16 @@
 const { Cashfree } = require("cashfree-pg");
 const dotenv = require("dotenv");
 dotenv.config();
-Cashfree.XClientId = "TEST430329ae80e0f32e41a393d78b923034";
-Cashfree.XClientSecret = "TESTaf195616268bd6202eeb3bf8dc458956e7192a85";
-Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
+
+// Credentials come from the environment — never committed to source.
+// The environment is selected from NODE_ENV so prod talks to PRODUCTION
+// automatically once the live keys are configured.
+Cashfree.XClientId = process.env.CASHFREE_APP_ID;
+Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
+Cashfree.XEnvironment =
+  process.env.NODE_ENV === "production"
+    ? Cashfree.Environment.PRODUCTION
+    : Cashfree.Environment.SANDBOX;
 
 exports.createOrder = async (
   orderId,
@@ -19,20 +26,19 @@ exports.createOrder = async (
     const formattedExpiryDate = expiryDate.toISOString();
 
     const request = {
-      order_amount: orderAmount,
+      order_amount: Number(orderAmount),
       order_currency: orderCurrency,
       order_id: orderId,
 
       customer_details: {
-        customer_id: customerID,
-        customer_phone: customerPhone,
+        customer_id: String(customerID),
+        customer_phone: String(customerPhone),
       },
 
       order_meta: {
-        return_url: `${hostUrl}/api/pay/${orderId}`, //? calling getPaymentStatus dynamically
-        payment_methods: "ccc, upi, nb"
+        return_url: `${hostUrl}/api/pay/${orderId}`,
       },
-      order_expiry_time: formattedExpiryDate, //!? Set the valid expiry date
+      order_expiry_time: formattedExpiryDate,
     };
 
     const response = await Cashfree.PGCreateOrder("2023-08-01", request);
@@ -40,30 +46,21 @@ exports.createOrder = async (
     return response.data.payment_session_id;
   } catch (error) {
     console.error("Error creating order:", error.message);
+    throw error;
   }
 };
-
-
 
 exports.getPaymentStatus = async (orderId) => {
   try {
 
     const response = await Cashfree.PGOrderFetchPayments("2023-08-01", orderId);
 
-    let getOrderResponse = response.data;
+    const transactions = response.data;
     let orderStatus;
 
-    if (
-      getOrderResponse.filter(
-        (transaction) => transaction.payment_status === "SUCCESS"
-      ).length > 0
-    ) {
+    if (transactions.some((t) => t.payment_status === "SUCCESS")) {
       orderStatus = "Success";
-    } else if (
-      getOrderResponse.filter(
-        (transaction) => transaction.payment_status === "PENDING"
-      ).length > 0
-    ) {
+    } else if (transactions.some((t) => t.payment_status === "PENDING")) {
       orderStatus = "Pending";
     } else {
       orderStatus = "Failure";
@@ -73,5 +70,33 @@ exports.getPaymentStatus = async (orderId) => {
 
   } catch (error) {
     console.error("Error fetching order status:", error.message);
+    throw error;
+  }
+};
+
+/**
+ * Verify a Cashfree webhook signature. This is the server-to-server source of
+ * truth for payment success — more trustworthy than the browser redirect,
+ * because it's Cashfree calling your server directly with a signed payload.
+ *
+ * @param {object} body    - the raw webhook body
+ * @param {string} signature - the `Webhook-Id` header (or your CF signature header)
+ * @param {string} timestamp - the `Webhook-Timestamp` header
+ * @param {string} signatureV1 - the `Webhook-Signature` header
+ * @returns {object|null} parsed webhook payload if valid, null otherwise
+ */
+exports.verifyWebhook = (body, signature, timestamp, signatureV1) => {
+  try {
+    const verificationResponse = Cashfree.PGVerifyWebhookSignature(
+      signature,
+      body,
+      signatureV1,
+      timestamp,
+      process.env.CASHFREE_SECRET_KEY
+    );
+    return verificationResponse;
+  } catch (error) {
+    console.error("Webhook signature verification failed:", error.message);
+    return null;
   }
 };
