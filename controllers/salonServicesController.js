@@ -2,9 +2,8 @@ const servicesModel = require('../models/servicesModel');
 
 const addService = async (req, res) => {
     try {
-        const { name, price, duration } = req.body;
-        const salonId = req.user.salonId; 
-        // console.log("Salon ID:", req.user.salonId); 
+        const { name, price, duration, category } = req.body;
+        const salonId = req.user.salonId;
         if (!name || !price || !duration) {
             return res.status(400).json({ message: 'All fields are required' });
         }
@@ -12,6 +11,7 @@ const addService = async (req, res) => {
         // Create new service
         const newService = await servicesModel.create({
             name,
+            category: category || 'Other',
             price,
             duration,
             salonId
@@ -78,7 +78,7 @@ const getServiceById = async (req, res) => {
 const updateService = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, price, duration, statusbar } = req.body;
+        const { name, price, duration, statusbar, category } = req.body;
         const salonId = req.user.salonId;
 
         const service = await servicesModel.findOne({ where: { id } });
@@ -91,10 +91,11 @@ const updateService = async (req, res) => {
             return res.status(403).json({ message: "Unauthorized: Access denied to modify this service" });
         }
 
-        service.name = name;
-        service.price = price;
-        service.duration = duration;
-        service.statusbar = statusbar;
+        if (name !== undefined) service.name = name;
+        if (price !== undefined) service.price = price;
+        if (duration !== undefined) service.duration = duration;
+        if (statusbar !== undefined) service.statusbar = statusbar;
+        if (category !== undefined) service.category = category;
 
         await service.save();
 

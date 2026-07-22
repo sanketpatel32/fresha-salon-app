@@ -57,6 +57,19 @@ const Salons = sequelize.define('salons', {
         allowNull: false,
         defaultValue: false
     },
+    // Denormalized rating cache — kept in sync by the review handler so browse
+    // filtering/sorting (minRating, sort=rating) is a cheap WHERE/ORDER BY
+    // instead of a grouped aggregation subquery on every request.
+    avgRating: {
+        type: Sequelize.DECIMAL(3, 2),
+        allowNull: true,
+        defaultValue: null,
+    },
+    reviewCount: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    },
 }, { timestamps: true });
 
 module.exports = Salons;

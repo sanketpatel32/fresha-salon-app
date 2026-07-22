@@ -31,6 +31,7 @@ export default function SalonDashboard() {
   const [serviceName, setServiceName] = useState('');
   const [servicePrice, setServicePrice] = useState('');
   const [serviceDuration, setServiceDuration] = useState('30');
+  const [serviceCategory, setServiceCategory] = useState('Other');
   const [editServiceId, setEditServiceId] = useState(null);
   const [deleteServiceTarget, setDeleteServiceTarget] = useState(null);
 
@@ -158,6 +159,7 @@ export default function SalonDashboard() {
       if (editServiceId) {
         await axios.put(`/api/salonsdashboard/services/update/${editServiceId}`, {
           name: serviceName,
+          category: serviceCategory,
           price: parseFloat(servicePrice),
           duration: parseInt(serviceDuration),
           statusbar: 'active'
@@ -166,6 +168,7 @@ export default function SalonDashboard() {
       } else {
         await axios.post('/api/salonsdashboard/services/add', {
           name: serviceName,
+          category: serviceCategory,
           price: parseFloat(servicePrice),
           duration: parseInt(serviceDuration)
         });
@@ -174,6 +177,7 @@ export default function SalonDashboard() {
       setServiceName('');
       setServicePrice('');
       setServiceDuration('30');
+      setServiceCategory('Other');
       setEditServiceId(null);
       fetchServices();
     } catch (err) {
@@ -185,6 +189,7 @@ export default function SalonDashboard() {
     setServiceName(service.name);
     setServicePrice(service.price);
     setServiceDuration(service.duration);
+    setServiceCategory(service.category || 'Other');
     setEditServiceId(service.id);
   };
 
@@ -746,6 +751,19 @@ export default function SalonDashboard() {
                   <input type="text" className="form-input" style={{ paddingLeft: '16px' }} placeholder="Hair Styling" value={serviceName} onChange={e => setServiceName(e.target.value)} required />
                 </div>
                 <div className="form-group">
+                  <label className="form-label">Category</label>
+                  <select className="form-select" style={{ paddingLeft: '16px' }} value={serviceCategory} onChange={e => setServiceCategory(e.target.value)}>
+                    <option value="Hair">Hair</option>
+                    <option value="Spa & Massage">Spa & Massage</option>
+                    <option value="Facial & Skin">Facial & Skin</option>
+                    <option value="Nails">Nails</option>
+                    <option value="Makeup">Makeup</option>
+                    <option value="Bridal">Bridal</option>
+                    <option value="Men's Grooming">Men's Grooming</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div className="form-group">
                   <label className="form-label">Price (INR)</label>
                   <input type="number" className="form-input" style={{ paddingLeft: '16px' }} placeholder="500" value={servicePrice} onChange={e => setServicePrice(e.target.value)} required />
                 </div>
@@ -763,7 +781,7 @@ export default function SalonDashboard() {
                 <div style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
                   <button type="submit" className="btn btn-primary btn-sm" style={{ flex: 1 }}>Save Service</button>
                   {editServiceId && (
-                    <button type="button" onClick={() => { setEditServiceId(null); setServiceName(''); setServicePrice(''); }} className="btn btn-secondary btn-sm">Cancel</button>
+                    <button type="button" onClick={() => { setEditServiceId(null); setServiceName(''); setServicePrice(''); setServiceCategory('Other'); }} className="btn btn-secondary btn-sm">Cancel</button>
                   )}
                 </div>
               </form>

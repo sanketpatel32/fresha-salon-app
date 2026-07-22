@@ -7,6 +7,32 @@ const Payment = require('../models/paymentModel');
 const StaffBlockout = require('../models/staffBlockoutModel');
 const { Op } = require('sequelize');
 const { canTransition, canCancel } = require('../utils/statusRules');
+const sequelize = require('../utils/database');
+
+/**
+ * Recompute and persist the denormalized avgRating + reviewCount for a salon.
+ * Called after a customer review is written/edited so the browse endpoint's
+ * rating filter/sort stays correct without a live aggregation on every request.
+ */
+const refreshSalonRatingCache = async (salonId) => {
+    if (!salonId) return;
+    const rows = await appointmentModel.findAll({
+        where: { salonId, rating: { [Op.ne]: null } },
+        attributes: [
+            [sequelize.fn('AVG', sequelize.col('rating')), 'avgRating'],
+            [sequelize.fn('COUNT', sequelize.col('rating')), 'reviewCount'],
+        ],
+        raw: true,
+    });
+    const agg = rows[0];
+    await Salons.update(
+        {
+            avgRating: agg && agg.avgRating ? parseFloat(agg.avgRating).toFixed(2) : null,
+            reviewCount: agg && agg.reviewCount ? parseInt(agg.reviewCount, 10) : 0,
+        },
+        { where: { id: salonId } }
+    );
+};
 
 const { v4: uuidv4 } = require('uuid');
 const Sib = require('sib-api-v3-sdk');
@@ -284,6 +310,8 @@ const updateCustomerReview = async (req, res) => {
             appointment.rating = r;
         }
         await appointment.save();
+        // Keep the salon's denormalized rating cache in sync.
+        await refreshSalonRatingCache(appointment.salonId);
         res.status(200).json({ message: "Review submitted successfully" });
     } catch (error) {
         res.status(500).json({ message: "Server error" });

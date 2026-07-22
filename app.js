@@ -183,16 +183,16 @@ const seedSampleData = async () => {
       workingDays: 'Mon, Wed, Thu, Fri, Sat, Sun'
     });
 
-    // 3. Create Services
-    const s1 = await Services.create({ name: 'Royal Keratin Hair Treatment', price: 2500, duration: 60, statusbar: 'active', salonId: salon1.id });
-    const s2 = await Services.create({ name: 'Aromatherapy Full Body Massage', price: 3200, duration: 90, statusbar: 'active', salonId: salon1.id });
-    const s3 = await Services.create({ name: 'Classic Hydrating Facial', price: 1800, duration: 45, statusbar: 'active', salonId: salon1.id });
+    // 3. Create Services (with categories)
+    const s1 = await Services.create({ name: 'Royal Keratin Hair Treatment', price: 2500, duration: 60, statusbar: 'active', category: 'Hair', salonId: salon1.id });
+    const s2 = await Services.create({ name: 'Aromatherapy Full Body Massage', price: 3200, duration: 90, statusbar: 'active', category: 'Spa & Massage', salonId: salon1.id });
+    const s3 = await Services.create({ name: 'Classic Hydrating Facial', price: 1800, duration: 45, statusbar: 'active', category: 'Facial & Skin', salonId: salon1.id });
 
-    const s4 = await Services.create({ name: 'Signature Beard Trim & Steam Shave', price: 800, duration: 30, statusbar: 'active', salonId: salon2.id });
-    const s5 = await Services.create({ name: 'Executive Hair Styling & Wash', price: 1200, duration: 45, statusbar: 'active', salonId: salon2.id });
+    const s4 = await Services.create({ name: 'Signature Beard Trim & Steam Shave', price: 800, duration: 30, statusbar: 'active', category: "Men's Grooming", salonId: salon2.id });
+    const s5 = await Services.create({ name: 'Executive Hair Styling & Wash', price: 1200, duration: 45, statusbar: 'active', category: 'Hair', salonId: salon2.id });
 
-    const s6 = await Services.create({ name: 'Express Dry Cut', price: 350, duration: 15, statusbar: 'active', salonId: salon3.id });
-    const s7 = await Services.create({ name: 'Basic Head Massage & Wash', price: 250, duration: 15, statusbar: 'active', salonId: salon3.id });
+    const s6 = await Services.create({ name: 'Express Dry Cut', price: 350, duration: 15, statusbar: 'active', category: 'Hair', salonId: salon3.id });
+    const s7 = await Services.create({ name: 'Basic Head Massage & Wash', price: 250, duration: 15, statusbar: 'active', category: 'Spa & Massage', salonId: salon3.id });
 
     // 4. Create Staff (password: staff123) — hashed with bcrypt
     const hashedStaffPassword = await bcrypt.hash('staff123', 10);
@@ -226,6 +226,9 @@ app.listen(PORT, () => {
     .then(async () => {
       console.log('✅ Database synced successfully.');
       await seedSampleData();
+      // Backfill categories on any services that lack one (post-migration safety net).
+      const { migrateCategories } = require('./utils/migrateCategories');
+      await migrateCategories();
     })
     .catch((err) => {
       console.log('⚠️ Database connection failed. Check your DATABASE_URL (or local SQLite).');

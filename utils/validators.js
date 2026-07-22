@@ -53,17 +53,37 @@ const adminLoginSchema = z.object({
 });
 
 // ── Services ───────────────────────────────────────────────────────────
+const SERVICE_CATEGORIES = [
+  'Hair', 'Spa & Massage', 'Facial & Skin', 'Nails',
+  'Makeup', 'Bridal', "Men's Grooming", 'Other',
+];
+
 const serviceAddSchema = z.object({
   name: z.string().min(1, 'Service name is required').max(150),
+  category: z.enum(SERVICE_CATEGORIES).optional(),
   price: z.number().positive('Price must be a positive number'),
   duration: z.number().int().positive('Duration must be a positive integer (minutes)').max(600, 'Duration seems too long'),
 });
 
 const serviceUpdateSchema = z.object({
   name: z.string().min(1).max(150).optional(),
+  category: z.enum(SERVICE_CATEGORIES).optional(),
   price: z.number().positive('Price must be a positive number').optional(),
   duration: z.number().int().positive().max(600).optional(),
   statusbar: z.enum(['active', 'inactive']).optional(),
+});
+
+// ── Salon browse / discovery (GET query params) ─────────────────────────
+const salonBrowseSchema = z.object({
+  q: z.string().max(200).optional(),
+  category: z.enum(SERVICE_CATEGORIES).optional(),
+  pricing: z.enum(['Affordable', 'Moderate', 'Premium']).optional(),
+  minPrice: z.coerce.number().min(0).optional(),
+  maxPrice: z.coerce.number().min(0).optional(),
+  minRating: z.coerce.number().min(1).max(5).optional(),
+  sort: z.enum(['rating', 'price-low', 'price-high', 'newest']).optional(),
+  page: z.coerce.number().int().positive().max(1000).optional(),
+  limit: z.coerce.number().int().positive().max(100).optional(),
 });
 
 // ── Appointment check ──────────────────────────────────────────────────
@@ -108,12 +128,14 @@ const statusUpdateSchema = z.object({
 
 module.exports = {
   validate,
+  SERVICE_CATEGORIES,
   loginSchema,
   customerSignupSchema,
   salonSignupSchema,
   adminLoginSchema,
   serviceAddSchema,
   serviceUpdateSchema,
+  salonBrowseSchema,
   appointmentCheckSchema,
   paymentCreateSchema,
   customerReviewSchema,

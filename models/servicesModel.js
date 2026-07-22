@@ -12,6 +12,17 @@ const Services = sequelize.define('services', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    category: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'Other',
+        validate: {
+            isIn: [[
+                'Hair', 'Spa & Massage', 'Facial & Skin', 'Nails',
+                'Makeup', 'Bridal', "Men's Grooming", 'Other'
+            ]]
+        }
+    },
     price: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false
