@@ -230,8 +230,8 @@ function LandingPage() {
           <button onClick={() => navigate('/buisness/signup')} className="btn btn-accent btn-lg">Join as Partner Salon</button>
         </div>
 
-        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '32px', margin: '40px 0 10px 0' }}>Who Are You?</h2>
-        <p style={{ color: 'var(--text-secondary)' }}>Choose your workspace portal below</p>
+        <h2 className="section-head">Who are you?</h2>
+        <p className="section-sub">Choose your workspace portal below.</p>
         
         <div className="role-cards-grid">
           <div onClick={() => navigate('/user/login')} className="role-card">
@@ -501,7 +501,7 @@ function SalonLogin({ onLogin, showToast }) {
           </button>
         </form>
         <div className="form-footer">
-          Want to partner with us? <Link to="/buisness/signup" className="form-link" style={{ color: 'var(--accent)' }}>Register Salon</Link>
+          Want to partner with us? <Link to="/buisness/signup" className="form-link">Register Salon</Link>
         </div>
       </div>
     </div>
@@ -627,7 +627,7 @@ function SalonSignup({ showToast }) {
           </button>
         </form>
         <div className="form-footer">
-          Already registered? <Link to="/buisness/login" className="form-link" style={{ color: 'var(--accent)' }}>Sign In</Link>
+          Already registered? <Link to="/buisness/login" className="form-link">Sign In</Link>
         </div>
       </div>
     </div>
@@ -691,8 +691,8 @@ function StaffLogin({ onLogin, showToast }) {
               />
             </div>
           </div>
-          <button type="submit" disabled={loading} className="btn btn-secondary" style={{ width: '100%', marginTop: '12px', background: 'var(--primary)', color: 'white' }}>
-            {loading ? 'Logging in...' : 'Sign In as Staff'}
+          <button type="submit" disabled={loading} className="btn btn-primary btn-block">
+            {loading ? 'Logging in…' : 'Sign in as staff'}
           </button>
         </form>
       </div>
@@ -830,8 +830,8 @@ function CustomerDashboard({ session }) {
     <div className="container" style={{ padding: '40px 24px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '20px' }}>
         <div>
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '40px', fontWeight: 800 }}>Explore Salons</h1>
-          <p style={{ color: 'var(--text-secondary)' }}>Choose a premium beauty partner salon near you</p>
+          <h1 className="dashboard-title">Explore salons</h1>
+          <p className="section-sub">Choose a beauty partner salon near you.</p>
         </div>
         <div className="search-bar-container">
           <div className="form-input-wrapper" style={{ flex: 1 }}>
@@ -870,34 +870,30 @@ function CustomerDashboard({ session }) {
         <div className="grid-cards">
           {filteredSalons.map(salon => (
             <div key={salon.id} className="card">
-              <div className="card-header-image" style={{ background: salon.pricing === 'Premium' ? 'linear-gradient(135deg, #7c3aed, #ec4899)' : salon.pricing === 'Affordable' ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #f59e0b, #d97706)', position: 'relative' }}>
+              <div className="card-header-image">
                 <span className="card-badge">{salon.pricing || 'Moderate'}</span>
-                <Scissors size={40} style={{ opacity: 0.8 }} />
+                <Scissors size={36} strokeWidth={1.5} />
                 <button
                   onClick={(e) => { e.stopPropagation(); toggleFavorite(salon.id); }}
-                  style={{
-                    position: 'absolute', top: '8px', right: '8px',
-                    background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%',
-                    width: '32px', height: '32px', cursor: 'pointer',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
-                  }}
+                  className="fav-toggle"
+                  aria-label={favoriteSalonIds.has(salon.id) ? 'Remove from favorites' : 'Add to favorites'}
                   title={favoriteSalonIds.has(salon.id) ? 'Remove from favorites' : 'Add to favorites'}
                 >
-                  <Star size={16} fill={favoriteSalonIds.has(salon.id) ? '#f59e0b' : 'none'} color="#f59e0b" />
+                  <Star size={16} fill={favoriteSalonIds.has(salon.id) ? 'currentColor' : 'none'} className={favoriteSalonIds.has(salon.id) ? 'is-fav' : ''} />
                 </button>
               </div>
               <div className="card-body">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
                   <h3 className="card-title" style={{ margin: 0 }}>{salon.name}</h3>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '14px', color: 'var(--warning)', fontWeight: 600 }}>
+                  <div className="rating-inline">
                     {salon.avgRating ? (
                       <>
                         <Star size={14} fill="currentColor" />
                         <span>{Number(salon.avgRating).toFixed(1)}</span>
-                        <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: '12px' }}>({salon.reviewCount})</span>
+                        <span className="rating-count">({salon.reviewCount})</span>
                       </>
                     ) : (
-                      <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: '12px' }}>No ratings yet</span>
+                      <span className="rating-none">No ratings yet</span>
                     )}
                   </div>
                 </div>
@@ -968,30 +964,30 @@ function SalonServices() {
   return (
     <div className="container" style={{ padding: '40px 24px' }}>
       {salon && (
-        <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)', padding: '32px', marginBottom: '40px' }}>
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '42px', fontWeight: 800 }}>{salon.name}</h1>
-          <p style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
+        <div className="salon-hero">
+          <h1 className="dashboard-title">{salon.name}</h1>
+          <p className="section-sub salon-address">
             <MapPin size={16} /> {salon.address}
           </p>
-          <div style={{ display: 'flex', gap: '24px', marginTop: '16px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '14px', background: 'var(--bg-tertiary)', padding: '6px 12px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Star size={14} fill="currentColor" style={{ color: 'var(--warning)' }} />
+          <div className="salon-meta">
+            <span className="chip">
+              <Star size={14} fill="currentColor" className="chip-star" />
               <strong>{salon.avgRating ? Number(salon.avgRating).toFixed(1) : 'New'}</strong>
-              <span style={{ color: 'var(--text-muted)' }}>· {salon.reviewCount} review{salon.reviewCount === 1 ? '' : 's'}</span>
+              <span className="chip-muted">· {salon.reviewCount} review{salon.reviewCount === 1 ? '' : 's'}</span>
             </span>
-            <span style={{ fontSize: '14px', background: 'var(--bg-tertiary)', padding: '6px 12px', borderRadius: '20px' }}>
-              <strong>Pricing standard:</strong> {salon.pricing || 'Premium'}
+            <span className="chip">
+              <span className="chip-muted">Pricing:</span> {salon.pricing || 'Premium'}
             </span>
             {salon.workingDays && (
-              <span style={{ fontSize: '14px', background: 'var(--bg-tertiary)', padding: '6px 12px', borderRadius: '20px' }}>
-                <strong>Working days:</strong> {salon.workingDays}
+              <span className="chip">
+                <span className="chip-muted">Days:</span> {salon.workingDays}
               </span>
             )}
           </div>
         </div>
       )}
 
-      <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '28px', marginBottom: '20px' }}>Services Menu</h2>
+      <h2 className="section-head">Services menu</h2>
       
       {services.length === 0 ? (
         <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '32px' }}>
@@ -1003,15 +999,13 @@ function SalonServices() {
         <div className="grid-cards">
           {services.map(service => (
             <div key={service.id} className="card">
-              <div className="card-body" style={{ gap: '16px' }}>
-                <h3 className="card-title" style={{ fontSize: '22px' }}>{service.name}</h3>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)' }}>
+              <div className="card-body">
+                <h3 className="card-title">{service.name}</h3>
+                <div className="service-row">
+                  <span className="card-info">
                     <Clock size={16} /> {service.duration} mins
                   </span>
-                  <span style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>
-                    ₹{service.price}
-                  </span>
+                  <span className="service-price">₹{service.price}</span>
                 </div>
               </div>
               <div className="card-footer">
@@ -1161,8 +1155,8 @@ function AppointmentBooking({ session, showToast }) {
         <div className="booking-grid">
           {/* Left panel: Date/Time settings */}
           <div className="booking-panel">
-            <h3 className="panel-title">Select Date & Time Slot</h3>
-            <form onSubmit={handleCheckAvailability} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <h3 className="panel-title">Select date &amp; time slot</h3>
+            <form onSubmit={handleCheckAvailability} className="form-stack">
               <div className="form-group">
                 <label className="form-label">Available Date</label>
                 <div className="date-selector-grid">
@@ -1201,13 +1195,12 @@ function AppointmentBooking({ session, showToast }) {
                 </div>
               </div>
 
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={checkingAvailability}
-                className="btn btn-secondary" 
-                style={{ alignSelf: 'flex-start', background: 'var(--primary)', color: 'white' }}
+                className="btn btn-primary"
               >
-                {checkingAvailability ? 'Checking slots...' : 'Check Available Staff'}
+                {checkingAvailability ? 'Checking slots…' : 'Check available staff'}
               </button>
             </form>
 
@@ -1218,17 +1211,17 @@ function AppointmentBooking({ session, showToast }) {
                   {availableStaff.map(staff => {
                     const isSelected = selectedStaffId === staff.id;
                     return (
-                      <div 
-                        key={staff.id} 
+                      <div
+                        key={staff.id}
                         onClick={() => setSelectedStaffId(staff.id)}
                         className={`staff-select-card ${isSelected ? 'selected' : ''}`}
                       >
-                        <div className="profile-avatar" style={{ width: '40px', height: '40px', fontSize: '14px' }}>
+                        <div className="profile-avatar staff-avatar">
                           {staff.name.slice(0, 2).toUpperCase()}
                         </div>
-                        <div>
-                          <div style={{ fontWeight: '600' }}>{staff.name}</div>
-                          <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{staff.phoneNumber}</div>
+                        <div className="staff-meta">
+                          <div className="staff-name">{staff.name}</div>
+                          <div className="staff-phone">{staff.phoneNumber}</div>
                         </div>
                       </div>
                     );
@@ -1265,7 +1258,7 @@ function AppointmentBooking({ session, showToast }) {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
                 <span style={{ color: 'var(--text-secondary)' }}>Amount Due</span>
-                <span style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--primary)' }}>₹{service.price}</span>
+                <span className="summary-amount">₹{service.price}</span>
               </div>
             </div>
 
@@ -1533,16 +1526,16 @@ function BookedAppointments({ session, showToast }) {
             <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Share your experience with the team.</p>
             <div style={{ marginBottom: '16px' }}>
               <div style={{ fontSize: '14px', marginBottom: '8px', color: 'var(--text-secondary)' }}>Your rating</div>
-              <div style={{ display: 'flex', gap: '4px' }}>
+              <div className="star-picker">
                 {[1,2,3,4,5].map(n => (
                   <button
                     key={n}
                     type="button"
                     onClick={() => setRating(n)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                    className="star-btn"
                     title={`${n} star${n > 1 ? 's' : ''}`}
                   >
-                    <Star size={28} fill={n <= rating ? '#f59e0b' : 'none'} color="#f59e0b" />
+                    <Star size={28} fill={n <= rating ? 'currentColor' : 'none'} />
                   </button>
                 ))}
               </div>
@@ -2611,8 +2604,10 @@ function StaffDashboard({ session, showToast }) {
     <div className="container" style={{ padding: '40px 24px' }}>
       <div className="dashboard-header" style={{ marginBottom: '32px' }}>
         <div>
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '36px', fontWeight: 800 }}>Staff Console</h1>
-          <p style={{ color: 'var(--text-secondary)' }}>Check your assigned client schedules and booking details</p>
+          <div>
+            <h1 className="dashboard-title">Staff console</h1>
+            <p className="section-sub">Your assigned client schedules and booking details.</p>
+          </div>
         </div>
         <span className="badge badge-success">Duty: Active</span>
       </div>
@@ -2773,8 +2768,8 @@ function AdminDashboard({ session, showToast }) {
     <div className="container" style={{ padding: '40px 24px' }}>
       <div className="dashboard-header" style={{ marginBottom: '32px' }}>
         <div>
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '36px', fontWeight: 800 }}>Admin Console</h1>
-          <p style={{ color: 'var(--text-secondary)' }}>System administration dashboard for monitoring active users & bookings</p>
+          <h1 className="dashboard-title">Admin console</h1>
+          <p className="section-sub">Monitor active users and bookings across the platform.</p>
         </div>
       </div>
 
