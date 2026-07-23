@@ -9,11 +9,13 @@ import { useToast } from '../../context/ToastContext.jsx';
 import ConfirmDialog from '../../components/ConfirmDialog.jsx';
 import Modal from '../../components/Modal.jsx';
 import { SkeletonTable } from '../../components/Skeleton.jsx';
+import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 
 /* Salon Dashboard for Partner Business Owners */
 export default function SalonDashboard() {
   const { userSession } = useAuth();
   const showToast = useToast();
+  useDocumentTitle('Salon Console');
   const [salon, setSalon] = useState(null);
   const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard', 'services', 'staff', 'details', 'appointments'
 
@@ -53,7 +55,11 @@ export default function SalonDashboard() {
   const [salonName, setSalonName] = useState('');
   const [salonPhone, setSalonPhone] = useState('');
   const [salonAddress, setSalonAddress] = useState('');
-  const [salonDays, setSalonDays] = useState('');
+  // Working days stored as a Set of lowercase day codes ('sun','mon',...) so
+  // the value matches what the backend availabilityService expects. Previously
+  // this was a free-text string, which was saved verbatim and broke the
+  // salon-hours enforcement (validateSalonHours requires an array).
+  const [salonDays, setSalonDays] = useState(new Set(['mon','tue','wed','thu','fri','sat']));
   const [salonOpen, setSalonOpen] = useState('');
   const [salonClose, setSalonClose] = useState('');
   const [salonRequiresApproval, setSalonRequiresApproval] = useState(false);
@@ -79,7 +85,10 @@ export default function SalonDashboard() {
       setSalonName(res.data.name || '');
       setSalonPhone(res.data.phoneNumber || '');
       setSalonAddress(res.data.address || '');
-      setSalonDays(res.data.workingDays || '');
+      // workingDays is stored as a JSON array of lowercase codes. Normalize on
+      // load in case any legacy row holds capitalized/full-day strings.
+      const rawDays = Array.isArray(res.data.workingDays) ? res.data.workingDays : ['mon','tue','wed','thu','fri','sat'];
+      setSalonDays(new Set(rawDays.map(d => String(d).slice(0, 3).toLowerCase())));
       setSalonOpen(res.data.openingTime?.slice(0, 5) || '');
       setSalonClose(res.data.closingTime?.slice(0, 5) || '');
       setSalonRequiresApproval(res.data.requiresApproval || false);
@@ -282,13 +291,25 @@ export default function SalonDashboard() {
   const handleSaveDetails = async (e) => {
     e.preventDefault();
     if (!salon) return;
+    if (salonDays.size === 0) {
+      showToast('Select at least one working day.', 'error');
+      return;
+    }
+    if (salonClose <= salonOpen) {
+      showToast('Closing time must be after opening time.', 'error');
+      return;
+    }
     try {
+      // Persist working days as an ordered array of lowercase codes, matching
+      // the shape availabilityService.validateSalonHours expects.
+      const DAY_ORDER = ['sun','mon','tue','wed','thu','fri','sat'];
+      const workingDays = DAY_ORDER.filter(d => salonDays.has(d));
       await axios.put('/api/buisness/changeSalonDetail', {
         salonId: salon.id,
         name: salonName,
         phoneNumber: salonPhone,
         address: salonAddress,
-        workingDays: salonDays,
+        workingDays,
         openingTime: salonOpen,
         closingTime: salonClose,
         requiresApproval: salonRequiresApproval
@@ -296,7 +317,7 @@ export default function SalonDashboard() {
       showToast('Salon details updated successfully!', 'success');
       fetchSalonProfile();
     } catch (err) {
-      showToast('Failed to update details', 'error');
+      showToast(err.response?.data?.message || 'Failed to update details', 'error');
     }
   };
 
@@ -978,28 +999,54 @@ export default function SalonDashboard() {
             <h3 className="panel-title">Salon Settings</h3>
             <form onSubmit={handleSaveDetails} className="grid-two-col">
               <div className="form-group" style={{ gridColumn: 'span 2' }}>
-                <label className="form-label">Brand / Salon Name</label>
-                <input type="text" className="form-input" style={{ paddingLeft: '16px' }} value={salonName} onChange={e => setSalonName(e.target.value)} required />
+                <label htmlFor="salon-name-settings" className="form-label">Brand / Salon Name</label>
+                <input id="salon-name-settings" type="text" className="form-input" style={{ paddingLeft: '16px' }} value={salonName} onChange={e => setSalonName(e.target.value)} required />
               </div>
               <div className="form-group">
-                <label className="form-label">Business Phone Number</label>
-                <input type="tel" className="form-input" style={{ paddingLeft: '16px' }} value={salonPhone} onChange={e => setSalonPhone(e.target.value)} required />
+                <label htmlFor="salon-phone-settings" className="form-label">Business Phone Number</label>
+                <input id="salon-phone-settings" type="tel" pattern="[0-9]{10}" title="10-digit phone number" className="form-input" style={{ paddingLeft: '16px' }} value={salonPhone} onChange={e => setSalonPhone(e.target.value)} required />
               </div>
               <div className="form-group">
                 <label className="form-label">Working Days</label>
-                <input type="text" className="form-input" style={{ paddingLeft: '16px' }} placeholder="Mon, Tue, Wed, Thu, Fri, Sat" value={salonDays} onChange={e => setSalonDays(e.target.value)} required />
+                <div className="weekday-checkboxes" role="group" aria-label="Working days">
+                  {[
+                    { code: 'sun', label: 'Sun' },
+                    { code: 'mon', label: 'Mon' },
+                    { code: 'tue', label: 'Tue' },
+                    { code: 'wed', label: 'Wed' },
+                    { code: 'thu', label: 'Thu' },
+                    { code: 'fri', label: 'Fri' },
+                    { code: 'sat', label: 'Sat' },
+                  ].map(d => {
+                    const checked = salonDays.has(d.code);
+                    return (
+                      <label key={d.code} className={`weekday-chip ${checked ? 'weekday-chip-on' : ''}`}>
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={(e) => {
+                            const next = new Set(salonDays);
+                            if (e.target.checked) next.add(d.code); else next.delete(d.code);
+                            setSalonDays(next);
+                          }}
+                        />
+                        {d.label}
+                      </label>
+                    );
+                  })}
+                </div>
               </div>
               <div className="form-group" style={{ gridColumn: 'span 2' }}>
-                <label className="form-label">Salon Address</label>
-                <input type="text" className="form-input" style={{ paddingLeft: '16px' }} value={salonAddress} onChange={e => setSalonAddress(e.target.value)} required />
+                <label htmlFor="salon-address-settings" className="form-label">Salon Address</label>
+                <input id="salon-address-settings" type="text" className="form-input" style={{ paddingLeft: '16px' }} value={salonAddress} onChange={e => setSalonAddress(e.target.value)} required />
               </div>
               <div className="form-group">
-                <label className="form-label">Opening Time</label>
-                <input type="time" className="form-input" style={{ paddingLeft: '16px' }} value={salonOpen} onChange={e => setSalonOpen(e.target.value)} required />
+                <label htmlFor="salon-open" className="form-label">Opening Time</label>
+                <input id="salon-open" type="time" className="form-input" style={{ paddingLeft: '16px' }} value={salonOpen} onChange={e => setSalonOpen(e.target.value)} required />
               </div>
               <div className="form-group">
-                <label className="form-label">Closing Time</label>
-                <input type="time" className="form-input" style={{ paddingLeft: '16px' }} value={salonClose} onChange={e => setSalonClose(e.target.value)} required />
+                <label htmlFor="salon-close" className="form-label">Closing Time</label>
+                <input id="salon-close" type="time" className="form-input" style={{ paddingLeft: '16px' }} value={salonClose} onChange={e => setSalonClose(e.target.value)} required />
               </div>
               <div className="form-group" style={{ gridColumn: 'span 2', display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <input

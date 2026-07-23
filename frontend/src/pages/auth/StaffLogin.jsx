@@ -37,11 +37,13 @@ export default function StaffLogin() {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Staff Email</label>
+            <label htmlFor="staff-login-email" className="form-label">Staff Email</label>
             <div className="form-input-wrapper">
               <Mail className="form-input-icon" size={18} />
               <input
+                id="staff-login-email"
                 type="email"
+                autoComplete="email"
                 required
                 className="form-input"
                 placeholder="staff@fresha.com"
@@ -51,11 +53,14 @@ export default function StaffLogin() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Password</label>
+            <label htmlFor="staff-login-password" className="form-label">Password</label>
             <div className="form-input-wrapper">
               <Lock className="form-input-icon" size={18} />
               <input
+                id="staff-login-password"
                 type="password"
+                autoComplete="current-password"
+                minLength={6}
                 required
                 className="form-input"
                 placeholder="••••••••"

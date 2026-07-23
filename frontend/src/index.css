@@ -1573,6 +1573,36 @@ textarea:focus-visible,
   color: var(--color-ink-2);
 }
 
+/* Working-day chip toggles in the salon settings form. Each chip is a
+   <label> wrapping a checkbox, so the association is implicit. */
+.weekday-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+}
+.weekday-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--color-rule-strong);
+  border-radius: var(--radius-xs);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color var(--dur-short) var(--ease-out),
+              background-color var(--dur-short) var(--ease-out);
+}
+.weekday-chip input {
+  margin: 0;
+  accent-color: var(--color-accent);
+}
+.weekday-chip-on {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
 /* Star-rating fieldset — resets default fieldset chrome so the legend reads
    like a label while still announcing the group to assistive tech. */
 .star-fieldset {

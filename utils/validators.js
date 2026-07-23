@@ -126,9 +126,60 @@ const statusUpdateSchema = z.object({
   status: z.enum(['pending', 'confirmed', 'declined', 'completed', 'cancelled']),
 });
 
+// ── Staff management ───────────────────────────────────────────────────
+// A staff account is a login credential, so password length is enforced.
+const staffAddSchema = z.object({
+  name: z.string().min(1, 'Name is required').max(100),
+  email: z.string().email('A valid email is required'),
+  phoneNumber: z.string().min(7, 'A valid phone number is required').max(20),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});
+
+const staffUpdateStatusSchema = z.object({
+  staffId: z.coerce.number().int().positive(),
+  status: z.enum(['active', 'inactive'], 'Status must be active or inactive'),
+});
+
+const staffAssignServicesSchema = z.object({
+  staffId: z.coerce.number().int().positive(),
+  services: z.array(z.coerce.number().int().positive()).max(100, 'Too many services'),
+});
+
+// ── Favorites ──────────────────────────────────────────────────────────
+const favoriteAddSchema = z.object({
+  salonId: z.coerce.number().int().positive('A valid salon id is required'),
+});
+
+// ── Salon details update (settings form) ───────────────────────────────
+// workingDays must be an array of lowercase day codes — this is the shape
+// availabilityService.validateSalonHours requires, and a bad shape here would
+// silently disable the salon-hours enforcement on the booking flow.
+const DAY_CODES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
+const salonDetailsSchema = z.object({
+  salonId: z.coerce.number().int().positive().optional(),
+  name: z.string().min(1).max(120).optional(),
+  phoneNumber: z.string().min(7).max(20).optional(),
+  address: z.string().min(1).max(300).optional(),
+  workingDays: z.array(z.enum(DAY_CODES)).min(1, 'Select at least one working day').optional(),
+  openingTime: z.string().regex(TIME_RE, 'Opening time must be HH:mm').optional(),
+  closingTime: z.string().regex(TIME_RE, 'Closing time must be HH:mm').optional(),
+  requiresApproval: z.boolean().optional(),
+}).refine(
+  (d) => !(d.openingTime && d.closingTime) || d.closingTime > d.openingTime,
+  { message: 'Closing time must be after opening time', path: ['closingTime'] }
+);
+
+// ── Admin search ───────────────────────────────────────────────────────
+// Used as a query schema. minLength guards against trivially broad LIKE scans.
+const adminSearchSchema = z.object({
+  searchTerm: z.string().trim().min(2, 'Search term must be at least 2 characters').max(100),
+});
+
 module.exports = {
   validate,
   SERVICE_CATEGORIES,
+  DAY_CODES,
   loginSchema,
   customerSignupSchema,
   salonSignupSchema,
@@ -141,4 +192,10 @@ module.exports = {
   customerReviewSchema,
   staffReviewSchema,
   statusUpdateSchema,
+  staffAddSchema,
+  staffUpdateStatusSchema,
+  staffAssignServicesSchema,
+  favoriteAddSchema,
+  salonDetailsSchema,
+  adminSearchSchema,
 };

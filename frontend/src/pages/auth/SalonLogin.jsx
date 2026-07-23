@@ -37,11 +37,13 @@ export default function SalonLogin() {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Business Email</label>
+            <label htmlFor="salon-login-email" className="form-label">Business Email</label>
             <div className="form-input-wrapper">
               <Mail className="form-input-icon" size={18} />
               <input
+                id="salon-login-email"
                 type="email"
+                autoComplete="email"
                 required
                 className="form-input"
                 placeholder="business@salon.com"
@@ -51,11 +53,14 @@ export default function SalonLogin() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Password</label>
+            <label htmlFor="salon-login-password" className="form-label">Password</label>
             <div className="form-input-wrapper">
               <Lock className="form-input-icon" size={18} />
               <input
+                id="salon-login-password"
                 type="password"
+                autoComplete="current-password"
+                minLength={6}
                 required
                 className="form-input"
                 placeholder="••••••••"

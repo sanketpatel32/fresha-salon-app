@@ -2,7 +2,14 @@ const router = require('express').Router();
 const salonServices = require('../controllers/salonServicesController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const salonStaff = require('../controllers/salonStaffController');
-const { validate, serviceAddSchema, serviceUpdateSchema } = require('../utils/validators');
+const {
+  validate,
+  serviceAddSchema,
+  serviceUpdateSchema,
+  staffAddSchema,
+  staffUpdateStatusSchema,
+  staffAssignServicesSchema,
+} = require('../utils/validators');
 
 // The dead res.sendFile HTML routes are removed — the SPA serves all views.
 // Every endpoint here is a salon-owner console action, so all require a valid
@@ -17,11 +24,11 @@ router.put('/services/update/:id', salonOnly, validate(serviceUpdateSchema), sal
 router.delete('/services/delete/:id', salonOnly, salonServices.deleteService);
 
 // Staff management
-router.post('/staff/add', salonOnly, salonStaff.addStaff);
+router.post('/staff/add', salonOnly, validate(staffAddSchema), salonStaff.addStaff);
 router.get('/staff/getallstaff', salonOnly, salonStaff.getStaff);
 router.get('/staff/getStaff', salonOnly, salonStaff.getStaffById);
-router.put('/staff/assignServices', salonOnly, salonStaff.assignServices);
-router.put('/staff/updateStatus', salonOnly, salonStaff.updateStatus);
+router.put('/staff/assignServices', salonOnly, validate(staffAssignServicesSchema), salonStaff.assignServices);
+router.put('/staff/updateStatus', salonOnly, validate(staffUpdateStatusSchema), salonStaff.updateStatus);
 
 // Staff blockouts
 router.post('/staff/blockouts', salonOnly, salonStaff.addBlockout);

@@ -5,6 +5,8 @@ const salonModel = require('../models/salonsModel');
 const userModel = require('../models/userModel');
 const servicesModel = require('../models/servicesModel');
 const staffModel = require('../models/staffModel');
+const paymentModel = require('../models/paymentModel');
+const favoriteModel = require('../models/favoriteModel');
 const { Op } = require('sequelize');
 const adminlogin = async (req, res) => {
     const { email, password } = req.body;
@@ -88,12 +90,18 @@ const searchUsers = async (req, res) => {
     const { searchTerm } = req.query;
 
     try {
+        // Escape SQL LIKE wildcards so a search for "%" or "_" matches literally
+        // instead of every row. (Length/shape is already enforced by the route's
+        // adminSearchSchema, but escaping is defense-in-depth.)
+        const escaped = String(searchTerm).replace(/[%_\\]/g, '\\$&');
+        const pattern = { [Op.like]: `%${escaped}%` };
+
         const users = await userModel.findAll({
             where: {
                 [Op.or]: [
-                    { name: { [Op.like]: `%${searchTerm}%` } },
-                    { email: { [Op.like]: `%${searchTerm}%` } },
-                    { phoneNumber: { [Op.like]: `%${searchTerm}%` } }
+                    { name: pattern },
+                    { email: pattern },
+                    { phoneNumber: pattern }
                 ]
             }
         });
@@ -107,16 +115,25 @@ const searchUsers = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     const userId = req.params.id;
+    const sequelize = require('../utils/database');
 
     try {
-        // Check if the user exists
         const user = await userModel.findByPk(userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Delete the user
-        await user.destroy();
+        // Cascade-delete the user's dependent rows explicitly, in a transaction.
+        // We can't rely on ON DELETE CASCADE: SQLite has foreign keys disabled
+        // by default (no PRAGMA foreign_keys=ON), so the association-level
+        // onDelete:'CASCADE' is a no-op in dev. Doing it explicitly works on
+        // both SQLite and Postgres.
+        await sequelize.transaction(async (t) => {
+            await appointmentModel.destroy({ where: { userId }, transaction: t });
+            await paymentModel.destroy({ where: { customerID: userId }, transaction: t });
+            await favoriteModel.destroy({ where: { userId }, transaction: t });
+            await user.destroy({ transaction: t });
+        });
 
         return res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {

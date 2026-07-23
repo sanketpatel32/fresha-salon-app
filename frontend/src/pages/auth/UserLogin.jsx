@@ -37,11 +37,13 @@ export default function UserLogin() {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Email Address</label>
+            <label htmlFor="user-login-email" className="form-label">Email Address</label>
             <div className="form-input-wrapper">
               <Mail className="form-input-icon" size={18} />
               <input
+                id="user-login-email"
                 type="email"
+                autoComplete="email"
                 required
                 className="form-input"
                 placeholder="you@example.com"
@@ -51,11 +53,14 @@ export default function UserLogin() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Password</label>
+            <label htmlFor="user-login-password" className="form-label">Password</label>
             <div className="form-input-wrapper">
               <Lock className="form-input-icon" size={18} />
               <input
+                id="user-login-password"
                 type="password"
+                autoComplete="current-password"
+                minLength={6}
                 required
                 className="form-input"
                 placeholder="••••••••"

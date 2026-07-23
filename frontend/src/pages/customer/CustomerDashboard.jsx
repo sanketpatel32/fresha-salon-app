@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Search, Star, Scissors, MapPin, Phone, Clock, SlidersHorizontal, X } from 'lucide-react';
 import { SkeletonCardGrid } from '../../components/Skeleton.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
+import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 
 const CATEGORIES = [
   'Hair', 'Spa & Massage', 'Facial & Skin', 'Nails',
@@ -23,6 +24,7 @@ const PAGE_SIZE = 12;
 export default function CustomerDashboard() {
   const { userSession } = useAuth();
   const navigate = useNavigate();
+  useDocumentTitle('Browse Salons');
 
   // Salon list + fetch state.
   const [salons, setSalons] = useState([]);

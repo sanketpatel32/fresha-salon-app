@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { MapPin, Phone, Clock, Star, Calendar, ArrowLeft, Scissors } from 'lucide-react';
 import Skeleton, { SkeletonCardGrid } from '../../components/Skeleton.jsx';
+import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 
 const CATEGORY_ORDER = [
   'Hair', 'Spa & Massage', 'Facial & Skin', 'Nails',
@@ -92,6 +93,7 @@ export default function SalonProfile() {
 
   const { salon, services, reviews } = data;
   const grouped = groupByCategory(services);
+  useDocumentTitle(salon.name || 'Salon');
 
   return (
     <div className="container" style={{ padding: '40px 24px' }}>

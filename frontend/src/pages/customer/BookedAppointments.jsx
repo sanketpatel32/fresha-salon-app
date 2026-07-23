@@ -7,11 +7,13 @@ import { useToast } from '../../context/ToastContext.jsx';
 import ConfirmDialog from '../../components/ConfirmDialog.jsx';
 import Modal from '../../components/Modal.jsx';
 import { SkeletonTable } from '../../components/Skeleton.jsx';
+import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 
 export default function BookedAppointments() {
   const { userSession } = useAuth();
   const showToast = useToast();
   const navigate = useNavigate();
+  useDocumentTitle('My Appointments');
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
@@ -184,14 +186,23 @@ export default function BookedAppointments() {
                         <Star size={14} /> {appt.userReview ? 'Edit Review' : 'Add Review'}
                       </button>
                     )}
-                    {(appt.status === 'confirmed' || appt.status === 'pending') && (
-                      <button
-                        onClick={() => handleCancel(appt.id)}
-                        className="btn btn-danger btn-sm"
-                      >
-                        Cancel
-                      </button>
-                    )}
+                    {(appt.status === 'confirmed' || appt.status === 'pending') && (() => {
+                      // Mirror the server's 24h cancellation window (statusRules.js)
+                      // so the button is disabled up-front instead of failing on click.
+                      const msUntilStart = new Date(`${appt.date}T${appt.time}`).getTime() - Date.now();
+                      const within24h = msUntilStart <= 24 * 60 * 60 * 1000;
+                      return (
+                        <button
+                          onClick={() => handleCancel(appt.id)}
+                          disabled={within24h}
+                          title={within24h ? 'Cancellations close 24 hours before the appointment' : undefined}
+                          className="btn btn-danger btn-sm"
+                          style={within24h ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
+                        >
+                          Cancel
+                        </button>
+                      );
+                    })()}
                   </td>
                 </tr>
               ))}

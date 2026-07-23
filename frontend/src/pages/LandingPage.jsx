@@ -1,9 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Scissors, Sparkles, User, ShieldAlert } from 'lucide-react';
+import useDocumentTitle from '../hooks/useDocumentTitle.js';
 
 export default function LandingPage() {
   const navigate = useNavigate();
+  useDocumentTitle(); // bare brand title on the landing page
 
   return (
     <div className="container">

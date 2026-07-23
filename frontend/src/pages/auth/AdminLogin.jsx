@@ -39,11 +39,13 @@ export default function AdminLogin() {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Admin Username</label>
+            <label htmlFor="admin-login-username" className="form-label">Admin Username</label>
             <div className="form-input-wrapper">
               <User className="form-input-icon" size={18} />
               <input
+                id="admin-login-username"
                 type="text"
+                autoComplete="username"
                 required
                 className="form-input"
                 placeholder="admin_id"
@@ -53,11 +55,13 @@ export default function AdminLogin() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Password</label>
+            <label htmlFor="admin-login-password" className="form-label">Password</label>
             <div className="form-input-wrapper">
               <Lock className="form-input-icon" size={18} />
               <input
+                id="admin-login-password"
                 type="password"
+                autoComplete="current-password"
                 required
                 className="form-input"
                 placeholder="••••••••"

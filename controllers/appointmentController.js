@@ -271,8 +271,13 @@ const cancelAppointment = async (req, res) => {
 
         // Build the start Date from date + time fields (SQLite returns DATEONLY string + TIME string).
         const startAt = new Date(`${appointment.date}T${appointment.time}`);
-        if (!canCancel(appointment.status, startAt)) {
-            return res.status(400).json({ message: 'This appointment can no longer be cancelled (status or <24h window).' });
+        // Give a specific, actionable reason rather than a combined vague one.
+        if (!canTransition(appointment.status, 'cancelled')) {
+            return res.status(400).json({ message: `This appointment is already ${appointment.status} and can't be cancelled.` });
+        }
+        const msUntilStart = startAt.getTime() - Date.now();
+        if (msUntilStart <= 24 * 3600 * 1000) {
+            return res.status(400).json({ message: "It's too late to cancel — cancellations close 24 hours before the appointment." });
         }
 
         appointment.status = 'cancelled';

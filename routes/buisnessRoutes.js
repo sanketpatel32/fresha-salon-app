@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const salonController = require('../controllers/salonController');
 const authMiddleware = require('../middlewares/authMiddleware');
-const { validate, loginSchema, salonSignupSchema, salonBrowseSchema } = require('../utils/validators');
+const { validate, loginSchema, salonSignupSchema, salonBrowseSchema, salonDetailsSchema } = require('../utils/validators');
 
 // Public auth endpoints.
 router.post('/signup', validate(salonSignupSchema), salonController.salonSignup);
@@ -17,6 +17,6 @@ router.get('/profile/:salonId', salonController.getSalonProfile);
 // Salon-owner-only: fetch own profile, update own details.
 // Role-gated; ownership is implicit (the token carries the salonId).
 router.get('/getsalonbyIdSalonId', authMiddleware, authMiddleware.requireRole('salon'), salonController.getSalonBySalonId);
-router.put('/changeSalonDetail', authMiddleware, authMiddleware.requireRole('salon'), salonController.updateSalonDetails);
+router.put('/changeSalonDetail', authMiddleware, authMiddleware.requireRole('salon'), validate(salonDetailsSchema), salonController.updateSalonDetails);
 
 module.exports = router;
