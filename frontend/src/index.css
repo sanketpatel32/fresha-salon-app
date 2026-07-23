@@ -1505,6 +1505,73 @@ textarea:focus-visible,
 .stuck-payment-item strong {
   color: var(--color-accent);
 }
+.stuck-payment-item.stuck-payment-danger {
+  background: color-mix(in oklab, var(--color-danger, #dc2626) 10%, transparent);
+  border-color: var(--color-danger, #dc2626);
+}
+.stuck-payment-item.stuck-payment-danger strong {
+  color: var(--color-danger, #dc2626);
+}
+
+/* ─── Owner-side reviews (SalonDashboard Reviews tab) ────────────────────── */
+.reviews-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  margin: var(--space-md) 0;
+}
+.reviews-summary-score {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  color: var(--color-accent);
+  font-size: var(--text-xl);
+  font-weight: 600;
+}
+.reviews-summary-meta {
+  display: flex;
+  flex-direction: column;
+}
+.reviews-summary-meta strong { font-size: var(--text-lg); }
+.reviews-summary-meta span { font-size: var(--text-sm); color: var(--color-ink-2); }
+
+.reviews-list-owner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.review-card-owner {
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-paper);
+}
+.review-card-owner-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2xs);
+}
+.review-stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--color-accent);
+}
+.review-card-owner-text {
+  margin: 0 0 var(--space-2xs);
+  color: var(--color-ink);
+  line-height: 1.5;
+}
+.review-card-owner-foot {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
 
 /* Star-rating fieldset — resets default fieldset chrome so the legend reads
    like a label while still announcing the group to assistive tech. */

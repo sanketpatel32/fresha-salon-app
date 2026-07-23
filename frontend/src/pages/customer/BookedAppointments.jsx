@@ -90,11 +90,20 @@ export default function BookedAppointments() {
       {stuckPayments.length > 0 && (
         <div className="stuck-payments-banner">
           {stuckPayments.map(p => (
-            <div key={p.orderId} className="stuck-payment-item">
-              <strong>Payment received</strong>
-              <span> — we're confirming your booking for order {p.orderId}
-              {p.paymentStatus === 'Success' ? ' (finalizing…)' : ' (awaiting payment confirmation)'}.
-              This usually resolves within a minute. Refresh in a moment.</span>
+            <div key={p.orderId} className={p.paymentStatus === 'Slot taken' ? 'stuck-payment-item stuck-payment-danger' : 'stuck-payment-item'}>
+              {p.paymentStatus === 'Slot taken' ? (
+                <>
+                  <strong>Booking couldn't be created</strong>
+                  <span> — your payment of ₹{p.orderAmount} for order {p.orderId} was received, but the slot was taken by another booking just before you finished. Please contact us to arrange a refund.</span>
+                </>
+              ) : (
+                <>
+                  <strong>Payment received</strong>
+                  <span> — we're confirming your booking for order {p.orderId}
+                  {p.paymentStatus === 'Success' ? ' (finalizing…)' : ' (awaiting payment confirmation)'}.
+                  This usually resolves within a minute. Refresh in a moment.</span>
+                </>
+              )}
             </div>
           ))}
         </div>

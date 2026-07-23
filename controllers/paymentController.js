@@ -163,8 +163,11 @@ exports.getStuckPayments = async (req, res) => {
     const stuck = await Payment.findAll({
       where: {
         customerID: req.user.userId,
-        // Only surface payments worth surfacing — drop old/failed ones.
-        paymentStatus: ['Pending', 'Success'],
+        // Surface payments that haven't become a booking: still Pending, marked
+        // Success (webhook/booking not yet finalized), or "Slot taken" (the
+        // TOCTOU guard refused the booking after payment was captured — the
+        // customer needs to know and a refund is owed).
+        paymentStatus: ['Pending', 'Success', 'Slot taken'],
       },
       order: [['createdAt', 'DESC']],
       limit: 5,

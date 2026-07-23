@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Scissors, Activity, Calendar, ListFilter, UserCheck, Settings,
-  CreditCard, CheckCircle, Clock, Plus, Edit, Trash2
+  CreditCard, CheckCircle, Clock, Plus, Edit, Trash2, Star
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
@@ -401,6 +401,9 @@ export default function SalonDashboard() {
           </button>
           <button onClick={() => setActiveTab('staff')} className={`btn sidebar-nav-item ${activeTab === 'staff' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
             <UserCheck size={18} /> Manage Staff
+          </button>
+          <button onClick={() => setActiveTab('reviews')} className={`btn sidebar-nav-item ${activeTab === 'reviews' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
+            <Star size={18} /> Reviews
           </button>
           <button onClick={() => setActiveTab('details')} className={`btn sidebar-nav-item ${activeTab === 'details' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
             <Settings size={18} /> Salon Settings
@@ -910,6 +913,62 @@ export default function SalonDashboard() {
                 <button type="submit" className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: '12px' }}>Save Staff Member</button>
               </form>
             </div>
+          </div>
+        )}
+
+        {/* Tab: Reviews — aggregate rating + the customer reviews already cached */}
+        {activeTab === 'reviews' && (
+          <div className="booking-panel" style={{ maxWidth: '800px' }}>
+            <h3 className="panel-title">Customer Reviews</h3>
+            <div className="reviews-summary">
+              <div className="reviews-summary-score">
+                <Star size={28} fill="currentColor" />
+                <span>{salon && salon.avgRating ? Number(salon.avgRating).toFixed(1) : '—'}</span>
+              </div>
+              <div className="reviews-summary-meta">
+                <strong>{salon && salon.avgRating ? Number(salon.avgRating).toFixed(1) : 'No ratings yet'}</strong>
+                <span>out of 5 · {salon ? salon.reviewCount : 0} review{(salon && salon.reviewCount) === 1 ? '' : 's'}</span>
+              </div>
+            </div>
+
+            {appointmentsLoading ? (
+              <SkeletonTable rows={3} cols={3} />
+            ) : (() => {
+              const reviewed = appointments
+                .filter(a => a.rating || a.userReview)
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+              return reviewed.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
+                  No reviews yet. Reviews appear here once customers leave feedback on completed appointments.
+                </div>
+              ) : (
+                <div className="reviews-list-owner">
+                  {reviewed.map(a => (
+                    <div key={a.id} className="review-card-owner">
+                      <div className="review-card-owner-head">
+                        <strong>{a.user?.name || 'Customer'}</strong>
+                        {a.rating && (
+                          <span className="review-stars" aria-label={`${a.rating} out of 5 stars`}>
+                            {[1,2,3,4,5].map(n => (
+                              <Star key={n} size={14} fill={n <= a.rating ? 'currentColor' : 'none'} />
+                            ))}
+                          </span>
+                        )}
+                      </div>
+                      {a.userReview ? (
+                        <p className="review-card-owner-text">“{a.userReview}”</p>
+                      ) : (
+                        <p className="review-card-owner-text" style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>Rating only — no written review.</p>
+                      )}
+                      <div className="review-card-owner-foot">
+                        <span>{a.service?.name}</span>
+                        <span>{new Date(a.createdAt).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
           </div>
         )}
 

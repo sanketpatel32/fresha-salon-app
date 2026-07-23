@@ -59,7 +59,7 @@ const finalizeAppointmentFromPayment = async (order) => {
   const requiresApproval = salon && salon.requiresApproval;
   const initialStatus = requiresApproval ? 'pending' : 'confirmed';
 
-  return appointmentModel.create({
+  const appointment = await appointmentModel.create({
     orderId: order.orderId,
     staffId: order.staffId,
     salonId: order.salonId,
@@ -70,6 +70,31 @@ const finalizeAppointmentFromPayment = async (order) => {
     endTime: order.endTime,
     status: initialStatus,
   });
+
+  // Fire-and-forget a booking confirmation email. Loaded lazily and no-ops when
+  // Brevo isn't configured, so this can never break the booking itself. Not
+  // awaited — the customer's appointment is already saved.
+  setImmediate(async () => {
+    try {
+      const { sendBookingConfirmation } = require('./emailService');
+      const [customer, staff, service] = await Promise.all([
+        require('../models/userModel').findByPk(order.customerID),
+        require('../models/staffModel').findByPk(order.staffId),
+        require('../models/servicesModel').findByPk(order.serviceId),
+      ]);
+      await sendBookingConfirmation({
+        order: order.toJSON ? order.toJSON() : order,
+        customer,
+        staff,
+        service,
+        salon,
+      });
+    } catch (err) {
+      console.error('Booking confirmation email failed:', err.message);
+    }
+  });
+
+  return appointment;
 };
 
 /**

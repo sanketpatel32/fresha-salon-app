@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Calendar } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
+import Modal from '../../components/Modal.jsx';
+import { SkeletonTable } from '../../components/Skeleton.jsx';
 
 /* Staff Dashboard Component */
 export default function StaffDashboard() {
@@ -71,9 +73,7 @@ export default function StaffDashboard() {
       </div>
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '60px' }}>
-          <h2>Fetching active schedule lists...</h2>
-        </div>
+        <SkeletonTable rows={4} cols={7} />
       ) : appointments.length === 0 ? (
         <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
           <Calendar size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
@@ -139,25 +139,22 @@ export default function StaffDashboard() {
           </table>
         </div>
       )}
-      {showNoteModal && (
-        <div className="modal-backdrop">
-          <div className="modal-content">
-            <h3 className="panel-title">Therapist Note</h3>
-            <div className="form-group">
-              <textarea
-                className="form-textarea"
-                placeholder="Service notes, client preferences, follow-up..."
-                value={noteText}
-                onChange={e => setNoteText(e.target.value)}
-              />
-            </div>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
-              <button onClick={() => setShowNoteModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
-              <button onClick={handleSaveNote} className="btn btn-primary btn-sm">Save Note</button>
-            </div>
-          </div>
+      <Modal open={showNoteModal} onClose={() => setShowNoteModal(false)} title="Therapist Note">
+        <div className="form-group">
+          <label htmlFor="staff-note-text" className="form-label">Note</label>
+          <textarea
+            id="staff-note-text"
+            className="form-textarea"
+            placeholder="Service notes, client preferences, follow-up..."
+            value={noteText}
+            onChange={e => setNoteText(e.target.value)}
+          />
         </div>
-      )}
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
+          <button onClick={() => setShowNoteModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
+          <button onClick={handleSaveNote} className="btn btn-primary btn-sm">Save Note</button>
+        </div>
+      </Modal>
     </div>
   );
 }

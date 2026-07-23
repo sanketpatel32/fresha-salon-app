@@ -78,7 +78,10 @@ export default function AppointmentBooking() {
         showToast('No staff members available for this slot.', 'error');
       }
     } catch (err) {
-      showToast('Error checking slot availability', 'error');
+      // Surface the specific reason from the server (e.g. "The salon is closed
+      // on this day", "This salon opens at 09:00") instead of a generic message,
+      // so the customer knows what to change.
+      showToast(err.response?.data?.message || 'Error checking slot availability', 'error');
     } finally {
       setCheckingAvailability(false);
     }
@@ -107,24 +110,27 @@ export default function AppointmentBooking() {
 
       // 2. Launch Cashfree SDK checkout
       if (window.Cashfree) {
-        const cashfree = window.Cashfree({ mode: "sandbox" });
+        // Mode must match the server environment — prod keys against the sandbox
+        // gateway (or vice versa) will fail. The server selects env from NODE_ENV
+        // in services/cashfreeServices.js, so we derive the client mode the same way.
+        const mode = import.meta.env.PROD ? 'production' : 'sandbox';
+        const cashfree = window.Cashfree({ mode });
         let checkoutOptions = {
           paymentSessionId: paymentSessionId,
           redirectTarget: "_self"
         };
         showToast("Opening secure checkout portal...", "success");
+        // With redirectTarget "_self" the browser is redirected to the return_url
+        // (the /payment-status SPA route), so this promise may never resolve —
+        // the SPA unloads. If it DOES resolve (e.g. popup mode), route through the
+        // same status page for a consistent confirmation UX.
         await cashfree.checkout(checkoutOptions);
+        navigate(`/payment-status?orderId=${orderId}`);
       } else {
-        // Fallback for environment check failures
+        // Fallback for environment check failures (dev SDK not loaded)
         showToast("Cashfree checkout SDK loaded incorrectly. Simulating success...", "warning");
-        setTimeout(async () => {
-          try {
-            await axios.get(`/api/pay/${orderId}`);
-            showToast("Simulated payment success!", "success");
-            navigate('/customer/bookings');
-          } catch (paymentErr) {
-            showToast("Failed to simulate status check", "error");
-          }
+        setTimeout(() => {
+          navigate(`/payment-status?orderId=${orderId}`);
         }, 1500);
       }
     } catch (err) {

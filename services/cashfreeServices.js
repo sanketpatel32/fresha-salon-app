@@ -36,7 +36,10 @@ exports.createOrder = async (
       },
 
       order_meta: {
-        return_url: `${hostUrl}/api/pay/${orderId}`,
+        // Send the customer back into the SPA (not the raw JSON endpoint) so
+        // they land on a proper confirmation page. The order id is passed as a
+        // query param; the PaymentStatus page reads it and calls the JSON API.
+        return_url: `${hostUrl}/payment-status?orderId=${orderId}`,
       },
       order_expiry_time: formattedExpiryDate,
     };

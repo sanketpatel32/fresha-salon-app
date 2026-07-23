@@ -41,18 +41,7 @@ const refreshSalonRatingCache = async (salonId) => {
 };
 
 const { v4: uuidv4 } = require('uuid');
-const Sib = require('sib-api-v3-sdk');
 require('dotenv').config();
-
-const client = Sib.ApiClient.instance;
-const apiKey = client.authentications['api-key'];
-apiKey.apiKey = process.env.BREVO_API_KEY;
-
-const tranEmailApi = new Sib.TransactionalEmailsApi();
-const sender = {
-    email: process.env.SENDER_EMAIL,
-    name: 'Tech Support by Sanket'
-};
 
 // Checks staff availability for a given service, date, and time.
 // Enforces salon working hours/days AND staff conflicts. The conflict
@@ -160,7 +149,10 @@ const getScheduledAppointmentsBySalonId = async (req, res) => {
     }
 };
 
-// Sends appointment details to the customer via email
+// Sends appointment details to the customer via email (Brevo).
+// Delegates to services/emailService.js, which lazily initializes Brevo and
+// no-ops when keys are absent. Kept as an endpoint for manual re-send; the
+// payment success path also fires a confirmation automatically.
 const mailAppointment = async (req, res) => {
     const { orderId } = req.body;
 
@@ -168,83 +160,32 @@ const mailAppointment = async (req, res) => {
         const order = await Payment.findOne({
             where: { orderId },
             include: [
-                {
-                    model: staffModel,
-                    as: 'staff',
-                    attributes: ['name', 'phoneNumber'],
-                },
-                {
-                    model: Services,
-                    as: 'service',
-                    attributes: ['name'],
-                },
-                {
-                    model: Salons,
-                    as: 'salon',
-                    attributes: ['name'],
-                },
+                { model: staffModel, as: 'staff', attributes: ['name', 'phoneNumber'] },
+                { model: Services, as: 'service', attributes: ['name'] },
+                { model: Salons, as: 'salon', attributes: ['name'] },
             ],
         });
-
-        if (!order) {
-            return res.status(404).json({ message: "Order not found" });
-        }
+        if (!order) return res.status(404).json({ message: "Order not found" });
 
         const customer = await userModel.findOne({ where: { id: order.customerID } });
+        if (!customer) return res.status(404).json({ message: "Customer not found" });
 
-        if (!customer) {
-            return res.status(404).json({ message: "Customer not found" });
-        }
-
-        const toEmail = customer.email;
-        const subject = "Your Appointment Details";
-        const textContent = `
-            Dear ${customer.name},
-
-            Thank you for booking with us! Here are your appointment details:
-
-            - Appointment Date: ${order.dateSelected}
-            - Appointment Time: ${order.timeSelected} - ${order.endTime}
-            - Service: ${order.service.name}
-            - Staff: ${order.staff.name} (${order.staff.phoneNumber})
-            - Salon: ${order.salon.name}
-            - Amount Paid: ₹${order.orderAmount}
-
-            We look forward to serving you!
-
-            Best regards,
-            Fresha Team
-        `;
-
-        const htmlContent = `
-            <p>Dear ${customer.name},</p>
-            <p>Thank you for booking with us! Here are your appointment details:</p>
-            <ul>
-                <li><strong>Appointment Date:</strong> ${order.dateSelected}</li>
-                <li><strong>Appointment Time:</strong> ${order.timeSelected} - ${order.endTime}</li>
-                <li><strong>Service:</strong> ${order.service.name}</li>
-                <li><strong>Staff:</strong> ${order.staff.name} (${order.staff.phoneNumber})</li>
-                <li><strong>Salon:</strong> ${order.salon.name}</li>
-                <li><strong>Amount Paid:</strong> ₹${order.orderAmount}</li>
-            </ul>
-            <p>We look forward to serving you!</p>
-            <p>Best regards,<br>Fresha Team</p>
-        `;
-
-        const response = await tranEmailApi.sendTransacEmail({
-            sender,
-            to: [{ email: toEmail }],
-            subject,
-            textContent,
-            htmlContent,
+        const { sendBookingConfirmation } = require('../services/emailService');
+        const result = await sendBookingConfirmation({
+            order: order.toJSON(),
+            customer: customer.toJSON(),
+            staff: order.staff,
+            service: order.service,
+            salon: order.salon,
         });
-
-        console.log("✅ Email sent:", response.messageId || '(no message id)');
-        res.status(200).json({ message: "Email sent successfully" });
+        if (result.sent) {
+            res.status(200).json({ message: "Email sent successfully" });
+        } else if (result.reason === 'not-configured') {
+            res.status(200).json({ message: "Email not configured — skipping" });
+        } else {
+            res.status(500).json({ error: "Failed to send email" });
+        }
     } catch (error) {
-        // Log the full error server-side only; return a generic message to the
-        // client so Brevo's API response (which may include internal details)
-        // never leaks out.
         console.error("❌ Error sending email:", error.response?.body || error.message);
         res.status(500).json({ error: "Failed to send email" });
     }

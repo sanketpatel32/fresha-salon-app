@@ -22,6 +22,7 @@ const AdminLogin = lazy(() => import('./pages/auth/AdminLogin.jsx'));
 const CustomerDashboard = lazy(() => import('./pages/customer/CustomerDashboard.jsx'));
 const SalonProfile = lazy(() => import('./pages/customer/SalonProfile.jsx'));
 const AppointmentBooking = lazy(() => import('./pages/customer/AppointmentBooking.jsx'));
+const PaymentStatus = lazy(() => import('./pages/customer/PaymentStatus.jsx'));
 const EditProfile = lazy(() => import('./pages/customer/EditProfile.jsx'));
 const BookedAppointments = lazy(() => import('./pages/customer/BookedAppointments.jsx'));
 
@@ -60,6 +61,10 @@ function AuthGatedRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+
+      {/* Post-payment landing — public (Cashfree issues the browser redirect).
+          Reads the order status and routes the customer to a clear result. */}
+      <Route path="/payment-status" element={<PaymentStatus />} />
 
       {/* Auth Routes — redirect to dashboard if already logged in */}
       <Route path="/user/login" element={userSession.token ? <Navigate to={`/${userSession.role}/dashboard`} /> : <UserLogin />} />
