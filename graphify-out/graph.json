@@ -103,10 +103,19 @@
       "norm_label": "appointment"
     },
     {
-      "label": "{ ensureColumns }",
+      "label": "Payment",
       "file_type": "code",
       "source_file": "app.js",
       "source_location": "L25",
+      "id": "fresha_salon_app_app_payment",
+      "community": 4,
+      "norm_label": "payment"
+    },
+    {
+      "label": "{ ensureColumns }",
+      "file_type": "code",
+      "source_file": "app.js",
+      "source_location": "L26",
       "id": "fresha_salon_app_app_ensurecolumns",
       "community": 4,
       "norm_label": "{ ensurecolumns }"
@@ -115,7 +124,7 @@
       "label": "app",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L29",
+      "source_location": "L30",
       "id": "fresha_salon_app_app_app",
       "community": 4,
       "norm_label": "app"
@@ -124,7 +133,7 @@
       "label": "allowedOrigins",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L51",
+      "source_location": "L52",
       "id": "fresha_salon_app_app_allowedorigins",
       "community": 4,
       "norm_label": "allowedorigins"
@@ -133,7 +142,7 @@
       "label": "apiLimiter",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L61",
+      "source_location": "L62",
       "id": "fresha_salon_app_app_apilimiter",
       "community": 4,
       "norm_label": "apilimiter"
@@ -142,7 +151,7 @@
       "label": "{ strictLimiter: loginLimiter }",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L74",
+      "source_location": "L75",
       "id": "fresha_salon_app_app_strictlimiter_loginlimiter",
       "community": 4,
       "norm_label": "{ strictlimiter: loginlimiter }"
@@ -151,7 +160,7 @@
       "label": "seedSampleData()",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L127",
+      "source_location": "L128",
       "id": "fresha_salon_app_app_seedsampledata",
       "community": 4,
       "norm_label": "seedsampledata()"
@@ -160,7 +169,7 @@
       "label": "{ migrateCategories }",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L262",
+      "source_location": "L271",
       "id": "fresha_salon_app_app_migratecategories",
       "community": 4,
       "norm_label": "{ migratecategories }"
@@ -909,7 +918,7 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L399",
       "id": "controllers_appointmentcontroller_cancelappointment",
-      "community": 9,
+      "community": 105,
       "norm_label": "cancelappointment()"
     },
     {
@@ -927,7 +936,7 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L538",
       "id": "controllers_appointmentcontroller_updateappointmentstatus",
-      "community": 9,
+      "community": 105,
       "norm_label": "updateappointmentstatus()"
     },
     {
@@ -1066,19 +1075,19 @@
       "norm_label": "{\r\n  createorder,\r\n  getpaymentstatus,\r\n  verifywebhook,\r\n}"
     },
     {
-      "label": "{\r\n  finalizeAppointmentFromPayment,\r\n  getAuthoritativePrice,\r\n}",
+      "label": "{\r\n  finalizeAppointmentFromPayment,\r\n  getAuthoritativePrice,\r\n  resolvePromo,\r\n  round2,\r\n}",
       "file_type": "code",
       "source_file": "controllers/paymentController.js",
       "source_location": "L6",
-      "id": "controllers_paymentcontroller_finalizeappointmentfrompayment_getauthoritativeprice",
+      "id": "controllers_paymentcontroller_finalizeappointmentfrompayment_getauthoritativeprice_resolvepromo_round2",
       "community": 6,
-      "norm_label": "{\r\n  finalizeappointmentfrompayment,\r\n  getauthoritativeprice,\r\n}"
+      "norm_label": "{\r\n  finalizeappointmentfrompayment,\r\n  getauthoritativeprice,\r\n  resolvepromo,\r\n  round2,\r\n}"
     },
     {
       "label": "{ computeEndTime, validateSalonHours }",
       "file_type": "code",
       "source_file": "controllers/paymentController.js",
-      "source_location": "L10",
+      "source_location": "L12",
       "id": "controllers_paymentcontroller_computeendtime_validatesalonhours",
       "community": 6,
       "norm_label": "{ computeendtime, validatesalonhours }"
@@ -1087,7 +1096,7 @@
       "label": "Salons",
       "file_type": "code",
       "source_file": "controllers/paymentController.js",
-      "source_location": "L11",
+      "source_location": "L13",
       "id": "controllers_paymentcontroller_salons",
       "community": 6,
       "norm_label": "salons"
@@ -1096,7 +1105,7 @@
       "label": "Payment",
       "file_type": "code",
       "source_file": "controllers/paymentController.js",
-      "source_location": "L12",
+      "source_location": "L14",
       "id": "controllers_paymentcontroller_payment",
       "community": 6,
       "norm_label": "payment"
@@ -1105,7 +1114,7 @@
       "label": "appointmentModel",
       "file_type": "code",
       "source_file": "controllers/paymentController.js",
-      "source_location": "L13",
+      "source_location": "L15",
       "id": "controllers_paymentcontroller_appointmentmodel",
       "community": 6,
       "norm_label": "appointmentmodel"
@@ -1114,7 +1123,7 @@
       "label": "userModel",
       "file_type": "code",
       "source_file": "controllers/paymentController.js",
-      "source_location": "L14",
+      "source_location": "L16",
       "id": "controllers_paymentcontroller_usermodel",
       "community": 6,
       "norm_label": "usermodel"
@@ -1123,16 +1132,25 @@
       "label": "crypto",
       "file_type": "code",
       "source_file": "controllers/paymentController.js",
-      "source_location": "L15",
+      "source_location": "L17",
       "id": "controllers_paymentcontroller_crypto",
       "community": 6,
       "norm_label": "crypto"
     },
     {
+      "label": "orderAmount",
+      "file_type": "code",
+      "source_file": "controllers/paymentController.js",
+      "source_location": "L66",
+      "id": "controllers_paymentcontroller_orderamount",
+      "community": 6,
+      "norm_label": "orderamount"
+    },
+    {
       "label": "endTime",
       "file_type": "code",
       "source_file": "controllers/paymentController.js",
-      "source_location": "L44",
+      "source_location": "L72",
       "id": "controllers_paymentcontroller_endtime",
       "community": 6,
       "norm_label": "endtime"
@@ -1141,7 +1159,7 @@
       "label": "hoursCheck",
       "file_type": "code",
       "source_file": "controllers/paymentController.js",
-      "source_location": "L46",
+      "source_location": "L74",
       "id": "controllers_paymentcontroller_hourscheck",
       "community": 6,
       "norm_label": "hourscheck"
@@ -1150,7 +1168,7 @@
       "label": "customerID",
       "file_type": "code",
       "source_file": "controllers/paymentController.js",
-      "source_location": "L60",
+      "source_location": "L87",
       "id": "controllers_paymentcontroller_customerid",
       "community": 6,
       "norm_label": "customerid"
@@ -1159,7 +1177,7 @@
       "label": "verified",
       "file_type": "code",
       "source_file": "controllers/paymentController.js",
-      "source_location": "L241",
+      "source_location": "L271",
       "id": "controllers_paymentcontroller_verified",
       "community": 6,
       "norm_label": "verified"
@@ -1388,6 +1406,69 @@
       "id": "controllers_saloncontroller_updatesalondetails",
       "community": 15,
       "norm_label": "updatesalondetails()"
+    },
+    {
+      "label": "salonPromosController.js",
+      "file_type": "code",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L1",
+      "id": "controllers_salonpromoscontroller_js",
+      "community": 76,
+      "norm_label": "salonpromoscontroller.js"
+    },
+    {
+      "label": "PromoCode",
+      "file_type": "code",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L7",
+      "id": "controllers_salonpromoscontroller_promocode",
+      "community": 76,
+      "norm_label": "promocode"
+    },
+    {
+      "label": "isSequelizeUniqueError()",
+      "file_type": "code",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L9",
+      "id": "controllers_salonpromoscontroller_issequelizeuniqueerror",
+      "community": 76,
+      "norm_label": "issequelizeuniqueerror()"
+    },
+    {
+      "label": "createPromo()",
+      "file_type": "code",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L15",
+      "id": "controllers_salonpromoscontroller_createpromo",
+      "community": 76,
+      "norm_label": "createpromo()"
+    },
+    {
+      "label": "listPromos()",
+      "file_type": "code",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L49",
+      "id": "controllers_salonpromoscontroller_listpromos",
+      "community": 76,
+      "norm_label": "listpromos()"
+    },
+    {
+      "label": "updatePromo()",
+      "file_type": "code",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L68",
+      "id": "controllers_salonpromoscontroller_updatepromo",
+      "community": 76,
+      "norm_label": "updatepromo()"
+    },
+    {
+      "label": "deletePromo()",
+      "file_type": "code",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L101",
+      "id": "controllers_salonpromoscontroller_deletepromo",
+      "community": 76,
+      "norm_label": "deletepromo()"
     },
     {
       "label": "salonServicesController.js",
@@ -2961,7 +3042,7 @@
       "source_file": "models/appointmentModel.js",
       "source_location": "L1",
       "id": "models_appointmentmodel_js",
-      "community": 34,
+      "community": 44,
       "norm_label": "appointmentmodel.js"
     },
     {
@@ -2970,7 +3051,7 @@
       "source_file": "models/appointmentModel.js",
       "source_location": "L1",
       "id": "models_appointmentmodel_datatypes",
-      "community": 34,
+      "community": 44,
       "norm_label": "{ datatypes }"
     },
     {
@@ -2979,7 +3060,7 @@
       "source_file": "models/appointmentModel.js",
       "source_location": "L2",
       "id": "models_appointmentmodel_sequelize",
-      "community": 34,
+      "community": 44,
       "norm_label": "sequelize"
     },
     {
@@ -2988,7 +3069,7 @@
       "source_file": "models/appointmentModel.js",
       "source_location": "L5",
       "id": "models_appointmentmodel_appointment",
-      "community": 34,
+      "community": 44,
       "norm_label": "appointment"
     },
     {
@@ -3082,6 +3163,15 @@
       "norm_label": "staffblockout"
     },
     {
+      "label": "PromoCode",
+      "file_type": "code",
+      "source_file": "models/associations.js",
+      "source_location": "L12",
+      "id": "models_associations_promocode",
+      "community": 25,
+      "norm_label": "promocode"
+    },
+    {
       "label": "favoriteModel.js",
       "file_type": "code",
       "source_file": "models/favoriteModel.js",
@@ -3150,7 +3240,7 @@
       "source_file": "models/paymentModel.js",
       "source_location": "L1",
       "id": "models_paymentmodel_js",
-      "community": 25,
+      "community": 106,
       "norm_label": "paymentmodel.js"
     },
     {
@@ -3159,7 +3249,7 @@
       "source_file": "models/paymentModel.js",
       "source_location": "L1",
       "id": "models_paymentmodel_sequelize",
-      "community": 25,
+      "community": 106,
       "norm_label": "sequelize"
     },
     {
@@ -3168,8 +3258,35 @@
       "source_file": "models/paymentModel.js",
       "source_location": "L4",
       "id": "models_paymentmodel_payment",
-      "community": 25,
+      "community": 106,
       "norm_label": "payment"
+    },
+    {
+      "label": "promoCodeModel.js",
+      "file_type": "code",
+      "source_file": "models/promoCodeModel.js",
+      "source_location": "L1",
+      "id": "models_promocodemodel_js",
+      "community": 25,
+      "norm_label": "promocodemodel.js"
+    },
+    {
+      "label": "Sequelize",
+      "file_type": "code",
+      "source_file": "models/promoCodeModel.js",
+      "source_location": "L1",
+      "id": "models_promocodemodel_sequelize",
+      "community": 25,
+      "norm_label": "sequelize"
+    },
+    {
+      "label": "PromoCode",
+      "file_type": "code",
+      "source_file": "models/promoCodeModel.js",
+      "source_location": "L17",
+      "id": "models_promocodemodel_promocode",
+      "community": 25,
+      "norm_label": "promocode"
     },
     {
       "label": "salonsModel.js",
@@ -3258,7 +3375,7 @@
       "source_file": "models/staffModel.js",
       "source_location": "L1",
       "id": "models_staffmodel_js",
-      "community": 44,
+      "community": 34,
       "norm_label": "staffmodel.js"
     },
     {
@@ -3267,7 +3384,7 @@
       "source_file": "models/staffModel.js",
       "source_location": "L1",
       "id": "models_staffmodel_sequelize",
-      "community": 44,
+      "community": 34,
       "norm_label": "sequelize"
     },
     {
@@ -3276,7 +3393,7 @@
       "source_file": "models/staffModel.js",
       "source_location": "L4",
       "id": "models_staffmodel_staff",
-      "community": 44,
+      "community": 34,
       "norm_label": "staff"
     },
     {
@@ -3312,7 +3429,7 @@
       "source_file": "models/userModel.js",
       "source_location": "L1",
       "id": "models_usermodel_js",
-      "community": 29,
+      "community": 107,
       "norm_label": "usermodel.js"
     },
     {
@@ -3321,7 +3438,7 @@
       "source_file": "models/userModel.js",
       "source_location": "L1",
       "id": "models_usermodel_sequelize",
-      "community": 29,
+      "community": 107,
       "norm_label": "sequelize"
     },
     {
@@ -3330,7 +3447,7 @@
       "source_file": "models/userModel.js",
       "source_location": "L4",
       "id": "models_usermodel_user",
-      "community": 29,
+      "community": 107,
       "norm_label": "user"
     },
     {
@@ -4680,7 +4797,7 @@
       "source_file": "routes/buisnessRoutes.js",
       "source_location": "L1",
       "id": "routes_buisnessroutes_js",
-      "community": 38,
+      "community": 104,
       "norm_label": "buisnessroutes.js"
     },
     {
@@ -4689,7 +4806,7 @@
       "source_file": "routes/buisnessRoutes.js",
       "source_location": "L1",
       "id": "routes_buisnessroutes_express",
-      "community": 38,
+      "community": 104,
       "norm_label": "express"
     },
     {
@@ -4698,7 +4815,7 @@
       "source_file": "routes/buisnessRoutes.js",
       "source_location": "L2",
       "id": "routes_buisnessroutes_router",
-      "community": 38,
+      "community": 104,
       "norm_label": "router"
     },
     {
@@ -4707,7 +4824,7 @@
       "source_file": "routes/buisnessRoutes.js",
       "source_location": "L3",
       "id": "routes_buisnessroutes_saloncontroller",
-      "community": 38,
+      "community": 104,
       "norm_label": "saloncontroller"
     },
     {
@@ -4716,7 +4833,7 @@
       "source_file": "routes/buisnessRoutes.js",
       "source_location": "L4",
       "id": "routes_buisnessroutes_authmiddleware",
-      "community": 38,
+      "community": 104,
       "norm_label": "authmiddleware"
     },
     {
@@ -4725,7 +4842,7 @@
       "source_file": "routes/buisnessRoutes.js",
       "source_location": "L5",
       "id": "routes_buisnessroutes_validate_loginschema_salonsignupschema_salonbrowseschema_salondetailsschema",
-      "community": 38,
+      "community": 104,
       "norm_label": "{ validate, loginschema, salonsignupschema, salonbrowseschema, salondetailsschema }"
     },
     {
@@ -4734,7 +4851,7 @@
       "source_file": "routes/favoriteRoutes.js",
       "source_location": "L1",
       "id": "routes_favoriteroutes_js",
-      "community": 75,
+      "community": 64,
       "norm_label": "favoriteroutes.js"
     },
     {
@@ -4743,7 +4860,7 @@
       "source_file": "routes/favoriteRoutes.js",
       "source_location": "L1",
       "id": "routes_favoriteroutes_router",
-      "community": 75,
+      "community": 64,
       "norm_label": "router"
     },
     {
@@ -4752,7 +4869,7 @@
       "source_file": "routes/favoriteRoutes.js",
       "source_location": "L2",
       "id": "routes_favoriteroutes_authmiddleware",
-      "community": 75,
+      "community": 64,
       "norm_label": "authmiddleware"
     },
     {
@@ -4761,7 +4878,7 @@
       "source_file": "routes/favoriteRoutes.js",
       "source_location": "L3",
       "id": "routes_favoriteroutes_favoritecontroller",
-      "community": 75,
+      "community": 64,
       "norm_label": "favoritecontroller"
     },
     {
@@ -4770,7 +4887,7 @@
       "source_file": "routes/favoriteRoutes.js",
       "source_location": "L4",
       "id": "routes_favoriteroutes_validate_favoriteaddschema",
-      "community": 75,
+      "community": 64,
       "norm_label": "{ validate, favoriteaddschema }"
     },
     {
@@ -4927,10 +5044,19 @@
       "norm_label": "salonservices"
     },
     {
-      "label": "authMiddleware",
+      "label": "salonPromos",
       "file_type": "code",
       "source_file": "routes/salonsDashboardRoutes.js",
       "source_location": "L3",
+      "id": "routes_salonsdashboardroutes_salonpromos",
+      "community": 28,
+      "norm_label": "salonpromos"
+    },
+    {
+      "label": "authMiddleware",
+      "file_type": "code",
+      "source_file": "routes/salonsDashboardRoutes.js",
+      "source_location": "L4",
       "id": "routes_salonsdashboardroutes_authmiddleware",
       "community": 28,
       "norm_label": "authmiddleware"
@@ -4939,25 +5065,25 @@
       "label": "salonStaff",
       "file_type": "code",
       "source_file": "routes/salonsDashboardRoutes.js",
-      "source_location": "L4",
+      "source_location": "L5",
       "id": "routes_salonsdashboardroutes_salonstaff",
       "community": 28,
       "norm_label": "salonstaff"
     },
     {
-      "label": "{\r\n  validate,\r\n  serviceAddSchema,\r\n  serviceUpdateSchema,\r\n  staffAddSchema,\r\n  staffUpdateStatusSchema,\r\n  staffAssignServicesSchema,\r\n}",
+      "label": "{\r\n  validate,\r\n  serviceAddSchema,\r\n  serviceUpdateSchema,\r\n  staffAddSchema,\r\n  staffUpdateStatusSchema,\r\n  staffAssignServicesSchema,\r\n  promoCreateSchema,\r\n  promoUpdateSchema,\r\n}",
       "file_type": "code",
       "source_file": "routes/salonsDashboardRoutes.js",
-      "source_location": "L5",
-      "id": "routes_salonsdashboardroutes_validate_serviceaddschema_serviceupdateschema_staffaddschema_staffupdatestatusschema_staffassignservicesschema",
+      "source_location": "L6",
+      "id": "routes_salonsdashboardroutes_validate_serviceaddschema_serviceupdateschema_staffaddschema_staffupdatestatusschema_staffassignservicesschema_promocreateschema_promoupdateschema",
       "community": 28,
-      "norm_label": "{\r\n  validate,\r\n  serviceaddschema,\r\n  serviceupdateschema,\r\n  staffaddschema,\r\n  staffupdatestatusschema,\r\n  staffassignservicesschema,\r\n}"
+      "norm_label": "{\r\n  validate,\r\n  serviceaddschema,\r\n  serviceupdateschema,\r\n  staffaddschema,\r\n  staffupdatestatusschema,\r\n  staffassignservicesschema,\r\n  promocreateschema,\r\n  promoupdateschema,\r\n}"
     },
     {
       "label": "salonOnly",
       "file_type": "code",
       "source_file": "routes/salonsDashboardRoutes.js",
-      "source_location": "L17",
+      "source_location": "L20",
       "id": "routes_salonsdashboardroutes_salononly",
       "community": 28,
       "norm_label": "salononly"
@@ -4968,7 +5094,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L1",
       "id": "routes_staffroutes_js",
-      "community": 64,
+      "community": 75,
       "norm_label": "staffroutes.js"
     },
     {
@@ -4977,7 +5103,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L1",
       "id": "routes_staffroutes_express",
-      "community": 64,
+      "community": 75,
       "norm_label": "express"
     },
     {
@@ -4986,7 +5112,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L2",
       "id": "routes_staffroutes_router",
-      "community": 64,
+      "community": 75,
       "norm_label": "router"
     },
     {
@@ -4995,7 +5121,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L3",
       "id": "routes_staffroutes_staffcontroller",
-      "community": 64,
+      "community": 75,
       "norm_label": "staffcontroller"
     },
     {
@@ -5004,7 +5130,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L4",
       "id": "routes_staffroutes_authmiddleware",
-      "community": 64,
+      "community": 75,
       "norm_label": "authmiddleware"
     },
     {
@@ -5013,7 +5139,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L5",
       "id": "routes_staffroutes_validate_loginschema",
-      "community": 64,
+      "community": 75,
       "norm_label": "{ validate, loginschema }"
     },
     {
@@ -5220,7 +5346,7 @@
       "source_file": "services/availabilityService.js",
       "source_location": "L109",
       "id": "services_availabilityservice_conflictingstaffids",
-      "community": 99,
+      "community": 30,
       "norm_label": "conflictingstaffids()"
     },
     {
@@ -5346,7 +5472,7 @@
       "source_file": "services/notificationService.js",
       "source_location": "L1",
       "id": "services_notificationservice_js",
-      "community": 9,
+      "community": 105,
       "norm_label": "notificationservice.js"
     },
     {
@@ -5355,7 +5481,7 @@
       "source_file": "services/notificationService.js",
       "source_location": "L10",
       "id": "services_notificationservice_logger",
-      "community": 9,
+      "community": 105,
       "norm_label": "logger"
     },
     {
@@ -5364,7 +5490,7 @@
       "source_file": "services/notificationService.js",
       "source_location": "L19",
       "id": "services_notificationservice_notify",
-      "community": 9,
+      "community": 105,
       "norm_label": "notify()"
     },
     {
@@ -5404,19 +5530,64 @@
       "norm_label": "salonmodel"
     },
     {
-      "label": "{ conflictingStaffIds }",
+      "label": "PromoCode",
       "file_type": "code",
       "source_file": "services/paymentService.js",
       "source_location": "L12",
+      "id": "services_paymentservice_promocode",
+      "community": 99,
+      "norm_label": "promocode"
+    },
+    {
+      "label": "{ conflictingStaffIds }",
+      "file_type": "code",
+      "source_file": "services/paymentService.js",
+      "source_location": "L13",
       "id": "services_paymentservice_conflictingstaffids",
       "community": 99,
       "norm_label": "{ conflictingstaffids }"
     },
     {
+      "label": "round2()",
+      "file_type": "code",
+      "source_file": "services/paymentService.js",
+      "source_location": "L19",
+      "id": "services_paymentservice_round2",
+      "community": 99,
+      "norm_label": "round2()"
+    },
+    {
+      "label": "computeDiscount()",
+      "file_type": "code",
+      "source_file": "services/paymentService.js",
+      "source_location": "L26",
+      "id": "services_paymentservice_computediscount",
+      "community": 99,
+      "norm_label": "computediscount()"
+    },
+    {
+      "label": "PROMO_REASONS",
+      "file_type": "code",
+      "source_file": "services/paymentService.js",
+      "source_location": "L42",
+      "id": "services_paymentservice_promo_reasons",
+      "community": 99,
+      "norm_label": "promo_reasons"
+    },
+    {
+      "label": "resolvePromo()",
+      "file_type": "code",
+      "source_file": "services/paymentService.js",
+      "source_location": "L60",
+      "id": "services_paymentservice_resolvepromo",
+      "community": 99,
+      "norm_label": "resolvepromo()"
+    },
+    {
       "label": "finalizeAppointmentFromPayment()",
       "file_type": "code",
       "source_file": "services/paymentService.js",
-      "source_location": "L32",
+      "source_location": "L106",
       "id": "services_paymentservice_finalizeappointmentfrompayment",
       "community": 99,
       "norm_label": "finalizeappointmentfrompayment()"
@@ -5425,7 +5596,7 @@
       "label": "getAuthoritativePrice()",
       "file_type": "code",
       "source_file": "services/paymentService.js",
-      "source_location": "L124",
+      "source_location": "L214",
       "id": "services_paymentservice_getauthoritativeprice",
       "community": 99,
       "norm_label": "getauthoritativeprice()"
@@ -6637,6 +6808,321 @@
       "norm_label": "res"
     },
     {
+      "label": "promo-codes.test.js",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L1",
+      "id": "tests_promo_codes_test_js",
+      "community": 76,
+      "norm_label": "promo-codes.test.js"
+    },
+    {
+      "label": "{ test, before, after }",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L1",
+      "id": "tests_promo_codes_test_test_before_after",
+      "community": 76,
+      "norm_label": "{ test, before, after }"
+    },
+    {
+      "label": "assert",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L2",
+      "id": "tests_promo_codes_test_assert",
+      "community": 76,
+      "norm_label": "assert"
+    },
+    {
+      "label": "sequelize",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L3",
+      "id": "tests_promo_codes_test_sequelize",
+      "community": 76,
+      "norm_label": "sequelize"
+    },
+    {
+      "label": "PromoCode",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L5",
+      "id": "tests_promo_codes_test_promocode",
+      "community": 76,
+      "norm_label": "promocode"
+    },
+    {
+      "label": "Salons",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L6",
+      "id": "tests_promo_codes_test_salons",
+      "community": 76,
+      "norm_label": "salons"
+    },
+    {
+      "label": "Staff",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L7",
+      "id": "tests_promo_codes_test_staff",
+      "community": 76,
+      "norm_label": "staff"
+    },
+    {
+      "label": "Services",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L8",
+      "id": "tests_promo_codes_test_services",
+      "community": 76,
+      "norm_label": "services"
+    },
+    {
+      "label": "User",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L9",
+      "id": "tests_promo_codes_test_user",
+      "community": 76,
+      "norm_label": "user"
+    },
+    {
+      "label": "Payment",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L10",
+      "id": "tests_promo_codes_test_payment",
+      "community": 76,
+      "norm_label": "payment"
+    },
+    {
+      "label": "{\n  round2,\n  computeDiscount,\n  resolvePromo,\n  finalizeAppointmentFromPayment,\n}",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L11",
+      "id": "tests_promo_codes_test_round2_computediscount_resolvepromo_finalizeappointmentfrompayment",
+      "community": 76,
+      "norm_label": "{\n  round2,\n  computediscount,\n  resolvepromo,\n  finalizeappointmentfrompayment,\n}"
+    },
+    {
+      "label": "{ validate, paymentCreateSchema, promoCreateSchema, promoUpdateSchema }",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L17",
+      "id": "tests_promo_codes_test_validate_paymentcreateschema_promocreateschema_promoupdateschema",
+      "community": 76,
+      "norm_label": "{ validate, paymentcreateschema, promocreateschema, promoupdateschema }"
+    },
+    {
+      "label": "{\n  createPromo, listPromos, updatePromo, deletePromo,\n}",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L18",
+      "id": "tests_promo_codes_test_createpromo_listpromos_updatepromo_deletepromo",
+      "community": 76,
+      "norm_label": "{\n  createpromo, listpromos, updatepromo, deletepromo,\n}"
+    },
+    {
+      "label": "mockReq()",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L22",
+      "id": "tests_promo_codes_test_mockreq",
+      "community": 76,
+      "norm_label": "mockreq()"
+    },
+    {
+      "label": "mockRes()",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L23",
+      "id": "tests_promo_codes_test_mockres",
+      "community": 76,
+      "norm_label": "mockres()"
+    },
+    {
+      "label": "promo",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L37",
+      "id": "tests_promo_codes_test_promo",
+      "community": 76,
+      "norm_label": "promo"
+    },
+    {
+      "label": "past",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L62",
+      "id": "tests_promo_codes_test_past",
+      "community": 76,
+      "norm_label": "past"
+    },
+    {
+      "label": "future",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L63",
+      "id": "tests_promo_codes_test_future",
+      "community": 76,
+      "norm_label": "future"
+    },
+    {
+      "label": "req",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L203",
+      "id": "tests_promo_codes_test_req",
+      "community": 76,
+      "norm_label": "req"
+    },
+    {
+      "label": "res",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L210",
+      "id": "tests_promo_codes_test_res",
+      "community": 76,
+      "norm_label": "res"
+    },
+    {
+      "label": "dupRes",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L220",
+      "id": "tests_promo_codes_test_dupres",
+      "community": 76,
+      "norm_label": "dupres"
+    },
+    {
+      "label": "resA",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L226",
+      "id": "tests_promo_codes_test_resa",
+      "community": 76,
+      "norm_label": "resa"
+    },
+    {
+      "label": "codesA",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L229",
+      "id": "tests_promo_codes_test_codesa",
+      "community": 76,
+      "norm_label": "codesa"
+    },
+    {
+      "label": "resB",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L233",
+      "id": "tests_promo_codes_test_resb",
+      "community": 76,
+      "norm_label": "resb"
+    },
+    {
+      "label": "codesB",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L235",
+      "id": "tests_promo_codes_test_codesb",
+      "community": 76,
+      "norm_label": "codesb"
+    },
+    {
+      "label": "foreign",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L253",
+      "id": "tests_promo_codes_test_foreign",
+      "community": 76,
+      "norm_label": "foreign"
+    },
+    {
+      "label": "missing",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L263",
+      "id": "tests_promo_codes_test_missing",
+      "community": 76,
+      "norm_label": "missing"
+    },
+    {
+      "label": "parsed",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L301",
+      "id": "tests_promo_codes_test_parsed",
+      "community": 76,
+      "norm_label": "parsed"
+    },
+    {
+      "label": "absent",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L308",
+      "id": "tests_promo_codes_test_absent",
+      "community": 76,
+      "norm_label": "absent"
+    },
+    {
+      "label": "base",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L328",
+      "id": "tests_promo_codes_test_base",
+      "community": 76,
+      "norm_label": "base"
+    },
+    {
+      "label": "cases",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L329",
+      "id": "tests_promo_codes_test_cases",
+      "community": 76,
+      "norm_label": "cases"
+    },
+    {
+      "label": "r",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L339",
+      "id": "tests_promo_codes_test_r",
+      "community": 76,
+      "norm_label": "r"
+    },
+    {
+      "label": "stripped",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L346",
+      "id": "tests_promo_codes_test_stripped",
+      "community": 76,
+      "norm_label": "stripped"
+    },
+    {
+      "label": "badWindow",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L351",
+      "id": "tests_promo_codes_test_badwindow",
+      "community": 76,
+      "norm_label": "badwindow"
+    },
+    {
+      "label": "good",
+      "file_type": "code",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L356",
+      "id": "tests_promo_codes_test_good",
+      "community": 76,
+      "norm_label": "good"
+    },
+    {
       "label": "ratings-aggregation.test.js",
       "file_type": "code",
       "source_file": "tests/ratings-aggregation.test.js",
@@ -7281,7 +7767,7 @@
       "source_file": "utils/migrateCategories.js",
       "source_location": "L1",
       "id": "utils_migratecategories_js",
-      "community": 4,
+      "community": 103,
       "norm_label": "migratecategories.js"
     },
     {
@@ -7290,7 +7776,7 @@
       "source_file": "utils/migrateCategories.js",
       "source_location": "L9",
       "id": "utils_migratecategories_services",
-      "community": 4,
+      "community": 103,
       "norm_label": "services"
     },
     {
@@ -7299,7 +7785,7 @@
       "source_file": "utils/migrateCategories.js",
       "source_location": "L10",
       "id": "utils_migratecategories_op",
-      "community": 4,
+      "community": 103,
       "norm_label": "{ op }"
     },
     {
@@ -7308,7 +7794,7 @@
       "source_file": "utils/migrateCategories.js",
       "source_location": "L13",
       "id": "utils_migratecategories_rules",
-      "community": 4,
+      "community": 103,
       "norm_label": "rules"
     },
     {
@@ -7317,7 +7803,7 @@
       "source_file": "utils/migrateCategories.js",
       "source_location": "L23",
       "id": "utils_migratecategories_classify",
-      "community": 4,
+      "community": 103,
       "norm_label": "classify()"
     },
     {
@@ -7326,7 +7812,7 @@
       "source_file": "utils/migrateCategories.js",
       "source_location": "L33",
       "id": "utils_migratecategories_migratecategories",
-      "community": 4,
+      "community": 103,
       "norm_label": "migratecategories()"
     },
     {
@@ -7416,7 +7902,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L1",
       "id": "utils_validators_js",
-      "community": 38,
+      "community": 24,
       "norm_label": "validators.js"
     },
     {
@@ -7425,7 +7911,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L8",
       "id": "utils_validators_z",
-      "community": 38,
+      "community": 24,
       "norm_label": "{ z }"
     },
     {
@@ -7443,7 +7929,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L29",
       "id": "utils_validators_loginschema",
-      "community": 38,
+      "community": 75,
       "norm_label": "loginschema"
     },
     {
@@ -7461,7 +7947,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L41",
       "id": "utils_validators_salonsignupschema",
-      "community": 38,
+      "community": 104,
       "norm_label": "salonsignupschema"
     },
     {
@@ -7515,7 +8001,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L79",
       "id": "utils_validators_service_categories",
-      "community": 38,
+      "community": 24,
       "norm_label": "service_categories"
     },
     {
@@ -7542,7 +8028,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L100",
       "id": "utils_validators_salonbrowseschema",
-      "community": 38,
+      "community": 104,
       "norm_label": "salonbrowseschema"
     },
     {
@@ -7558,16 +8044,34 @@
       "label": "paymentCreateSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L124",
+      "source_location": "L126",
       "id": "utils_validators_paymentcreateschema",
       "community": 63,
       "norm_label": "paymentcreateschema"
     },
     {
+      "label": "promoBaseSchema",
+      "file_type": "code",
+      "source_file": "utils/validators.js",
+      "source_location": "L146",
+      "id": "utils_validators_promobaseschema",
+      "community": 24,
+      "norm_label": "promobaseschema"
+    },
+    {
+      "label": "promoUpdateSchema",
+      "file_type": "code",
+      "source_file": "utils/validators.js",
+      "source_location": "L173",
+      "id": "utils_validators_promoupdateschema",
+      "community": 28,
+      "norm_label": "promoupdateschema"
+    },
+    {
       "label": "rescheduleSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L140",
+      "source_location": "L190",
       "id": "utils_validators_rescheduleschema",
       "community": 24,
       "norm_label": "rescheduleschema"
@@ -7576,7 +8080,7 @@
       "label": "customerReviewSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L150",
+      "source_location": "L200",
       "id": "utils_validators_customerreviewschema",
       "community": 24,
       "norm_label": "customerreviewschema"
@@ -7585,7 +8089,7 @@
       "label": "staffReviewSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L155",
+      "source_location": "L205",
       "id": "utils_validators_staffreviewschema",
       "community": 24,
       "norm_label": "staffreviewschema"
@@ -7594,7 +8098,7 @@
       "label": "reviewReplySchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L161",
+      "source_location": "L211",
       "id": "utils_validators_reviewreplyschema",
       "community": 24,
       "norm_label": "reviewreplyschema"
@@ -7603,7 +8107,7 @@
       "label": "statusUpdateSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L166",
+      "source_location": "L216",
       "id": "utils_validators_statusupdateschema",
       "community": 24,
       "norm_label": "statusupdateschema"
@@ -7612,7 +8116,7 @@
       "label": "staffAddSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L172",
+      "source_location": "L222",
       "id": "utils_validators_staffaddschema",
       "community": 28,
       "norm_label": "staffaddschema"
@@ -7621,7 +8125,7 @@
       "label": "staffUpdateStatusSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L179",
+      "source_location": "L229",
       "id": "utils_validators_staffupdatestatusschema",
       "community": 28,
       "norm_label": "staffupdatestatusschema"
@@ -7630,7 +8134,7 @@
       "label": "staffAssignServicesSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L184",
+      "source_location": "L234",
       "id": "utils_validators_staffassignservicesschema",
       "community": 28,
       "norm_label": "staffassignservicesschema"
@@ -7639,34 +8143,34 @@
       "label": "favoriteAddSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L190",
+      "source_location": "L240",
       "id": "utils_validators_favoriteaddschema",
-      "community": 75,
+      "community": 64,
       "norm_label": "favoriteaddschema"
     },
     {
       "label": "DAY_CODES",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L198",
+      "source_location": "L248",
       "id": "utils_validators_day_codes",
-      "community": 38,
+      "community": 24,
       "norm_label": "day_codes"
     },
     {
       "label": "salonDetailsSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L200",
+      "source_location": "L250",
       "id": "utils_validators_salondetailsschema",
-      "community": 38,
+      "community": 104,
       "norm_label": "salondetailsschema"
     },
     {
       "label": "adminSearchSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L216",
+      "source_location": "L266",
       "id": "utils_validators_adminsearchschema",
       "community": 43,
       "norm_label": "adminsearchschema"
@@ -7675,7 +8179,7 @@
       "label": "csvExportSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L224",
+      "source_location": "L273",
       "id": "utils_validators_csvexportschema",
       "community": 24,
       "norm_label": "csvexportschema"
@@ -7684,7 +8188,7 @@
       "label": "activeServicesBySalonSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L236",
+      "source_location": "L285",
       "id": "utils_validators_activeservicesbysalonschema",
       "community": 64,
       "norm_label": "activeservicesbysalonschema"
@@ -10885,6 +11389,24 @@
       "norm_label": "expanding the oxlint configuration"
     },
     {
+      "label": "{\r\n  finalizeAppointmentFromPayment,\r\n  getAuthoritativePrice,\r\n}",
+      "file_type": "code",
+      "source_file": "controllers/paymentController.js",
+      "source_location": "L6",
+      "community": 6,
+      "norm_label": "{\r\n  finalizeappointmentfrompayment,\r\n  getauthoritativeprice,\r\n}",
+      "id": "controllers_paymentcontroller_finalizeappointmentfrompayment_getauthoritativeprice"
+    },
+    {
+      "label": "{\r\n  validate,\r\n  serviceAddSchema,\r\n  serviceUpdateSchema,\r\n  staffAddSchema,\r\n  staffUpdateStatusSchema,\r\n  staffAssignServicesSchema,\r\n}",
+      "file_type": "code",
+      "source_file": "routes/salonsDashboardRoutes.js",
+      "source_location": "L5",
+      "community": 28,
+      "norm_label": "{\r\n  validate,\r\n  serviceaddschema,\r\n  serviceupdateschema,\r\n  staffaddschema,\r\n  staffupdatestatusschema,\r\n  staffassignservicesschema,\r\n}",
+      "id": "routes_salonsdashboardroutes_validate_serviceaddschema_serviceupdateschema_staffaddschema_staffupdatestatusschema_staffassignservicesschema"
+    },
+    {
       "label": "{ validate, appointmentCheckSchema, customerReviewSchema, staffReviewSchema, reviewReplySchema, statusUpdateSchema, rescheduleSchema }",
       "file_type": "code",
       "source_file": "routes/appointmentRoutes.js",
@@ -11074,6 +11596,27 @@
       "confidence_score": 1.0,
       "source": "app_js",
       "target": "fresha_salon_app_app_appointment"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app.js",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "app_js",
+      "target": "models_paymentmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app.js",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "app_js",
+      "target": "fresha_salon_app_app_payment",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -12188,9 +12731,9 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_appointmentcontroller_js",
-      "target": "utils_csv_js",
-      "confidence_score": 1.0
+      "target": "utils_csv_js"
     },
     {
       "relation": "imports",
@@ -12199,9 +12742,9 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_appointmentcontroller_js",
-      "target": "utils_csv_tocsv",
-      "confidence_score": 1.0
+      "target": "utils_csv_tocsv"
     },
     {
       "relation": "contains",
@@ -12209,9 +12752,9 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_appointmentcontroller_js",
-      "target": "controllers_appointmentcontroller_tocsv",
-      "confidence_score": 1.0
+      "target": "controllers_appointmentcontroller_tocsv"
     },
     {
       "relation": "imports_from",
@@ -12387,9 +12930,9 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L194",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_appointmentcontroller_js",
-      "target": "controllers_appointmentcontroller_exportappointmentscsv",
-      "confidence_score": 1.0
+      "target": "controllers_appointmentcontroller_exportappointmentscsv"
     },
     {
       "relation": "contains",
@@ -12501,9 +13044,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "controllers_appointmentcontroller_js",
-      "confidence_score": 1.0
+      "target": "controllers_appointmentcontroller_js"
     },
     {
       "relation": "imports_from",
@@ -12709,9 +13252,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "controllers_appointmentcontroller_exportappointmentscsv",
-      "confidence_score": 1.0
+      "target": "controllers_appointmentcontroller_exportappointmentscsv"
     },
     {
       "relation": "calls",
@@ -13285,14 +13828,36 @@
       "target": "services_paymentservice_getauthoritativeprice"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/paymentController.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "controllers_paymentcontroller_js",
+      "target": "services_paymentservice_resolvepromo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/paymentController.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "controllers_paymentcontroller_js",
+      "target": "services_paymentservice_round2",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "controllers/paymentController.js",
       "source_location": "L6",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "controllers_paymentcontroller_js",
-      "target": "controllers_paymentcontroller_finalizeappointmentfrompayment_getauthoritativeprice"
+      "target": "controllers_paymentcontroller_finalizeappointmentfrompayment_getauthoritativeprice_resolvepromo_round2",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -13435,6 +14000,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "controllers/paymentController.js",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "controllers_paymentcontroller_js",
+      "target": "controllers_paymentcontroller_orderamount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/paymentController.js",
       "source_location": "L44",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -13492,6 +14067,16 @@
       "confidence_score": 1.0,
       "source": "tests_payment_status_auth_test_js",
       "target": "controllers_paymentcontroller_js"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/paymentController.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "controllers_paymentcontroller_js",
+      "target": "controllers_paymentcontroller_finalizeappointmentfrompayment_getauthoritativeprice"
     },
     {
       "relation": "imports_from",
@@ -13898,6 +14483,154 @@
       "confidence_score": 1.0,
       "source": "tests_review_replies_test_js",
       "target": "controllers_saloncontroller_getsalonprofile"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "controllers_salonpromoscontroller_js",
+      "target": "models_promocodemodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "controllers_salonpromoscontroller_js",
+      "target": "controllers_salonpromoscontroller_promocode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "controllers_salonpromoscontroller_js",
+      "target": "controllers_salonpromoscontroller_issequelizeuniqueerror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "controllers_salonpromoscontroller_js",
+      "target": "controllers_salonpromoscontroller_createpromo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "controllers_salonpromoscontroller_js",
+      "target": "controllers_salonpromoscontroller_listpromos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "controllers_salonpromoscontroller_js",
+      "target": "controllers_salonpromoscontroller_updatepromo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L101",
+      "weight": 1.0,
+      "source": "controllers_salonpromoscontroller_js",
+      "target": "controllers_salonpromoscontroller_deletepromo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "routes/salonsDashboardRoutes.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "routes_salonsdashboardroutes_js",
+      "target": "controllers_salonpromoscontroller_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "controllers_salonpromoscontroller_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/salonPromosController.js",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "controllers_salonpromoscontroller_createpromo",
+      "target": "controllers_salonpromoscontroller_issequelizeuniqueerror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "controllers_salonpromoscontroller_createpromo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "controllers_salonpromoscontroller_listpromos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "controllers_salonpromoscontroller_updatepromo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "controllers_salonpromoscontroller_deletepromo",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -17176,9 +17909,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "models_appointmentmodel_js",
-      "confidence_score": 1.0
+      "target": "models_appointmentmodel_js"
     },
     {
       "relation": "imports_from",
@@ -17414,6 +18147,27 @@
       "target": "models_associations_staffblockout"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "models/associations.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "models_associations_js",
+      "target": "models_promocodemodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "models/associations.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "models_associations_js",
+      "target": "models_associations_promocode",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "models/favoriteModel.js",
@@ -17572,6 +18326,70 @@
       "target": "models_paymentmodel_js"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "models_paymentmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "models/promoCodeModel.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "models_promocodemodel_js",
+      "target": "models_promocodemodel_sequelize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "models/promoCodeModel.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "models_promocodemodel_js",
+      "target": "utils_database_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "models/promoCodeModel.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "models_promocodemodel_js",
+      "target": "models_promocodemodel_promocode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "services/paymentService.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "services_paymentservice_js",
+      "target": "models_promocodemodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "models_promocodemodel_js",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "models/salonsModel.js",
@@ -17653,9 +18471,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "models_salonsmodel_js",
-      "confidence_score": 1.0
+      "target": "models_salonsmodel_js"
     },
     {
       "relation": "imports_from",
@@ -17689,6 +18507,17 @@
       "confidence_score": 1.0,
       "source": "tests_payment_status_auth_test_js",
       "target": "models_salonsmodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "models_salonsmodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -17794,9 +18623,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "models_servicesmodel_js",
-      "confidence_score": 1.0
+      "target": "models_servicesmodel_js"
     },
     {
       "relation": "imports_from",
@@ -17830,6 +18659,17 @@
       "confidence_score": 1.0,
       "source": "tests_payment_status_auth_test_js",
       "target": "models_servicesmodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "models_servicesmodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -17999,9 +18839,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "models_staffmodel_js",
-      "confidence_score": 1.0
+      "target": "models_staffmodel_js"
     },
     {
       "relation": "imports_from",
@@ -18035,6 +18875,17 @@
       "confidence_score": 1.0,
       "source": "tests_payment_status_auth_test_js",
       "target": "models_staffmodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "models_staffmodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -18171,9 +19022,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "models_usermodel_js",
-      "confidence_score": 1.0
+      "target": "models_usermodel_js"
     },
     {
       "relation": "imports_from",
@@ -18218,6 +19069,17 @@
       "confidence_score": 1.0,
       "source": "tests_payment_status_auth_test_js",
       "target": "models_usermodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "models_usermodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -19784,9 +20646,9 @@
       "source_file": "routes/appointmentRoutes.js",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "routes_appointmentroutes_js",
-      "target": "utils_validators_csvexportschema",
-      "confidence_score": 1.0
+      "target": "utils_validators_csvexportschema"
     },
     {
       "relation": "contains",
@@ -19794,9 +20656,9 @@
       "source_file": "routes/appointmentRoutes.js",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "routes_appointmentroutes_js",
-      "target": "routes_appointmentroutes_validate_appointmentcheckschema_customerreviewschema_staffreviewschema_reviewreplyschema_statusupdateschema_rescheduleschema_csvexportschema",
-      "confidence_score": 1.0
+      "target": "routes_appointmentroutes_validate_appointmentcheckschema_customerreviewschema_staffreviewschema_reviewreplyschema_statusupdateschema_rescheduleschema_csvexportschema"
     },
     {
       "relation": "contains",
@@ -20186,6 +21048,16 @@
       "source_file": "routes/salonsDashboardRoutes.js",
       "source_location": "L3",
       "weight": 1.0,
+      "source": "routes_salonsdashboardroutes_js",
+      "target": "routes_salonsdashboardroutes_salonpromos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "routes/salonsDashboardRoutes.js",
+      "source_location": "L3",
+      "weight": 1.0,
       "confidence_score": 1.0,
       "source": "routes_salonsdashboardroutes_js",
       "target": "routes_salonsdashboardroutes_authmiddleware"
@@ -20278,14 +21150,25 @@
       "target": "utils_validators_staffassignservicesschema"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "routes/salonsDashboardRoutes.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "routes_salonsdashboardroutes_js",
+      "target": "utils_validators_promoupdateschema",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "routes/salonsDashboardRoutes.js",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "routes_salonsdashboardroutes_js",
-      "target": "routes_salonsdashboardroutes_validate_serviceaddschema_serviceupdateschema_staffaddschema_staffupdatestatusschema_staffassignservicesschema"
+      "target": "routes_salonsdashboardroutes_validate_serviceaddschema_serviceupdateschema_staffaddschema_staffupdatestatusschema_staffassignservicesschema_promocreateschema_promoupdateschema",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -20296,6 +21179,16 @@
       "confidence_score": 1.0,
       "source": "routes_salonsdashboardroutes_js",
       "target": "routes_salonsdashboardroutes_salononly"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "routes/salonsDashboardRoutes.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routes_salonsdashboardroutes_js",
+      "target": "routes_salonsdashboardroutes_validate_serviceaddschema_serviceupdateschema_staffaddschema_staffupdatestatusschema_staffassignservicesschema"
     },
     {
       "relation": "contains",
@@ -20987,9 +21880,59 @@
       "source_file": "services/paymentService.js",
       "source_location": "L12",
       "weight": 1.0,
+      "source": "services_paymentservice_js",
+      "target": "services_paymentservice_promocode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/paymentService.js",
+      "source_location": "L12",
+      "weight": 1.0,
       "confidence_score": 1.0,
       "source": "services_paymentservice_js",
       "target": "services_paymentservice_conflictingstaffids"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/paymentService.js",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "services_paymentservice_js",
+      "target": "services_paymentservice_round2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/paymentService.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "services_paymentservice_js",
+      "target": "services_paymentservice_computediscount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/paymentService.js",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "services_paymentservice_js",
+      "target": "services_paymentservice_promo_reasons",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/paymentService.js",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "services_paymentservice_js",
+      "target": "services_paymentservice_resolvepromo",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -21010,6 +21953,83 @@
       "confidence_score": 1.0,
       "source": "services_paymentservice_js",
       "target": "services_paymentservice_getauthoritativeprice"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "services_paymentservice_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "services/paymentService.js",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "services_paymentservice_computediscount",
+      "target": "services_paymentservice_round2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "services_paymentservice_round2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "services/paymentService.js",
+      "source_location": "L85",
+      "weight": 1.0,
+      "source": "services_paymentservice_resolvepromo",
+      "target": "services_paymentservice_computediscount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "services_paymentservice_computediscount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "services_paymentservice_resolvepromo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "services_paymentservice_finalizeappointmentfrompayment",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -21299,9 +22319,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_test_before_after",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_test_before_after"
     },
     {
       "relation": "contains",
@@ -21309,9 +22329,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_assert",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_assert"
     },
     {
       "relation": "imports_from",
@@ -21320,9 +22340,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "utils_database_js",
-      "confidence_score": 1.0
+      "target": "utils_database_js"
     },
     {
       "relation": "contains",
@@ -21330,9 +22350,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_sequelize",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_sequelize"
     },
     {
       "relation": "contains",
@@ -21340,9 +22360,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_appointment",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_appointment"
     },
     {
       "relation": "contains",
@@ -21350,9 +22370,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_user",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_user"
     },
     {
       "relation": "contains",
@@ -21360,9 +22380,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_salons",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_salons"
     },
     {
       "relation": "contains",
@@ -21370,9 +22390,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_staff",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_staff"
     },
     {
       "relation": "contains",
@@ -21380,9 +22400,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_services",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_services"
     },
     {
       "relation": "imports_from",
@@ -21391,9 +22411,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "utils_csv_js",
-      "confidence_score": 1.0
+      "target": "utils_csv_js"
     },
     {
       "relation": "imports",
@@ -21402,9 +22422,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "utils_csv_tocsv",
-      "confidence_score": 1.0
+      "target": "utils_csv_tocsv"
     },
     {
       "relation": "contains",
@@ -21412,9 +22432,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_tocsv",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_tocsv"
     },
     {
       "relation": "imports_from",
@@ -21423,9 +22443,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "utils_validators_js",
-      "confidence_score": 1.0
+      "target": "utils_validators_js"
     },
     {
       "relation": "imports",
@@ -21434,9 +22454,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "utils_validators_validate",
-      "confidence_score": 1.0
+      "target": "utils_validators_validate"
     },
     {
       "relation": "imports",
@@ -21445,9 +22465,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "utils_validators_csvexportschema",
-      "confidence_score": 1.0
+      "target": "utils_validators_csvexportschema"
     },
     {
       "relation": "contains",
@@ -21455,9 +22475,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_validate_csvexportschema",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_validate_csvexportschema"
     },
     {
       "relation": "contains",
@@ -21465,9 +22485,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_exportappointmentscsv",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_exportappointmentscsv"
     },
     {
       "relation": "contains",
@@ -21475,9 +22495,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_mockreq",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_mockreq"
     },
     {
       "relation": "contains",
@@ -21485,9 +22505,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_mockres",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_mockres"
     },
     {
       "relation": "contains",
@@ -21495,9 +22515,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L51",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_csv",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_csv"
     },
     {
       "relation": "contains",
@@ -21505,9 +22525,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_openallweek",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_openallweek"
     },
     {
       "relation": "contains",
@@ -21515,9 +22535,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L88",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_booking",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_booking"
     },
     {
       "relation": "contains",
@@ -21525,9 +22545,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L154",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_req",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_req"
     },
     {
       "relation": "contains",
@@ -21535,9 +22555,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L155",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_res",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_res"
     },
     {
       "relation": "contains",
@@ -21545,9 +22565,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L159",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_lines",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_lines"
     },
     {
       "relation": "contains",
@@ -21555,9 +22575,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L131",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_rows",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_rows"
     },
     {
       "relation": "contains",
@@ -21565,9 +22585,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L146",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_dates",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_dates"
     },
     {
       "relation": "contains",
@@ -21575,9 +22595,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L134",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_midmorningrow",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_midmorningrow"
     },
     {
       "relation": "contains",
@@ -21585,9 +22605,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L135",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_midafternoonrow",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_midafternoonrow"
     },
     {
       "relation": "contains",
@@ -21595,9 +22615,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L149",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_ids",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_ids"
     },
     {
       "relation": "contains",
@@ -21605,9 +22625,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L165",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_runmw",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_runmw"
     },
     {
       "relation": "contains",
@@ -21615,9 +22635,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L174",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_inverted",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_inverted"
     },
     {
       "relation": "contains",
@@ -21625,9 +22645,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L179",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_malformed",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_malformed"
     },
     {
       "relation": "contains",
@@ -21635,9 +22655,9 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L185",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_csv_export_test_js",
-      "target": "tests_csv_export_test_good",
-      "confidence_score": 1.0
+      "target": "tests_csv_export_test_good"
     },
     {
       "relation": "calls",
@@ -22460,6 +23480,401 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_test_before_after",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_assert",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "utils_database_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_sequelize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_promocode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_salons",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_staff",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_services",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_payment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_round2_computediscount_resolvepromo_finalizeappointmentfrompayment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "utils_validators_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "utils_validators_validate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "utils_validators_paymentcreateschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "utils_validators_promoupdateschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_validate_paymentcreateschema_promocreateschema_promoupdateschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_createpromo_listpromos_updatepromo_deletepromo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_mockreq",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_mockres",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_promo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_past",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L63",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_future",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L203",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_req",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L282",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_res",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L220",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_dupres",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L226",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_resa",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L229",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_codesa",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L233",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_resb",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L235",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_codesb",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L275",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_foreign",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L263",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_missing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L317",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_parsed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L308",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_absent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L328",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_base",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L329",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_cases",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L339",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_r",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L346",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_stripped",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L351",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_badwindow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/promo-codes.test.js",
+      "source_location": "L356",
+      "weight": 1.0,
+      "source": "tests_promo_codes_test_js",
+      "target": "tests_promo_codes_test_good",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "tests/ratings-aggregation.test.js",
       "source_location": "L1",
       "weight": 1.0,
@@ -23081,9 +24496,9 @@
       "source_file": "utils/csv.js",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "utils_csv_js",
-      "target": "utils_csv_escapefield",
-      "confidence_score": 1.0
+      "target": "utils_csv_escapefield"
     },
     {
       "relation": "contains",
@@ -23091,9 +24506,9 @@
       "source_file": "utils/csv.js",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "utils_csv_js",
-      "target": "utils_csv_tocsv",
-      "confidence_score": 1.0
+      "target": "utils_csv_tocsv"
     },
     {
       "relation": "contains",
@@ -23525,6 +24940,26 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "utils/validators.js",
+      "source_location": "L146",
+      "weight": 1.0,
+      "source": "utils_validators_js",
+      "target": "utils_validators_promobaseschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "utils/validators.js",
+      "source_location": "L173",
+      "weight": 1.0,
+      "source": "utils_validators_js",
+      "target": "utils_validators_promoupdateschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "utils/validators.js",
       "source_location": "L130",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -23647,9 +25082,9 @@
       "source_file": "utils/validators.js",
       "source_location": "L224",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "utils_validators_js",
-      "target": "utils_validators_csvexportschema",
-      "confidence_score": 1.0
+      "target": "utils_validators_csvexportschema"
     },
     {
       "relation": "contains",
@@ -27093,5 +28528,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "5d9b44d5a1dd83effba70a776355648adc7dc88b"
+  "built_at_commit": "40e13dbc1a91d9fc915e8ea718a8bea4244891c2"
 }

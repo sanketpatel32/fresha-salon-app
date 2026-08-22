@@ -9,7 +9,81 @@
 const Payment = require('../models/paymentModel');
 const appointmentModel = require('../models/appointmentModel');
 const salonModel = require('../models/salonsModel');
+const PromoCode = require('../models/promoCodeModel');
 const { conflictingStaffIds } = require('./availabilityService');
+
+/**
+ * Round to 2 decimal places (currency-safe: epsilon nudges avoid the classic
+ * 4.675 -> 4.67 float artifact).
+ */
+const round2 = (n) => Math.round((Number(n) + Number.EPSILON) * 100) / 100;
+
+/**
+ * Pure discount math for a validated promo against an order amount.
+ * percent → value% of amount, capped by maxDiscountAmount when set;
+ * flat    → value straight off. Returns the discount rounded to paise.
+ */
+const computeDiscount = (promo, amount) => {
+  let discount;
+  if (promo.discountType === 'percent') {
+    discount = (Number(amount) * Number(promo.discountValue)) / 100;
+  } else {
+    discount = Number(promo.discountValue);
+  }
+  if (promo.discountType === 'percent' &&
+      promo.maxDiscountAmount != null && Number(promo.maxDiscountAmount) > 0) {
+    discount = Math.min(discount, Number(promo.maxDiscountAmount));
+  }
+  return round2(discount);
+};
+
+// The exact client-facing reasons resolvePromo can return — the controller
+// maps them to 400s verbatim, so tests can assert on these strings.
+const PROMO_REASONS = {
+  invalid: 'Invalid promo code',
+  expired: 'Promo code expired',
+  minOrder: 'Minimum order amount not met',
+  limitReached: 'Promo code usage limit reached',
+};
+
+/**
+ * Resolve + validate a promo code for a booking.
+ *
+ * Checks (in order): exists & active → within [validFrom..validUntil]
+ * (inclusive when set) → salon scope (null matches any salon) → min order
+ * amount → usage limit. Wrong-salon codes report as "Invalid" so callers
+ * can't probe which codes exist at other salons.
+ *
+ * @returns {Promise<{ok:true, discountAmount:number, promo:object}
+ *                 |{ok:false, reason:string}>}
+ */
+const resolvePromo = async (rawCode, salonId, amount) => {
+  const code = String(rawCode || '').trim().toUpperCase();
+  if (!code) return { ok: false, reason: PROMO_REASONS.invalid };
+
+  const promo = await PromoCode.findOne({ where: { code } });
+  if (!promo || !promo.isActive) return { ok: false, reason: PROMO_REASONS.invalid };
+
+  const now = new Date();
+  if ((promo.validFrom && now < new Date(promo.validFrom)) ||
+      (promo.validUntil && now > new Date(promo.validUntil))) {
+    return { ok: false, reason: PROMO_REASONS.expired };
+  }
+
+  if (promo.salonId != null && Number(promo.salonId) !== Number(salonId)) {
+    return { ok: false, reason: PROMO_REASONS.invalid };
+  }
+
+  if (Number(amount) < Number(promo.minOrderAmount || 0)) {
+    return { ok: false, reason: PROMO_REASONS.minOrder };
+  }
+
+  if (promo.usageLimit != null && promo.usedCount >= promo.usageLimit) {
+    return { ok: false, reason: PROMO_REASONS.limitReached };
+  }
+
+  return { ok: true, discountAmount: computeDiscount(promo, amount), promo };
+};
 
 /**
  * Finalize a successful payment into an appointment.
@@ -70,6 +144,22 @@ const finalizeAppointmentFromPayment = async (order) => {
     endTime: order.endTime,
     status: initialStatus,
   });
+
+  // Redeem the promo exactly once per booking. Only the success path reaches
+  // here — the idempotent early-return above prevents replays (redirect +
+  // webhook firing for the same order) from double-counting. Atomic SQL
+  // increment, and failures are swallowed: a broken promo counter must never
+  // undo an already-captured booking.
+  if (order.promoCodeApplied) {
+    try {
+      await PromoCode.increment('usedCount', {
+        by: 1,
+        where: { code: order.promoCodeApplied },
+      });
+    } catch (err) {
+      console.error('Promo usage increment failed:', err.message);
+    }
+  }
 
   // Fire-and-forget in-app notification to the salon about the new booking.
   // Runs after the appointment row exists; notify() swallows its own errors.
@@ -132,4 +222,8 @@ const getAuthoritativePrice = async (serviceId, salonId) => {
 module.exports = {
   finalizeAppointmentFromPayment,
   getAuthoritativePrice,
+  round2,
+  computeDiscount,
+  resolvePromo,
+  PROMO_REASONS,
 };

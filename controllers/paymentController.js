@@ -6,6 +6,8 @@ const {
 const {
   finalizeAppointmentFromPayment,
   getAuthoritativePrice,
+  resolvePromo,
+  round2,
 } = require("../services/paymentService");
 const { computeEndTime, validateSalonHours } = require("../services/availabilityService");
 const Salons = require("../models/salonsModel");
@@ -21,11 +23,16 @@ const crypto = require("crypto");
  * server — the client-supplied `servicePrice` is IGNORED. A client cannot
  * pay ₹1 for a ₹5000 service.
  *
+ * Promo codes: an optional `promoCode` is validated against that same
+ * authoritative price; when valid, the Cashfree order and the Payment row
+ * both carry the DISCOUNTED amount, with originalAmount/discountAmount
+ * recorded for the ledger.
+ *
  * The caller must be an authenticated customer (enforced by the route).
  */
 exports.processPayment = async (req, res) => {
   const userId = req.user.userId;
-  const { serviceId, salonId, dateSelect, time, staffId, duration } = req.body;
+  const { serviceId, salonId, dateSelect, time, staffId, duration, promoCode } = req.body;
 
   try {
     // 1. Look up the real price from the DB — never trust the client.
@@ -36,6 +43,27 @@ exports.processPayment = async (req, res) => {
     if (priceResult.mismatch) {
       return res.status(400).json({ message: "Service does not belong to this salon" });
     }
+
+    // 1a. Optional promo code, validated against the AUTHORITATIVE price so
+    //     min-order rules can't be gamed by client-side math. The schema has
+    //     already trimmed + uppercased it; resolvePromo returns a reason that
+    //     maps straight to a 400 message.
+    let promoResult = null;
+    if (promoCode) {
+      promoResult = await resolvePromo(promoCode, salonId, priceResult.price);
+      if (!promoResult.ok) {
+        return res.status(400).json({ message: promoResult.reason });
+      }
+    }
+
+    // Money math: originalAmount is the full authoritative price,
+    // discountAmount what the promo takes off, and orderAmount — the amount
+    // BOTH sent to Cashfree and persisted on the Payment row — is the
+    // discounted final charge. Keeping the gateway order and our ledger on
+    // the same number is non-negotiable.
+    const originalAmount = priceResult.price;
+    const discountAmount = promoResult ? promoResult.discountAmount : 0;
+    const orderAmount = Math.max(0, round2(originalAmount - discountAmount));
 
     // 1b. Enforce salon working hours/days here too. A customer could otherwise
     //     skip the /appointment/check step and POST straight to /pay with an
@@ -55,7 +83,6 @@ exports.processPayment = async (req, res) => {
 
     // Use a cryptographically random order id (not a predictable timestamp).
     const orderId = "ORDER-" + crypto.randomBytes(8).toString("hex");
-    const orderAmount = priceResult.price; // from the DB, authoritative
     const orderCurrency = "INR";
     const customerID = userId.toString();
     const customerPhone = userDetails.phoneNumber;
@@ -84,8 +111,11 @@ exports.processPayment = async (req, res) => {
     await Payment.create({
       orderId,
       paymentSessionId,
-      orderAmount,
+      orderAmount, // discounted final charge — matches the Cashfree order
       orderCurrency,
+      originalAmount,
+      discountAmount,
+      promoCodeApplied: promoResult ? promoResult.promo.code : null,
       paymentStatus: "Pending",
       customerID: userId,
       dateSelected: dateSelect,

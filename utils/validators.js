@@ -121,6 +121,8 @@ const appointmentCheckSchema = z.object({
 // ── Payment order creation ─────────────────────────────────────────────
 // Note: servicePrice is intentionally NOT here — the server looks it up.
 // Numbers are coerced because the frontend may send stringified ids.
+// Date-only strings (YYYY-MM-DD) are shared by promo windows + CSV export.
+const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
 const paymentCreateSchema = z.object({
   serviceId: z.coerce.number().int().positive(),
   salonId: z.coerce.number().int().positive(),
@@ -132,7 +134,55 @@ const paymentCreateSchema = z.object({
   // from the services table. Kept in the schema so the frontend's payload
   // isn't rejected, but it carries no authority.
   servicePrice: z.coerce.number().optional(),
+  // Optional promo code. Trimmed + uppercased here so every downstream
+  // lookup/uniqueness check sees one canonical form.
+  promoCode: z.string().trim().toUpperCase().max(64, 'Promo code is too long').optional(),
 });
+
+// ── Promo codes (salon management) ─────────────────────────────────────
+// Code charset: letters/digits/hyphen/underscore, 3–20 chars, stored
+// uppercase (the .toUpperCase() runs before the length/regex checks).
+const PROMO_CODE_RE = /^[A-Z0-9][A-Z0-9\-_]*$/;
+const promoBaseSchema = z.object({
+  code: z.string().trim().toUpperCase()
+    .min(3, 'Promo code must be 3-20 characters').max(20, 'Promo code must be 3-20 characters')
+    .regex(PROMO_CODE_RE, 'Promo code may only contain letters, numbers, hyphens and underscores'),
+  discountType: z.enum(['percent', 'flat'], { message: 'discountType must be percent or flat' }),
+  discountValue: z.coerce.number().positive('Discount value must be greater than zero')
+    .max(1000000, 'Discount value is too large'),
+  maxDiscountAmount: z.coerce.number().positive('Max discount must be a positive number')
+    .max(1000000).optional().nullable(),
+  minOrderAmount: z.coerce.number().min(0, 'Minimum order amount cannot be negative').optional(),
+  validFrom: z.string().regex(DATE_ONLY_RE, 'validFrom must be YYYY-MM-DD').optional().nullable(),
+  validUntil: z.string().regex(DATE_ONLY_RE, 'validUntil must be YYYY-MM-DD').optional().nullable(),
+  usageLimit: z.coerce.number().int('Usage limit must be a whole number')
+    .positive('Usage limit must be a positive number').max(1000000).optional().nullable(),
+}).superRefine((d, ctx) => {
+  if (d.discountType === 'percent' && d.discountValue > 100) {
+    ctx.addIssue({ code: 'custom', path: ['discountValue'], message: 'Percent discount cannot exceed 100' });
+  }
+  if (d.validFrom && d.validUntil && d.validFrom > d.validUntil) {
+    ctx.addIssue({ code: 'custom', path: ['validUntil'], message: 'validUntil must be on or after validFrom' });
+  }
+});
+const promoCreateSchema = promoBaseSchema;
+
+// PATCH /promos/:id — partial edit. `code`, `discountType` and salonId are
+// deliberately immutable here (a code is what customers already know; type
+ // changes silently rewrite the deal's meaning).
+const promoUpdateSchema = z.object({
+  isActive: z.boolean().optional(),
+  maxDiscountAmount: z.coerce.number().positive('Max discount must be a positive number')
+    .max(1000000).optional().nullable(),
+  minOrderAmount: z.coerce.number().min(0, 'Minimum order amount cannot be negative').optional(),
+  validFrom: z.string().regex(DATE_ONLY_RE, 'validFrom must be YYYY-MM-DD').optional().nullable(),
+  validUntil: z.string().regex(DATE_ONLY_RE, 'validUntil must be YYYY-MM-DD').optional().nullable(),
+  usageLimit: z.coerce.number().int('Usage limit must be a whole number')
+    .positive('Usage limit must be a positive number').max(1000000).optional().nullable(),
+}).refine(
+  (d) => !d.validFrom || !d.validUntil || d.validFrom <= d.validUntil,
+  { message: 'validUntil must be on or after validFrom', path: ['validUntil'] }
+);
 
 // ── Reschedule ─────────────────────────────────────────────────────────
 // New slot must be today-or-later (YYYY-MM-DD strings compare correctly);
@@ -220,7 +270,6 @@ const adminSearchSchema = z.object({
 // ── Appointment CSV export (GET query params) ──────────────────────────
 // Optional from/to bounds, YYYY-MM-DD each. Date-only strings compare
 // correctly as plain text, so the from<=to guard needs no date parsing.
-const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
 const csvExportSchema = z.object({
   from: z.string().regex(DATE_ONLY_RE, 'from must be YYYY-MM-DD').optional(),
   to: z.string().regex(DATE_ONLY_RE, 'to must be YYYY-MM-DD').optional(),
@@ -267,4 +316,6 @@ module.exports = {
   activeServicesBySalonSchema,
   csvExportSchema,
   rescheduleSchema,
+  promoCreateSchema,
+  promoUpdateSchema,
 };

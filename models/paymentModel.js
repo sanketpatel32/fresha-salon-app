@@ -62,6 +62,23 @@ const Payment = sequelize.define('payment', {
         allowNull: true
     },
 
+    // ── Promo-code ledger ──
+    // orderAmount carries the DISCOUNTED final charge (matching the Cashfree
+    // order); these preserve what the price was before the discount and how
+    // much came off. Nullable so legacy rows stay valid.
+    originalAmount: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: true
+    },
+    discountAmount: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: true
+    },
+    promoCodeApplied: {
+        type: Sequelize.STRING(64),
+        allowNull: true
+    },
+
 });
 
 module.exports = Payment;

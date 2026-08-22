@@ -7,6 +7,9 @@ const User = require('./userModel'); // Import the User model
 const Payment = require('./paymentModel'); // Import the Payment model
 const Favorite = require('./favoriteModel');
 const StaffBlockout = require('./staffBlockoutModel');
+// Promo codes are a standalone table (lookups are by `code`, ownership by the
+// plain salonId column) — exported plainly, no associations needed.
+const PromoCode = require('./promoCodeModel');
 
 // ==================== SALON RELATIONS ====================
 // Salons <-> Staff (One-to-Many)
@@ -72,4 +75,4 @@ StaffBlockout.belongsTo(Staff, { foreignKey: 'staffId', as: 'staff' });
 Payment.hasOne(Appointment, { foreignKey: 'orderId', sourceKey: 'orderId', as: 'appointment' });
 Appointment.belongsTo(Payment, { foreignKey: 'orderId', targetKey: 'orderId', as: 'payment', constraints: false });
 
-module.exports = { Salons, Staff, Services, StaffServices, Appointment, User, Payment, Favorite, StaffBlockout };
+module.exports = { Salons, Staff, Services, StaffServices, Appointment, User, Payment, Favorite, StaffBlockout, PromoCode };

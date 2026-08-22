@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const salonServices = require('../controllers/salonServicesController');
+const salonPromos = require('../controllers/salonPromosController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const salonStaff = require('../controllers/salonStaffController');
 const {
@@ -9,6 +10,8 @@ const {
   staffAddSchema,
   staffUpdateStatusSchema,
   staffAssignServicesSchema,
+  promoCreateSchema,
+  promoUpdateSchema,
 } = require('../utils/validators');
 
 // The dead res.sendFile HTML routes are removed — the SPA serves all views.
@@ -34,5 +37,11 @@ router.put('/staff/updateStatus', salonOnly, validate(staffUpdateStatusSchema), 
 router.post('/staff/blockouts', salonOnly, salonStaff.addBlockout);
 router.get('/staff/blockouts', salonOnly, salonStaff.getBlockouts);
 router.delete('/staff/blockouts/:id', salonOnly, salonStaff.removeBlockout);
+
+// Promo codes (DELETE is a soft delete — isActive=false, row kept for audit)
+router.post('/promos', salonOnly, validate(promoCreateSchema), salonPromos.createPromo);
+router.get('/promos', salonOnly, salonPromos.listPromos);
+router.patch('/promos/:id', salonOnly, validate(promoUpdateSchema), salonPromos.updatePromo);
+router.delete('/promos/:id', salonOnly, salonPromos.deletePromo);
 
 module.exports = router;

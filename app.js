@@ -22,6 +22,7 @@ const apiroutes = require('./routes/apiRoutes');
 const sequelize = require('./utils/database');
 const User = require('./models/userModel');
 const Appointment = require('./models/appointmentModel');
+const Payment = require('./models/paymentModel');
 const { ensureColumns } = require('./utils/ensureColumns');
 require('./models/associations'); // Import relationships
 
@@ -256,6 +257,14 @@ app.listen(PORT, () => {
       // Postgres, so no dialect switch needed here.
       await ensureColumns(Appointment, 'Appointments', [
         { name: 'salonReply', typeSql: 'TEXT' },
+      ]);
+      // Promo-code ledger columns on payments. originalAmount/discountAmount
+      // preserve the pre-discount price and what the promo took off, while
+      // orderAmount (and the Cashfree order) carry the discounted final.
+      await ensureColumns(Payment, 'payments', [
+        { name: 'originalAmount', typeSql: 'DECIMAL(10,2)' },
+        { name: 'discountAmount', typeSql: 'DECIMAL(10,2)' },
+        { name: 'promoCodeApplied', typeSql: 'VARCHAR(64)' },
       ]);
       await seedSampleData();
       // Backfill categories on any services that lack one (post-migration safety net).
