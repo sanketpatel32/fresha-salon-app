@@ -1,7 +1,7 @@
 const appointmentController = require('../controllers/appointmentController');
 const router = require('express').Router();
 const authMiddleware = require('../middlewares/authMiddleware');
-const { validate, appointmentCheckSchema, customerReviewSchema, staffReviewSchema, statusUpdateSchema } = require('../utils/validators');
+const { validate, appointmentCheckSchema, customerReviewSchema, staffReviewSchema, statusUpdateSchema, rescheduleSchema } = require('../utils/validators');
 
 // Availability check — requires an authenticated customer.
 router.post('/check', authMiddleware, authMiddleware.requireRole('customer'), validate(appointmentCheckSchema), appointmentController.appointmentChecker);
@@ -20,6 +20,10 @@ router.put('/review/:appointmentId', authMiddleware, authMiddleware.requireRole(
 
 // Staff/service notes — staff or salon owner (ownership checked in the controller).
 router.put('/staffreview/:appointmentId', authMiddleware, authMiddleware.requireRole('staff', 'salon'), validate(staffReviewSchema), appointmentController.updateStaffReview);
+
+// Reschedule — customer only (ownership + >24h rule enforced in the controller).
+// Declared with the other parameterized appointment actions.
+router.patch('/:appointmentId/reschedule', authMiddleware, authMiddleware.requireRole('customer'), validate(rescheduleSchema), appointmentController.rescheduleAppointment);
 
 // Status workflow (accept/decline/complete) — salon or staff.
 router.put('/cancel/:appointmentId', authMiddleware, appointmentController.cancelAppointment);

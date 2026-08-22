@@ -1,16 +1,16 @@
 # Graph Report - fresha-salon-app  (2026-08-22)
 
 ## Corpus Check
-- 121 files · ~70,996 words
+- 122 files · ~72,764 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1104 nodes · 1397 edges · 99 communities (92 shown, 7 thin omitted)
+- 1130 nodes · 1444 edges · 97 communities (91 shown, 6 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7dc198fd`
+- Built from commit: `94a15f51`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -101,8 +101,6 @@
 - [[_COMMUNITY_Community 83|Community 83]]
 - [[_COMMUNITY_Community 84|Community 84]]
 - [[_COMMUNITY_Community 86|Community 86]]
-- [[_COMMUNITY_Community 87|Community 87]]
-- [[_COMMUNITY_Community 88|Community 88]]
 - [[_COMMUNITY_Community 89|Community 89]]
 - [[_COMMUNITY_Community 90|Community 90]]
 - [[_COMMUNITY_Community 91|Community 91]]
@@ -128,12 +126,12 @@
   controllers/appointmentController.js → services/emailService.js
 - `cancelAppointment()` --calls--> `canTransition()`  [EXTRACTED]
   controllers/appointmentController.js → utils/statusRules.js
-- `updateAppointmentStatus()` --calls--> `canTransition()`  [EXTRACTED]
+- `rescheduleAppointment()` --calls--> `canReschedule()`  [EXTRACTED]
   controllers/appointmentController.js → utils/statusRules.js
-- `getAllAppointments()` --calls--> `paginateQuery()`  [EXTRACTED]
-  controllers/adminController.js → utils/pagination.js
+- `rescheduleAppointment()` --calls--> `canTransition()`  [EXTRACTED]
+  controllers/appointmentController.js → utils/statusRules.js
 
-## Communities (99 total, 7 thin omitted)
+## Communities (97 total, 6 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.06
@@ -175,28 +173,25 @@ Cohesion: 0.09
 Nodes (22): code:block1 (--color-paper       oklch(98% 0.008 80)   warm off-white can), code:block2 (--color-paper       oklch(18% 0.008 60)), code:block3 (--text-xs:   0.75rem   badges, captions), code:block4 (--space-3xs: 0.25rem   4px), CTA voice, Design — Fresha Salon App, DTCG `tokens.json`, Exports (+14 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.09
-Nodes (18): Favorite, Sequelize, Sequelize, Services, Appointment, assert, Favorite, req (+10 more)
+Cohesion: 0.14
+Nodes (12): Appointment, assert, Favorite, req, res, Salons, sequelize, Services (+4 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.10
-Nodes (20): appointmentModel, cancelAppointment(), { canTransition, canCancel }, {
+Cohesion: 0.11
+Nodes (17): appointmentModel, { canTransition, canCancel }, { canTransition, canCancel, canReschedule }, {
   computeEndTime,
   validateSalonHours,
   staffForService,
   conflictingStaffIds,
-}, { notify }, { Op }, { paginateQuery, buildMeta }, Payment (+12 more)
+}, { notify }, { Op }, { paginateQuery, buildMeta }, Payment (+9 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.09
 Nodes (21): dependencies, axios, lucide-react, react, react-dom, react-router-dom, devDependencies, oxlint (+13 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.09
-Nodes (19): Appointment, assert, big, first, { getAllAppointments }, {
-    getAllAppointmentsByUserId,
-    getScheduledAppointmentsBySalonId,
-}, ids1, lowPage (+11 more)
+Cohesion: 0.05
+Nodes (44): adminlogin(), appointmentModel, credentialsMatch(), crypto, favoriteModel, getAllAppointments(), jwt, { Op } (+36 more)
 
 ### Community 12 - "Community 12"
 Cohesion: 0.10
@@ -211,24 +206,24 @@ Nodes (18): Appointment, assert, { cancelAppointment, updateAppointmentStatus },
 }, Notification, { notify }, req (+10 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.11
-Nodes (8): bcrypt, salonModel, servicesModel, StaffBlockout, staffModel, staffServicesModel, Sequelize, StaffServices
+Cohesion: 0.05
+Nodes (29): bcrypt, salonModel, servicesModel, StaffBlockout, staffModel, staffServicesModel, { DataTypes }, Notification (+21 more)
 
 ### Community 15 - "Community 15"
 Cohesion: 0.14
 Nodes (12): appointmentModel, attachRatings(), bcrypt, getAllSalons(), getSalonById(), getSalonProfile(), jwt, { Op } (+4 more)
 
 ### Community 16 - "Community 16"
-Cohesion: 0.12
-Nodes (13): adminlogin(), appointmentModel, credentialsMatch(), crypto, favoriteModel, jwt, { Op }, { paginateQuery, buildMeta } (+5 more)
+Cohesion: 0.60
+Nodes (5): appointmentChecker(), rescheduleAppointment(), computeEndTime(), staffForService(), validateSalonHours()
 
 ### Community 17 - "Community 17"
 Cohesion: 0.12
 Nodes (15): After Phase 4, Before You Begin, Before You Begin, Before You Begin, Context, Context, Context, File Structure (+7 more)
 
 ### Community 18 - "Community 18"
-Cohesion: 0.12
-Nodes (13): Salons, Sequelize, assert, { getPaymentStatus_, canAccessPayment }, Payment, req, res, Salons (+5 more)
+Cohesion: 0.15
+Nodes (11): assert, { getPaymentStatus_, canAccessPayment }, Payment, req, res, Salons, sequelize, Services (+3 more)
 
 ### Community 19 - "Community 19"
 Cohesion: 0.13
@@ -243,24 +238,24 @@ Cohesion: 0.14
 Nodes (13): adminRoutes, appointmentRoutes, businessDashboardRoutes, businessRoutes, express, favoriteRoutes, notificationsRoutes, paymentRoutes (+5 more)
 
 ### Community 22 - "Community 22"
-Cohesion: 0.26
-Nodes (12): getAllAppointments(), getAllAppointmentsByUserId(), getScheduledAppointmentsBySalonId(), listNotifications(), markAllNotificationsRead(), markNotificationRead(), Notification, { paginateQuery, buildMeta } (+4 more)
+Cohesion: 0.40
+Nodes (4): cancelAppointment(), updateAppointmentStatus(), logger, notify()
 
 ### Community 23 - "Community 23"
 Cohesion: 0.15
 Nodes (12): appDate, card, completedContainer, form, now, reviewBtn, reviewText, staffId (+4 more)
 
 ### Community 24 - "Community 24"
-Cohesion: 0.21
-Nodes (11): appointmentController, authMiddleware, router, { validate, appointmentCheckSchema, customerReviewSchema, staffReviewSchema, statusUpdateSchema }, appointmentCheckSchema, customerReviewSchema, DAY_CODES, SERVICE_CATEGORIES (+3 more)
+Cohesion: 0.18
+Nodes (13): appointmentController, authMiddleware, router, { validate, appointmentCheckSchema, customerReviewSchema, staffReviewSchema, statusUpdateSchema }, { validate, appointmentCheckSchema, customerReviewSchema, staffReviewSchema, statusUpdateSchema, rescheduleSchema }, appointmentCheckSchema, customerReviewSchema, DAY_CODES (+5 more)
 
 ### Community 25 - "Community 25"
 Cohesion: 0.15
 Nodes (11): Appointment, Favorite, Payment, Salons, Services, Staff, StaffBlockout, StaffServices (+3 more)
 
 ### Community 26 - "Community 26"
-Cohesion: 0.15
-Nodes (11): { appointmentChecker }, assert, req, res, Salons, sequelize, Services, Staff (+3 more)
+Cohesion: 0.12
+Nodes (13): Sequelize, User, { appointmentChecker }, assert, req, res, Salons, sequelize (+5 more)
 
 ### Community 27 - "Community 27"
 Cohesion: 0.17
@@ -279,11 +274,11 @@ Nodes (11): authMiddleware, router, salonOnly, salonServices, salonStaff, {
 
 ### Community 29 - "Community 29"
 Cohesion: 0.17
-Nodes (8): appointmentModel, bcrypt, jwt, servicesModel, staffModel, userModel, Sequelize, User
+Nodes (8): appointmentModel, bcrypt, jwt, servicesModel, staffModel, userModel, Sequelize, Services
 
 ### Community 30 - "Community 30"
-Cohesion: 0.20
-Nodes (11): appointmentChecker(), appointmentModel, computeEndTime(), DAY_CODES, { Op }, salonModel, Services, StaffBlockout (+3 more)
+Cohesion: 0.17
+Nodes (10): Appointment, { DataTypes }, sequelize, appointmentModel, DAY_CODES, { Op }, salonModel, Services (+2 more)
 
 ### Community 31 - "Community 31"
 Cohesion: 0.17
@@ -302,8 +297,8 @@ Cohesion: 0.18
 Nodes (7): appointmentModel, { Op, fn, col, literal }, paymentModel, servicesModel, staffModel, Sequelize, Staff
 
 ### Community 35 - "Community 35"
-Cohesion: 0.24
-Nodes (9): assert, { canTransition, canCancel, CANCEL_WINDOW_HOURS }, future, onBoundary, soon, { test }, ALLOWED_TRANSITIONS, canCancel() (+1 more)
+Cohesion: 0.23
+Nodes (10): assert, { canTransition, canCancel, CANCEL_WINDOW_HOURS }, future, onBoundary, soon, { test }, ALLOWED_TRANSITIONS, canCancel() (+2 more)
 
 ### Community 36 - "Community 36"
 Cohesion: 0.20
@@ -421,6 +416,10 @@ Nodes (6): { Cashfree }, dotenv, expiryDate, formattedExpiryDate, request, verif
 Cohesion: 0.33
 Nodes (5): plugins, rules, react/only-export-components, react/rules-of-hooks, $schema
 
+### Community 67 - "Community 67"
+Cohesion: 0.14
+Nodes (8): Favorite, salonModel, Favorite, Sequelize, Salons, Sequelize, path, Sequelize
+
 ### Community 68 - "Community 68"
 Cohesion: 0.33
 Nodes (6): code:bash (rm -f database.sqlite), code:bash (node --test tests/statusRules.test.js), code:bash (CUSTOMER_TOKEN=$(curl -s -X POST http://localhost:3000/api/u), code:bash (grep -l "Simulate Secure Booking" frontend/dist/assets/*.js ), code:bash (git status --short), Task 8: End-of-phase manual verification
@@ -493,34 +492,26 @@ Nodes (4): code:js (const { test, before, after } = require('node:test');), code
 Cohesion: 0.50
 Nodes (3): card, staffList, token
 
-### Community 87 - "Community 87"
-Cohesion: 0.50
-Nodes (3): Appointment, { DataTypes }, sequelize
-
-### Community 88 - "Community 88"
-Cohesion: 0.50
-Nodes (3): { DataTypes }, Notification, sequelize
-
 ### Community 89 - "Community 89"
 Cohesion: 0.50
 Nodes (3): data, token, userId
 
 ## Knowledge Gaps
-- **743 isolated node(s):** `express`, `path`, `cors`, `helmet`, `rateLimit` (+738 more)
+- **760 isolated node(s):** `express`, `path`, `cors`, `helmet`, `rateLimit` (+755 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `validate()` connect `Community 76` to `Community 64`, `Community 38`, `Community 75`, `Community 43`, `Community 44`, `Community 24`, `Community 28`, `Community 63`?**
   _High betweenness centrality (0.004) - this node is a cross-community bridge._
-- **Why does `canTransition()` connect `Community 35` to `Community 9`?**
+- **Why does `Phase 2: Status-Powered Workflow Implementation Plan` connect `Community 45` to `Community 36`, `Community 69`, `Community 68`, `Community 40`, `Community 41`, `Community 54`, `Community 55`?**
   _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **Why does `Phase 4: Salon Owner Power Tools Implementation Plan` connect `Community 17` to `Community 70`, `Community 71`, `Community 78`, `Community 84`, `Community 56`, `Community 57`, `Community 58`, `Community 59`, `Community 60`?**
   _High betweenness centrality (0.002) - this node is a cross-community bridge._
 - **What connects `express`, `path`, `cors` to the rest of the system?**
-  _743 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _760 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.05777345017851347 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**

@@ -101,9 +101,12 @@ async function staffForService(salonId, serviceId) {
  * requested slot, due to either a blockout or an existing non-cancelled/
  * non-declined appointment that overlaps [startTime, endTime).
  *
+ * @param {number|null} [excludeAppointmentId] - appointment id to ignore when
+ *   scanning existing bookings. The reschedule flow passes its own appointment
+ *   so a booking never conflicts with itself in its current/old slot.
  * @returns {Promise<Set<number>>}
  */
-async function conflictingStaffIds(staffIds, salonId, dateStr, startTime, endTime) {
+async function conflictingStaffIds(staffIds, salonId, dateStr, startTime, endTime, excludeAppointmentId = null) {
   if (!staffIds.length) return new Set();
 
   const blocked = await StaffBlockout.findAll({
@@ -122,6 +125,7 @@ async function conflictingStaffIds(staffIds, salonId, dateStr, startTime, endTim
       salonId,
       date: dateStr,
       status: { [Op.notIn]: ['cancelled', 'declined'] },
+      ...(excludeAppointmentId ? { id: { [Op.ne]: excludeAppointmentId } } : {}),
       time: { [Op.lt]: endTime },
       endTime: { [Op.gt]: startTime },
     },

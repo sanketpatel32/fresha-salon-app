@@ -37,8 +37,25 @@ function canCancel(status, startAt) {
     return msUntilStart > CANCEL_WINDOW_HOURS * 3600 * 1000;
 }
 
+/**
+ * Returns true if a customer may reschedule an appointment.
+ * Same boundary semantics as canCancel: status must still be changeable
+ * (pending or confirmed — declined/completed/cancelled are terminal) AND the
+ * start must be strictly more than CANCEL_WINDOW_HOURS away.
+ * `now` is injectable so tests/callers can freeze time.
+ * @param {object}      appointment - row exposing `status`, `date`, `time`
+ * @param {Date|number} [now]       - current time; defaults to Date.now()
+ */
+function canReschedule(appointment, now = Date.now()) {
+    if (!appointment) return false;
+    if (!canTransition(appointment.status, 'cancelled')) return false;
+    const startAt = new Date(`${appointment.date}T${appointment.time}`);
+    return new Date(startAt).getTime() - new Date(now).getTime() > CANCEL_WINDOW_HOURS * 3600 * 1000;
+}
+
 module.exports = {
     CANCEL_WINDOW_HOURS,
     canTransition,
     canCancel,
+    canReschedule,
 };

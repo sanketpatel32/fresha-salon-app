@@ -6,7 +6,7 @@ const userModel = require('../models/userModel');
 const Payment = require('../models/paymentModel');
 const StaffBlockout = require('../models/staffBlockoutModel');
 const { Op } = require('sequelize');
-const { canTransition, canCancel } = require('../utils/statusRules');
+const { canTransition, canCancel, canReschedule } = require('../utils/statusRules');
 const { paginateQuery, buildMeta } = require('../utils/pagination');
 const sequelize = require('../utils/database');
 const { notify } = require('../services/notificationService');
@@ -334,6 +334,99 @@ const cancelAppointment = async (req, res) => {
     }
 };
 
+// Customer reschedules their own appointment (must be >24h before start).
+// Keeps the same staff by default; an optional staffId may reassign to any
+// staff member of the same salon who provides the same service.
+const rescheduleAppointment = async (req, res) => {
+    const { appointmentId } = req.params;
+    const { dateSelect, time, staffId } = req.body;
+    const userId = req.user.userId;
+
+    try {
+        const appointment = await appointmentModel.findByPk(appointmentId);
+        if (!appointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+        // Ownership: only the booking customer may reschedule.
+        if (appointment.userId !== userId) {
+            return res.status(403).json({ message: 'Not authorized to reschedule this appointment' });
+        }
+
+        // Same rules as cancellation (shared pure helper): cancellable status
+        // AND start strictly more than 24h away. Give a specific reason.
+        if (!canReschedule(appointment)) {
+            if (!canTransition(appointment.status, 'cancelled')) {
+                return res.status(400).json({ message: `This appointment is already ${appointment.status} and can't be rescheduled.` });
+            }
+            return res.status(400).json({ message: "It's too late to reschedule — changes close 24 hours before the appointment." });
+        }
+
+        const service = await Services.findByPk(appointment.serviceId);
+        if (!service) {
+            return res.status(404).json({ message: 'Service not found' });
+        }
+
+        // Staff resolution: keep the current staff unless a replacement is
+        // requested. A replacement must belong to the same salon AND provide
+        // this service (same eligibility source as the availability checker).
+        let effectiveStaffId = appointment.staffId;
+        if (staffId !== undefined) {
+            const eligible = await staffForService(appointment.salonId, appointment.serviceId);
+            const match = eligible.find((s) => s.id === staffId);
+            if (!match) {
+                return res.status(400).json({ message: 'Selected staff is not available for this service' });
+            }
+            effectiveStaffId = match.id;
+        }
+
+        const endTime = computeEndTime(time, service.duration);
+
+        // Salon-hours gate, identical to the payment finalization path.
+        const salon = await Salons.findByPk(appointment.salonId);
+        if (!salon) {
+            return res.status(404).json({ message: 'Salon not found' });
+        }
+        const hoursCheck = validateSalonHours(salon, dateSelect, time, endTime);
+        if (!hoursCheck.ok) {
+            return res.status(400).json({ message: hoursCheck.reason });
+        }
+
+        // Conflict-check the NEW slot (blockouts + other bookings). The
+        // appointment being moved is excluded so it can't collide with itself.
+        const conflicted = await conflictingStaffIds(
+            [effectiveStaffId], appointment.salonId, dateSelect, time, endTime, appointment.id
+        );
+        if (conflicted.has(effectiveStaffId)) {
+            return res.status(409).json({ message: 'New slot is not available' });
+        }
+
+        // Remember the old slot for the notification before overwriting.
+        const oldDate = appointment.date;
+        const oldTime = appointment.time;
+        appointment.date = dateSelect;
+        appointment.time = time;
+        appointment.endTime = endTime;
+        appointment.staffId = effectiveStaffId;
+        await appointment.save();
+
+        // Fire-and-forget: the salon learns the booking moved (this endpoint
+        // is customer-only). Never awaited — mirrors cancelAppointment.
+        notify({
+            recipientRole: 'salon',
+            recipientId: appointment.salonId,
+            type: 'booking.rescheduled',
+            title: 'Booking rescheduled',
+            body: `${oldDate} at ${oldTime} -> ${appointment.date} at ${appointment.time}`,
+            appointmentId: appointment.id,
+        }).catch(() => { }); // notify never rejects; belt-and-braces for lint
+
+        res.status(200).json({ message: 'Appointment rescheduled successfully', appointment });
+    } catch (error) {
+        console.error('Error rescheduling appointment:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 // Staff or salon owner updates an appointment's status
 // (accept pending -> confirmed, decline pending -> declined, complete confirmed -> completed).
 const updateAppointmentStatus = async (req, res) => {
@@ -404,5 +497,6 @@ module.exports = {
     updateCustomerReview,
     updateStaffReview,
     cancelAppointment,
+    rescheduleAppointment,
     updateAppointmentStatus,
 };

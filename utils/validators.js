@@ -124,6 +124,18 @@ const paymentCreateSchema = z.object({
   servicePrice: z.coerce.number().optional(),
 });
 
+// ── Reschedule ─────────────────────────────────────────────────────────
+// New slot must be today-or-later (YYYY-MM-DD strings compare correctly);
+// staffId is optional — omitted means "keep the currently assigned staff".
+const rescheduleSchema = z.object({
+  dateSelect: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'dateSelect must be YYYY-MM-DD').refine(
+    (d) => d >= new Date().toISOString().slice(0, 10),
+    { message: 'dateSelect must be today or later' }
+  ),
+  time: z.string().regex(/^\d{2}:\d{2}$/, 'time must be HH:mm'),
+  staffId: z.coerce.number().int().positive('staffId must be a positive integer').optional(),
+});
+
 // ── Reviews ────────────────────────────────────────────────────────────
 const customerReviewSchema = z.object({
   review: z.string().max(2000, 'Review is too long').optional().nullable(),
@@ -222,4 +234,5 @@ module.exports = {
   salonDetailsSchema,
   adminSearchSchema,
   activeServicesBySalonSchema,
+  rescheduleSchema,
 };
