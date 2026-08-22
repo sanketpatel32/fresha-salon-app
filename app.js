@@ -20,6 +20,8 @@ if (!process.env.JWT_SECRET) {
 // Import custom services and routes
 const apiroutes = require('./routes/apiRoutes');
 const sequelize = require('./utils/database');
+const User = require('./models/userModel');
+const { ensureColumns } = require('./utils/ensureColumns');
 require('./models/associations'); // Import relationships
 
 // Initialize express app
@@ -65,14 +67,10 @@ const apiLimiter = rateLimit({
 app.use('/api', apiLimiter);
 
 // Stricter rate limit on login endpoints — 5 attempts / 15 minutes / IP,
-// to slow brute-force attacks on the login flows.
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { error: 'Too many login attempts, please try again later.' },
-});
+// to slow brute-force attacks on the login flows. The shared definition
+// lives in middlewares/rateLimiters.js so the password-reset routes apply
+// the exact same policy without duplicating options.
+const { strictLimiter: loginLimiter } = require('./middlewares/rateLimiters');
 app.use('/api/user/login', loginLimiter);
 app.use('/api/buisness/login', loginLimiter);
 app.use('/api/staff/login', loginLimiter);
@@ -232,6 +230,16 @@ app.listen(PORT, () => {
     .sync()
     .then(async () => {
       console.log('✅ Database synced successfully.');
+      // sync() creates tables but never ALTERs existing ones — backfill any
+      // columns added to models since this database was first created.
+      await ensureColumns(User, 'users', [
+        { name: 'resetTokenHash', typeSql: 'VARCHAR(255)' },
+        // SQLite spells it DATETIME; Postgres (production) has no DATETIME type.
+        {
+          name: 'resetTokenExpiresAt',
+          typeSql: sequelize.getDialect() === 'postgres' ? 'TIMESTAMP' : 'DATETIME',
+        },
+      ]);
       await seedSampleData();
       // Backfill categories on any services that lack one (post-migration safety net).
       const { migrateCategories } = require('./utils/migrateCategories');

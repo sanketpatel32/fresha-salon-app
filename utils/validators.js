@@ -52,6 +52,19 @@ const adminLoginSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
+// ── Password reset ─────────────────────────────────────────────────────
+const forgotPasswordSchema = z.object({
+  email: z.string().email('A valid email is required'),
+});
+
+// Both the token and email must match what was issued; the replacement
+// password clears a stricter bar than signup (8 chars vs 6).
+const resetPasswordSchema = z.object({
+  email: z.string().email('A valid email is required'),
+  token: z.string().min(1, 'Reset token is required').max(128),
+  newPassword: z.string().min(8, 'New password must be at least 8 characters'),
+});
+
 // ── Services ───────────────────────────────────────────────────────────
 const SERVICE_CATEGORIES = [
   'Hair', 'Spa & Massage', 'Facial & Skin', 'Nails',
@@ -192,6 +205,8 @@ module.exports = {
   customerSignupSchema,
   salonSignupSchema,
   adminLoginSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
   serviceAddSchema,
   serviceUpdateSchema,
   salonBrowseSchema,

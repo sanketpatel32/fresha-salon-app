@@ -10,8 +10,8 @@ Baseline at start: 21/21 tests passing on branch `improve/app-hardening`.
 | 1 | Security: auth-gate payment status endpoint + tests | ✅ |
 | 2 | Security: timing-safe admin login, signup rate limits, param validation | ✅ |
 | 3 | Reliability: central async error wrapper for controllers | ✅ |
-| 4 | Feature: pagination for appointment listings | ⏳ in progress |
-| 5 | Feature: password reset flow | ⬜ |
+| 4 | Feature: pagination for appointment listings | ✅ |
+| 5 | Feature: password reset flow | ⏳ in progress |
 | 6 | Feature: in-app notifications | ⬜ |
 | 7 | Feature: reschedule appointment | ⬜ |
 | 8 | Feature: email verification on signup | ⬜ |
@@ -37,4 +37,6 @@ Baseline at start: 21/21 tests passing on branch `improve/app-hardening`.
 - **#2 Auth & input hardening** — admin login now uses `crypto.timingSafeEqual` over SHA-256 hashes (no timing leak, both fields always compared); signup endpoints (`/api/user/signup`, `/api/business/signup`, legacy `/api/buisness/signup`) now share the strict login rate limiter; public `getAllActiveServicesBySalonId` validates `salonId` with a zod query schema.
 
 - **#4 Pagination for appointment listings** — added shared `paginateQuery`/`buildMeta` helpers (`utils/pagination.js`: page/limit coerced + clamped to 1..50, defaults 1/10) and applied them to customer `/api/appointment/getAll`, salon `/sceduledAppointments`, and admin `/appointments/getall` via `findAndCountAll`. Fully backward compatible: no `page`/`limit` params → legacy bare array (existing React + legacy JS consumers untouched); either param present → `{ data, page, limit, total, totalPages }` envelope. 15 new tests in `tests/pagination.test.js` cover clamping, both response shapes, meta math, and scoping. Tests: 28 → 43.
+
+- **#5 Password reset flow** — customers can self-service forgotten passwords: `POST /api/user/forgot-password` issues a random 256-bit token of which only the SHA-256 hash plus a 60-minute expiry are stored (the plaintext link is emailed via a new `sendPasswordResetEmail` helper in the Brevo service, which stays a safe no-op when unconfigured), and `POST /api/user/reset-password` verifies token + email against the hash and window, rotates the bcrypt password (cost 10), and clears both token fields; both endpoints respond identically whether or not the account exists (no enumeration). They're public but share the strict login rate limiter — extracted to `middlewares/rateLimiters.js` so app.js mounts and route-level guards use one policy — with new zod schemas (`forgotPasswordSchema`, `resetPasswordSchema`, newPassword min 8). Because `sync()` never ALTERs existing tables, the two nullable user columns are backfilled at boot by a reusable `utils/ensureColumns.js` helper. 7 new tests in `tests/password-reset.test.js`. Tests: 43 → 50.
 

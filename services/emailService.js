@@ -85,4 +85,56 @@ async function sendBookingConfirmation(ctx) {
   }
 }
 
-module.exports = { sendBookingConfirmation };
+/**
+ * Send a password reset link. Fire-and-forget like booking confirmations:
+ * resolves to { sent: false, reason: 'not-configured' } when Brevo isn't set
+ * up, so the auth flow never breaks (or reveals anything) because of email.
+ * @param {object} ctx - { to, name, resetLink }
+ * @returns {Promise<{sent: boolean, reason?: string}>}
+ */
+async function sendPasswordResetEmail(ctx) {
+  const c = client();
+  if (!c) return { sent: false, reason: 'not-configured' };
+  if (!ctx?.to || !ctx?.resetLink) return { sent: false, reason: 'missing-data' };
+
+  const subject = 'Reset Your Password';
+  const textContent = [
+    `Dear ${ctx.name || 'customer'},`,
+    '',
+    'We received a request to reset your password.',
+    'The link below is valid for the next 60 minutes:',
+    '',
+    ctx.resetLink,
+    '',
+    "If you didn't request this, you can safely ignore this email —",
+    'your password will stay unchanged.',
+    '',
+    'Best regards,',
+    'Fresha Team',
+  ].join('\n');
+
+  const htmlContent = `
+    <p>Dear ${ctx.name || 'customer'},</p>
+    <p>We received a request to reset your password. Click the link below — it is valid for the next <strong>60 minutes</strong>:</p>
+    <p><a href="${ctx.resetLink}">Reset my password</a></p>
+    <p>If you didn't request this, you can safely ignore this email — your password will stay unchanged.</p>
+    <p>Best regards,<br>Fresha Team</p>
+  `;
+
+  try {
+    await c.api.sendTransacEmail({
+      sender: c.sender,
+      to: [{ email: ctx.to }],
+      subject,
+      textContent,
+      htmlContent,
+    });
+    return { sent: true };
+  } catch (error) {
+    // Email failure must never break the auth flow — log and move on.
+    console.error('❌ Error sending password reset email:', error.response?.body || error.message);
+    return { sent: false, reason: 'send-failed' };
+  }
+}
+
+module.exports = { sendBookingConfirmation, sendPasswordResetEmail };
