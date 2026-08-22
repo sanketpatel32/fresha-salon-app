@@ -8,8 +8,10 @@ const servicesModel = require('../models/servicesModel');
 const staffModel = require('../models/staffModel');
 const paymentModel = require('../models/paymentModel');
 const favoriteModel = require('../models/favoriteModel');
-const { Op } = require('sequelize');
+const { Op, fn, col, literal } = require('sequelize');
 const { paginateQuery, buildMeta } = require('../utils/pagination');
+const adminAuditModel = require('../models/adminAuditModel');
+const { recordAudit } = require('../services/adminAuditService');
 // Compare two strings in constant time. Plain === bails out at the first
 // mismatching byte, leaking how much of the credential an attacker guessed.
 // Hashing both sides first guarantees equal-length buffers (SHA-256 is always
@@ -100,14 +102,31 @@ const deleteAppointment = async (req, res) => {
     try {
         const appointmentId = req.params.id;
 
-        // Check if the appointment exists
-        const appointment = await appointmentModel.findByPk(appointmentId);
+        // Check if the appointment exists (names included purely to enrich the
+        // audit trail — never sent to the client).
+        const appointment = await appointmentModel.findByPk(appointmentId, {
+            include: [
+                { model: userModel, as: 'user', attributes: ['name', 'email'] },
+                { model: salonModel, as: 'salon', attributes: ['name'] },
+            ],
+        });
         if (!appointment) {
             return res.status(404).json({ message: 'Appointment not found' });
         }
 
         // Delete the appointment
         await appointment.destroy();
+
+        // Fire-and-forget audit entry — must never fail the deletion.
+        const who = appointment.user ? `${appointment.user.name} <${appointment.user.email}>` : 'unknown customer';
+        const where = appointment.salon ? ` at ${appointment.salon.name}` : '';
+        recordAudit({
+            adminEmail: req.user?.admin || 'unknown-admin',
+            action: 'appointment.delete',
+            targetType: 'appointment',
+            targetId: String(appointmentId),
+            details: `${who}${where} (${appointment.date} ${appointment.time})`,
+        });
 
         return res.status(200).json({ message: 'Appointment deleted successfully' });
     } catch (error) {
@@ -165,16 +184,119 @@ const deleteUser = async (req, res) => {
             await user.destroy({ transaction: t });
         });
 
+        // Fire-and-forget audit entry — must never fail the deletion. The row
+        // is gone, so the name/email only live on in `details` from here on.
+        recordAudit({
+            adminEmail: req.user?.admin || 'unknown-admin',
+            action: 'user.delete',
+            targetType: 'user',
+            targetId: String(userId),
+            details: `${user.name} <${user.email}>`,
+        });
+
         return res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
         console.error("Error deleting user:", error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
+const getPlatformStats = async (req, res) => {
+    try {
+        // Simple totals — three cheap COUNT(*) queries run concurrently.
+        const [totalSalons, totalCustomers, totalStaff] = await Promise.all([
+            salonModel.count(),
+            userModel.count(),
+            staffModel.count(),
+        ]);
+
+        // Appointment status breakdown in ONE grouped query (never one query
+        // per status). Unknown statuses are ignored rather than crashing the
+        // response shape.
+        const statusRows = await appointmentModel.findAll({
+            attributes: ['status', [fn('COUNT', col('status')), 'count']],
+            group: [col('status')],
+        });
+        const appointmentsByStatus = {
+            pending: 0,
+            confirmed: 0,
+            cancelled: 0,
+            completed: 0,
+            declined: 0,
+            'no-show': 0,
+        };
+        for (const row of statusRows) {
+            const key = row.get('status');
+            if (key in appointmentsByStatus) {
+                appointmentsByStatus[key] = Number(row.get('count'));
+            }
+        }
+
+        // Gross platform revenue: SUM(orderAmount) over SUCCESSFUL payments
+        // only. 'Success' is the exact gateway/webhook status string used by
+        // cashfreeServices + paymentController when a booking finalizes.
+        // COALESCE keeps this 0 (not null) on an empty ledger.
+        const revenueRow = await paymentModel.findOne({
+            attributes: [[fn('COALESCE', fn('SUM', col('orderAmount')), literal('0')), 'revenue']],
+            where: { paymentStatus: 'Success' },
+        });
+        const revenueTotal = Number(revenueRow ? revenueRow.get('revenue') : 0);
+
+        // New customer signups in the trailing 7 days.
+        const weekAgo = new Date(Date.now() - 7 * 24 * 3600 * 1000);
+        const newCustomers = await userModel.count({
+            where: { createdAt: { [Op.gte]: weekAgo } },
+        });
+
+        return res.status(200).json({
+            totalSalons,
+            totalCustomers,
+            totalStaff,
+            appointmentsByStatus,
+            revenueTotal,
+            last7Days: { newCustomers },
+            serverTimestamp: new Date().toISOString(),
+        });
+    } catch (error) {
+        console.error("Error building platform stats:", error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+const getAuditLog = async (req, res) => {
+    try {
+        // Same backward-compatible contract as every other listing:
+        // no page/limit -> legacy bare array; either param -> envelope.
+        const { requested, page, limit, offset } = paginateQuery(req);
+
+        const findOpts = {
+            order: [['createdAt', 'DESC'], ['id', 'DESC']], // newest-first
+        };
+
+        if (!requested) {
+            const rows = await adminAuditModel.findAll(findOpts);
+            return res.status(200).json(rows);
+        }
+
+        const { rows, count } = await adminAuditModel.findAndCountAll({
+            ...findOpts,
+            limit,
+            offset,
+            distinct: true,
+        });
+
+        return res.status(200).json({ data: rows, ...buildMeta(page, limit, count) });
+    } catch (error) {
+        console.error("Error fetching audit log:", error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 module.exports = {
     adminlogin,
     getAllAppointments,
     deleteAppointment,  
     searchUsers,
-    deleteUser
+    deleteUser,
+    getPlatformStats,
+    getAuditLog
 };

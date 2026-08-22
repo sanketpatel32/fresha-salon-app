@@ -16,4 +16,8 @@ router.delete('/appointments/:id', adminOnly, adminController.deleteAppointment)
 router.get('/users/search', adminOnly, validate(adminSearchSchema, 'query'), adminController.searchUsers);
 router.delete('/users/:id', adminOnly, adminController.deleteUser);
 
+// Platform stats + audit trail — same adminOnly guard as everything above.
+router.get('/stats', adminOnly, adminController.getPlatformStats);
+router.get('/audit', adminOnly, adminController.getAuditLog);
+
 module.exports = router;
