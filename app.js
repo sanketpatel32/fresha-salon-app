@@ -239,6 +239,17 @@ app.listen(PORT, () => {
           name: 'resetTokenExpiresAt',
           typeSql: sequelize.getDialect() === 'postgres' ? 'TIMESTAMP' : 'DATETIME',
         },
+        // Email verification (soft flag + hashed token). BOOLEAN is native on
+        // both SQLite and Postgres; MySQL-family dialects want TINYINT(1).
+        {
+          name: 'emailVerified',
+          typeSql: ['mysql', 'mariadb'].includes(sequelize.getDialect()) ? 'TINYINT(1)' : 'BOOLEAN',
+        },
+        { name: 'verificationTokenHash', typeSql: 'VARCHAR(255)' },
+        {
+          name: 'verificationExpiresAt',
+          typeSql: sequelize.getDialect() === 'postgres' ? 'TIMESTAMP' : 'DATETIME',
+        },
       ]);
       await seedSampleData();
       // Backfill categories on any services that lack one (post-migration safety net).

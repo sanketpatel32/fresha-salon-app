@@ -65,6 +65,16 @@ const resetPasswordSchema = z.object({
   newPassword: z.string().min(8, 'New password must be at least 8 characters'),
 });
 
+// ── Email verification ────────────────────────────────────────────────
+const verifyEmailSchema = z.object({
+  email: z.string().email('A valid email is required'),
+  token: z.string().min(1, 'Verification token is required').max(128),
+});
+
+const resendVerificationSchema = z.object({
+  email: z.string().email('A valid email is required'),
+});
+
 // ── Services ───────────────────────────────────────────────────────────
 const SERVICE_CATEGORIES = [
   'Hair', 'Spa & Massage', 'Facial & Skin', 'Nails',
@@ -219,6 +229,8 @@ module.exports = {
   adminLoginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
+  verifyEmailSchema,
+  resendVerificationSchema,
   serviceAddSchema,
   serviceUpdateSchema,
   salonBrowseSchema,

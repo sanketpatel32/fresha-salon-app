@@ -37,6 +37,24 @@ const User = sequelize.define('user', {
         allowNull: true
     },
 
+    // Email verification (soft — accounts stay usable either way; the flag is
+    // exposed for future gating). Nullable token fields, populated between a
+    // signup/resend and the verify call; only ever stores the SHA-256 hash of
+    // the emailed token, never the token itself.
+    emailVerified: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+    },
+    verificationTokenHash: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    verificationExpiresAt: {
+        type: Sequelize.DATE,
+        allowNull: true
+    },
+
 }, { timestamps: true });
 
 module.exports = User;

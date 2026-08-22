@@ -24,6 +24,18 @@ function client() {
 }
 
 /**
+ * Whether transactional email can actually be sent (Brevo key + sender set).
+ * Lets callers decide up front whether issuing an email-bound token is worth
+ * it (e.g. verification tokens are only generated when a mail can go out).
+ * Deliberately reads the env vars directly instead of client(), so asking
+ * the question never builds or caches an SDK client.
+ * @returns {boolean}
+ */
+function isConfigured() {
+  return Boolean(process.env.BREVO_API_KEY && process.env.SENDER_EMAIL);
+}
+
+/**
  * Send a booking confirmation email for a finalized payment/order.
  * @param {object} ctx - { order, customer, staff, service, salon } plain objects
  * @returns {Promise<{sent: boolean, reason?: string}>}
@@ -137,4 +149,55 @@ async function sendPasswordResetEmail(ctx) {
   }
 }
 
-module.exports = { sendBookingConfirmation, sendPasswordResetEmail };
+/**
+ * Send an email verification link for a new customer signup. Same
+ * fire-and-forget contract as the reset mail: resolves to a no-op result when
+ * Brevo isn't configured, so signup never blocks (or breaks) on email.
+ * @param {object} ctx - { to, name, verifyLink }
+ * @returns {Promise<{sent: boolean, reason?: string}>}
+ */
+async function sendVerificationEmail(ctx) {
+  const c = client();
+  if (!c) return { sent: false, reason: 'not-configured' };
+  if (!ctx?.to || !ctx?.verifyLink) return { sent: false, reason: 'missing-data' };
+
+  const subject = 'Verify Your Email';
+  const textContent = [
+    `Dear ${ctx.name || 'customer'},`,
+    '',
+    'Welcome to Fresha Salon! Please confirm your email address.',
+    'The link below is valid for the next 24 hours:',
+    '',
+    ctx.verifyLink,
+    '',
+    "If you didn't create this account, you can safely ignore this email.",
+    '',
+    'Best regards,',
+    'Fresha Team',
+  ].join('\n');
+
+  const htmlContent = `
+    <p>Dear ${ctx.name || 'customer'},</p>
+    <p>Welcome to Fresha Salon! Confirm your email address by clicking the link below — it is valid for the next <strong>24 hours</strong>:</p>
+    <p><a href="${ctx.verifyLink}">Verify my email</a></p>
+    <p>If you didn't create this account, you can safely ignore this email.</p>
+    <p>Best regards,<br>Fresha Team</p>
+  `;
+
+  try {
+    await c.api.sendTransacEmail({
+      sender: c.sender,
+      to: [{ email: ctx.to }],
+      subject,
+      textContent,
+      htmlContent,
+    });
+    return { sent: true };
+  } catch (error) {
+    // Email failure must never break the auth flow — log and move on.
+    console.error('❌ Error sending verification email:', error.response?.body || error.message);
+    return { sent: false, reason: 'send-failed' };
+  }
+}
+
+module.exports = { isConfigured, sendBookingConfirmation, sendPasswordResetEmail, sendVerificationEmail };
