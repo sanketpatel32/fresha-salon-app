@@ -9,6 +9,7 @@ const staffModel = require('../models/staffModel');
 const paymentModel = require('../models/paymentModel');
 const favoriteModel = require('../models/favoriteModel');
 const { Op } = require('sequelize');
+const { paginateQuery, buildMeta } = require('../utils/pagination');
 // Compare two strings in constant time. Plain === bails out at the first
 // mismatching byte, leaking how much of the credential an attacker guessed.
 // Hashing both sides first guarantees equal-length buffers (SHA-256 is always
@@ -52,7 +53,10 @@ const getAllAppointments = async (req, res) => {
         const currentDate = now.toISOString().slice(0, 10); // YYYY-MM-DD
         const currentTime = now.toTimeString().slice(0, 8); // HH:mm:ss
 
-        const appointments = await appointmentModel.findAll({
+        // Backward compat: no page/limit params -> legacy bare-array response.
+        const { requested, page, limit, offset } = paginateQuery(req);
+
+        const findOpts = {
             where: {
                 [Op.or]: [
                     // Appointments after today
@@ -69,9 +73,23 @@ const getAllAppointments = async (req, res) => {
                 { model: userModel, as: 'user', attributes: ['name', 'phoneNumber'] },
                 { model: servicesModel, as: 'service', attributes: ['name', 'price'] },
                 { model: staffModel, as: 'staff', attributes: ['name'] }
-            ]
+            ],
+            ...(requested ? { order: [['date', 'ASC'], ['time', 'ASC']] } : {}),
+        };
+
+        if (!requested) {
+            const appointments = await appointmentModel.findAll(findOpts);
+            return res.status(200).json(appointments);
+        }
+
+        const { rows, count } = await appointmentModel.findAndCountAll({
+            ...findOpts,
+            limit,
+            offset,
+            distinct: true,
         });
-        return res.status(200).json(appointments);
+
+        return res.status(200).json({ data: rows, ...buildMeta(page, limit, count) });
     } catch (error) {
         console.error("Error fetching appointments:", error);
         return res.status(500).json({ message: 'Internal server error' });

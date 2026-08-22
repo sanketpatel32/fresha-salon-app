@@ -7,6 +7,7 @@ const Payment = require('../models/paymentModel');
 const StaffBlockout = require('../models/staffBlockoutModel');
 const { Op } = require('sequelize');
 const { canTransition, canCancel } = require('../utils/statusRules');
+const { paginateQuery, buildMeta } = require('../utils/pagination');
 const sequelize = require('../utils/database');
 const {
   computeEndTime,
@@ -85,7 +86,12 @@ const getAllAppointmentsByUserId = async (req, res) => {
     const userId = req.user.userId;
 
     try {
-        const appointments = await appointmentModel.findAll({
+        // Backward compat: no page/limit params -> legacy bare-array response.
+        // (The frontend also sends an unrelated userId param; only page/limit
+        // opt into the paginated envelope.)
+        const { requested, page, limit, offset } = paginateQuery(req);
+
+        const findOpts = {
             where: { userId },
             include: [
                 {
@@ -104,9 +110,22 @@ const getAllAppointmentsByUserId = async (req, res) => {
                     attributes: ['name'],
                 },
             ],
+            ...(requested ? { order: [['date', 'DESC'], ['time', 'DESC']] } : {}),
+        };
+
+        if (!requested) {
+            const appointments = await appointmentModel.findAll(findOpts);
+            return res.status(200).json(appointments);
+        }
+
+        const { rows, count } = await appointmentModel.findAndCountAll({
+            ...findOpts,
+            limit,
+            offset,
+            distinct: true, // guard the count against join row multiplication
         });
 
-        res.status(200).json(appointments);
+        return res.status(200).json({ data: rows, ...buildMeta(page, limit, count) });
     } catch (error) {
         console.error('Error fetching appointments:', error);
         res.status(500).json({ message: 'Server error' });
@@ -116,7 +135,9 @@ const getAllAppointmentsByUserId = async (req, res) => {
 const getScheduledAppointmentsBySalonId = async (req, res) => {
     const salonId = req.user.salonId;
     try {
-        const appointments = await appointmentModel.findAll({
+        const { requested, page, limit, offset } = paginateQuery(req);
+
+        const findOpts = {
             where: { salonId },
             include: [
                 {
@@ -140,9 +161,22 @@ const getScheduledAppointmentsBySalonId = async (req, res) => {
                     attributes: ['name', 'phoneNumber'],
                 },
             ],
+            ...(requested ? { order: [['date', 'DESC'], ['time', 'DESC']] } : {}),
+        };
+
+        if (!requested) {
+            const appointments = await appointmentModel.findAll(findOpts);
+            return res.status(200).json(appointments);
+        }
+
+        const { rows, count } = await appointmentModel.findAndCountAll({
+            ...findOpts,
+            limit,
+            offset,
+            distinct: true,
         });
 
-        res.status(200).json(appointments);
+        return res.status(200).json({ data: rows, ...buildMeta(page, limit, count) });
     } catch (error) {
         console.error('Error fetching scheduled appointments:', error);
         res.status(500).json({ message: 'Server error' });
