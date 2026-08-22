@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Scissors, Activity, Calendar, ListFilter, UserCheck, Settings,
-  CreditCard, CheckCircle, Clock, Plus, Edit, Trash2, Star
+  CreditCard, CheckCircle, Clock, Plus, Edit, Trash2, Star, Bell
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
 import ConfirmDialog from '../../components/ConfirmDialog.jsx';
 import Modal from '../../components/Modal.jsx';
+import NotificationsPanel from '../../components/NotificationsPanel.jsx';
 import { SkeletonTable } from '../../components/Skeleton.jsx';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 
@@ -68,6 +69,9 @@ export default function SalonDashboard() {
   const [selectedApptId, setSelectedApptId] = useState(null);
   const [staffReviewText, setStaffReviewText] = useState('');
   const [showNoteModal, setShowNoteModal] = useState(false);
+
+  // Notifications tab — unread count is reported by NotificationsPanel itself.
+  const [notifCount, setNotifCount] = useState(0);
 
   // Blockout state
   const [blockouts, setBlockouts] = useState([]);
@@ -425,6 +429,9 @@ export default function SalonDashboard() {
           </button>
           <button onClick={() => setActiveTab('reviews')} className={`btn sidebar-nav-item ${activeTab === 'reviews' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
             <Star size={18} /> Reviews
+          </button>
+          <button onClick={() => setActiveTab('notifications')} className={`btn sidebar-nav-item ${activeTab === 'notifications' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
+            <Bell size={18} /> Notifications{notifCount > 0 ? ` (${notifCount})` : ''}
           </button>
           <button onClick={() => setActiveTab('details')} className={`btn sidebar-nav-item ${activeTab === 'details' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
             <Settings size={18} /> Salon Settings
@@ -990,6 +997,13 @@ export default function SalonDashboard() {
                 </div>
               );
             })()}
+          </div>
+        )}
+
+        {/* Tab: Notifications — shared panel (own notifications, mark read) */}
+        {activeTab === 'notifications' && (
+          <div style={{ maxWidth: '800px' }}>
+            <NotificationsPanel onUnreadChange={setNotifCount} />
           </div>
         )}
 

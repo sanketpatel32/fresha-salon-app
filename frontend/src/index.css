@@ -1637,3 +1637,102 @@ textarea:focus-visible,
     grid-template-columns: 1fr;
   }
 }
+
+/* ─── Notifications panel ───────────────────────────────────────────────
+   Shared by the customer and salon dashboards (NotificationsPanel.jsx).
+   Items are flex rows: icon chip · body · optional per-item action. */
+.notifications-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.notification-head .panel-title {
+  margin-bottom: 0;
+}
+
+.notifications-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+.notification-item:last-child { border-bottom: none; }
+.notification-item.is-unread { background-color: var(--color-paper); }
+
+.notification-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notification-icon.tone-info    { background: var(--color-accent-soft);  color: var(--color-accent); }
+.notification-icon.tone-success { background: var(--color-success-soft); color: var(--color-success); }
+.notification-icon.tone-warning { background: var(--color-warning-soft); color: var(--color-warning); }
+.notification-icon.tone-danger  { background: var(--color-danger-soft);  color: var(--color-danger); }
+
+.notification-body {
+  flex: 1;
+  min-width: 0; /* allow long titles/bodies to wrap instead of overflowing */
+}
+
+.notification-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: 2px;
+}
+
+.notification-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  flex-shrink: 0;
+}
+
+.notification-time {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-left: auto; /* pin to the right edge of the row */
+  white-space: nowrap;
+}
+
+.notification-title {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--color-ink);
+}
+
+.notification-text {
+  margin: 2px 0 0 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  overflow-wrap: break-word;
+}
+
+.notifications-empty {
+  text-align: center;
+  padding: var(--space-lg);
+  color: var(--text-muted);
+}
+.notifications-empty p { margin: var(--space-xs) 0 0 0; }
+
+@media (max-width: 768px) {
+  /* Keep the action reachable without squeezing the message column. */
+  .notification-item { flex-wrap: wrap; }
+  .notification-read-btn { margin-left: calc(32px + var(--space-sm)); }
+}

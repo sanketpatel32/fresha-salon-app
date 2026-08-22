@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Search, Star, Scissors, MapPin, Phone, Clock, SlidersHorizontal, X } from 'lucide-react';
+import { Search, Star, Scissors, MapPin, Phone, Clock, SlidersHorizontal, X, Bell } from 'lucide-react';
 import { SkeletonCardGrid } from '../../components/Skeleton.jsx';
+import NotificationsPanel from '../../components/NotificationsPanel.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 
@@ -37,6 +38,12 @@ export default function CustomerDashboard() {
   // Favorites.
   const [favoriteSalonIds, setFavoriteSalonIds] = useState(new Set());
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+
+  // Notifications — the panel stays mounted so the bell badge is live before
+  // the section is opened; visibility is a pure display toggle (same
+  // eager-fetch convention as the salon list + favorites below).
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [unreadNotifs, setUnreadNotifs] = useState(0);
 
   // Filter state.
   const [searchInput, setSearchInput] = useState('');
@@ -171,6 +178,15 @@ export default function CustomerDashboard() {
             <Star size={16} fill={showFavoritesOnly ? 'currentColor' : 'none'} />
             {showFavoritesOnly ? 'Favorites' : 'Favorites'}
           </button>
+          <button
+            onClick={() => setShowNotifications(v => !v)}
+            className={`btn btn-sm ${showNotifications ? 'btn-primary' : 'btn-secondary'}`}
+            aria-label="Toggle notifications"
+            aria-expanded={showNotifications}
+          >
+            <Bell size={16} />
+            Alerts{unreadNotifs > 0 ? ` (${unreadNotifs})` : ''}
+          </button>
         </div>
       </div>
 
@@ -215,6 +231,11 @@ export default function CustomerDashboard() {
           )}
         </div>
       )}
+
+      {/* Notifications (toggleable; panel reports its own unread count) */}
+      <div style={{ display: showNotifications ? 'block' : 'none', marginBottom: '24px', maxWidth: '800px' }}>
+        <NotificationsPanel onUnreadChange={setUnreadNotifs} />
+      </div>
 
       {/* Results */}
       {loading ? (
