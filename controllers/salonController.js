@@ -5,6 +5,7 @@ const sequelize = require('../utils/database');
 const appointmentModel = require('../models/appointmentModel');
 const servicesModel = require('../models/servicesModel');
 const userModel = require('../models/userModel');
+const favoriteModel = require('../models/favoriteModel');
 const { parseGallery } = require('./salonGalleryController');
 const { Op } = require('sequelize');
 
@@ -40,6 +41,29 @@ const attachRatings = async (salons) => {
         s.dataValues.avgRating = m ? m.avgRating : null;
         s.dataValues.reviewCount = m ? m.reviewCount : 0;
     });
+};
+
+/**
+ * Personalize browse results with the calling customer's favorites.
+ *
+ * Convention: isFavorite is attached ONLY for authenticated customers
+ * (the route mounts authMiddleware.optional). Anonymous visitors and other
+ * roles (salon/staff/admin) get NO isFavorite field at all — absent, not
+ * false — so public payloads stay byte-identical to the pre-feature shape.
+ * The customer's favorited salonIds are batch-loaded with ONE `IN` query
+ * over just this page's rows, never one query per salon (no N+1).
+ */
+const attachIsFavorite = async (salons, req) => {
+    const userId = req && req.user && req.user.role === 'customer' ? req.user.userId : null;
+    if (!userId || salons.length === 0) return;
+
+    const favRows = await favoriteModel.findAll({
+        where: { userId, salonId: salons.map(s => s.id) },
+        attributes: ['salonId'],
+        raw: true,
+    });
+    const favSet = new Set(favRows.map(f => f.salonId));
+    salons.forEach(s => { s.dataValues.isFavorite = favSet.has(s.id); });
 };
 
 const salonSignup = async (req, res) => {
@@ -185,6 +209,8 @@ const getAllSalons = async (req, res) => {
 
         // Attach live ratings (fall back if denormalized columns are null).
         await attachRatings(rows);
+
+        await attachIsFavorite(rows, req);
 
         if (!hasParams) {
             // Legacy bare-array response.

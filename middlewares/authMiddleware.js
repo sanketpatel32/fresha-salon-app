@@ -50,6 +50,35 @@ const isAuth = function isAuth(req, res, next) {
 };
 
 /**
+ * Optional-auth variant for PUBLIC routes that personalize their response
+ * when a valid Bearer token happens to be present (e.g. salon browse flags
+ * the caller's favorites) but must stay fully usable anonymously:
+ *   - No Authorization header  -> next() with req.user unset.
+ *   - Valid token              -> req.user set exactly like isAuth.
+ *   - Invalid/expired token    -> silently ignored (req.user unset) so a
+ *     stale token can never 403 an otherwise-public page.
+ */
+isAuth.optional = function optionalAuth(req, res, next) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return next();
+    }
+
+    try {
+        const decoded = jwt.verify(authHeader.split(' ')[1], process.env.JWT_SECRET);
+        if (!decoded.role) {
+            return next();
+        }
+        const id =
+            decoded.userId ?? decoded.salonId ?? decoded.staffId ?? null;
+        req.user = { ...decoded, id, role: decoded.role };
+    } catch (error) {
+        // Fall through anonymously — see docstring.
+    }
+    return next();
+};
+
+/**
  * Role guard. Use after isAuth on any route restricted to specific roles.
  *   router.delete('/users/:id', authMiddleware, authMiddleware.requireRole('admin'), deleteUser)
  */

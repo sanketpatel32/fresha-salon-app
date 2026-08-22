@@ -10,7 +10,10 @@ router.post('/login', validate(loginSchema), salonController.salonLogin);
 
 // Public salon browse (customers explore salons before logging in).
 // getall is query-param-aware: validate the browse params (all optional).
-router.get('/getall', validate(salonBrowseSchema, 'query'), salonController.getAllSalons);
+// authMiddleware.optional lets a signed-in customer's token personalize the
+// response (isFavorite flags) while anonymous/stale-token requests proceed
+// untouched — browse itself stays public.
+router.get('/getall', authMiddleware.optional, validate(salonBrowseSchema, 'query'), salonController.getAllSalons);
 router.get('/getsalonbyId', salonController.getSalonById);
 router.get('/profile/:salonId', salonController.getSalonProfile);
 
