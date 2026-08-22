@@ -70,6 +70,14 @@ const Salons = sequelize.define('salons', {
         allowNull: false,
         defaultValue: 0,
     },
+    // Photo gallery: JSON.stringify(string[]) of http(s) image URLs, or null
+    // when the salon hasn't set one. TEXT so it works identically on SQLite
+    // and Postgres; parsed defensively (parseGallery) before exposure.
+    galleryImages: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+        defaultValue: null,
+    },
 }, { timestamps: true });
 
 module.exports = Salons;

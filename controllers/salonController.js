@@ -5,7 +5,18 @@ const sequelize = require('../utils/database');
 const appointmentModel = require('../models/appointmentModel');
 const servicesModel = require('../models/servicesModel');
 const userModel = require('../models/userModel');
+const { parseGallery } = require('./salonGalleryController');
 const { Op } = require('sequelize');
+
+/**
+ * Public responses expose the photo gallery as a parsed array field
+ * `images` (parseGallery never throws, so corrupt DB values degrade to [])
+ * and drop the raw JSON TEXT blob from the payload.
+ */
+const attachGallery = (salon) => {
+    salon.dataValues.images = parseGallery(salon.galleryImages);
+    delete salon.dataValues.galleryImages;
+};
 
 // Attach avgRating + reviewCount to each salon by aggregating its appointments' ratings.
 const attachRatings = async (salons) => {
@@ -170,7 +181,7 @@ const getAllSalons = async (req, res) => {
         });
 
         // Strip timestamps from each row.
-        rows.forEach(s => { delete s.dataValues.createdAt; delete s.dataValues.updatedAt; });
+        rows.forEach(s => { delete s.dataValues.createdAt; delete s.dataValues.updatedAt; attachGallery(s); });
 
         // Attach live ratings (fall back if denormalized columns are null).
         await attachRatings(rows);
@@ -205,6 +216,7 @@ const getSalonById = async (req, res) => {
         delete salon.dataValues.password;
         delete salon.dataValues.createdAt;
         delete salon.dataValues.updatedAt;
+        attachGallery(salon);
         await attachRatings([salon]);
         res.status(200).json(salon);
     } catch (err) {
@@ -212,7 +224,6 @@ const getSalonById = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 }
-
 /**
  * Public salon profile: the salon entity + active services (grouped by
  * category) + the 20 most recent customer reviews (joined with reviewer name).
@@ -226,6 +237,7 @@ const getSalonProfile = async (req, res) => {
         }
         delete salon.dataValues.createdAt;
         delete salon.dataValues.updatedAt;
+        attachGallery(salon);
         await attachRatings([salon]);
 
         // Active services, ordered by category then price.

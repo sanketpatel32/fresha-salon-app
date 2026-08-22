@@ -261,6 +261,21 @@ const salonDetailsSchema = z.object({
   { message: 'Closing time must be after opening time', path: ['closingTime'] }
 );
 
+// ── Salon photo gallery ────────────────────────────────────────────────
+// Up to 10 http(s) image URLs per salon. Items are trimmed and duplicates
+// collapse silently here (a repeated paste shouldn't 400). A regex pins the
+// scheme to http/https instead of zod's .url(), which also accepts ftp://
+// and other schemes we don't want to render as <img> sources.
+const GALLERY_URL_RE = /^https?:\/\/\S+$/i;
+const gallerySchema = z.object({
+  images: z.array(
+    z.string().trim()
+      .min(1, 'Image URL cannot be empty')
+      .max(2048, 'Image URL is too long')
+      .regex(GALLERY_URL_RE, 'Each image must be a valid http(s) URL')
+  ).max(10, 'A gallery can hold at most 10 images'),
+}).transform((d) => ({ images: [...new Set(d.images)] }));
+
 // ── Admin search ───────────────────────────────────────────────────────
 // Used as a query schema. minLength guards against trivially broad LIKE scans.
 const adminSearchSchema = z.object({
@@ -312,6 +327,7 @@ module.exports = {
   staffAssignServicesSchema,
   favoriteAddSchema,
   salonDetailsSchema,
+  gallerySchema,
   adminSearchSchema,
   activeServicesBySalonSchema,
   csvExportSchema,

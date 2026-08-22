@@ -3,6 +3,7 @@ const salonServices = require('../controllers/salonServicesController');
 const salonPromos = require('../controllers/salonPromosController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const salonStaff = require('../controllers/salonStaffController');
+const salonGallery = require('../controllers/salonGalleryController');
 const {
   validate,
   serviceAddSchema,
@@ -12,6 +13,7 @@ const {
   staffAssignServicesSchema,
   promoCreateSchema,
   promoUpdateSchema,
+  gallerySchema,
 } = require('../utils/validators');
 
 // The dead res.sendFile HTML routes are removed — the SPA serves all views.
@@ -37,6 +39,10 @@ router.put('/staff/updateStatus', salonOnly, validate(staffUpdateStatusSchema), 
 router.post('/staff/blockouts', salonOnly, salonStaff.addBlockout);
 router.get('/staff/blockouts', salonOnly, salonStaff.getBlockouts);
 router.delete('/staff/blockouts/:id', salonOnly, salonStaff.removeBlockout);
+
+// Photo gallery — upsert own salon's image URL list (token carries the
+// salonId, so a salon can only ever write its own row).
+router.put('/gallery', salonOnly, validate(gallerySchema), salonGallery.updateGallery);
 
 // Promo codes (DELETE is a soft delete — isActive=false, row kept for audit)
 router.post('/promos', salonOnly, validate(promoCreateSchema), salonPromos.createPromo);

@@ -23,6 +23,7 @@ const sequelize = require('./utils/database');
 const User = require('./models/userModel');
 const Appointment = require('./models/appointmentModel');
 const Payment = require('./models/paymentModel');
+const Salons = require('./models/salonsModel');
 const { ensureColumns } = require('./utils/ensureColumns');
 require('./models/associations'); // Import relationships
 
@@ -265,6 +266,11 @@ app.listen(PORT, () => {
         { name: 'originalAmount', typeSql: 'DECIMAL(10,2)' },
         { name: 'discountAmount', typeSql: 'DECIMAL(10,2)' },
         { name: 'promoCodeApplied', typeSql: 'VARCHAR(64)' },
+      ]);
+      // Salon photo gallery (JSON string[] of image URLs). TEXT is valid on
+      // both SQLite and Postgres, so no dialect switch needed here either.
+      await ensureColumns(Salons, 'salons', [
+        { name: 'galleryImages', typeSql: 'TEXT' },
       ]);
       await seedSampleData();
       // Backfill categories on any services that lack one (post-migration safety net).
