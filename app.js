@@ -30,9 +30,19 @@ require('./models/associations'); // Import relationships
 // Initialize express app
 const app = express();
 
+const { requestIdMiddleware, requestLogger, deepHealth } = require('./utils/observability');
+
 // Trust Render's load balancer so req.protocol and secure cookies are
 // reported correctly behind TLS termination.
 app.set('trust proxy', 1);
+
+// Request correlation + access logging run before everything else so every
+// response (including helmet/CORS/429 rejections) carries an X-Request-Id
+// header and gets exactly one access-log line. Both are pure no-ops on the
+// body stream, so the rawBody verify hook and CORS/rate-limit ordering are
+// untouched.
+app.use(requestIdMiddleware);
+app.use(requestLogger);
 
 // Security headers (CSP disabled for the API server — the SPA sets its own).
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -94,6 +104,18 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', uptime: process.uptime() });
 });
 
+// Deep health probe for humans/monitors: actually pings the DB. 200 when the
+// DB answers, 503 degraded otherwise — unlike /health this may fail during a
+// slow DB connect, so Render should keep pointing at the lightweight one.
+app.get('/health/deep', async (req, res) => {
+  const health = await deepHealth();
+  if (health.ok) {
+    res.status(200).json({ status: 'ok', ...health });
+  } else {
+    res.status(503).json({ status: 'degraded', ...health });
+  }
+});
+
 // Serve static files of compiled React frontend
 app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -111,7 +133,8 @@ app.get('*any', (req, res, next) => {
 // third-party API responses, DB errors) never leak.
 // biome-ignore lint: Express requires all 4 args to identify an error handler
 app.use((err, req, res, _next) => {
-  console.error('Unhandled error:', err);
+  // req.id ties this error to the client's X-Request-Id and the access-log line.
+  console.error('Unhandled error:', req && req.id ? `[req ${req.id}]` : '', err);
   const status = err.status || (err.name === 'SequelizeValidationError' ? 400 : 500);
   res.status(status).json({ error: status === 400 && err.message ? err.message : 'Internal server error' });
 });
