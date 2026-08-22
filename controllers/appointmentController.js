@@ -11,6 +11,7 @@ const { paginateQuery, buildMeta } = require('../utils/pagination');
 const { toCsv } = require('../utils/csv');
 const sequelize = require('../utils/database');
 const { notify } = require('../services/notificationService');
+const { sendBookingStatusEmail } = require('../services/emailService');
 const {
   computeEndTime,
   validateSalonHours,
@@ -447,6 +448,9 @@ const cancelAppointment = async (req, res) => {
             body: `${appointment.date} at ${appointment.time}`,
             appointmentId: appointment.id,
         }).catch(() => { }); // notify never rejects; belt-and-braces for lint
+        // Fire-and-forget: the customer gets an emailed cancellation record of
+        // their own action. Never awaited — see sendCustomerStatusEmail.
+        sendCustomerStatusEmail(appointment.id, 'cancelled').catch(() => { });
         res.status(200).json({ message: 'Appointment cancelled successfully', appointment });
     } catch (error) {
         console.error('Error cancelling appointment:', error);
@@ -552,6 +556,34 @@ const rescheduleAppointment = async (req, res) => {
     }
 };
 
+// Fire-and-forget transactional email to the CUSTOMER about a booking status
+// change (confirmed/declined/completed/no-show/cancelled). One query fetches
+// email + salon/service names alongside the row; every failure path is
+// swallowed (and never rethrown) so a mail problem can't touch an already-
+// successful response — same contract as notify(). Callers must not await it.
+const sendCustomerStatusEmail = async (appointmentId, status) => {
+    try {
+        const row = await appointmentModel.findByPk(appointmentId, {
+            include: [
+                { model: userModel, as: 'user', attributes: ['email'] },
+                { model: Salons, as: 'salon', attributes: ['name'] },
+                { model: Services, as: 'service', attributes: ['name'] },
+            ],
+        });
+        const toEmail = row?.user?.email;
+        if (!toEmail) return;
+        await sendBookingStatusEmail(toEmail, {
+            status,
+            salonName: row.salon?.name,
+            serviceName: row.service?.name,
+            date: row.date,
+            time: row.time,
+        });
+    } catch (error) {
+        console.error('❌ Error sending booking status email:', error.response?.body || error.message);
+    }
+};
+
 // Staff or salon owner updates an appointment's status
 // (accept pending -> confirmed, decline pending -> declined, complete confirmed -> completed,
 // mark a past confirmed booking confirmed -> no-show — salon role only).
@@ -624,6 +656,11 @@ const updateAppointmentStatus = async (req, res) => {
                 appointmentId: appointment.id,
             }).catch(() => { });
         }
+
+        // Fire-and-forget: the same news by EMAIL to the customer. Never
+        // awaited — mirrors notify() above; a mail failure can't delay or
+        // break this response (sendCustomerStatusEmail swallows everything).
+        sendCustomerStatusEmail(appointment.id, newStatus).catch(() => { });
 
         res.status(200).json({ message: `Appointment ${newStatus}`, appointment });
     } catch (error) {

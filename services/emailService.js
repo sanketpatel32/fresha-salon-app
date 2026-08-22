@@ -200,4 +200,118 @@ async function sendVerificationEmail(ctx) {
   }
 }
 
-module.exports = { isConfigured, sendBookingConfirmation, sendPasswordResetEmail, sendVerificationEmail };
+/**
+ * Subject/body copy per bookable status change. Kept as pure data + functions
+ * so subjects are trivially assertable (and guaranteed distinct) without ever
+ * sending mail.
+ */
+const BOOKING_STATUS_COPY = {
+  confirmed: {
+    subject: (s) => `Your booking at ${s} is confirmed`,
+    title: 'Your booking is confirmed',
+    line: 'See you soon! Here are your appointment details:',
+    closing: 'Need to make a change? Please contact the salon at least 24 hours before your slot.',
+  },
+  declined: {
+    subject: (s) => `Your booking at ${s} was declined`,
+    title: 'Unfortunately, your booking was declined',
+    line: 'The salon could not accept this booking request.',
+    closing: 'You are not charged — please try booking another slot.',
+  },
+  completed: {
+    subject: (s) => `Thanks for visiting ${s} — your booking is completed`,
+    title: 'Your visit is complete',
+    line: 'Thank you for coming in!',
+    closing: 'We would love to hear about your experience — feel free to leave a review.',
+  },
+  'no-show': {
+    subject: (s) => `Your booking at ${s} was marked no-show`,
+    title: 'Your booking was marked as a no-show',
+    line: 'The salon recorded that this appointment was missed.',
+    closing: 'If you think this is a mistake, please contact the salon.',
+  },
+  cancelled: {
+    subject: (s) => `Your booking at ${s} was cancelled`,
+    title: 'Your booking has been cancelled',
+    line: 'This appointment will not take place.',
+    closing: 'You can book a new slot whenever you are ready.',
+  },
+};
+
+/**
+ * Friendly subject line for a booking status change. Pure — no client, no env
+ * reads — so callers/tests can inspect copy without any mail being sent.
+ * @param {string} status - confirmed|declined|completed|no-show|cancelled
+ * @param {string} [salonName]
+ * @returns {string|null} null when the status has no copy
+ */
+function bookingStatusSubject(status, salonName) {
+  const copy = BOOKING_STATUS_COPY[status];
+  return copy ? copy.subject(salonName || 'the salon') : null;
+}
+
+/**
+ * Send the customer a transactional "your booking changed" email. Same
+ * fire-and-forget contract as every other helper here: resolves to a no-op
+ * result when Brevo isn't configured and never throws.
+ * @param {string} toEmail - customer's email address
+ * @param {object} ctx - { status, salonName?, serviceName?, date?, time? }
+ * @returns {Promise<{sent: boolean, reason?: string}>}
+ */
+async function sendBookingStatusEmail(toEmail, ctx = {}) {
+  const c = client();
+  if (!c) return { sent: false, reason: 'not-configured' };
+
+  const { status, salonName, serviceName, date, time } = ctx;
+  const copy = BOOKING_STATUS_COPY[status];
+  if (!toEmail || !copy) return { sent: false, reason: 'missing-data' };
+
+  const where = salonName || 'the salon';
+  const subject = copy.subject(where);
+  const details = [
+    ['Service', serviceName],
+    ['Date', date],
+    ['Time', time],
+    ['Salon', salonName],
+  ];
+  const textContent = [
+    'Dear customer,', '',
+    copy.title, '',
+    copy.line, '',
+    ...details.map(([label, value]) => `- ${label}: ${value || '—'}`), '',
+    copy.closing, '',
+    'Best regards,', 'Fresha Team',
+  ].join('\n');
+  const htmlContent = `
+    <p>Dear customer,</p>
+    <p><strong>${copy.title}</strong></p>
+    <p>${copy.line}</p>
+    <ul>${details.map(([label, value]) => `<li><strong>${label}:</strong> ${value || '—'}</li>`).join('')}</ul>
+    <p>${copy.closing}</p>
+    <p>Best regards,<br>Fresha Team</p>
+  `;
+
+  try {
+    await c.api.sendTransacEmail({
+      sender: c.sender,
+      to: [{ email: toEmail }],
+      subject,
+      textContent,
+      htmlContent,
+    });
+    return { sent: true };
+  } catch (error) {
+    // Email failure must never break the booking flow — log and move on.
+    console.error('❌ Error sending booking status email:', error.response?.body || error.message);
+    return { sent: false, reason: 'send-failed' };
+  }
+}
+
+module.exports = {
+  isConfigured,
+  sendBookingConfirmation,
+  sendPasswordResetEmail,
+  sendVerificationEmail,
+  sendBookingStatusEmail,
+  bookingStatusSubject,
+};
