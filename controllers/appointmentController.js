@@ -9,6 +9,7 @@ const { Op } = require('sequelize');
 const { canTransition, canCancel } = require('../utils/statusRules');
 const { paginateQuery, buildMeta } = require('../utils/pagination');
 const sequelize = require('../utils/database');
+const { notify } = require('../services/notificationService');
 const {
   computeEndTime,
   validateSalonHours,
@@ -316,6 +317,16 @@ const cancelAppointment = async (req, res) => {
 
         appointment.status = 'cancelled';
         await appointment.save();
+        // Fire-and-forget: the other party (the salon — this endpoint is
+        // customer-only) learns the booking was cancelled. Never awaited.
+        notify({
+            recipientRole: 'salon',
+            recipientId: appointment.salonId,
+            type: 'booking.cancelled',
+            title: 'Booking cancelled',
+            body: `${appointment.date} at ${appointment.time}`,
+            appointmentId: appointment.id,
+        }).catch(() => { }); // notify never rejects; belt-and-braces for lint
         res.status(200).json({ message: 'Appointment cancelled successfully', appointment });
     } catch (error) {
         console.error('Error cancelling appointment:', error);
@@ -357,6 +368,27 @@ const updateAppointmentStatus = async (req, res) => {
 
         appointment.status = newStatus;
         await appointment.save();
+
+        // Fire-and-forget: tell the customer their booking moved. Only the
+        // statuses a customer cares about get a notification; notify() runs
+        // after the DB write above succeeded and never throws into this flow.
+        const STATUS_NOTIFICATIONS = {
+            confirmed: { type: 'booking.confirmed', title: 'Booking confirmed' },
+            declined: { type: 'booking.declined', title: 'Booking declined' },
+            completed: { type: 'booking.completed', title: 'Booking completed' },
+        };
+        const notice = STATUS_NOTIFICATIONS[newStatus];
+        if (notice) {
+            notify({
+                recipientRole: 'customer',
+                recipientId: appointment.userId,
+                type: notice.type,
+                title: notice.title,
+                body: `${appointment.date} at ${appointment.time}`,
+                appointmentId: appointment.id,
+            }).catch(() => { });
+        }
+
         res.status(200).json({ message: `Appointment ${newStatus}`, appointment });
     } catch (error) {
         console.error('Error updating appointment status:', error);

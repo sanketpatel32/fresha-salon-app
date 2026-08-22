@@ -10,6 +10,7 @@ const paymentRoutes = require('./paymentroutes');
 const staffRoutes = require('./staffRoutes')
 const favoriteRoutes = require('./favoriteRoutes');
 const salonAnalyticsRoutes = require('./salonAnalyticsRoutes');
+const notificationsRoutes = require('./notificationsRoutes');
 const adminRoutes = require('./adminRoutes');
 
 router.use('/user', userRoutes);
@@ -23,6 +24,7 @@ router.use('/salonsdashboard', businessDashboardRoutes);
 router.use('/salonsdashboard', salonAnalyticsRoutes);
 router.use('/appointment', appointmentRoutes);
 router.use('/pay', paymentRoutes);
+router.use('/notifications', notificationsRoutes);
 router.use('/staff',staffRoutes);
 router.use('/admin', adminRoutes);
 module.exports = router;

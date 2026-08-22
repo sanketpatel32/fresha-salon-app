@@ -71,6 +71,25 @@ const finalizeAppointmentFromPayment = async (order) => {
     status: initialStatus,
   });
 
+  // Fire-and-forget in-app notification to the salon about the new booking.
+  // Runs after the appointment row exists; notify() swallows its own errors.
+  setImmediate(async () => {
+    try {
+      const service = await require('../models/servicesModel').findByPk(order.serviceId);
+      const { notify } = require('./notificationService');
+      await notify({
+        recipientRole: 'salon',
+        recipientId: order.salonId,
+        type: 'booking.new',
+        title: 'New booking',
+        body: `${service ? service.name : 'Service'} on ${order.dateSelected} at ${order.timeSelected}`,
+        appointmentId: appointment.id,
+      });
+    } catch (err) {
+      require('../utils/logger').error('New-booking notification failed:', err.message);
+    }
+  });
+
   // Fire-and-forget a booking confirmation email. Loaded lazily and no-ops when
   // Brevo isn't configured, so this can never break the booking itself. Not
   // awaited — the customer's appointment is already saved.
