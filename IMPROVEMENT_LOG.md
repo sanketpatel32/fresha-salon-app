@@ -8,8 +8,8 @@ Baseline at start: 21/21 tests passing on branch `improve/app-hardening`.
 | # | Focus | Status |
 |---|-------|--------|
 | 1 | Security: auth-gate payment status endpoint + tests | ✅ |
-| 2 | Security: timing-safe admin login, signup rate limits, param validation | ⏳ in progress |
-| 3 | Reliability: central async error wrapper for controllers | ⬜ |
+| 2 | Security: timing-safe admin login, signup rate limits, param validation | ✅ |
+| 3 | Reliability: central async error wrapper for controllers | ⏳ in progress |
 | 4 | Feature: pagination for appointment listings | ⬜ |
 | 5 | Feature: password reset flow | ⬜ |
 | 6 | Feature: in-app notifications | ⬜ |
@@ -33,4 +33,6 @@ Baseline at start: 21/21 tests passing on branch `improve/app-hardening`.
 ## Completed
 
 - **#1 Payment status endpoint locked down** — `GET /api/pay/:orderId` previously had no auth; anyone with an order id could read payment details and trigger gateway syncs. Now requires a stakeholder role (paying customer via `Payment.customerID`, involved salon via `Payment.salonId`, or admin), enforced in route middleware + `canAccessPayment` controller check that runs *before* any Cashfree call. 7 new tests (`tests/payment-status-auth.test.js`). Tests: 21 → 28.
+
+- **#2 Auth & input hardening** — admin login now uses `crypto.timingSafeEqual` over SHA-256 hashes (no timing leak, both fields always compared); signup endpoints (`/api/user/signup`, `/api/business/signup`, legacy `/api/buisness/signup`) now share the strict login rate limiter; public `getAllActiveServicesBySalonId` validates `salonId` with a zod query schema.
 

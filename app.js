@@ -77,6 +77,13 @@ app.use('/api/user/login', loginLimiter);
 app.use('/api/buisness/login', loginLimiter);
 app.use('/api/staff/login', loginLimiter);
 app.use('/api/admin/login', loginLimiter);
+// Signup gets the same limiter as login: account creation is just as
+// abuse-worthy (slows bulk fake-account creation). Business signup is
+// covered at both mounts — /buisness is the legacy misspelling still
+// used by the frontend, /business the correctly-spelled alias.
+app.use('/api/user/signup', loginLimiter);
+app.use('/api/business/signup', loginLimiter);
+app.use('/api/buisness/signup', loginLimiter);
 
 app.use('/api', apiroutes);
 

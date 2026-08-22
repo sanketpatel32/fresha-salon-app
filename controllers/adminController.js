@@ -1,4 +1,5 @@
 require('dotenv').config();
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const appointmentModel = require('../models/appointmentModel');
 const salonModel = require('../models/salonsModel');
@@ -8,15 +9,26 @@ const staffModel = require('../models/staffModel');
 const paymentModel = require('../models/paymentModel');
 const favoriteModel = require('../models/favoriteModel');
 const { Op } = require('sequelize');
+// Compare two strings in constant time. Plain === bails out at the first
+// mismatching byte, leaking how much of the credential an attacker guessed.
+// Hashing both sides first guarantees equal-length buffers (SHA-256 is always
+// 32 bytes), which timingSafeEqual requires, without a leaky length pre-check.
+const credentialsMatch = (provided, expected) => {
+    const providedHash = crypto.createHash('sha256').update(String(provided ?? ''), 'utf8').digest();
+    const expectedHash = crypto.createHash('sha256').update(String(expected ?? ''), 'utf8').digest();
+    return crypto.timingSafeEqual(providedHash, expectedHash);
+};
+
 const adminlogin = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Use environment variables for admin credentials
-        if (
-            email === process.env.ADMIN_USER &&
-            password === process.env.ADMIN_PASS
-        ) {
+        // Use environment variables for admin credentials. Both comparisons
+        // always run (no short-circuit) so response timing doesn't reveal
+        // which field was wrong.
+        const userOk = credentialsMatch(email, process.env.ADMIN_USER);
+        const passOk = credentialsMatch(password, process.env.ADMIN_PASS);
+        if (userOk && passOk) {
             // Generate JWT token
             const token = jwt.sign(
                 { admin: email, role: 'admin' },

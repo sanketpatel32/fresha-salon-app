@@ -176,6 +176,14 @@ const adminSearchSchema = z.object({
   searchTerm: z.string().trim().min(2, 'Search term must be at least 2 characters').max(100),
 });
 
+// ── Public salon services lookup ───────────────────────────────────────
+// The dashboard's services list takes salonId as a query param. Coerce +
+// positive-int so garbage ids (empty strings, negatives, injection attempts)
+// are rejected with 400 before reaching the DB.
+const activeServicesBySalonSchema = z.object({
+  salonId: z.coerce.number().int().positive('A valid salon id is required'),
+});
+
 module.exports = {
   validate,
   SERVICE_CATEGORIES,
@@ -198,4 +206,5 @@ module.exports = {
   favoriteAddSchema,
   salonDetailsSchema,
   adminSearchSchema,
+  activeServicesBySalonSchema,
 };
