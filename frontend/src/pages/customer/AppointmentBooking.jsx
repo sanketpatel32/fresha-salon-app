@@ -69,9 +69,11 @@ export default function AppointmentBooking() {
         serviceId: parseInt(serviceId),
         duration: service.duration
       });
-      setAvailableStaff(res.data);
-      if (res.data.length > 0) {
-        setSelectedStaffId(res.data[0].id);
+      // Envelope: availableStaff list + informational slotStepMinutes.
+      const staff = (res.data && res.data.availableStaff) || [];
+      setAvailableStaff(staff);
+      if (staff.length > 0) {
+        setSelectedStaffId(staff[0].id);
         showToast('Staff slots checked successfully!', 'success');
       } else {
         setSelectedStaffId('');

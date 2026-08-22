@@ -38,7 +38,7 @@ test('both staff available when no blockouts', async () => {
     const res = mockRes();
     await appointmentChecker(req, res);
     assert.equal(res.statusCode, 200);
-    assert.equal(res.body.length, 2);
+    assert.equal(res.body.availableStaff.length, 2);
 });
 
 test('staff with overlapping blockout excluded', async () => {
@@ -52,8 +52,8 @@ test('staff with overlapping blockout excluded', async () => {
     const res = mockRes();
     await appointmentChecker(req, res);
     assert.equal(res.statusCode, 200);
-    assert.equal(res.body.length, 1);
-    assert.equal(res.body[0].id, staff2.id);
+    assert.equal(res.body.availableStaff.length, 1);
+    assert.equal(res.body.availableStaff[0].id, staff2.id);
 });
 
 test('non-overlapping blockout does not exclude staff', async () => {
@@ -67,5 +67,5 @@ test('non-overlapping blockout does not exclude staff', async () => {
     const res = mockRes();
     await appointmentChecker(req, res);
     assert.equal(res.statusCode, 200);
-    assert.equal(res.body.length, 2);
+    assert.equal(res.body.availableStaff.length, 2);
 });

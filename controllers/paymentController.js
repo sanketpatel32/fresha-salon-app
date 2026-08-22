@@ -9,7 +9,7 @@ const {
   resolvePromo,
   round2,
 } = require("../services/paymentService");
-const { computeEndTime, validateSalonHours } = require("../services/availabilityService");
+const { computeEndTime, validateSalonHours, validateLeadTime } = require("../services/availabilityService");
 const Salons = require("../models/salonsModel");
 const Payment = require("../models/paymentModel");
 const appointmentModel = require("../models/appointmentModel");
@@ -74,6 +74,12 @@ exports.processPayment = async (req, res) => {
     const hoursCheck = validateSalonHours(salon, dateSelect, time, endTime);
     if (!hoursCheck.ok) {
       return res.status(400).json({ message: hoursCheck.reason });
+    }
+    // 1c. Lead-time gate — same rule the availability checker enforces, so a
+    //     client that skips /appointment/check can't book at short notice.
+    const leadCheck = validateLeadTime(salon, dateSelect, time);
+    if (!leadCheck.ok) {
+      return res.status(400).json({ message: leadCheck.reason });
     }
 
     const userDetails = await userModel.findOne({ where: { id: userId } });

@@ -301,8 +301,29 @@ const activeServicesBySalonSchema = z.object({
   salonId: z.coerce.number().int().positive('A valid salon id is required'),
 });
 
+// ── Booking config (lead time & slot grid) ─────────────────────────────
+// Per-salon booking policy. Lead time is capped at 10080 minutes (7 days) so
+// a salon can't set an absurd wall that silently blocks all bookings; the
+// slot step is a closed enum so pickers stay on sane grids.
+const SLOT_STEP_OPTIONS = [10, 15, 20, 30, 45, 60];
+const bookingConfigSchema = z.object({
+  bookingLeadTimeMinutes: z.coerce
+    .number()
+    .int('Booking lead time must be a whole number of minutes')
+    .min(0, 'Booking lead time cannot be negative')
+    .max(10080, 'Booking lead time cannot exceed 7 days (10080 minutes)'),
+  slotStepMinutes: z.coerce
+    .number()
+    .int('Slot step must be a whole number of minutes')
+    .refine((v) => SLOT_STEP_OPTIONS.includes(v), {
+      message: `Slot step must be one of ${SLOT_STEP_OPTIONS.join(', ')} minutes`,
+    })
+    .nullable(), // explicit null = "use the default 30"
+});
+
 module.exports = {
   validate,
+  SLOT_STEP_OPTIONS,
   SERVICE_CATEGORIES,
   DAY_CODES,
   loginSchema,
@@ -334,4 +355,5 @@ module.exports = {
   rescheduleSchema,
   promoCreateSchema,
   promoUpdateSchema,
+  bookingConfigSchema,
 };

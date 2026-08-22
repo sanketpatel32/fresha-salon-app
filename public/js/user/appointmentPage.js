@@ -90,7 +90,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             };
             console.log("Form Data:", FormData);
             const response = await axios.post(`${baseurl}/appointment/check`, FormData);
-            const staffList = response.data;
+            // Envelope: the staff list plus the salon's slot-grid step so the
+            // time picker can align to it.
+            const staffList = (response.data && response.data.availableStaff) || [];
 
             if (staffList.length > 0) {
                 messageDiv.textContent = "You can book an appointment.";

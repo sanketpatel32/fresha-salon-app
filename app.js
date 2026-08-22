@@ -269,8 +269,12 @@ app.listen(PORT, () => {
       ]);
       // Salon photo gallery (JSON string[] of image URLs). TEXT is valid on
       // both SQLite and Postgres, so no dialect switch needed here either.
+      // Booking policy columns are plain INTEGERs (minutes) — same type on
+      // every supported dialect.
       await ensureColumns(Salons, 'salons', [
         { name: 'galleryImages', typeSql: 'TEXT' },
+        { name: 'bookingLeadTimeMinutes', typeSql: 'INTEGER' },
+        { name: 'slotStepMinutes', typeSql: 'INTEGER' },
       ]);
       await seedSampleData();
       // Backfill categories on any services that lack one (post-migration safety net).

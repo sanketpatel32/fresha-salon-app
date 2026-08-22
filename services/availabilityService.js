@@ -77,6 +77,56 @@ function validateSalonHours(salon, dateStr, startTime, endTime) {
   return { ok: true };
 }
 
+// Fallback slot grid (minutes) when a salon hasn't configured slotStepMinutes.
+const DEFAULT_SLOT_STEP_MINUTES = 30;
+
+/**
+ * Resolve a salon's slot-grid step. null/undefined/garbage falls back to the
+ * 30-minute default, so callers never have to branch on the raw column.
+ *
+ * @param {object|null} salon - a Salons row (needs slotStepMinutes)
+ * @returns {number}
+ */
+function resolveSlotStepMinutes(salon) {
+  const step = parseInt(salon && salon.slotStepMinutes, 10);
+  return Number.isFinite(step) && step > 0 ? step : DEFAULT_SLOT_STEP_MINUTES;
+}
+
+/**
+ * Validate that a requested booking start respects the salon's lead time:
+ * start must be at least bookingLeadTimeMinutes away from `now`. A null/0
+ * lead time means the salon is bookable immediately.
+ * Returns { ok: true } or { ok: false, reason }.
+ *
+ * Called next to validateSalonHours on every path where a booking happens
+ * (availability checker, payment creation, reschedule), so the rule cannot
+ * be bypassed by skipping the checker step.
+ *
+ * @param {object} salon   - a Salons row (needs bookingLeadTimeMinutes)
+ * @param {string} dateStr - "YYYY-MM-DD"
+ * @param {string} startTime - "HH:MM"
+ * @param {number} [now]   - epoch ms to measure the lead time from
+ *   (defaults to Date.now(); tests pass a fixed clock)
+ */
+function validateLeadTime(salon, dateStr, startTime, now = Date.now()) {
+  if (!salon || !dateStr || !startTime) {
+    return { ok: false, reason: 'Invalid booking date or time' };
+  }
+  const leadMinutes = parseInt(salon.bookingLeadTimeMinutes, 10);
+  // null / NaN / 0 / negative → bookable immediately.
+  if (!Number.isFinite(leadMinutes) || leadMinutes <= 0) return { ok: true };
+
+  const startAt = new Date(`${dateStr}T${startTime}`);
+  if (Number.isNaN(startAt.getTime())) {
+    return { ok: false, reason: 'Invalid booking date or time' };
+  }
+  if (startAt.getTime() - now >= leadMinutes * 60 * 1000) return { ok: true };
+  return {
+    ok: false,
+    reason: `This salon requires bookings at least ${leadMinutes} minutes in advance`,
+  };
+}
+
 /**
  * Find staff in a salon who provide a given service. Returns the staff rows
  * (id, name, phoneNumber) — NOT yet filtered for availability.
@@ -141,6 +191,9 @@ async function conflictingStaffIds(staffIds, salonId, dateStr, startTime, endTim
 module.exports = {
   computeEndTime,
   validateSalonHours,
+  validateLeadTime,
+  resolveSlotStepMinutes,
+  DEFAULT_SLOT_STEP_MINUTES,
   staffForService,
   conflictingStaffIds,
 };

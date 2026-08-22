@@ -78,6 +78,22 @@ const Salons = sequelize.define('salons', {
         allowNull: true,
         defaultValue: null,
     },
+    // Booking policy, enforced in services/availabilityService.js on every
+    // booking path (checker, payment, reschedule):
+    //   bookingLeadTimeMinutes — a slot must start at least this many minutes
+    //     from now. null/0 = bookable immediately.
+    //   slotStepMinutes — the minute-grid pickers should align to.
+    //     null = default 30 (see resolveSlotStepMinutes).
+    bookingLeadTimeMinutes: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: null,
+    },
+    slotStepMinutes: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: null,
+    },
 }, { timestamps: true });
 
 module.exports = Salons;

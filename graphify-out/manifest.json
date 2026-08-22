@@ -1,7 +1,7 @@
 {
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\app.js": {
-    "mtime": 1787364690.5485978,
-    "ast_hash": "68c1d95bc8c6f10c7e8089bc9ec674fa",
+    "mtime": 1787365640.960208,
+    "ast_hash": "a380a04d838598c012c5767b78186751",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\package.json": {
@@ -20,8 +20,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\controllers\\appointmentController.js": {
-    "mtime": 1787363024.8106835,
-    "ast_hash": "c4322e2c386b3aa3ded875f9da67df3a",
+    "mtime": 1787365540.3618455,
+    "ast_hash": "53407f54ed06ee353dee2243632dba1f",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\controllers\\favoriteController.js": {
@@ -35,8 +35,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\controllers\\paymentController.js": {
-    "mtime": 1787363857.1460204,
-    "ast_hash": "f68ce91f9f0e35e3f4bd4cf3dde4a68c",
+    "mtime": 1787365550.2475204,
+    "ast_hash": "db27c2c5a27205e8956761e506164b45",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\controllers\\salonAnalyticsController.js": {
@@ -185,8 +185,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\frontend\\src\\pages\\customer\\AppointmentBooking.jsx": {
-    "mtime": 1784843928.8476114,
-    "ast_hash": "7e1ca0b805ac3b874519aadb0d6f6bd3",
+    "mtime": 1787365678.704841,
+    "ast_hash": "70b0038a93dfe99b2a5219ae3bd22528",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\frontend\\src\\pages\\customer\\BookedAppointments.jsx": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\models\\salonsModel.js": {
-    "mtime": 1787364690.5485978,
-    "ast_hash": "7dd25d3085d144aa39700731b133759d",
+    "mtime": 1787365470.8825748,
+    "ast_hash": "6670c146c8d6a9d273b1a65dac70cfc4",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\models\\servicesModel.js": {
@@ -365,8 +365,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\public\\js\\user\\appointmentPage.js": {
-    "mtime": 1784333812.34499,
-    "ast_hash": "a8a6c2bc40b1964534fcc712f750ef37",
+    "mtime": 1787365652.7754142,
+    "ast_hash": "58d729089c1bfaf2c4c60633c03db497",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\public\\js\\user\\bookedAppointments.js": {
@@ -430,8 +430,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\routes\\salonsDashboardRoutes.js": {
-    "mtime": 1787364737.9362514,
-    "ast_hash": "88c0723da44c4ccbfbc4fc2a96d9e53a",
+    "mtime": 1787365635.4824462,
+    "ast_hash": "0af4f171821a9413493bf2cb866e60d0",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\routes\\staffRoutes.js": {
@@ -450,8 +450,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\services\\availabilityService.js": {
-    "mtime": 1787361474.447423,
-    "ast_hash": "1bff3f837acdaaeecf4c49c111caadfe",
+    "mtime": 1787365495.3891675,
+    "ast_hash": "f183f85f9586eaa57fe7b62b3b8ce31d",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\services\\cashfreeServices.js": {
@@ -475,8 +475,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\tests\\blockout-availability.test.js": {
-    "mtime": 1784763607.1048975,
-    "ast_hash": "5338cc6528ecd92340eece022a340aff",
+    "mtime": 1787365727.2893827,
+    "ast_hash": "873120082c6750c4075655d2955aa156",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\tests\\cancel-endpoint.test.js": {
@@ -540,8 +540,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\utils\\validators.js": {
-    "mtime": 1787364699.803989,
-    "ast_hash": "31d6cf3e65fca12c7aa0fd60453aac82",
+    "mtime": 1787365567.9619367,
+    "ast_hash": "86246659e8e93fecffd5edaff82f6663",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\DEPLOYMENT.md": {
@@ -555,8 +555,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\IMPROVEMENT_LOG.md": {
-    "mtime": 1787365105.979807,
-    "ast_hash": "b03afdef1c8e1d8c58b9ffbfc022b3ae",
+    "mtime": 1787365992.3167377,
+    "ast_hash": "b5c7ef89ba187b800687ad25312cdbba",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\render.yaml": {
@@ -812,6 +812,16 @@
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\tests\\salon-gallery.test.js": {
     "mtime": 1787365037.9727051,
     "ast_hash": "b972c004f047c54263dec8b6af158db9",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\controllers\\salonBookingConfigController.js": {
+    "mtime": 1787365581.0030746,
+    "ast_hash": "f158053d0c6ace3084767da63f732502",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\tests\\booking-config.test.js": {
+    "mtime": 1787365934.7437358,
+    "ast_hash": "2c390634429b156f023dfcb3a7ec60b6",
     "semantic_hash": ""
   }
 }

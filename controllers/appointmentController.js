@@ -14,6 +14,8 @@ const { notify } = require('../services/notificationService');
 const {
   computeEndTime,
   validateSalonHours,
+  validateLeadTime,
+  resolveSlotStepMinutes,
   staffForService,
   conflictingStaffIds,
 } = require('../services/availabilityService');
@@ -67,6 +69,12 @@ const appointmentChecker = async (req, res) => {
         if (!hoursCheck.ok) {
             return res.status(400).json({ message: hoursCheck.reason });
         }
+        // Lead-time gate: the slot must start at least the salon's configured
+        // number of minutes from now (same rule the payment path enforces).
+        const leadCheck = validateLeadTime(salon, dateSelect, startTime);
+        if (!leadCheck.ok) {
+            return res.status(400).json({ message: leadCheck.reason });
+        }
 
         // Staff who provide this service in this salon.
         const eligibleStaff = await staffForService(salonId, serviceId);
@@ -76,7 +84,13 @@ const appointmentChecker = async (req, res) => {
         const conflicted = await conflictingStaffIds(staffIds, salonId, dateSelect, startTime, endTime);
         const freeStaff = eligibleStaff.filter((s) => !conflicted.has(s.id));
 
-        res.status(200).json(freeStaff);
+        // There is no server-side slot generation — clients pick times
+        // directly — so the configured slot grid is exposed informationally:
+        // frontends align their time pickers to it.
+        res.status(200).json({
+            availableStaff: freeStaff,
+            slotStepMinutes: resolveSlotStepMinutes(salon),
+        });
     } catch (error) {
         console.error('Error in appointmentChecker:', error);
         res.status(500).json({ message: 'Server error' });
@@ -495,6 +509,11 @@ const rescheduleAppointment = async (req, res) => {
         const hoursCheck = validateSalonHours(salon, dateSelect, time, endTime);
         if (!hoursCheck.ok) {
             return res.status(400).json({ message: hoursCheck.reason });
+        }
+        // The new slot is a booking too — apply the salon's lead time.
+        const leadCheck = validateLeadTime(salon, dateSelect, time);
+        if (!leadCheck.ok) {
+            return res.status(400).json({ message: leadCheck.reason });
         }
 
         // Conflict-check the NEW slot (blockouts + other bookings). The
