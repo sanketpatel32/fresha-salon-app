@@ -217,6 +217,18 @@ const adminSearchSchema = z.object({
   searchTerm: z.string().trim().min(2, 'Search term must be at least 2 characters').max(100),
 });
 
+// ── Appointment CSV export (GET query params) ──────────────────────────
+// Optional from/to bounds, YYYY-MM-DD each. Date-only strings compare
+// correctly as plain text, so the from<=to guard needs no date parsing.
+const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
+const csvExportSchema = z.object({
+  from: z.string().regex(DATE_ONLY_RE, 'from must be YYYY-MM-DD').optional(),
+  to: z.string().regex(DATE_ONLY_RE, 'to must be YYYY-MM-DD').optional(),
+}).refine(
+  (d) => !d.from || !d.to || d.from <= d.to,
+  { message: 'from must be on or before to', path: ['from'] }
+);
+
 // ── Public salon services lookup ───────────────────────────────────────
 // The dashboard's services list takes salonId as a query param. Coerce +
 // positive-int so garbage ids (empty strings, negatives, injection attempts)
@@ -253,5 +265,6 @@ module.exports = {
   salonDetailsSchema,
   adminSearchSchema,
   activeServicesBySalonSchema,
+  csvExportSchema,
   rescheduleSchema,
 };

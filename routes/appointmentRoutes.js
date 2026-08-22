@@ -1,7 +1,7 @@
 const appointmentController = require('../controllers/appointmentController');
 const router = require('express').Router();
 const authMiddleware = require('../middlewares/authMiddleware');
-const { validate, appointmentCheckSchema, customerReviewSchema, staffReviewSchema, reviewReplySchema, statusUpdateSchema, rescheduleSchema } = require('../utils/validators');
+const { validate, appointmentCheckSchema, customerReviewSchema, staffReviewSchema, reviewReplySchema, statusUpdateSchema, rescheduleSchema, csvExportSchema } = require('../utils/validators');
 
 // Availability check — requires an authenticated customer.
 router.post('/check', authMiddleware, authMiddleware.requireRole('customer'), validate(appointmentCheckSchema), appointmentController.appointmentChecker);
@@ -11,6 +11,11 @@ router.get('/getAll', authMiddleware, authMiddleware.requireRole('customer'), ap
 
 // Salon-side scheduled appointments (already had auth; now role-gated).
 router.get('/sceduledAppointments', authMiddleware, authMiddleware.requireRole('salon'), appointmentController.getScheduledAppointmentsBySalonId);
+
+// CSV export of the salon's full booking ledger — salon role only. Static
+// path declared before the parameterized /:appointmentId-style routes so it
+// can never be captured by them.
+router.get('/export/csv', authMiddleware, authMiddleware.requireRole('salon'), validate(csvExportSchema, 'query'), appointmentController.exportAppointmentsCsv);
 
 // Email send after payment — requires an authenticated customer.
 router.post('/mail', authMiddleware, authMiddleware.requireRole('customer'), appointmentController.mailAppointment);

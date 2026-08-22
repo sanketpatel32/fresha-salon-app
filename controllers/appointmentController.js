@@ -8,6 +8,7 @@ const StaffBlockout = require('../models/staffBlockoutModel');
 const { Op } = require('sequelize');
 const { canTransition, canCancel, canReschedule } = require('../utils/statusRules');
 const { paginateQuery, buildMeta } = require('../utils/pagination');
+const { toCsv } = require('../utils/csv');
 const sequelize = require('../utils/database');
 const { notify } = require('../services/notificationService');
 const {
@@ -180,6 +181,81 @@ const getScheduledAppointmentsBySalonId = async (req, res) => {
         return res.status(200).json({ data: rows, ...buildMeta(page, limit, count) });
     } catch (error) {
         console.error('Error fetching scheduled appointments:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Export ALL of the salon's own appointments as RFC-4180 CSV. Mirrors
+// getScheduledAppointmentsBySalonId's related-data includes, but with no
+// pagination cap and ascending chronological order (spreadsheet-friendly).
+// Note: no Amount column — the appointments table stores no price; prices live
+// on services (mutable over time) and payments (null orderId on legacy rows),
+// so no reliably historical amount is available on these rows.
+const exportAppointmentsCsv = async (req, res) => {
+    const salonId = req.user.salonId;
+    try {
+        // Query validation (csvExportSchema) runs at the route level; from/to
+        // arrive as validated YYYY-MM-DD strings or undefined.
+        const { from, to } = req.query;
+
+        const where = { salonId };
+        if (from !== undefined || to !== undefined) {
+            where.date = {
+                ...(from !== undefined ? { [Op.gte]: from } : {}),
+                ...(to !== undefined ? { [Op.lte]: to } : {}),
+            };
+        }
+
+        const appointments = await appointmentModel.findAll({
+            where,
+            order: [['date', 'ASC'], ['time', 'ASC']],
+            include: [
+                {
+                    model: staffModel,
+                    as: 'staff',
+                    attributes: ['name'],
+                },
+                {
+                    model: Services,
+                    as: 'service',
+                    attributes: ['name'],
+                },
+                {
+                    model: userModel,
+                    as: 'user',
+                    attributes: ['name'],
+                },
+            ],
+        });
+
+        const rows = appointments.map((a) => ({
+            id: a.id,
+            date: a.date,
+            time: a.time,
+            endTime: a.endTime,
+            status: a.status,
+            service: a.service ? a.service.name : '',
+            staff: a.staff ? a.staff.name : '',
+            customer: a.user ? a.user.name : '',
+        }));
+
+        const csv = toCsv(rows, [
+            { key: 'id', label: 'AppointmentID' },
+            { key: 'date', label: 'Date' },
+            { key: 'time', label: 'Time' },
+            { key: 'endTime', label: 'EndTime' },
+            { key: 'status', label: 'Status' },
+            { key: 'service', label: 'Service' },
+            { key: 'staff', label: 'Staff' },
+            { key: 'customer', label: 'Customer' },
+        ]);
+
+        const stamp = new Date().toISOString().slice(0, 10).split('-').join('');
+        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+        res.setHeader('Content-Disposition', `attachment; filename="appointments-${salonId}-${stamp}.csv"`);
+        return res.status(200).send(csv);
+    } catch (error) {
+        console.error('Error exporting appointments CSV:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -523,6 +599,7 @@ module.exports = {
     appointmentChecker,
     getAllAppointmentsByUserId,
     getScheduledAppointmentsBySalonId,
+    exportAppointmentsCsv,
     mailAppointment,
     updateCustomerReview,
     updateStaffReview,
