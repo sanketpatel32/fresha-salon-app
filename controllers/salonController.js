@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const sequelize = require('../utils/database');
 const appointmentModel = require('../models/appointmentModel');
 const servicesModel = require('../models/servicesModel');
+const staffModel = require('../models/staffModel');
 const userModel = require('../models/userModel');
 const favoriteModel = require('../models/favoriteModel');
 const { parseGallery } = require('./salonGalleryController');
@@ -296,6 +297,57 @@ const getSalonProfile = async (req, res) => {
     }
 }
 
+/**
+ * Public staff directory for one salon: who works there and what each
+ * member can book. Response is clean, explicitly mapped JSON (no Sequelize
+ * instances or join-table internals):
+ *   [{ id, name, services: [{ id, name, price, duration, category }] }]
+ *
+ * Only statusbar 'active' staff of the salon appear, ordered by name ASC.
+ * Contact details (email/phone), credentials and status flags are stripped —
+ * the endpoint is unauthenticated, so nothing sensitive may leak into it.
+ * An unknown salon is 404; a known salon with nobody active is a valid empty
+ * roster ([]), not an error.
+ */
+const getSalonStaff = async (req, res) => {
+    const { salonId } = req.query;
+    try {
+        const salon = await salonModel.findOne({ where: { id: salonId }, attributes: ['id'] });
+        if (!salon) {
+            return res.status(404).json({ message: "Salon not found" });
+        }
+
+        const staffMembers = await staffModel.findAll({
+            where: { salonId, statusbar: 'active' },
+            attributes: ['id', 'name'],
+            include: [{
+                model: servicesModel,
+                through: { attributes: [] }, // hide the join-table columns
+                attributes: ['id', 'name', 'price', 'duration', 'category'],
+            }],
+            // Staff alphabetical; each member's own service list alphabetical too.
+            order: [['name', 'ASC'], ['id', 'ASC'], [servicesModel, 'name', 'ASC']],
+        });
+
+        res.status(200).json(
+            staffMembers.map((member) => ({
+                id: member.id,
+                name: member.name,
+                services: (member.services || []).map((s) => ({
+                    id: s.id,
+                    name: s.name,
+                    price: s.price,
+                    duration: s.duration,
+                    category: s.category,
+                })),
+            }))
+        );
+    } catch (err) {
+        console.error("Error fetching salon staff:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
 const getSalonBySalonId = async (req, res) => {
     const salonId  = req.user.salonId ;
 
@@ -350,6 +402,7 @@ module.exports = {
     getAllSalons,
     getSalonById,
     getSalonProfile,
+    getSalonStaff,
     getSalonBySalonId,
     updateSalonDetails
 };

@@ -321,6 +321,14 @@ const bookingConfigSchema = z.object({
     .nullable(), // explicit null = "use the default 30"
 });
 
+// ── Public salon staff directory ───────────────────────────────────────
+// GET /business/staff?salonId=N. Same coerce + positive-int guard as the
+// public services lookup, so garbage ids (empty strings, negatives,
+// injection attempts) are rejected with 400 before reaching the DB.
+const staffDirectorySchema = z.object({
+  salonId: z.coerce.number().int().positive('A valid salon id is required'),
+});
+
 module.exports = {
   validate,
   SLOT_STEP_OPTIONS,
@@ -356,4 +364,5 @@ module.exports = {
   promoCreateSchema,
   promoUpdateSchema,
   bookingConfigSchema,
+  staffDirectorySchema,
 };
