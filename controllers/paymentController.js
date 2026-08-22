@@ -108,21 +108,45 @@ exports.processPayment = async (req, res) => {
  * Browser-redirect return URL. Cashfree redirects the customer's browser here
  * after they complete (or abandon) payment.
  *
- * This endpoint is public (no auth) because Cashfree issues the redirect, but
- * it CANNOT create appointments for arbitrary users — it only flips the payment
- * status it reads from Cashfree's own records, and the appointment creation is
- * idempotent. The authoritative success signal is the webhook below.
+ * This endpoint requires authentication (customer owner, the involved salon,
+ * or admin) — see canAccessPayment. It CANNOT create appointments for arbitrary
+ * users — it only flips the payment status it reads from Cashfree's own
+ * records, and the appointment creation is idempotent. The authoritative
+ * success signal is the webhook below.
  */
+/**
+ * Resolve whether the authenticated caller may see this payment.
+ *
+ * Access rules:
+ *  - customer: only their own orders (Payment.customerID)
+ *  - salon:    only orders booked at their salon (Payment.salonId)
+ *  - admin:    all orders
+ *
+ * Exported for tests.
+ */
+exports.canAccessPayment = (order, user) => {
+  if (!user || !user.role) return false;
+  if (user.role === 'admin') return true;
+  if (user.role === 'customer') return Number(order.customerID) === Number(user.userId);
+  if (user.role === 'salon') return Number(order.salonId) === Number(user.salonId);
+  return false;
+};
+
 exports.getPaymentStatus_ = async (req, res) => {
   const orderId = req.params.orderId;
 
   try {
-    const orderStatus = await getPaymentStatus(orderId);
-
+    // Load the order and authorize BEFORE contacting the gateway, so an
+    // unauthorized caller cannot trigger Cashfree syncs by guessing ids.
     const order = await Payment.findOne({ where: { orderId } });
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
+    if (!exports.canAccessPayment(order, req.user)) {
+      return res.status(403).json({ message: "Not authorized to view this payment" });
+    }
+
+    const orderStatus = await getPaymentStatus(orderId);
 
     order.paymentStatus = orderStatus;
     await order.save();

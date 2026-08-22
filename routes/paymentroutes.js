@@ -17,8 +17,12 @@ router.get('/stuck', authMiddleware, authMiddleware.requireRole('customer'), get
 // MUST be declared before the parameterized GET below.
 router.post('/webhook', handleWebhook);
 
-// Browser redirect after payment. Public (Cashfree issues the redirect);
-// appointment creation is idempotent so it cannot be abused.
-router.get('/:orderId', getPaymentStatus_);
+// Browser redirect after payment lands on the SPA, which then calls this
+// endpoint WITH its Bearer token. Access requires authentication and a
+// stakeholder role: the paying customer, the salon involved, or an admin.
+// Appointment creation stays idempotent; unauthorized callers can no longer
+// probe order details or trigger gateway syncs by guessing order ids.
+// Note: this route MUST be declared after /webhook and /stuck.
+router.get('/:orderId', authMiddleware, authMiddleware.requireRole('customer', 'salon', 'admin'), getPaymentStatus_);
 
 module.exports = router;
