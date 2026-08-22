@@ -14,8 +14,8 @@ Baseline at start: 21/21 tests passing on branch `improve/app-hardening`.
 | 5 | Feature: in-app notifications | ✅ |
 | 6 | Feature: reschedule appointment | ✅ |
 | 7 | Feature: email verification on signup | ✅ |
-| 8 | Feature: salon review replies | ⏳ |
-| 9 | Feature: CSV export of salon appointments | ⬜ |
+| 8 | Feature: salon review replies | ✅ |
+| 9 | Feature: CSV export of salon appointments | ⏳ |
 | 10 | Feature: promo codes | ⬜ |
 | 11 | Feature: salon photo gallery | ⬜ |
 | 12 | Feature: per-salon booking lead time & slot step config | ⬜ |
@@ -44,4 +44,6 @@ Baseline at start: 21/21 tests passing on branch `improve/app-hardening`.
 - **#7 Reschedule appointment** — customers can move their own upcoming booking via `PATCH /api/appointment/:appointmentId/reschedule`: a pure `canReschedule(appointment, now)` rule (`utils/statusRules.js`) reuses the cancellation semantics (status pending|confirmed only, start strictly >24h away), ownership is enforced like cancel, and an optional `staffId` may reassign to any staff of the same salon who provides the same service. The new slot is revalidated against salon working hours and conflict-checked via `conflictingStaffIds` (blockouts + other bookings, now accepting an `excludeAppointmentId` so a booking can't collide with itself), returning 409 `New slot is not available` when busy; on success date/time/endTime/staff are persisted and the salon receives a fire-and-forget `booking.rescheduled` notification carrying old→new date/time. 7 new direct-controller tests in `tests/reschedule.test.js`. Tests: 62 → 69.
 
 - **#8 Email verification** — customer signups now get a SOFT verification flow: when Brevo is configured (`emailService.isConfigured()` reads credentials without building the SDK client), signup issues a random 256-bit token whose SHA-256 hash plus a 24-hour expiry are stored on three new nullable user columns (`emailVerified`, `verificationTokenHash`, `verificationExpiresAt`, backfilled at boot by the existing `ensureColumns` call) and emailed fire-and-forget via a new `sendVerificationEmail` helper; unconfigured mailer → no token, account still created, nothing crashes. `POST /api/user/verify-email` flips the flag and burns the token on success (unknown/wrong/expired all get one generic 400) and `POST /api/user/resend-verification` always answers a generic 200 while rotating the token for known emails — both public but behind the strict rate limiter with new zod schemas. Accounts remain fully usable while unverified (flag exposed in signup response + profile for future gating; login responses untouched since they carry no user fields). 7 new tests in `tests/email-verification.test.js`. Tests: 69 → 76.
+
+- **#9 Salon review replies** — salon owners can publicly answer customer reviews via `PUT /api/appointment/:appointmentId/reply` (role-gated to `salon`, zod `reviewReplySchema`: required reply, 1–1000 chars). The controller enforces salon ownership (403 for a different salon), 404s unknown appointments, and refuses to reply before the customer has actually reviewed (400 when both `rating` and `userReview` are null); replying is an upsert so owners can edit. Backed by a nullable `salonReply` TEXT column on Appointments (backfilled at boot by a new `ensureColumns(Appointment, ...)` call — TEXT works on SQLite and Postgres) that surfaces automatically in whole-row reads and was added to the explicit attribute list of the public `getSalonProfile` reviews listing. 6 new tests in `tests/review-replies.test.js`. Tests: 76 → 82.
 

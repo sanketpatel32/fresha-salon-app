@@ -156,6 +156,12 @@ const staffReviewSchema = z.object({
   review: z.string().max(2000, 'Note is too long').optional().nullable(),
 });
 
+// Salon owner's public reply to a customer review. Required, non-empty,
+// capped at 1000 chars.
+const reviewReplySchema = z.object({
+  reply: z.string().trim().min(1, 'Reply cannot be empty').max(1000, 'Reply is too long'),
+});
+
 // ── Status update ──────────────────────────────────────────────────────
 const statusUpdateSchema = z.object({
   status: z.enum(['pending', 'confirmed', 'declined', 'completed', 'cancelled']),
@@ -238,6 +244,7 @@ module.exports = {
   paymentCreateSchema,
   customerReviewSchema,
   staffReviewSchema,
+  reviewReplySchema,
   statusUpdateSchema,
   staffAddSchema,
   staffUpdateStatusSchema,

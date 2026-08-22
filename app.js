@@ -21,6 +21,7 @@ if (!process.env.JWT_SECRET) {
 const apiroutes = require('./routes/apiRoutes');
 const sequelize = require('./utils/database');
 const User = require('./models/userModel');
+const Appointment = require('./models/appointmentModel');
 const { ensureColumns } = require('./utils/ensureColumns');
 require('./models/associations'); // Import relationships
 
@@ -250,6 +251,11 @@ app.listen(PORT, () => {
           name: 'verificationExpiresAt',
           typeSql: sequelize.getDialect() === 'postgres' ? 'TIMESTAMP' : 'DATETIME',
         },
+      ]);
+      // Salon replies to customer reviews — TEXT is valid on both SQLite and
+      // Postgres, so no dialect switch needed here.
+      await ensureColumns(Appointment, 'Appointments', [
+        { name: 'salonReply', typeSql: 'TEXT' },
       ]);
       await seedSampleData();
       // Backfill categories on any services that lack one (post-migration safety net).

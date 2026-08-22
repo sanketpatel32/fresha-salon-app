@@ -289,6 +289,36 @@ const updateStaffReview = async (req, res) => {
     }
 };
 
+// Salon owner replies publicly to the customer's review on an appointment.
+// Upsert semantics: calling again overwrites (edits) an existing reply.
+const replyToReview = async (req, res) => {
+    const { appointmentId } = req.params;
+    const { reply } = req.body;
+
+    try {
+        const appointment = await appointmentModel.findByPk(appointmentId);
+        if (!appointment) {
+            return res.status(404).json({ message: "Appointment not found" });
+        }
+        // Ownership: only the salon that owns this booking may reply.
+        if (appointment.salonId !== req.user.salonId) {
+            return res.status(403).json({ message: "Not authorized: appointment belongs to a different salon" });
+        }
+        // A reply needs something to reply to — the customer's review fields
+        // are userReview (text) and rating (1-5 stars); both null means the
+        // customer hasn't reviewed yet.
+        if (appointment.userReview === null && appointment.rating === null) {
+            return res.status(400).json({ message: "Cannot reply before the customer has submitted a review" });
+        }
+        appointment.salonReply = reply;
+        await appointment.save();
+        res.status(200).json({ message: "Reply saved successfully", salonReply: appointment.salonReply });
+    } catch (error) {
+        console.error('Error replying to review:', error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
 // Customer cancels their own appointment (must be >24h before start).
 const cancelAppointment = async (req, res) => {
     const { appointmentId } = req.params;
@@ -496,6 +526,7 @@ module.exports = {
     mailAppointment,
     updateCustomerReview,
     updateStaffReview,
+    replyToReview,
     cancelAppointment,
     rescheduleAppointment,
     updateAppointmentStatus,

@@ -246,7 +246,7 @@ const getSalonProfile = async (req, res) => {
                 ],
             },
             include: [{ model: userModel, as: 'user', attributes: ['name'] }],
-            attributes: ['rating', 'userReview', 'date'],
+            attributes: ['rating', 'userReview', 'salonReply', 'date'],
             order: [['date', 'DESC'], ['id', 'DESC']],
             limit: 20,
         });

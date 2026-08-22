@@ -58,6 +58,12 @@ const Appointment = sequelize.define('Appointment', {
         allowNull: true,
         validate: { min: 1, max: 5 }
     },
+    // Salon owner's public reply to the customer's review. Nullable — only
+    // filled once the owner answers via PUT /api/appointment/:id/reply.
+    salonReply: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+    },
     orderId: {
         type: DataTypes.STRING,
         allowNull: true, // nullable for legacy rows created before this column existed
