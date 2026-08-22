@@ -6,11 +6,12 @@ const CANCEL_WINDOW_HOURS = 24;
 
 // Allowed forward transitions. Anything not listed is illegal.
 const ALLOWED_TRANSITIONS = {
-    pending:   ['confirmed', 'declined', 'cancelled'],
-    confirmed: ['completed', 'cancelled'],
+    pending:   ['confirmed', 'declined', 'cancelled'],   // no-show needs a confirmation first
+    confirmed: ['completed', 'cancelled', 'no-show'],
     declined:  [],   // terminal
     completed: [],   // terminal
     cancelled: [],   // terminal
+    'no-show': [],   // terminal
 };
 
 /**

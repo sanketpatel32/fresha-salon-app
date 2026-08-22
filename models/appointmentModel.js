@@ -50,7 +50,7 @@ const Appointment = sequelize.define('Appointment', {
         allowNull: false,
         defaultValue: 'confirmed',
         validate: {
-            isIn: [['pending', 'confirmed', 'declined', 'completed', 'cancelled']]
+            isIn: [['pending', 'confirmed', 'declined', 'completed', 'cancelled', 'no-show']]
         }
     },
     rating: {

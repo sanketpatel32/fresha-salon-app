@@ -553,7 +553,8 @@ const rescheduleAppointment = async (req, res) => {
 };
 
 // Staff or salon owner updates an appointment's status
-// (accept pending -> confirmed, decline pending -> declined, complete confirmed -> completed).
+// (accept pending -> confirmed, decline pending -> declined, complete confirmed -> completed,
+// mark a past confirmed booking confirmed -> no-show — salon role only).
 const updateAppointmentStatus = async (req, res) => {
     const { appointmentId } = req.params;
     const { status: newStatus } = req.body;
@@ -580,8 +581,24 @@ const updateAppointmentStatus = async (req, res) => {
             }
         }
 
+        // No-show is a salon-only judgement call: staff (and customers) can
+        // never set it, regardless of who the appointment belongs to.
+        if (newStatus === 'no-show' && req.user.role !== 'salon') {
+            return res.status(403).json({ message: 'Only the salon can mark an appointment as no-show' });
+        }
+
         if (!canTransition(appointment.status, newStatus)) {
             return res.status(400).json({ message: `Cannot move appointment from '${appointment.status}' to '${newStatus}'` });
+        }
+
+        // A future booking can't have been skipped yet — no-show requires the
+        // start time to already be behind us. Same local-time parsing of the
+        // DATEONLY+TIME fields as cancelAppointment.
+        if (newStatus === 'no-show') {
+            const startAt = new Date(`${appointment.date}T${appointment.time}`);
+            if (startAt.getTime() >= Date.now()) {
+                return res.status(400).json({ message: 'Cannot mark a future appointment as no-show' });
+            }
         }
 
         appointment.status = newStatus;
@@ -594,6 +611,7 @@ const updateAppointmentStatus = async (req, res) => {
             confirmed: { type: 'booking.confirmed', title: 'Booking confirmed' },
             declined: { type: 'booking.declined', title: 'Booking declined' },
             completed: { type: 'booking.completed', title: 'Booking completed' },
+            'no-show': { type: 'booking.no-show', title: 'Booking marked no-show' },
         };
         const notice = STATUS_NOTIFICATIONS[newStatus];
         if (notice) {

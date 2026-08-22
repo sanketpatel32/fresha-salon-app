@@ -52,7 +52,34 @@ const getAppointments = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+// Today's schedule for the logged-in staff member. DATEONLY columns round-trip
+// as plain YYYY-MM-DD strings (SQLite), so the local calendar day is compared
+// as a string — no timezone drift between write and read.
+const getMyTodaySchedule = async (req, res) => {
+    const staffId = req.user.staffId;
+    try {
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, '0');
+        const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+        const appointments = await appointmentModel.findAll({
+            where: { staffId, date: today },
+            order: [['time', 'ASC']],
+            include: [
+                { model: servicesModel, as: 'service', attributes: ['name'] },
+                { model: userModel, as: 'user', attributes: ['name', 'phoneNumber'] }
+            ]
+        });
+        // Legacy bare-array response, same contract as getAppointments.
+        res.status(200).json(appointments);
+    } catch (error) {
+        console.error('Error fetching staff today schedule:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 module.exports = {
     handleStaffLogin,
-    getAppointments
+    getAppointments,
+    getMyTodaySchedule
 }
