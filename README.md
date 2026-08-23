@@ -51,6 +51,7 @@ A salon booking platform. Customers browse salons and book **paid** appointments
 | Admin platform stats | Totals, appointment status breakdown, success-only revenue, trailing-7-day signups |
 | Admin audit log | Append-only trail of admin deletions (user/appointment) with context details |
 | Observability | `/health` (lightweight probe) + `/health/deep` (DB ping, 503 when degraded) + request-id middleware/logging (`X-Request-Id` echo, one access-log line per request) |
+| Self-serve API docs | `GET /api-docs` (searchable HTML viewer) + `GET /api-docs.json` — hand-curated OpenAPI-style reference with auth requirements + notable params per endpoint |
 
 ## API quick reference
 
@@ -93,6 +94,9 @@ GET    /api/admin/audit?page&limit        # append-only admin audit trail
 
 GET    /health                            # lightweight liveness probe
 GET    /health/deep                       # DB ping → 200 ok / 503 degraded
+
+GET    /api-docs                          # searchable HTML API reference
+GET    /api-docs.json                     # same reference as raw JSON
 ```
 
 ## Getting started

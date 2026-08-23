@@ -117,6 +117,17 @@ app.get('/health/deep', async (req, res) => {
   }
 });
 
+// Self-serve API documentation (#33): machine-readable JSON dump + a tiny
+// dependency-free searchable HTML viewer. Both public; mounted beside the
+// health endpoints and deliberately BEFORE express.static and the SPA
+// catch-all below, which would otherwise swallow these paths. The handlers
+// live in utils/apiDocs.js (hand-curated reference object + inline-CSS
+// viewer — no external CDNs, dark-mode aware) so tests can drive them
+// directly without booting this module (require(app.js) starts a listener).
+const { apiDocsJsonHandler, apiDocsPageHandler } = require('./utils/apiDocs');
+app.get('/api-docs.json', apiDocsJsonHandler);
+app.get('/api-docs', apiDocsPageHandler);
+
 // Serve static files of compiled React frontend
 app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 app.use(express.static(path.join(__dirname, 'public')));

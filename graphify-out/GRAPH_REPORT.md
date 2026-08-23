@@ -1,16 +1,16 @@
 # Graph Report - fresha-salon-app  (2026-08-24)
 
 ## Corpus Check
-- 164 files · ~134,901 words
+- 166 files · ~138,772 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2046 nodes · 2891 edges · 137 communities (130 shown, 7 thin omitted)
+- 2061 nodes · 2913 edges · 138 communities (130 shown, 8 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 3 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8be119e1`
+- Built from commit: `40fc22a5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -146,6 +146,7 @@
 - [[_COMMUNITY_Community 134|Community 134]]
 - [[_COMMUNITY_Community 135|Community 135]]
 - [[_COMMUNITY_Community 136|Community 136]]
+- [[_COMMUNITY_Community 137|Community 137]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `validate()` - 35 edges
@@ -171,7 +172,7 @@
 - `cancelAppointment()` --calls--> `canTransition()`  [EXTRACTED]
   controllers/appointmentController.js → utils/statusRules.js
 
-## Communities (137 total, 7 thin omitted)
+## Communities (138 total, 8 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.10
@@ -191,7 +192,7 @@ Nodes (28): 1. Goal, 2. Scope, 3.1 Sequencing rationale, 3.2 New / changed data 
 
 ### Community 4 - "Community 4"
 Cohesion: 0.08
-Nodes (22): allowedOrigins, apiLimiter, apiroutes, app, Appointment, cors, dotenv, { ensureColumns } (+14 more)
+Nodes (23): allowedOrigins, { apiDocsJsonHandler, apiDocsPageHandler }, apiLimiter, apiroutes, app, Appointment, cors, dotenv (+15 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.05
@@ -218,7 +219,7 @@ Nodes (12): Appointment, assert, Favorite, req, res, Salons, sequelize, Services
 
 ### Community 9 - "Community 9"
 Cohesion: 0.09
-Nodes (21): appointmentModel, { awardForCompletedAppointment }, { canTransition, canCancel }, { canTransition, canCancel, canReschedule }, {
+Nodes (27): appointmentModel, { awardForCompletedAppointment }, cancelAppointment(), { canTransition, canCancel }, { canTransition, canCancel, canReschedule }, {
   computeEndTime,
   validateSalonHours,
   staffForService,
@@ -238,7 +239,7 @@ Nodes (21): appointmentModel, { awardForCompletedAppointment }, { canTransition,
   resolveSlotStepMinutes,
   staffForService,
   conflictingStaffIds,
-}, { findNextWaitlistEntry } (+13 more)
+} (+19 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.09
@@ -256,12 +257,8 @@ Cohesion: 0.10
 Nodes (20): 1.1 Review integrity: gate on `status === 'completed'`, 1.2 Enforce salon working hours/days, 1.3 Close the TOCTOU double-booking window, 1.4 Webhook-miss recovery (paid but no booking), 2.1 Migrate the 4 bare-div modals to the accessible `<Modal>`, 2.2 Keyboard-operable clickable elements, 2.3 Label associations, 2.4 Icon-only buttons get `aria-label` (+12 more)
 
 ### Community 13 - "Community 13"
-Cohesion: 0.10
-Nodes (18): Appointment, assert, { cancelAppointment, updateAppointmentStatus }, futureDate, {
-    listNotifications,
-    markNotificationRead,
-    markAllNotificationsRead,
-}, Notification, { notify }, req (+10 more)
+Cohesion: 0.08
+Nodes (27): listNotifications(), markAllNotificationsRead(), markNotificationRead(), Notification, { paginateQuery, buildMeta }, resolveRecipient(), { DataTypes }, Notification (+19 more)
 
 ### Community 14 - "Community 14"
 Cohesion: 0.10
@@ -272,8 +269,8 @@ Cohesion: 0.06
 Nodes (31): { DEFAULT_SLOT_STEP_MINUTES }, getBookingConfig(), Salons, updateBookingConfig(), { appointmentChecker }, assert, blocked, cashfree (+23 more)
 
 ### Community 16 - "Community 16"
-Cohesion: 0.08
-Nodes (20): handleUserSignup(), hashToken(), resendVerification(), verifyEmail(), awardReferralBonus(), assert, bcrypt, crypto (+12 more)
+Cohesion: 0.10
+Nodes (15): assert, bcrypt, crypto, emailService, expiresAt, { handleUserSignup, verifyEmail, resendVerification }, newToken, res (+7 more)
 
 ### Community 17 - "Community 17"
 Cohesion: 0.12
@@ -328,8 +325,8 @@ Cohesion: 0.09
 Nodes (19): Appointment, assert, { canTransition }, { getMyTodaySchedule }, Notification, pad(), req, res (+11 more)
 
 ### Community 30 - "Community 30"
-Cohesion: 0.09
-Nodes (22): adminAuditModel, adminlogin(), appointmentModel, credentialsMatch(), crypto, deleteAppointment(), deleteUser(), favoriteModel (+14 more)
+Cohesion: 0.11
+Nodes (17): adminAuditModel, adminlogin(), appointmentModel, credentialsMatch(), crypto, favoriteModel, getPlatformStats(), jwt (+9 more)
 
 ### Community 31 - "Community 31"
 Cohesion: 0.17
@@ -385,7 +382,7 @@ Nodes (8): adminController, adminOnly, authMiddleware, express, router, { valida
 
 ### Community 44 - "Community 44"
 Cohesion: 0.07
-Nodes (30): actions, AdminAudit, adminRoutes, Appointment, assert, authMiddleware, baseAppt, EXPECT (+22 more)
+Nodes (27): actions, AdminAudit, adminRoutes, Appointment, assert, authMiddleware, baseAppt, EXPECT (+19 more)
 
 ### Community 45 - "Community 45"
 Cohesion: 0.25
@@ -508,10 +505,8 @@ Cohesion: 0.12
 Nodes (14): replyToReview(), Appointment, assert, { getSalonProfile }, req, res, row, Salons (+6 more)
 
 ### Community 76 - "Community 76"
-Cohesion: 0.06
-Nodes (32): absent, assert, badWindow, base, cases, codesA, codesB, {
-  createPromo, listPromos, updatePromo, deletePromo,
-} (+24 more)
+Cohesion: 0.05
+Nodes (38): createPromo(), deletePromo(), isSequelizeUniqueError(), listPromos(), PromoCode, updatePromo(), absent, assert (+30 more)
 
 ### Community 77 - "Community 77"
 Cohesion: 0.40
@@ -562,8 +557,8 @@ Cohesion: 0.50
 Nodes (3): data, token, userId
 
 ### Community 99 - "Community 99"
-Cohesion: 0.05
-Nodes (39): getMyWaitlist(), getSalonDayWaitlist(), joinWaitlist(), leaveWaitlist(), { Op }, { paginateQuery, buildMeta }, Salons, todayStr() (+31 more)
+Cohesion: 0.06
+Nodes (27): again, Appointment, assert, { cancelAppointment }, date, del, { err, ok }, good (+19 more)
 
 ### Community 100 - "Community 100"
 Cohesion: 0.10
@@ -586,30 +581,34 @@ Cohesion: 0.18
 Nodes (10): authMiddleware, express, router, salonController, { validate, loginSchema, salonSignupSchema, salonBrowseSchema, salonDetailsSchema }, { validate, loginSchema, salonSignupSchema, salonBrowseSchema, salonDetailsSchema, staffDirectorySchema }, salonBrowseSchema, salonDetailsSchema (+2 more)
 
 ### Community 105 - "Community 105"
-Cohesion: 0.28
-Nodes (7): logger, User, configuredLevel, LEVELS, log(), pad(), stamp()
+Cohesion: 0.14
+Nodes (13): logger, User, logger, logger, { notify }, { Op }, Salons, Waitlist (+5 more)
 
 ### Community 106 - "Community 106"
 Cohesion: 0.13
 Nodes (23): appointmentChecker(), rescheduleAppointment(), { getEffectiveWeeklyHours }, getHours(), Salons, updateHours(), appointmentModel, computeEndTime() (+15 more)
+
+### Community 107 - "Community 107"
+Cohesion: 0.21
+Nodes (10): AdminDashboard(), AdminLogin(), SalonLogin(), StaffLogin(), UserLogin(), ProtectedRoute(), AuthContext, AuthProvider() (+2 more)
 
 ### Community 108 - "Community 108"
 Cohesion: 0.07
 Nodes (26): assert, authMiddleware, { awardReferralBonus, REFERRAL_BONUS_POINTS }, badCodes, base, baseline, code, { customerSignupSchema } (+18 more)
 
 ### Community 109 - "Community 109"
-Cohesion: 0.25
-Nodes (13): getAllAppointments(), getAuditLog(), getAllAppointmentsByUserId(), getScheduledAppointmentsBySalonId(), listNotifications(), markAllNotificationsRead(), markNotificationRead(), Notification (+5 more)
+Cohesion: 0.36
+Nodes (9): getAllAppointments(), getAuditLog(), getAllAppointmentsByUserId(), getScheduledAppointmentsBySalonId(), getFavorites(), getMyWaitlist(), buildMeta(), coerceIntParam() (+1 more)
 
 ### Community 110 - "Community 110"
-Cohesion: 0.14
-Nodes (11): assert, capturedLogs, id, ids, incoming, logger, {
+Cohesion: 0.11
+Nodes (18): assert, capturedLogs, id, ids, incoming, logger, {
     makeRequestId,
     requestIdMiddleware,
     requestLogger,
     deepHealth,
     UUID_RE,
-}, req (+3 more)
+}, req (+10 more)
 
 ### Community 111 - "Community 111"
 Cohesion: 0.07
@@ -624,16 +623,16 @@ Cohesion: 0.14
 Nodes (13): router, salonServices, { validate, activeServicesBySalonSchema }, runMw(), runMw(), runMw(), runMw(), runMw() (+5 more)
 
 ### Community 114 - "Community 114"
-Cohesion: 0.10
-Nodes (19): appointmentModel, { awardReferralBonus }, bcrypt, crypto, emailService, { ensureReferralCode }, favoriteModel, forgotPassword() (+11 more)
+Cohesion: 0.09
+Nodes (24): appointmentModel, { awardReferralBonus }, bcrypt, crypto, emailService, { ensureReferralCode }, favoriteModel, forgotPassword() (+16 more)
 
 ### Community 115 - "Community 115"
 Cohesion: 0.40
 Nodes (5): classify(), migrateCategories(), { Op }, RULES, Services
 
 ### Community 116 - "Community 116"
-Cohesion: 0.18
-Nodes (10): SkeletonCardGrid(), AppointmentBooking(), CATEGORIES, CustomerDashboard(), SORTS, CATEGORY_ORDER, groupByCategory(), SalonProfile() (+2 more)
+Cohesion: 0.15
+Nodes (12): SkeletonCardGrid(), AppointmentBooking(), BookedAppointments(), CATEGORIES, CustomerDashboard(), SORTS, CATEGORY_ORDER, groupByCategory() (+4 more)
 
 ### Community 117 - "Community 117"
 Cohesion: 0.12
@@ -645,23 +644,24 @@ Nodes (9): appointmentModel, bcrypt, getMyTodaySchedule(), jwt, servicesModel, s
 
 ### Community 119 - "Community 119"
 Cohesion: 0.18
-Nodes (13): cancelAppointment(), sendCustomerStatusEmail(), updateAppointmentStatus(), sendBookingStatusEmail(), awardForCompletedAppointment(), logger, notify(), findNextWaitlistEntry() (+5 more)
+Nodes (11): {
+    apiDocs,
+    docsHtmlPage,
+    apiDocsJsonHandler,
+    apiDocsPageHandler,
+}, assert, keys, METHODS, pkg, res, { test }, apiDocs (+3 more)
 
 ### Community 120 - "Community 120"
 Cohesion: 0.11
-Nodes (17): addFavorite(), Favorite, getFavorites(), { paginateQuery, buildMeta }, removeFavorite(), salonModel, Favorite, Sequelize (+9 more)
+Nodes (16): addFavorite(), Favorite, { paginateQuery, buildMeta }, removeFavorite(), salonModel, Favorite, Sequelize, assert (+8 more)
 
 ### Community 121 - "Community 121"
 Cohesion: 0.18
-Nodes (12): AdminLogin(), SalonLogin(), SalonSignup(), StaffLogin(), UserLogin(), UserSignup(), AuthContext, AuthProvider() (+4 more)
+Nodes (9): SalonSignup(), UserSignup(), NotificationsPanel(), TYPE_META, ToastContext, ToastProvider(), useToast(), EditProfile() (+1 more)
 
 ### Community 122 - "Community 122"
 Cohesion: 0.18
 Nodes (13): safeSweep(), Appointment, emailService, isSchedulerEnabled(), localDateStr(), logger, { Op }, pad() (+5 more)
-
-### Community 123 - "Community 123"
-Cohesion: 0.21
-Nodes (8): AdminDashboard(), ProtectedRoute(), SkeletonTable(), useAuth(), BookedAppointments(), SalonDashboard(), AuthGatedRoutes(), StaffDashboard()
 
 ### Community 124 - "Community 124"
 Cohesion: 0.13
@@ -672,28 +672,28 @@ Cohesion: 0.29
 Nodes (6): authMiddleware, router, salonAnalyticsController, salonOnly, { validate, analyticsWindowSchema }, analyticsWindowSchema
 
 ### Community 126 - "Community 126"
-Cohesion: 0.19
-Nodes (12): conflictingStaffIds(), appointmentModel, computeDiscount(), { conflictingStaffIds }, finalizeAppointmentFromPayment(), getAuthoritativePrice(), Payment, PROMO_REASONS (+4 more)
+Cohesion: 0.15
+Nodes (14): PromoCode, Sequelize, conflictingStaffIds(), appointmentModel, computeDiscount(), { conflictingStaffIds }, finalizeAppointmentFromPayment(), getAuthoritativePrice() (+6 more)
 
 ### Community 127 - "Community 127"
 Cohesion: 0.29
 Nodes (7): getLoyaltyBalance(), getMyReferralCode(), crypto, ensureReferralCode(), generateReferralCode(), logger, User
 
 ### Community 129 - "Community 129"
-Cohesion: 0.24
-Nodes (10): mailAppointment(), APPOINTMENT_REMINDER_COPY, appointmentReminderSubject(), BOOKING_STATUS_COPY, bookingStatusSubject(), client(), sendAppointmentReminderEmail(), sendBookingConfirmation() (+2 more)
+Cohesion: 0.23
+Nodes (11): mailAppointment(), APPOINTMENT_REMINDER_COPY, appointmentReminderSubject(), BOOKING_STATUS_COPY, bookingStatusSubject(), client(), sendAppointmentReminderEmail(), sendBookingConfirmation() (+3 more)
 
 ### Community 130 - "Community 130"
 Cohesion: 0.29
 Nodes (6): { Cashfree }, dotenv, expiryDate, formattedExpiryDate, request, verificationResponse
 
 ### Community 131 - "Community 131"
-Cohesion: 0.22
-Nodes (8): createPromo(), deletePromo(), isSequelizeUniqueError(), listPromos(), PromoCode, updatePromo(), PromoCode, Sequelize
+Cohesion: 0.17
+Nodes (11): getSalonDayWaitlist(), joinWaitlist(), leaveWaitlist(), { Op }, { paginateQuery, buildMeta }, Salons, todayStr(), User (+3 more)
 
 ### Community 132 - "Community 132"
-Cohesion: 0.29
-Nodes (7): crypto, deepHealth(), logger, makeRequestId(), requestIdMiddleware(), requestLogger(), sequelize
+Cohesion: 0.33
+Nodes (5): deleteAppointment(), deleteUser(), deleteMyAccount(), logger, recordAudit()
 
 ### Community 133 - "Community 133"
 Cohesion: 0.40
@@ -703,33 +703,33 @@ Nodes (6): fromNowH(), hms(), mkAppt(), now, pad(), ymd()
 Cohesion: 0.50
 Nodes (3): parseGallery(), Salons, updateGallery()
 
-### Community 135 - "Community 135"
-Cohesion: 0.50
-Nodes (3): { DataTypes }, Notification, sequelize
-
 ### Community 136 - "Community 136"
-Cohesion: 0.05
-Nodes (31): rateLimit, strictLimiter, AdminAudit, Sequelize, AdminAudit, allowed, anonEmail, Appointment (+23 more)
+Cohesion: 0.06
+Nodes (29): rateLimit, strictLimiter, AdminAudit, allowed, anonEmail, Appointment, assert, authMiddleware (+21 more)
+
+### Community 137 - "Community 137"
+Cohesion: 0.67
+Nodes (3): now, t(), waitFor()
 
 ## Knowledge Gaps
-- **1418 isolated node(s):** `express`, `path`, `cors`, `helmet`, `rateLimit` (+1413 more)
+- **1427 isolated node(s):** `express`, `path`, `cors`, `helmet`, `rateLimit` (+1422 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `validate()` connect `Community 113` to `Community 5`, `Community 136`, `Community 15`, `Community 24`, `Community 28`, `Community 33`, `Community 34`, `Community 35`, `Community 43`, `Community 46`, `Community 63`, `Community 64`, `Community 65`, `Community 76`, `Community 88`, `Community 99`, `Community 100`, `Community 103`, `Community 104`, `Community 111`, `Community 124`, `Community 125`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
-- **Why does `mailAppointment()` connect `Community 129` to `Community 9`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **Why does `canTransition()` connect `Community 112` to `Community 9`, `Community 106`, `Community 29`, `Community 119`?**
-  _High betweenness centrality (0.001) - this node is a cross-community bridge._
+  _High betweenness centrality (0.022) - this node is a cross-community bridge._
+- **Why does `paginateQuery()` connect `Community 109` to `Community 131`, `Community 9`, `Community 11`, `Community 13`, `Community 120`, `Community 30`?**
+  _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **What connects `express`, `path`, `cors` to the rest of the system?**
-  _1418 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1427 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.10276679841897234 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.04081632653061224 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.05263157894736842 - nodes in this community are weakly interconnected._
+- **Should `Community 3` be split into smaller, more focused modules?**
+  _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._

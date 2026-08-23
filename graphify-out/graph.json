@@ -184,10 +184,19 @@
       "norm_label": "{ strictlimiter: loginlimiter }"
     },
     {
+      "label": "{ apiDocsJsonHandler, apiDocsPageHandler }",
+      "file_type": "code",
+      "source_file": "app.js",
+      "source_location": "L127",
+      "id": "fresha_salon_app_app_apidocsjsonhandler_apidocspagehandler",
+      "community": 4,
+      "norm_label": "{ apidocsjsonhandler, apidocspagehandler }"
+    },
+    {
       "label": "seedSampleData()",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L153",
+      "source_location": "L164",
       "id": "fresha_salon_app_app_seedsampledata",
       "community": 4,
       "norm_label": "seedsampledata()"
@@ -196,7 +205,7 @@
       "label": "{ runReminderSweep, SWEEP_INTERVAL_MS }",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L334",
+      "source_location": "L345",
       "id": "fresha_salon_app_app_runremindersweep_sweep_interval_ms",
       "community": 4,
       "norm_label": "{ runremindersweep, sweep_interval_ms }"
@@ -205,7 +214,7 @@
       "label": "safeSweep()",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L335",
+      "source_location": "L346",
       "id": "fresha_salon_app_app_safesweep",
       "community": 122,
       "norm_label": "safesweep()"
@@ -214,7 +223,7 @@
       "label": "{ migrateCategories }",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L377",
+      "source_location": "L388",
       "id": "fresha_salon_app_app_migratecategories",
       "community": 4,
       "norm_label": "{ migratecategories }"
@@ -729,7 +738,7 @@
       "source_file": "controllers/adminController.js",
       "source_location": "L101",
       "id": "controllers_admincontroller_deleteappointment",
-      "community": 30,
+      "community": 132,
       "norm_label": "deleteappointment()"
     },
     {
@@ -747,7 +756,7 @@
       "source_file": "controllers/adminController.js",
       "source_location": "L165",
       "id": "controllers_admincontroller_deleteuser",
-      "community": 30,
+      "community": 132,
       "norm_label": "deleteuser()"
     },
     {
@@ -1035,7 +1044,7 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L481",
       "id": "controllers_appointmentcontroller_cancelappointment",
-      "community": 119,
+      "community": 9,
       "norm_label": "cancelappointment()"
     },
     {
@@ -1053,7 +1062,7 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L651",
       "id": "controllers_appointmentcontroller_sendcustomerstatusemail",
-      "community": 119,
+      "community": 9,
       "norm_label": "sendcustomerstatusemail()"
     },
     {
@@ -1062,7 +1071,7 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L677",
       "id": "controllers_appointmentcontroller_updateappointmentstatus",
-      "community": 119,
+      "community": 9,
       "norm_label": "updateappointmentstatus()"
     },
     {
@@ -1107,7 +1116,7 @@
       "source_file": "controllers/favoriteController.js",
       "source_location": "L11",
       "id": "controllers_favoritecontroller_getfavorites",
-      "community": 120,
+      "community": 109,
       "norm_label": "getfavorites()"
     },
     {
@@ -1134,7 +1143,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L1",
       "id": "controllers_notificationcontroller_js",
-      "community": 109,
+      "community": 13,
       "norm_label": "notificationcontroller.js"
     },
     {
@@ -1143,7 +1152,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L1",
       "id": "controllers_notificationcontroller_notification",
-      "community": 109,
+      "community": 13,
       "norm_label": "notification"
     },
     {
@@ -1152,7 +1161,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L2",
       "id": "controllers_notificationcontroller_paginatequery_buildmeta",
-      "community": 109,
+      "community": 13,
       "norm_label": "{ paginatequery, buildmeta }"
     },
     {
@@ -1161,7 +1170,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L11",
       "id": "controllers_notificationcontroller_resolverecipient",
-      "community": 109,
+      "community": 13,
       "norm_label": "resolverecipient()"
     },
     {
@@ -1170,7 +1179,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L25",
       "id": "controllers_notificationcontroller_listnotifications",
-      "community": 109,
+      "community": 13,
       "norm_label": "listnotifications()"
     },
     {
@@ -1179,7 +1188,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L60",
       "id": "controllers_notificationcontroller_marknotificationread",
-      "community": 109,
+      "community": 13,
       "norm_label": "marknotificationread()"
     },
     {
@@ -1188,7 +1197,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L89",
       "id": "controllers_notificationcontroller_markallnotificationsread",
-      "community": 109,
+      "community": 13,
       "norm_label": "markallnotificationsread()"
     },
     {
@@ -1746,7 +1755,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L1",
       "id": "controllers_salonpromoscontroller_js",
-      "community": 131,
+      "community": 76,
       "norm_label": "salonpromoscontroller.js"
     },
     {
@@ -1755,7 +1764,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L7",
       "id": "controllers_salonpromoscontroller_promocode",
-      "community": 131,
+      "community": 76,
       "norm_label": "promocode"
     },
     {
@@ -1764,7 +1773,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L9",
       "id": "controllers_salonpromoscontroller_issequelizeuniqueerror",
-      "community": 131,
+      "community": 76,
       "norm_label": "issequelizeuniqueerror()"
     },
     {
@@ -1773,7 +1782,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L15",
       "id": "controllers_salonpromoscontroller_createpromo",
-      "community": 131,
+      "community": 76,
       "norm_label": "createpromo()"
     },
     {
@@ -1782,7 +1791,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L49",
       "id": "controllers_salonpromoscontroller_listpromos",
-      "community": 131,
+      "community": 76,
       "norm_label": "listpromos()"
     },
     {
@@ -1791,7 +1800,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L68",
       "id": "controllers_salonpromoscontroller_updatepromo",
-      "community": 131,
+      "community": 76,
       "norm_label": "updatepromo()"
     },
     {
@@ -1800,7 +1809,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L101",
       "id": "controllers_salonpromoscontroller_deletepromo",
-      "community": 131,
+      "community": 76,
       "norm_label": "deletepromo()"
     },
     {
@@ -2286,7 +2295,7 @@
       "source_file": "controllers/userController.js",
       "source_location": "L17",
       "id": "controllers_usercontroller_handleusersignup",
-      "community": 16,
+      "community": 114,
       "norm_label": "handleusersignup()"
     },
     {
@@ -2313,7 +2322,7 @@
       "source_file": "controllers/userController.js",
       "source_location": "L148",
       "id": "controllers_usercontroller_hashtoken",
-      "community": 16,
+      "community": 114,
       "norm_label": "hashtoken()"
     },
     {
@@ -2340,7 +2349,7 @@
       "source_file": "controllers/userController.js",
       "source_location": "L219",
       "id": "controllers_usercontroller_verifyemail",
-      "community": 16,
+      "community": 114,
       "norm_label": "verifyemail()"
     },
     {
@@ -2349,7 +2358,7 @@
       "source_file": "controllers/userController.js",
       "source_location": "L253",
       "id": "controllers_usercontroller_resendverification",
-      "community": 16,
+      "community": 114,
       "norm_label": "resendverification()"
     },
     {
@@ -2358,7 +2367,7 @@
       "source_file": "controllers/userController.js",
       "source_location": "L294",
       "id": "controllers_usercontroller_deletemyaccount",
-      "community": 30,
+      "community": 132,
       "norm_label": "deletemyaccount()"
     },
     {
@@ -2412,7 +2421,7 @@
       "source_file": "controllers/waitlistController.js",
       "source_location": "L1",
       "id": "controllers_waitlistcontroller_js",
-      "community": 99,
+      "community": 131,
       "norm_label": "waitlistcontroller.js"
     },
     {
@@ -2421,7 +2430,7 @@
       "source_file": "controllers/waitlistController.js",
       "source_location": "L18",
       "id": "controllers_waitlistcontroller_op",
-      "community": 99,
+      "community": 131,
       "norm_label": "{ op }"
     },
     {
@@ -2430,7 +2439,7 @@
       "source_file": "controllers/waitlistController.js",
       "source_location": "L19",
       "id": "controllers_waitlistcontroller_waitlist",
-      "community": 99,
+      "community": 131,
       "norm_label": "waitlist"
     },
     {
@@ -2439,7 +2448,7 @@
       "source_file": "controllers/waitlistController.js",
       "source_location": "L20",
       "id": "controllers_waitlistcontroller_salons",
-      "community": 99,
+      "community": 131,
       "norm_label": "salons"
     },
     {
@@ -2448,7 +2457,7 @@
       "source_file": "controllers/waitlistController.js",
       "source_location": "L21",
       "id": "controllers_waitlistcontroller_user",
-      "community": 99,
+      "community": 131,
       "norm_label": "user"
     },
     {
@@ -2457,7 +2466,7 @@
       "source_file": "controllers/waitlistController.js",
       "source_location": "L22",
       "id": "controllers_waitlistcontroller_paginatequery_buildmeta",
-      "community": 99,
+      "community": 131,
       "norm_label": "{ paginatequery, buildmeta }"
     },
     {
@@ -2466,7 +2475,7 @@
       "source_file": "controllers/waitlistController.js",
       "source_location": "L26",
       "id": "controllers_waitlistcontroller_todaystr",
-      "community": 99,
+      "community": 131,
       "norm_label": "todaystr()"
     },
     {
@@ -2475,7 +2484,7 @@
       "source_file": "controllers/waitlistController.js",
       "source_location": "L34",
       "id": "controllers_waitlistcontroller_joinwaitlist",
-      "community": 99,
+      "community": 131,
       "norm_label": "joinwaitlist()"
     },
     {
@@ -2484,7 +2493,7 @@
       "source_file": "controllers/waitlistController.js",
       "source_location": "L86",
       "id": "controllers_waitlistcontroller_getmywaitlist",
-      "community": 99,
+      "community": 109,
       "norm_label": "getmywaitlist()"
     },
     {
@@ -2493,7 +2502,7 @@
       "source_file": "controllers/waitlistController.js",
       "source_location": "L119",
       "id": "controllers_waitlistcontroller_leavewaitlist",
-      "community": 99,
+      "community": 131,
       "norm_label": "leavewaitlist()"
     },
     {
@@ -2502,7 +2511,7 @@
       "source_file": "controllers/waitlistController.js",
       "source_location": "L141",
       "id": "controllers_waitlistcontroller_getsalondaywaitlist",
-      "community": 99,
+      "community": 131,
       "norm_label": "getsalondaywaitlist()"
     },
     {
@@ -2916,7 +2925,7 @@
       "source_file": "frontend/src/App.jsx",
       "source_location": "L58",
       "id": "src_app_authgatedroutes",
-      "community": 123,
+      "community": 107,
       "norm_label": "authgatedroutes()"
     },
     {
@@ -3051,7 +3060,7 @@
       "source_file": "frontend/src/components/NotificationsPanel.jsx",
       "source_location": "L1",
       "id": "frontend_src_components_notificationspanel_jsx",
-      "community": 107,
+      "community": 121,
       "norm_label": "notificationspanel.jsx"
     },
     {
@@ -3060,7 +3069,7 @@
       "source_file": "frontend/src/components/NotificationsPanel.jsx",
       "source_location": "L13",
       "id": "components_notificationspanel_type_meta",
-      "community": 107,
+      "community": 121,
       "norm_label": "type_meta"
     },
     {
@@ -3069,7 +3078,7 @@
       "source_file": "frontend/src/components/NotificationsPanel.jsx",
       "source_location": "L23",
       "id": "components_notificationspanel_metafortype",
-      "community": 107,
+      "community": 121,
       "norm_label": "metafortype()"
     },
     {
@@ -3078,7 +3087,7 @@
       "source_file": "frontend/src/components/NotificationsPanel.jsx",
       "source_location": "L26",
       "id": "components_notificationspanel_relativetime",
-      "community": 107,
+      "community": 121,
       "norm_label": "relativetime()"
     },
     {
@@ -3087,7 +3096,7 @@
       "source_file": "frontend/src/components/NotificationsPanel.jsx",
       "source_location": "L48",
       "id": "components_notificationspanel_notificationspanel",
-      "community": 107,
+      "community": 121,
       "norm_label": "notificationspanel()"
     },
     {
@@ -3096,7 +3105,7 @@
       "source_file": "frontend/src/components/ProtectedRoute.jsx",
       "source_location": "L1",
       "id": "frontend_src_components_protectedroute_jsx",
-      "community": 123,
+      "community": 107,
       "norm_label": "protectedroute.jsx"
     },
     {
@@ -3105,7 +3114,7 @@
       "source_file": "frontend/src/components/ProtectedRoute.jsx",
       "source_location": "L9",
       "id": "components_protectedroute_protectedroute",
-      "community": 123,
+      "community": 107,
       "norm_label": "protectedroute()"
     },
     {
@@ -3114,7 +3123,7 @@
       "source_file": "frontend/src/components/Skeleton.jsx",
       "source_location": "L1",
       "id": "frontend_src_components_skeleton_jsx",
-      "community": 116,
+      "community": 123,
       "norm_label": "skeleton.jsx"
     },
     {
@@ -3123,7 +3132,7 @@
       "source_file": "frontend/src/components/Skeleton.jsx",
       "source_location": "L14",
       "id": "components_skeleton_skeleton",
-      "community": 116,
+      "community": 123,
       "norm_label": "skeleton()"
     },
     {
@@ -3150,7 +3159,7 @@
       "source_file": "frontend/src/context/AuthContext.jsx",
       "source_location": "L1",
       "id": "frontend_src_context_authcontext_jsx",
-      "community": 121,
+      "community": 107,
       "norm_label": "authcontext.jsx"
     },
     {
@@ -3159,7 +3168,7 @@
       "source_file": "frontend/src/context/AuthContext.jsx",
       "source_location": "L6",
       "id": "context_authcontext_authcontext",
-      "community": 121,
+      "community": 107,
       "norm_label": "authcontext"
     },
     {
@@ -3168,7 +3177,7 @@
       "source_file": "frontend/src/context/AuthContext.jsx",
       "source_location": "L17",
       "id": "context_authcontext_authprovider",
-      "community": 121,
+      "community": 107,
       "norm_label": "authprovider()"
     },
     {
@@ -3177,7 +3186,7 @@
       "source_file": "frontend/src/context/AuthContext.jsx",
       "source_location": "L85",
       "id": "context_authcontext_useauth",
-      "community": 123,
+      "community": 107,
       "norm_label": "useauth()"
     },
     {
@@ -3312,7 +3321,7 @@
       "source_file": "frontend/src/pages/admin/AdminDashboard.jsx",
       "source_location": "L10",
       "id": "admin_admindashboard_admindashboard",
-      "community": 123,
+      "community": 107,
       "norm_label": "admindashboard()"
     },
     {
@@ -3321,7 +3330,7 @@
       "source_file": "frontend/src/pages/auth/AdminLogin.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_auth_adminlogin_jsx",
-      "community": 121,
+      "community": 107,
       "norm_label": "adminlogin.jsx"
     },
     {
@@ -3330,7 +3339,7 @@
       "source_file": "frontend/src/pages/auth/AdminLogin.jsx",
       "source_location": "L9",
       "id": "auth_adminlogin_adminlogin",
-      "community": 121,
+      "community": 107,
       "norm_label": "adminlogin()"
     },
     {
@@ -3339,7 +3348,7 @@
       "source_file": "frontend/src/pages/auth/SalonLogin.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_auth_salonlogin_jsx",
-      "community": 121,
+      "community": 107,
       "norm_label": "salonlogin.jsx"
     },
     {
@@ -3348,7 +3357,7 @@
       "source_file": "frontend/src/pages/auth/SalonLogin.jsx",
       "source_location": "L9",
       "id": "auth_salonlogin_salonlogin",
-      "community": 121,
+      "community": 107,
       "norm_label": "salonlogin()"
     },
     {
@@ -3375,7 +3384,7 @@
       "source_file": "frontend/src/pages/auth/StaffLogin.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_auth_stafflogin_jsx",
-      "community": 121,
+      "community": 107,
       "norm_label": "stafflogin.jsx"
     },
     {
@@ -3384,7 +3393,7 @@
       "source_file": "frontend/src/pages/auth/StaffLogin.jsx",
       "source_location": "L9",
       "id": "auth_stafflogin_stafflogin",
-      "community": 121,
+      "community": 107,
       "norm_label": "stafflogin()"
     },
     {
@@ -3393,7 +3402,7 @@
       "source_file": "frontend/src/pages/auth/UserLogin.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_auth_userlogin_jsx",
-      "community": 121,
+      "community": 107,
       "norm_label": "userlogin.jsx"
     },
     {
@@ -3402,7 +3411,7 @@
       "source_file": "frontend/src/pages/auth/UserLogin.jsx",
       "source_location": "L9",
       "id": "auth_userlogin_userlogin",
-      "community": 121,
+      "community": 107,
       "norm_label": "userlogin()"
     },
     {
@@ -3456,7 +3465,7 @@
       "source_file": "frontend/src/pages/customer/BookedAppointments.jsx",
       "source_location": "L12",
       "id": "customer_bookedappointments_bookedappointments",
-      "community": 123,
+      "community": 116,
       "norm_label": "bookedappointments()"
     },
     {
@@ -3582,7 +3591,7 @@
       "source_file": "frontend/src/pages/salon/SalonDashboard.jsx",
       "source_location": "L16",
       "id": "salon_salondashboard_salondashboard",
-      "community": 123,
+      "community": 116,
       "norm_label": "salondashboard()"
     },
     {
@@ -3600,7 +3609,7 @@
       "source_file": "frontend/src/pages/staff/StaffDashboard.jsx",
       "source_location": "L10",
       "id": "staff_staffdashboard_staffdashboard",
-      "community": 123,
+      "community": 121,
       "norm_label": "staffdashboard()"
     },
     {
@@ -3663,7 +3672,7 @@
       "source_file": "models/adminAuditModel.js",
       "source_location": "L1",
       "id": "models_adminauditmodel_js",
-      "community": 136,
+      "community": 135,
       "norm_label": "adminauditmodel.js"
     },
     {
@@ -3672,7 +3681,7 @@
       "source_file": "models/adminAuditModel.js",
       "source_location": "L1",
       "id": "models_adminauditmodel_sequelize",
-      "community": 136,
+      "community": 135,
       "norm_label": "sequelize"
     },
     {
@@ -3681,7 +3690,7 @@
       "source_file": "models/adminAuditModel.js",
       "source_location": "L10",
       "id": "models_adminauditmodel_adminaudit",
-      "community": 136,
+      "community": 135,
       "norm_label": "adminaudit"
     },
     {
@@ -3852,7 +3861,7 @@
       "source_file": "models/notificationModel.js",
       "source_location": "L1",
       "id": "models_notificationmodel_js",
-      "community": 135,
+      "community": 13,
       "norm_label": "notificationmodel.js"
     },
     {
@@ -3861,7 +3870,7 @@
       "source_file": "models/notificationModel.js",
       "source_location": "L1",
       "id": "models_notificationmodel_datatypes",
-      "community": 135,
+      "community": 13,
       "norm_label": "{ datatypes }"
     },
     {
@@ -3870,7 +3879,7 @@
       "source_file": "models/notificationModel.js",
       "source_location": "L2",
       "id": "models_notificationmodel_sequelize",
-      "community": 135,
+      "community": 13,
       "norm_label": "sequelize"
     },
     {
@@ -3879,7 +3888,7 @@
       "source_file": "models/notificationModel.js",
       "source_location": "L9",
       "id": "models_notificationmodel_notification",
-      "community": 135,
+      "community": 13,
       "norm_label": "notification"
     },
     {
@@ -3915,7 +3924,7 @@
       "source_file": "models/promoCodeModel.js",
       "source_location": "L1",
       "id": "models_promocodemodel_js",
-      "community": 131,
+      "community": 126,
       "norm_label": "promocodemodel.js"
     },
     {
@@ -3924,7 +3933,7 @@
       "source_file": "models/promoCodeModel.js",
       "source_location": "L1",
       "id": "models_promocodemodel_sequelize",
-      "community": 131,
+      "community": 126,
       "norm_label": "sequelize"
     },
     {
@@ -3933,7 +3942,7 @@
       "source_file": "models/promoCodeModel.js",
       "source_location": "L17",
       "id": "models_promocodemodel_promocode",
-      "community": 131,
+      "community": 126,
       "norm_label": "promocode"
     },
     {
@@ -4104,7 +4113,7 @@
       "source_file": "models/waitlistModel.js",
       "source_location": "L1",
       "id": "models_waitlistmodel_js",
-      "community": 99,
+      "community": 131,
       "norm_label": "waitlistmodel.js"
     },
     {
@@ -4113,7 +4122,7 @@
       "source_file": "models/waitlistModel.js",
       "source_location": "L1",
       "id": "models_waitlistmodel_sequelize",
-      "community": 99,
+      "community": 131,
       "norm_label": "sequelize"
     },
     {
@@ -4122,7 +4131,7 @@
       "source_file": "models/waitlistModel.js",
       "source_location": "L17",
       "id": "models_waitlistmodel_waitlist",
-      "community": 99,
+      "community": 131,
       "norm_label": "waitlist"
     },
     {
@@ -5985,7 +5994,7 @@
       "source_file": "services/adminAuditService.js",
       "source_location": "L1",
       "id": "services_adminauditservice_js",
-      "community": 30,
+      "community": 132,
       "norm_label": "adminauditservice.js"
     },
     {
@@ -5994,7 +6003,7 @@
       "source_file": "services/adminAuditService.js",
       "source_location": "L10",
       "id": "services_adminauditservice_logger",
-      "community": 30,
+      "community": 132,
       "norm_label": "logger"
     },
     {
@@ -6003,7 +6012,7 @@
       "source_file": "services/adminAuditService.js",
       "source_location": "L19",
       "id": "services_adminauditservice_recordaudit",
-      "community": 30,
+      "community": 132,
       "norm_label": "recordaudit()"
     },
     {
@@ -6318,7 +6327,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L261",
       "id": "services_emailservice_sendbookingstatusemail",
-      "community": 119,
+      "community": 129,
       "norm_label": "sendbookingstatusemail()"
     },
     {
@@ -6381,7 +6390,7 @@
       "source_file": "services/loyaltyService.js",
       "source_location": "L35",
       "id": "services_loyaltyservice_awardforcompletedappointment",
-      "community": 119,
+      "community": 9,
       "norm_label": "awardforcompletedappointment()"
     },
     {
@@ -6390,7 +6399,7 @@
       "source_file": "services/loyaltyService.js",
       "source_location": "L80",
       "id": "services_loyaltyservice_awardreferralbonus",
-      "community": 16,
+      "community": 114,
       "norm_label": "awardreferralbonus()"
     },
     {
@@ -6399,7 +6408,7 @@
       "source_file": "services/notificationService.js",
       "source_location": "L1",
       "id": "services_notificationservice_js",
-      "community": 119,
+      "community": 105,
       "norm_label": "notificationservice.js"
     },
     {
@@ -6408,7 +6417,7 @@
       "source_file": "services/notificationService.js",
       "source_location": "L10",
       "id": "services_notificationservice_logger",
-      "community": 119,
+      "community": 105,
       "norm_label": "logger"
     },
     {
@@ -6417,7 +6426,7 @@
       "source_file": "services/notificationService.js",
       "source_location": "L19",
       "id": "services_notificationservice_notify",
-      "community": 119,
+      "community": 9,
       "norm_label": "notify()"
     },
     {
@@ -6705,7 +6714,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L1",
       "id": "services_waitlistservice_js",
-      "community": 119,
+      "community": 105,
       "norm_label": "waitlistservice.js"
     },
     {
@@ -6714,7 +6723,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L19",
       "id": "services_waitlistservice_op",
-      "community": 119,
+      "community": 105,
       "norm_label": "{ op }"
     },
     {
@@ -6723,7 +6732,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L20",
       "id": "services_waitlistservice_waitlist",
-      "community": 119,
+      "community": 105,
       "norm_label": "waitlist"
     },
     {
@@ -6732,7 +6741,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L21",
       "id": "services_waitlistservice_salons",
-      "community": 119,
+      "community": 105,
       "norm_label": "salons"
     },
     {
@@ -6741,7 +6750,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L22",
       "id": "services_waitlistservice_notify",
-      "community": 119,
+      "community": 105,
       "norm_label": "{ notify }"
     },
     {
@@ -6750,7 +6759,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L23",
       "id": "services_waitlistservice_logger",
-      "community": 119,
+      "community": 105,
       "norm_label": "logger"
     },
     {
@@ -6759,7 +6768,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L25",
       "id": "services_waitlistservice_findnextwaitlistentry",
-      "community": 119,
+      "community": 9,
       "norm_label": "findnextwaitlistentry()"
     },
     {
@@ -7200,7 +7209,7 @@
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L31",
       "id": "tests_admin_stats_audit_test_waitfor",
-      "community": 44,
+      "community": 137,
       "norm_label": "waitfor()"
     },
     {
@@ -7218,7 +7227,7 @@
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L59",
       "id": "tests_admin_stats_audit_test_now",
-      "community": 44,
+      "community": 137,
       "norm_label": "now"
     },
     {
@@ -7299,7 +7308,7 @@
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L217",
       "id": "tests_admin_stats_audit_test_t",
-      "community": 44,
+      "community": 137,
       "norm_label": "t()"
     },
     {
@@ -7337,6 +7346,87 @@
       "id": "tests_admin_stats_audit_test_toptwo",
       "community": 44,
       "norm_label": "toptwo"
+    },
+    {
+      "label": "api-docs.test.js",
+      "file_type": "code",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L1",
+      "id": "tests_api_docs_test_js",
+      "community": 119,
+      "norm_label": "api-docs.test.js"
+    },
+    {
+      "label": "{ test }",
+      "file_type": "code",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L1",
+      "id": "tests_api_docs_test_test",
+      "community": 119,
+      "norm_label": "{ test }"
+    },
+    {
+      "label": "assert",
+      "file_type": "code",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L2",
+      "id": "tests_api_docs_test_assert",
+      "community": 119,
+      "norm_label": "assert"
+    },
+    {
+      "label": "pkg",
+      "file_type": "code",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L3",
+      "id": "tests_api_docs_test_pkg",
+      "community": 119,
+      "norm_label": "pkg"
+    },
+    {
+      "label": "{\n    apiDocs,\n    docsHtmlPage,\n    apiDocsJsonHandler,\n    apiDocsPageHandler,\n}",
+      "file_type": "code",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L4",
+      "id": "tests_api_docs_test_apidocs_docshtmlpage_apidocsjsonhandler_apidocspagehandler",
+      "community": 119,
+      "norm_label": "{\n    apidocs,\n    docshtmlpage,\n    apidocsjsonhandler,\n    apidocspagehandler,\n}"
+    },
+    {
+      "label": "METHODS",
+      "file_type": "code",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L18",
+      "id": "tests_api_docs_test_methods",
+      "community": 119,
+      "norm_label": "methods"
+    },
+    {
+      "label": "mockRes()",
+      "file_type": "code",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L21",
+      "id": "tests_api_docs_test_mockres",
+      "community": 119,
+      "norm_label": "mockres()"
+    },
+    {
+      "label": "keys",
+      "file_type": "code",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L61",
+      "id": "tests_api_docs_test_keys",
+      "community": 119,
+      "norm_label": "keys"
+    },
+    {
+      "label": "res",
+      "file_type": "code",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L90",
+      "id": "tests_api_docs_test_res",
+      "community": 119,
+      "norm_label": "res"
     },
     {
       "label": "blockout-availability.test.js",
@@ -14188,6 +14278,51 @@
       "norm_label": "corrupt"
     },
     {
+      "label": "apiDocs.js",
+      "file_type": "code",
+      "source_file": "utils/apiDocs.js",
+      "source_location": "L1",
+      "id": "utils_apidocs_js",
+      "community": 119,
+      "norm_label": "apidocs.js"
+    },
+    {
+      "label": "pkg",
+      "file_type": "code",
+      "source_file": "utils/apiDocs.js",
+      "source_location": "L20",
+      "id": "utils_apidocs_pkg",
+      "community": 119,
+      "norm_label": "pkg"
+    },
+    {
+      "label": "apiDocs",
+      "file_type": "code",
+      "source_file": "utils/apiDocs.js",
+      "source_location": "L22",
+      "id": "utils_apidocs_apidocs",
+      "community": 119,
+      "norm_label": "apidocs"
+    },
+    {
+      "label": "apiDocsJsonHandler()",
+      "file_type": "code",
+      "source_file": "utils/apiDocs.js",
+      "source_location": "L271",
+      "id": "utils_apidocs_apidocsjsonhandler",
+      "community": 119,
+      "norm_label": "apidocsjsonhandler()"
+    },
+    {
+      "label": "apiDocsPageHandler()",
+      "file_type": "code",
+      "source_file": "utils/apiDocs.js",
+      "source_location": "L275",
+      "id": "utils_apidocs_apidocspagehandler",
+      "community": 119,
+      "norm_label": "apidocspagehandler()"
+    },
+    {
       "label": "csv.js",
       "file_type": "code",
       "source_file": "utils/csv.js",
@@ -14373,7 +14508,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L1",
       "id": "utils_observability_js",
-      "community": 132,
+      "community": 110,
       "norm_label": "observability.js"
     },
     {
@@ -14382,7 +14517,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L13",
       "id": "utils_observability_crypto",
-      "community": 132,
+      "community": 110,
       "norm_label": "crypto"
     },
     {
@@ -14391,7 +14526,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L14",
       "id": "utils_observability_logger",
-      "community": 132,
+      "community": 110,
       "norm_label": "logger"
     },
     {
@@ -14400,7 +14535,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L15",
       "id": "utils_observability_sequelize",
-      "community": 132,
+      "community": 110,
       "norm_label": "sequelize"
     },
     {
@@ -14409,7 +14544,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L22",
       "id": "utils_observability_makerequestid",
-      "community": 132,
+      "community": 110,
       "norm_label": "makerequestid()"
     },
     {
@@ -14418,7 +14553,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L28",
       "id": "utils_observability_requestidmiddleware",
-      "community": 132,
+      "community": 110,
       "norm_label": "requestidmiddleware()"
     },
     {
@@ -14427,7 +14562,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L44",
       "id": "utils_observability_requestlogger",
-      "community": 132,
+      "community": 110,
       "norm_label": "requestlogger()"
     },
     {
@@ -14436,7 +14571,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L66",
       "id": "utils_observability_deephealth",
-      "community": 132,
+      "community": 110,
       "norm_label": "deephealth()"
     },
     {
@@ -15253,7 +15388,7 @@
       "label": "Completed",
       "file_type": "document",
       "source_file": "IMPROVEMENT_LOG.md",
-      "source_location": "L43",
+      "source_location": "L44",
       "id": "fresha_salon_app_improvement_log_completed",
       "community": 82,
       "norm_label": "completed"
@@ -15334,7 +15469,7 @@
       "label": "API quick reference",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L55",
+      "source_location": "L56",
       "id": "fresha_salon_app_readme_api_quick_reference",
       "community": 102,
       "norm_label": "api quick reference"
@@ -15343,7 +15478,7 @@
       "label": "code:block1 (POST   /api/user/forgot-password          # issue hashed res)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L59",
+      "source_location": "L60",
       "id": "fresha_salon_app_readme_codeblock_1",
       "community": 102,
       "norm_label": "code:block1 (post   /api/user/forgot-password          # issue hashed res)"
@@ -15352,7 +15487,7 @@
       "label": "Getting started",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L98",
+      "source_location": "L102",
       "id": "fresha_salon_app_readme_getting_started",
       "community": 102,
       "norm_label": "getting started"
@@ -15361,7 +15496,7 @@
       "label": "code:bash (npm install                # also installs frontend deps (po)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L100",
+      "source_location": "L104",
       "id": "fresha_salon_app_readme_codeblock_2",
       "community": 102,
       "norm_label": "code:bash (npm install                # also installs frontend deps (po)"
@@ -15370,7 +15505,7 @@
       "label": "Tests",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L113",
+      "source_location": "L117",
       "id": "fresha_salon_app_readme_tests",
       "community": 102,
       "norm_label": "tests"
@@ -15379,7 +15514,7 @@
       "label": "code:bash (npm test                   # 253 tests across tests/*.test.j)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L115",
+      "source_location": "L119",
       "id": "fresha_salon_app_readme_codeblock_3",
       "community": 102,
       "norm_label": "code:bash (npm test                   # 253 tests across tests/*.test.j)"
@@ -15388,7 +15523,7 @@
       "label": "Frontend build",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L119",
+      "source_location": "L123",
       "id": "fresha_salon_app_readme_frontend_build",
       "community": 102,
       "norm_label": "frontend build"
@@ -15397,7 +15532,7 @@
       "label": "code:bash (npm run build --prefix frontend   # Vite production build \u2192 )",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L121",
+      "source_location": "L125",
       "id": "fresha_salon_app_readme_codeblock_4",
       "community": 102,
       "norm_label": "code:bash (npm run build --prefix frontend   # vite production build \u2192 )"
@@ -15406,7 +15541,7 @@
       "label": "Docs",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L127",
+      "source_location": "L131",
       "id": "fresha_salon_app_readme_docs",
       "community": 102,
       "norm_label": "docs"
@@ -18786,6 +18921,49 @@
       "target": "fresha_salon_app_app_strictlimiter_loginlimiter"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app.js",
+      "source_location": "L127",
+      "weight": 1.0,
+      "source": "app_js",
+      "target": "utils_apidocs_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app.js",
+      "source_location": "L127",
+      "weight": 1.0,
+      "source": "app_js",
+      "target": "utils_apidocs_apidocsjsonhandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app.js",
+      "source_location": "L127",
+      "weight": 1.0,
+      "source": "app_js",
+      "target": "utils_apidocs_apidocspagehandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app.js",
+      "source_location": "L127",
+      "weight": 1.0,
+      "source": "app_js",
+      "target": "fresha_salon_app_app_apidocsjsonhandler_apidocspagehandler",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.js",
@@ -18998,6 +19176,28 @@
       "confidence_score": 1.0,
       "source": "package_json",
       "target": "fresha_salon_app_package_devdependencies"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "package_json",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "utils/apiDocs.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "utils_apidocs_js",
+      "target": "package_json",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -24284,9 +24484,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "models_appointmentmodel_js",
-      "confidence_score": 1.0
+      "target": "models_appointmentmodel_js"
     },
     {
       "relation": "contains",
@@ -24294,9 +24494,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "controllers_usercontroller_appointmentmodel",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_appointmentmodel"
     },
     {
       "relation": "imports_from",
@@ -24305,9 +24505,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "models_favoritemodel_js",
-      "confidence_score": 1.0
+      "target": "models_favoritemodel_js"
     },
     {
       "relation": "contains",
@@ -24315,9 +24515,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "controllers_usercontroller_favoritemodel",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_favoritemodel"
     },
     {
       "relation": "imports_from",
@@ -24326,9 +24526,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "models_waitlistmodel_js",
-      "confidence_score": 1.0
+      "target": "models_waitlistmodel_js"
     },
     {
       "relation": "contains",
@@ -24336,9 +24536,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "controllers_usercontroller_waitlistmodel",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_waitlistmodel"
     },
     {
       "relation": "imports_from",
@@ -24347,9 +24547,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "models_notificationmodel_js",
-      "confidence_score": 1.0
+      "target": "models_notificationmodel_js"
     },
     {
       "relation": "contains",
@@ -24357,9 +24557,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "controllers_usercontroller_notificationmodel",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_notificationmodel"
     },
     {
       "relation": "imports_from",
@@ -24368,9 +24568,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "services_adminauditservice_js",
-      "confidence_score": 1.0
+      "target": "services_adminauditservice_js"
     },
     {
       "relation": "imports",
@@ -24379,9 +24579,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "services_adminauditservice_recordaudit",
-      "confidence_score": 1.0
+      "target": "services_adminauditservice_recordaudit"
     },
     {
       "relation": "contains",
@@ -24389,9 +24589,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "controllers_usercontroller_recordaudit",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_recordaudit"
     },
     {
       "relation": "contains",
@@ -24479,9 +24679,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L294",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "controllers_usercontroller_deletemyaccount",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_deletemyaccount"
     },
     {
       "relation": "contains",
@@ -24551,9 +24751,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "controllers_usercontroller_js",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_js"
     },
     {
       "relation": "imports_from",
@@ -24639,9 +24839,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "controllers_usercontroller_handleuserlogin",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_handleuserlogin"
     },
     {
       "relation": "calls",
@@ -24716,9 +24916,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "controllers_usercontroller_deletemyaccount",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_deletemyaccount"
     },
     {
       "relation": "calls",
@@ -27551,9 +27751,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "middlewares_authmiddleware_js",
-      "confidence_score": 1.0
+      "target": "middlewares_authmiddleware_js"
     },
     {
       "relation": "imports_from",
@@ -27637,9 +27837,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "middlewares_ratelimiters_js",
-      "confidence_score": 1.0
+      "target": "middlewares_ratelimiters_js"
     },
     {
       "relation": "imports",
@@ -27659,9 +27859,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "middlewares_ratelimiters_strictlimiter",
-      "confidence_score": 1.0
+      "target": "middlewares_ratelimiters_strictlimiter"
     },
     {
       "relation": "contains",
@@ -27701,9 +27901,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "models_adminauditmodel_js",
-      "confidence_score": 1.0
+      "target": "models_adminauditmodel_js"
     },
     {
       "relation": "imports_from",
@@ -27808,9 +28008,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "models_appointmentmodel_js",
-      "confidence_score": 1.0
+      "target": "models_appointmentmodel_js"
     },
     {
       "relation": "imports_from",
@@ -28258,9 +28458,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "models_favoritemodel_js",
-      "confidence_score": 1.0
+      "target": "models_favoritemodel_js"
     },
     {
       "relation": "imports_from",
@@ -28343,9 +28543,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "models_notificationmodel_js",
-      "confidence_score": 1.0
+      "target": "models_notificationmodel_js"
     },
     {
       "relation": "imports_from",
@@ -28689,9 +28889,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "models_salonsmodel_js",
-      "confidence_score": 1.0
+      "target": "models_salonsmodel_js"
     },
     {
       "relation": "imports_from",
@@ -29061,9 +29261,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "models_servicesmodel_js",
-      "confidence_score": 1.0
+      "target": "models_servicesmodel_js"
     },
     {
       "relation": "imports_from",
@@ -29453,9 +29653,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "models_staffmodel_js",
-      "confidence_score": 1.0
+      "target": "models_staffmodel_js"
     },
     {
       "relation": "imports_from",
@@ -29845,9 +30045,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "models_usermodel_js",
-      "confidence_score": 1.0
+      "target": "models_usermodel_js"
     },
     {
       "relation": "imports_from",
@@ -30195,9 +30395,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "models_waitlistmodel_js",
-      "confidence_score": 1.0
+      "target": "models_waitlistmodel_js"
     },
     {
       "relation": "imports_from",
@@ -32829,9 +33029,9 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "routes_userroutes_js",
-      "target": "utils_validators_accountdeletionschema",
-      "confidence_score": 1.0
+      "target": "utils_validators_accountdeletionschema"
     },
     {
       "relation": "contains",
@@ -32839,9 +33039,9 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "routes_userroutes_js",
-      "target": "routes_userroutes_validate_loginschema_customersignupschema_forgotpasswordschema_resetpasswordschema_verifyemailschema_resendverificationschema_accountdeletionschema",
-      "confidence_score": 1.0
+      "target": "routes_userroutes_validate_loginschema_customersignupschema_forgotpasswordschema_resetpasswordschema_verifyemailschema_resendverificationschema_accountdeletionschema"
     },
     {
       "relation": "contains",
@@ -32860,9 +33060,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "routes_userroutes_js",
-      "confidence_score": 1.0
+      "target": "routes_userroutes_js"
     },
     {
       "relation": "imports_from",
@@ -34507,9 +34707,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_test_before_after",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_test_before_after"
     },
     {
       "relation": "contains",
@@ -34517,9 +34717,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_assert",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_assert"
     },
     {
       "relation": "contains",
@@ -34527,9 +34727,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_bcrypt",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_bcrypt"
     },
     {
       "relation": "contains",
@@ -34537,9 +34737,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_crypto",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_crypto"
     },
     {
       "relation": "imports_from",
@@ -34548,9 +34748,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "utils_database_js",
-      "confidence_score": 1.0
+      "target": "utils_database_js"
     },
     {
       "relation": "contains",
@@ -34558,9 +34758,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_sequelize",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_sequelize"
     },
     {
       "relation": "contains",
@@ -34568,9 +34768,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_user",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_user"
     },
     {
       "relation": "contains",
@@ -34578,9 +34778,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_appointment",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_appointment"
     },
     {
       "relation": "contains",
@@ -34588,9 +34788,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_favorite",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_favorite"
     },
     {
       "relation": "contains",
@@ -34598,9 +34798,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_waitlist",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_waitlist"
     },
     {
       "relation": "contains",
@@ -34608,9 +34808,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_notification",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_notification"
     },
     {
       "relation": "contains",
@@ -34618,9 +34818,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_salons",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_salons"
     },
     {
       "relation": "contains",
@@ -34628,9 +34828,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_staff",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_staff"
     },
     {
       "relation": "contains",
@@ -34638,9 +34838,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_services",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_services"
     },
     {
       "relation": "contains",
@@ -34648,9 +34848,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_adminaudit",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_adminaudit"
     },
     {
       "relation": "contains",
@@ -34658,9 +34858,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_authmiddleware",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_authmiddleware"
     },
     {
       "relation": "contains",
@@ -34668,9 +34868,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_userroutes",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_userroutes"
     },
     {
       "relation": "contains",
@@ -34678,9 +34878,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_strictlimiter",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_strictlimiter"
     },
     {
       "relation": "imports_from",
@@ -34689,9 +34889,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "utils_validators_js",
-      "confidence_score": 1.0
+      "target": "utils_validators_js"
     },
     {
       "relation": "imports",
@@ -34700,9 +34900,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "utils_validators_validate",
-      "confidence_score": 1.0
+      "target": "utils_validators_validate"
     },
     {
       "relation": "imports",
@@ -34711,9 +34911,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "utils_validators_accountdeletionschema",
-      "confidence_score": 1.0
+      "target": "utils_validators_accountdeletionschema"
     },
     {
       "relation": "contains",
@@ -34721,9 +34921,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_validate_accountdeletionschema",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_validate_accountdeletionschema"
     },
     {
       "relation": "contains",
@@ -34731,9 +34931,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_deletemyaccount_handleuserlogin",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_deletemyaccount_handleuserlogin"
     },
     {
       "relation": "contains",
@@ -34741,9 +34941,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_mockres",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_mockres"
     },
     {
       "relation": "contains",
@@ -34751,9 +34951,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_reqwith",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_reqwith"
     },
     {
       "relation": "contains",
@@ -34761,9 +34961,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L35",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_waitfor",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_waitfor"
     },
     {
       "relation": "contains",
@@ -34771,9 +34971,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L45",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_sha256",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_sha256"
     },
     {
       "relation": "contains",
@@ -34781,9 +34981,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L86",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_base",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_base"
     },
     {
       "relation": "contains",
@@ -34791,9 +34991,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L141",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_layer",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_layer"
     },
     {
       "relation": "contains",
@@ -34801,9 +35001,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L144",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_handlers",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_handlers"
     },
     {
       "relation": "contains",
@@ -34811,9 +35011,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L156",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_guard",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_guard"
     },
     {
       "relation": "contains",
@@ -34821,9 +35021,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L285",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_res",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_res"
     },
     {
       "relation": "contains",
@@ -34831,9 +35031,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L165",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_allowed",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_allowed"
     },
     {
       "relation": "contains",
@@ -34841,9 +35041,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L274",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_oldemail",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_oldemail"
     },
     {
       "relation": "contains",
@@ -34851,9 +35051,9 @@
       "source_file": "tests/account-deletion.test.js",
       "source_location": "L278",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_account_deletion_test_js",
-      "target": "tests_account_deletion_test_anonemail",
-      "confidence_score": 1.0
+      "target": "tests_account_deletion_test_anonemail"
     },
     {
       "relation": "contains",
@@ -35197,6 +35397,130 @@
       "confidence_score": 1.0,
       "source": "tests_admin_stats_audit_test_t",
       "target": "tests_admin_stats_audit_test_now"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "tests_api_docs_test_test",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "tests_api_docs_test_assert",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "tests_api_docs_test_pkg",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "utils_apidocs_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "utils_apidocs_apidocs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "utils_apidocs_apidocsjsonhandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "utils_apidocs_apidocspagehandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "tests_api_docs_test_apidocs_docshtmlpage_apidocsjsonhandler_apidocspagehandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "tests_api_docs_test_methods",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "tests_api_docs_test_mockres",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "tests_api_docs_test_keys",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/api-docs.test.js",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "tests_api_docs_test_js",
+      "target": "tests_api_docs_test_res",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -43942,6 +44266,46 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "utils/apiDocs.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "utils_apidocs_js",
+      "target": "utils_apidocs_pkg",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "utils/apiDocs.js",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "utils_apidocs_js",
+      "target": "utils_apidocs_apidocs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "utils/apiDocs.js",
+      "source_location": "L271",
+      "weight": 1.0,
+      "source": "utils_apidocs_js",
+      "target": "utils_apidocs_apidocsjsonhandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "utils/apiDocs.js",
+      "source_location": "L275",
+      "weight": 1.0,
+      "source": "utils_apidocs_js",
+      "target": "utils_apidocs_apidocspagehandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "utils/csv.js",
       "source_location": "L20",
       "weight": 1.0,
@@ -44724,9 +45088,9 @@
       "source_file": "utils/validators.js",
       "source_location": "L431",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "utils_validators_js",
-      "target": "utils_validators_accountdeletionschema",
-      "confidence_score": 1.0
+      "target": "utils_validators_accountdeletionschema"
     },
     {
       "relation": "contains",
@@ -48340,5 +48704,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "8be119e17a2589ed10996d42ac8931b28b7e3311"
+  "built_at_commit": "40fc22a5aff4733bacb964b17df3f8354bf8ebd9"
 }

@@ -1,7 +1,7 @@
 {
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\app.js": {
-    "mtime": 1787516837.89568,
-    "ast_hash": "94316e54a39032edcf4a28d45b5c651c",
+    "mtime": 1787520266.036323,
+    "ast_hash": "60fcc3455ddf9ee7aaa4e011d6037a9a",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\package.json": {
@@ -555,8 +555,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\IMPROVEMENT_LOG.md": {
-    "mtime": 1787519807.1704028,
-    "ast_hash": "f3a1d2dc8aabe8c02e345dd06e54c032",
+    "mtime": 1787520441.4005005,
+    "ast_hash": "63a14a1e213df6c2a60968d0cf7cf4ab",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\render.yaml": {
@@ -890,8 +890,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\README.md": {
-    "mtime": 1787518978.9716434,
-    "ast_hash": "f5fe38a145666496736b6ee9fd050457",
+    "mtime": 1787520453.721032,
+    "ast_hash": "b0826dd2d5caca9e5266c5babdcde79e",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\tests\\booking-notes.test.js": {
@@ -977,6 +977,16 @@
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\tests\\account-deletion.test.js": {
     "mtime": 1787519668.7005944,
     "ast_hash": "f665f68ec65483eea96faa42d4500b9c",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\tests\\api-docs.test.js": {
+    "mtime": 1787520288.90678,
+    "ast_hash": "b339a7c4db6b4d6ce26ddaf6993a5080",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\utils\\apiDocs.js": {
+    "mtime": 1787520257.1694436,
+    "ast_hash": "7a2204db0fe7c1f7a1d74741ace04940",
     "semantic_hash": ""
   }
 }
