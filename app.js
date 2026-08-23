@@ -281,7 +281,23 @@ app.listen(PORT, () => {
         // and backfills every legacy row at 0 during this ALTER.
         { name: 'loyaltyPoints', typeSql: 'INTEGER NOT NULL DEFAULT 0' },
         { name: 'lifetimePointsEarned', typeSql: 'INTEGER NOT NULL DEFAULT 0' },
+        // Referral program (#28) — personal code + who referred the account.
+        // Both nullable: codes are assigned lazily on first request and every
+        // legacy row stays NULL. No UNIQUE in the typeSql on purpose —
+        // SQLite's ALTER TABLE ADD COLUMN cannot carry a UNIQUE constraint;
+        // uniqueness is enforced by the index created right below instead.
+        // NULLs never collide: SQLite and Postgres both treat NULLs as
+        // distinct in unique indexes, so all pre-code legacy rows coexist.
+        { name: 'referralCode', typeSql: 'VARCHAR(12)' },
+        { name: 'referredByUserId', typeSql: 'INTEGER' },
       ]);
+      // Unique referral codes (#28). IF NOT EXISTS keeps this idempotent; for
+      // tables freshly created by sync() the model already declared the
+      // column UNIQUE, so this simply mirrors that constraint onto databases
+      // whose users table predates the feature.
+      await sequelize.query(
+        'CREATE UNIQUE INDEX IF NOT EXISTS users_referral_code_uq ON users (referralCode)'
+      );
       // Salon replies to customer reviews — TEXT is valid on both SQLite and
       // Postgres, so no dialect switch needed here. customerNote is the
       // customer's own free-text note on a booking (same TEXT reasoning).

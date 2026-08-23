@@ -166,14 +166,17 @@ test('a failing balance increment is swallowed: transition succeeds, ledger unch
 
 // ── GET /api/user/loyalty ─────────────────────────────────────────────────
 
-test('GET /loyalty returns exactly { points, lifetimePointsEarned } scoped to the token', async () => {
+test('GET /loyalty returns { points, lifetimePointsEarned, referralCode } scoped to the token', async () => {
     const res = mockRes();
     await getLoyaltyBalance(mockReq({ user: { userId: customer.id, role: 'customer' } }), res);
 
     assert.equal(res.statusCode, 200);
-    assert.deepEqual(Object.keys(res.body).sort(), ['lifetimePointsEarned', 'points'], 'exact shape');
+    // #28 extended this payload: the caller's personal code now ships here
+    // (lazily assigned) so clients can show points + code together.
+    assert.deepEqual(Object.keys(res.body).sort(), ['lifetimePointsEarned', 'points', 'referralCode'], 'exact shape');
     assert.equal(res.body.points, POINTS_PER_APPOINTMENT);
     assert.equal(res.body.lifetimePointsEarned, POINTS_PER_APPOINTMENT);
+    assert.match(res.body.referralCode, /^[A-HJ-NP-Z2-9]{8}$/);
 
     // Another customer's token must not see anyone else's balance — scoping
     // is by req.user.userId alone.
@@ -232,7 +235,11 @@ test('legacy rows written before loyalty existed (columns omitted) read as 0 eve
     const res = mockRes();
     await getLoyaltyBalance(mockReq({ user: { userId: legacyId, role: 'customer' } }), res);
     assert.equal(res.statusCode, 200);
-    assert.deepEqual(res.body, { points: 0, lifetimePointsEarned: 0 }, 'legacy row treated as 0');
+    // #28: the loyalty read lazily assigns a referral code, so the legacy
+    // row leaves this call with points 0/0 AND a fresh personal code.
+    assert.equal(res.body.points, 0);
+    assert.equal(res.body.lifetimePointsEarned, 0);
+    assert.match(res.body.referralCode, /^[A-HJ-NP-Z2-9]{8}$/);
 });
 
 test('admin totalLoyaltyOutstanding sums every user balance exactly (lifetime excluded)', async () => {

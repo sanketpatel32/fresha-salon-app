@@ -23,6 +23,10 @@ const logger = require('../utils/logger');
 
 const POINTS_PER_APPOINTMENT = 10;
 
+// Referral bonus (#28): both sides get this once, the moment the referred
+// account is created. Instant and simple — no completion tracking.
+const REFERRAL_BONUS_POINTS = 100;
+
 /**
  * Award completion points for an appointment, exactly once.
  * Safe to await: never rejects. Returns { awarded } with the number of points
@@ -65,4 +69,51 @@ const awardForCompletedAppointment = async (appointment) => {
   }
 };
 
-module.exports = { awardForCompletedAppointment, POINTS_PER_APPOINTMENT };
+/**
+ * Award the referral bonus to BOTH sides of a referral, exactly at signup of
+ * the referred account (no completion tracking — instant by design).
+ *
+ * Called fire-and-forget from customer signup AFTER the new user row exists,
+ * so it must never throw into the signup flow: every failure is caught and
+ * logged, and the worst case is a silently missed bonus.
+ */
+const awardReferralBonus = async (newUserId, referrerUserId) => {
+  try {
+    if (!newUserId || !referrerUserId || newUserId === referrerUserId) {
+      return { awarded: 0 };
+    }
+
+    // One atomic increment across both rows — balance AND audit counter, in
+    // lockstep with awardForCompletedAppointment's ledger semantics. A row
+    // that vanished mid-flight simply affects 0 rows (no throw).
+    await User.increment(
+      { loyaltyPoints: REFERRAL_BONUS_POINTS, lifetimePointsEarned: REFERRAL_BONUS_POINTS },
+      { where: { id: [newUserId, referrerUserId] } }
+    );
+
+    // Fire-and-forget notifications for both parties (never awaited; unknown
+    // types fall through NotificationsPanel's generic-bell fallback safely).
+    const { notify } = require('./notificationService');
+    notify({
+      recipientRole: 'customer',
+      recipientId: referrerUserId,
+      type: 'referral.bonus',
+      title: `You earned ${REFERRAL_BONUS_POINTS} points`,
+      body: 'A friend signed up with your referral code.',
+    }).catch(() => { });
+    notify({
+      recipientRole: 'customer',
+      recipientId: newUserId,
+      type: 'referral.bonus',
+      title: `You earned ${REFERRAL_BONUS_POINTS} points`,
+      body: 'Welcome bonus for joining with a referral code.',
+    }).catch(() => { });
+
+    return { awarded: REFERRAL_BONUS_POINTS };
+  } catch (err) {
+    logger.error('Referral bonus award failed:', err.message);
+    return { awarded: 0 };
+  }
+};
+
+module.exports = { awardForCompletedAppointment, awardReferralBonus, POINTS_PER_APPOINTMENT, REFERRAL_BONUS_POINTS };

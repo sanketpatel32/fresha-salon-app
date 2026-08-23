@@ -36,6 +36,12 @@ const customerSignupSchema = z.object({
   email: z.string().email('A valid email is required'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   phoneNumber: z.string().min(7, 'A valid phone number is required').max(20),
+  // Referral code (#28): optional, trimmed + uppercased so lookups see the
+  // canonical form (stored codes are always uppercase). Max 12 mirrors the
+  // column width. A bad/unknown code NEVER blocks signup — it's resolved
+  // best-effort in the controller and silently ignored if it matches nobody.
+  referralCode: z.string().trim().toUpperCase()
+    .max(12, 'Referral code is too long').optional(),
 });
 
 const salonSignupSchema = z.object({

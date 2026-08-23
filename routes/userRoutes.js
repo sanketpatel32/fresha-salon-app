@@ -33,4 +33,8 @@ router.put('/edit', authMiddleware, userController.editProfile);
 // guard rejects salon/staff/admin tokens (they carry no userId to scope by).
 router.get('/loyalty', authMiddleware, authMiddleware.requireRole('customer'), userController.getLoyaltyBalance);
 
+// The customer's personal referral code (#28) — lazily assigned on first
+// read. Customer-only for the same reason as /loyalty.
+router.get('/referral', authMiddleware, authMiddleware.requireRole('customer'), userController.getMyReferralCode);
+
 module.exports = router;

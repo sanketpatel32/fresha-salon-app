@@ -1,7 +1,7 @@
 {
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\app.js": {
-    "mtime": 1787515452.1049025,
-    "ast_hash": "28434b0276805dea4abb0f38066696f2",
+    "mtime": 1787516045.1922743,
+    "ast_hash": "fa25e6e19ed9066232051cc51eea1b5d",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\package.json": {
@@ -65,8 +65,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\controllers\\userController.js": {
-    "mtime": 1787515436.4608338,
-    "ast_hash": "c6d08aa6d89100b136e5481ba3470fa1",
+    "mtime": 1787516026.357589,
+    "ast_hash": "c1c41d2e48f806145dd3a102e015a013",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\frontend\\.oxlintrc.json": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\models\\userModel.js": {
-    "mtime": 1787515393.8804073,
-    "ast_hash": "dec9ce36dc6795a165d8ed4026584599",
+    "mtime": 1787515959.1307857,
+    "ast_hash": "69299b4d27b6698cf8017b2ea51e75ec",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\public\\js\\cashfree.js": {
@@ -445,8 +445,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\routes\\userRoutes.js": {
-    "mtime": 1787515436.4608338,
-    "ast_hash": "eddb94c4098db94ed076d60940793179",
+    "mtime": 1787516032.4917195,
+    "ast_hash": "5103c8aafa1d554f845f2ad3322c1b26",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\services\\availabilityService.js": {
@@ -540,8 +540,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\utils\\validators.js": {
-    "mtime": 1787514674.9587264,
-    "ast_hash": "fafd3d9f02f21fd5d2069fc5deb1d819",
+    "mtime": 1787515968.7441413,
+    "ast_hash": "dda994ab4cd1d7a8d2309577654c70e9",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\DEPLOYMENT.md": {
@@ -555,8 +555,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\IMPROVEMENT_LOG.md": {
-    "mtime": 1787515603.8624582,
-    "ast_hash": "fb8a8bb18d9b05e67109a97b6ead3c62",
+    "mtime": 1787516438.3319197,
+    "ast_hash": "25eca951f56f3e7cacb8e09bee78132c",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\render.yaml": {
@@ -920,13 +920,23 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\services\\loyaltyService.js": {
-    "mtime": 1787515411.6146505,
-    "ast_hash": "17ed890b1dafd91fe3999f7a3ee220f3",
+    "mtime": 1787515941.343712,
+    "ast_hash": "b880435ade8cd3560365d57e2602c1ad",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\tests\\loyalty.test.js": {
-    "mtime": 1787515532.6108923,
-    "ast_hash": "28426dedc03d860e040ae5093cccc87a",
+    "mtime": 1787516247.197449,
+    "ast_hash": "12532105f57678bb6223241433796641",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\services\\referralService.js": {
+    "mtime": 1787515918.9473147,
+    "ast_hash": "22bde1a740d52bc1f08be5d9b8ce38ef",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\tests\\referrals.test.js": {
+    "mtime": 1787516278.4247465,
+    "ast_hash": "43286bc89f39543f7e81b6f3c68b497c",
     "semantic_hash": ""
   }
 }

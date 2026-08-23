@@ -6,9 +6,11 @@ const Sequelize = require('sequelize');
 const crypto = require('crypto');
 const logger = require('../utils/logger');
 const emailService = require('../services/emailService');
+const { ensureReferralCode } = require('../services/referralService');
+const { awardReferralBonus } = require('../services/loyaltyService');
 
 const handleUserSignup = async (req, res) => {
-    const { name, email, password, phoneNumber } = req.body;
+    const { name, email, password, phoneNumber, referralCode } = req.body;
 
     try {
         // Check if the user already exists
@@ -18,9 +20,42 @@ const handleUserSignup = async (req, res) => {
             return res.status(409).json({ message: "User already exists" });
         }
 
+        // Referral (#28): resolve the cited code BEFORE the create so
+        // referredByUserId lands atomically with the row. Best-effort by
+        // contract — an unknown/garbage code is silently ignored and a lookup
+        // failure must never block signup. Stored codes are always uppercase
+        // and the schema uppercased the input, so this equality IS the
+        // case-insensitive match; the email comparison guards the (normally
+        // impossible) self-referral defensively.
+        let referrer = null;
+        try {
+            if (referralCode) {
+                const found = await userModel.findOne({
+                    where: { referralCode: String(referralCode).trim().toUpperCase() },
+                });
+                if (found && String(found.email).toLowerCase() !== String(email).toLowerCase()) {
+                    referrer = found;
+                }
+            }
+        } catch (refErr) {
+            logger.error('Referral resolution failed (signup proceeds unlinked):', refErr);
+            referrer = null;
+        }
+
         // Hash the password before storing it
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = await userModel.create({ name, email, password: hashedPassword, phoneNumber });
+        const newUser = await userModel.create({
+            name, email, password: hashedPassword, phoneNumber,
+            referredByUserId: referrer ? referrer.id : null,
+        });
+
+        // Referral bonus for BOTH sides — fire-and-forget AFTER the account
+        // exists; awardReferralBonus never throws (its own failures are
+        // swallowed inside), so a broken ledger can never fail a signup.
+        if (referrer) {
+            awardReferralBonus(newUser.id, referrer.id)
+                .catch((bonusErr) => logger.error('Referral bonus error:', bonusErr));
+        }
 
         // Soft email verification: only issue a token when a mail can
         // actually be sent — otherwise the account is created unverified and
@@ -281,24 +316,59 @@ const getUserProfile = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
-// ── Loyalty points (#27) ────────────────────────────────────────────────
+// ── Loyalty points (#27) + referral code (#28) ──────────────────────────
 // The caller's own balance. Values are coerced with `|| 0` so a legacy row
 // that somehow carries NULL (or a row written before the boot backfill ran)
-// reads as zero rather than leaking null to the SPA.
+// reads as zero rather than leaking null to the SPA. The response also
+// carries the caller's personal referral code (lazily assigned here on
+// first read, so clients can show points and code side by side).
 const getLoyaltyBalance = async (req, res) => {
     try {
-        const user = await userModel.findByPk(req.user.userId, {
-            attributes: ['id', 'loyaltyPoints', 'lifetimePointsEarned'],
-        });
+        // Full instance on purpose: ensureReferralCode may need to save a
+        // freshly generated code onto the row.
+        const user = await userModel.findByPk(req.user.userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
+        const referralCode = await ensureReferralCode(user);
         return res.status(200).json({
             points: Number(user.loyaltyPoints) || 0,
             lifetimePointsEarned: Number(user.lifetimePointsEarned) || 0,
+            referralCode: referralCode || null,
         });
     } catch (error) {
         logger.error('Error fetching loyalty balance:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// ── Referral code (#28) ────────────────────────────────────────────────
+// The caller's personal code, assigned lazily on first request (generation
+// never happens at signup). APP_URL is the existing base-URL convention used
+// for building frontend links (verification / password-reset emails), so when
+// it is set the response gains a ready-to-share signup link; unset → the
+// field is omitted entirely rather than sent as a broken relative URL.
+const getMyReferralCode = async (req, res) => {
+    try {
+        const user = await userModel.findByPk(req.user.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const code = await ensureReferralCode(user);
+        if (!code) {
+            logger.error(`Referral assignment failed for user ${req.user.userId}`);
+            return res.status(500).json({ message: 'Internal server error' });
+        }
+
+        const payload = { referralCode: code };
+        const appUrl = process.env.APP_URL || '';
+        if (appUrl) {
+            payload.referralUrl = `${appUrl.replace(/\/+$/, '')}/user/signup?ref=${code}`;
+        }
+        return res.status(200).json(payload);
+    } catch (error) {
+        logger.error('Error fetching referral code:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
@@ -329,4 +399,4 @@ const editProfile = async (req, res) => {
 };
 
 
-module.exports = { handleUserLogin, handleUserSignup, searchUsers, getUserProfile, editProfile, forgotPassword, resetPassword, verifyEmail, resendVerification, getLoyaltyBalance };
+module.exports = { handleUserLogin, handleUserSignup, searchUsers, getUserProfile, editProfile, forgotPassword, resetPassword, verifyEmail, resendVerification, getLoyaltyBalance, getMyReferralCode };

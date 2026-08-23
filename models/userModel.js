@@ -72,6 +72,25 @@ const User = sequelize.define('user', {
         defaultValue: 0
     },
 
+    // Referral program (#28). referralCode is the customer's personal code —
+    // assigned LAZILY on first request (never at signup), unique across the
+    // platform. Nullable, and every legacy row is NULL: SQLite/Postgres both
+    // treat NULLs as distinct in unique indexes, so pre-code users never
+    // collide (the boot-time index in app.js enforces this on upgraded DBs,
+    // since SQLite's ALTER TABLE cannot add a UNIQUE column). Codes use an
+    // unambiguous 32-char alphabet — see services/referralService.js.
+    // referredByUserId records who referred this account; points are credited
+    // once at signup via awardReferralBonus (no completion tracking).
+    referralCode: {
+        type: Sequelize.STRING(12),
+        allowNull: true,
+        unique: true
+    },
+    referredByUserId: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+    },
+
 }, { timestamps: true });
 
 module.exports = User;
