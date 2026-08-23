@@ -348,6 +348,35 @@ const staffDirectorySchema = z.object({
   salonId: z.coerce.number().int().positive('A valid salon id is required'),
 });
 
+// ── Weekly working hours ───────────────────────────────────────────────
+// Per-day schedule editor; once saved it replaces the legacy single-window
+// model for that salon (see availabilityService.validateSalonHours). Exactly
+// seven keys "0"-"6" (= Sunday..Saturday), each { open, close, closed }:
+// strict 24h HH:mm times with open<close REQUIRED on days the salon is open;
+// closed:true days may omit times entirely (enforcement ignores them). The
+// parsed object is what gets JSON.stringify'd into Salons.weeklyHours, so
+// the stored form is always canonical.
+const weekDaySchema = z.object({
+  open: z.string().regex(TIME_RE, 'Times must be 24h HH:mm').optional(),
+  close: z.string().regex(TIME_RE, 'Times must be 24h HH:mm').optional(),
+  closed: z.boolean('closed must be true or false'),
+})
+  .refine((d) => d.closed || d.open !== undefined, {
+    message: 'Open time is required on days the salon is open', path: ['open'],
+  })
+  .refine((d) => d.closed || d.close !== undefined, {
+    message: 'Close time is required on days the salon is open', path: ['close'],
+  })
+  .refine((d) => d.closed || !d.open || !d.close || d.close > d.open, {
+    message: 'Closing time must be after opening time', path: ['close'],
+  });
+
+const weeklyHoursSchema = z.object({
+  weeklyHours: z.object(Object.fromEntries(
+    ['0', '1', '2', '3', '4', '5', '6'].map((k) => [k, weekDaySchema])
+  )),
+});
+
 module.exports = {
   validate,
   SLOT_STEP_OPTIONS,
@@ -383,5 +412,6 @@ module.exports = {
   promoCreateSchema,
   promoUpdateSchema,
   bookingConfigSchema,
+  weeklyHoursSchema,
   staffDirectorySchema,
 };

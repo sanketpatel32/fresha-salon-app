@@ -13,11 +13,14 @@ const { Op } = require('sequelize');
 /**
  * Public responses expose the photo gallery as a parsed array field
  * `images` (parseGallery never throws, so corrupt DB values degrade to [])
- * and drop the raw JSON TEXT blob from the payload.
+ * and drop the raw JSON TEXT blob from the payload. The weeklyHours raw
+ * blob stays server-side only for the same reason — deleting it keeps
+ * public payloads identical to before the column existed.
  */
 const attachGallery = (salon) => {
     salon.dataValues.images = parseGallery(salon.galleryImages);
     delete salon.dataValues.galleryImages;
+    delete salon.dataValues.weeklyHours;
 };
 
 // Attach avgRating + reviewCount to each salon by aggregating its appointments' ratings.

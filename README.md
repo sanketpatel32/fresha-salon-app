@@ -81,6 +81,7 @@ PATCH  /api/salonsdashboard/promos/:id        # toggle/edit (code/type immutable
 DELETE /api/salonsdashboard/promos/:id        # soft delete (isActive=false)
 PUT    /api/salonsdashboard/gallery           # upsert up-to-10 image URLs
 GET/PUT /api/salonsdashboard/booking-config   # lead time + slot step
+GET/PUT /api/salonsdashboard/hours            # per-day weekly schedule (7-day JSON)
 
 GET    /api/staff/today                   # staff member's today schedule
 
@@ -109,7 +110,7 @@ npm run dev                # nodemon on http://localhost:3000
 ### Tests
 
 ```bash
-npm test                   # 207 tests across tests/*.test.js (node:test runner)
+npm test                   # 244 tests across tests/*.test.js (node:test runner)
 ```
 
 ### Frontend build
@@ -122,6 +123,6 @@ The Express server serves `frontend/dist` statically and falls back to its `inde
 
 ## Docs
 
-- [`IMPROVEMENT_LOG.md`](./IMPROVEMENT_LOG.md) — 21-iteration improvement loop log (security, features, tests).
+- [`IMPROVEMENT_LOG.md`](./IMPROVEMENT_LOG.md) — 24-iteration improvement loop log (security, features, tests).
 - [`DEPLOYMENT.md`](./DEPLOYMENT.md) — Render deployment notes.
 - [`SAMPLE_DATA.md`](./SAMPLE_DATA.md) — seeded demo accounts.

@@ -17,6 +17,7 @@ const {
   validateSalonHours,
   validateLeadTime,
   resolveSlotStepMinutes,
+  getEffectiveWeeklyHours,
   staffForService,
   conflictingStaffIds,
 } = require('../services/availabilityService');
@@ -91,6 +92,10 @@ const appointmentChecker = async (req, res) => {
         res.status(200).json({
             availableStaff: freeStaff,
             slotStepMinutes: resolveSlotStepMinutes(salon),
+            // Informational: the effective per-day schedule (stored overrides
+            // merged over legacy defaults) so clients can grey out closed
+            // days / off-hours before submitting. Additive only.
+            weeklyHours: getEffectiveWeeklyHours(salon),
         });
     } catch (error) {
         console.error('Error in appointmentChecker:', error);

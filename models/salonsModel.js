@@ -94,6 +94,19 @@ const Salons = sequelize.define('salons', {
         allowNull: true,
         defaultValue: null,
     },
+    // Weekly working hours: JSON.stringify of exactly seven day entries
+    // ("0"=Sunday .. "6"=Saturday), each { open, close, closed } with strict
+    // 24h HH:mm times; closed:true days ignore open/close. null (the state
+    // until the salon saves a schedule once) keeps the legacy behavior of
+    // the single openingTime/closingTime window above on every open day.
+    // Enforced in services/availabilityService.js on every booking path;
+    // parsed defensively (parseWeeklyHours) so corrupt values degrade to
+    // that same legacy logic instead of erroring.
+    weeklyHours: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+        defaultValue: null,
+    },
 }, { timestamps: true });
 
 module.exports = Salons;

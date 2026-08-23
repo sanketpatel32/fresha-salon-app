@@ -5,6 +5,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 const salonStaff = require('../controllers/salonStaffController');
 const salonGallery = require('../controllers/salonGalleryController');
 const salonBookingConfig = require('../controllers/salonBookingConfigController');
+const salonWorkingHours = require('../controllers/salonWorkingHoursController');
 const {
   validate,
   serviceAddSchema,
@@ -16,6 +17,7 @@ const {
   promoUpdateSchema,
   gallerySchema,
   bookingConfigSchema,
+  weeklyHoursSchema,
 } = require('../utils/validators');
 
 // The dead res.sendFile HTML routes are removed — the SPA serves all views.
@@ -50,6 +52,12 @@ router.put('/gallery', salonOnly, validate(gallerySchema), salonGallery.updateGa
 // calling salon; PUT replaces the whole policy (slotStep null = default 30).
 router.get('/booking-config', salonOnly, salonBookingConfig.getBookingConfig);
 router.put('/booking-config', salonOnly, validate(bookingConfigSchema), salonBookingConfig.updateBookingConfig);
+
+// Working hours — GET returns the effective 7-day schedule (stored overrides
+// merged over the legacy single-window defaults); PUT replaces it wholesale.
+// Token-scoped to the calling salon, like every dashboard endpoint.
+router.get('/hours', salonOnly, salonWorkingHours.getHours);
+router.put('/hours', salonOnly, validate(weeklyHoursSchema), salonWorkingHours.updateHours);
 
 // Promo codes (DELETE is a soft delete — isActive=false, row kept for audit)
 router.post('/promos', salonOnly, validate(promoCreateSchema), salonPromos.createPromo);
