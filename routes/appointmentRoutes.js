@@ -1,7 +1,8 @@
 const appointmentController = require('../controllers/appointmentController');
+const waitlistController = require('../controllers/waitlistController');
 const router = require('express').Router();
 const authMiddleware = require('../middlewares/authMiddleware');
-const { validate, appointmentCheckSchema, customerReviewSchema, staffReviewSchema, reviewReplySchema, statusUpdateSchema, rescheduleSchema, csvExportSchema } = require('../utils/validators');
+const { validate, appointmentCheckSchema, customerReviewSchema, staffReviewSchema, reviewReplySchema, statusUpdateSchema, rescheduleSchema, csvExportSchema, waitlistJoinSchema } = require('../utils/validators');
 
 // Availability check — requires an authenticated customer.
 router.post('/check', authMiddleware, authMiddleware.requireRole('customer'), validate(appointmentCheckSchema), appointmentController.appointmentChecker);
@@ -38,6 +39,15 @@ router.put('/:appointmentId/reply', authMiddleware, authMiddleware.requireRole('
 // Reschedule — customer only (ownership + >24h rule enforced in the controller).
 // Declared with the other parameterized appointment actions.
 router.patch('/:appointmentId/reschedule', authMiddleware, authMiddleware.requireRole('customer'), validate(rescheduleSchema), appointmentController.rescheduleAppointment);
+
+// ── Waitlist (#30) — customer-only, static paths (no param collisions) ──
+// Join a salon's day queue. Schema 400s garbage/past dates; the controller
+// enforces salon existence/activity + duplicate-active rules.
+router.post('/waitlist', authMiddleware, authMiddleware.requireRole('customer'), validate(waitlistJoinSchema), waitlistController.joinWaitlist);
+// My entries, newest-first, legacy bare-array/envelope pagination contract.
+router.get('/waitlist', authMiddleware, authMiddleware.requireRole('customer'), waitlistController.getMyWaitlist);
+// Soft-leave: sets status='left'; foreign/unknown ids 404 in the controller.
+router.delete('/waitlist/:id', authMiddleware, authMiddleware.requireRole('customer'), waitlistController.leaveWaitlist);
 
 // Status workflow (accept/decline/complete) — salon or staff.
 router.put('/cancel/:appointmentId', authMiddleware, appointmentController.cancelAppointment);

@@ -11,6 +11,7 @@ const { paginateQuery, buildMeta } = require('../utils/pagination');
 const { toCsv } = require('../utils/csv');
 const sequelize = require('../utils/database');
 const { notify } = require('../services/notificationService');
+const { findNextWaitlistEntry } = require('../services/waitlistService');
 const { sendBookingStatusEmail } = require('../services/emailService');
 const { awardForCompletedAppointment } = require('../services/loyaltyService');
 const {
@@ -517,6 +518,12 @@ const cancelAppointment = async (req, res) => {
         // Fire-and-forget: the customer gets an emailed cancellation record of
         // their own action. Never awaited — see sendCustomerStatusEmail.
         sendCustomerStatusEmail(appointment.id, 'cancelled').catch(() => { });
+        // Fire-and-forget (#30): a cancelled booking frees capacity for this
+        // salon+date — alert the oldest matching waiter whose party fits.
+        // findNextWaitlistEntry never throws (notificationService contract),
+        // so a broken waitlist can't touch this successful cancellation.
+        findNextWaitlistEntry(appointment.salonId, appointment.date, appointment.partySize)
+            .catch(() => { }); // belt-and-braces: never reject into the cancel flow
         res.status(200).json({ message: 'Appointment cancelled successfully', appointment });
     } catch (error) {
         console.error('Error cancelling appointment:', error);

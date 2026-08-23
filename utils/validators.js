@@ -385,6 +385,30 @@ const staffDirectorySchema = z.object({
   salonId: z.coerce.number().int().positive('A valid salon id is required'),
 });
 
+// ── Waitlist (#30) ─────────────────────────────────────────────────────
+// Joining a salon's waitlist for a day: the date must parse as YYYY-MM-DD
+// and be today-or-later (YYYY-MM-DD strings compare correctly as plain
+// text, same boundary trick as rescheduleSchema). partySize mirrors the
+// booking schema's bounds — coerced, whole-numbered, hard 1..20 with an
+// explicit default of 1 so the parsed body always carries a number.
+const waitlistJoinSchema = z.object({
+  salonId: z.coerce.number().int().positive('A valid salon id is required'),
+  date: z.string().regex(DATE_ONLY_RE, 'date must be YYYY-MM-DD').refine(
+    (d) => d >= new Date().toISOString().slice(0, 10),
+    { message: 'Waitlist date must be today or later' }
+  ),
+  partySize: z.coerce.number().int('Party size must be a whole number')
+    .min(1, 'Party size must be at least 1')
+    .max(20, 'Party size cannot exceed 20')
+    .default(1),
+});
+
+// Salon dashboard day sheet: GET /waitlist?date=YYYY-MM-DD. The date filter
+// is REQUIRED — an unbounded listing would silently mix every queued day.
+const waitlistDateSchema = z.object({
+  date: z.string().regex(DATE_ONLY_RE, 'date must be YYYY-MM-DD'),
+});
+
 // ── Weekly working hours ───────────────────────────────────────────────
 // Per-day schedule editor; once saved it replaces the legacy single-window
 // model for that salon (see availabilityService.validateSalonHours). Exactly
@@ -451,4 +475,6 @@ module.exports = {
   bookingConfigSchema,
   weeklyHoursSchema,
   staffDirectorySchema,
+  waitlistJoinSchema,
+  waitlistDateSchema,
 };

@@ -6,6 +6,7 @@ const salonStaff = require('../controllers/salonStaffController');
 const salonGallery = require('../controllers/salonGalleryController');
 const salonBookingConfig = require('../controllers/salonBookingConfigController');
 const salonWorkingHours = require('../controllers/salonWorkingHoursController');
+const waitlistController = require('../controllers/waitlistController');
 const {
   validate,
   serviceAddSchema,
@@ -18,6 +19,7 @@ const {
   gallerySchema,
   bookingConfigSchema,
   weeklyHoursSchema,
+  waitlistDateSchema,
 } = require('../utils/validators');
 
 // The dead res.sendFile HTML routes are removed — the SPA serves all views.
@@ -64,5 +66,10 @@ router.post('/promos', salonOnly, validate(promoCreateSchema), salonPromos.creat
 router.get('/promos', salonOnly, salonPromos.listPromos);
 router.patch('/promos/:id', salonOnly, validate(promoUpdateSchema), salonPromos.updatePromo);
 router.delete('/promos/:id', salonOnly, salonPromos.deletePromo);
+
+// Waitlist day sheet (#30) — who is queued for a given date, oldest-first,
+// with customer names. date is REQUIRED (validated YYYY-MM-DD at the route);
+// rows are token-scoped to the calling salon in the controller.
+router.get('/waitlist', salonOnly, validate(waitlistDateSchema, 'query'), waitlistController.getSalonDayWaitlist);
 
 module.exports = router;
