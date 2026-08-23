@@ -409,6 +409,20 @@ const waitlistDateSchema = z.object({
   date: z.string().regex(DATE_ONLY_RE, 'date must be YYYY-MM-DD'),
 });
 
+// ── Salon analytics window (#31) ──────────────────────────────────────
+// GET /salonsdashboard/analytics/revenue|top-services?days=N. Coerced (the
+// SPA may send strings), whole numbers only. Out-of-range integers are
+// CLAMPED into 1..90 rather than rejected — an analytics window is a
+// read-only display preference and a dashboard should render its nearest
+// legal window instead of erroring (same clamp style as the pagination
+// helpers). Non-numeric garbage has no sane clamp target and still 400s:
+// z.coerce.number() yields NaN / ±Infinity, which fail the number/int check.
+const analyticsWindowSchema = z.object({
+  days: z.coerce.number().int('days must be a whole number')
+    .transform((v) => Math.min(90, Math.max(1, v)))
+    .default(30),
+});
+
 // ── Weekly working hours ───────────────────────────────────────────────
 // Per-day schedule editor; once saved it replaces the legacy single-window
 // model for that salon (see availabilityService.validateSalonHours). Exactly
@@ -475,6 +489,7 @@ module.exports = {
   bookingConfigSchema,
   weeklyHoursSchema,
   staffDirectorySchema,
+  analyticsWindowSchema,
   waitlistJoinSchema,
   waitlistDateSchema,
 };

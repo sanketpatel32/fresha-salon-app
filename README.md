@@ -83,6 +83,8 @@ DELETE /api/salonsdashboard/promos/:id        # soft delete (isActive=false)
 PUT    /api/salonsdashboard/gallery           # upsert up-to-10 image URLs
 GET/PUT /api/salonsdashboard/booking-config   # lead time + slot step
 GET/PUT /api/salonsdashboard/hours            # per-day weekly schedule (7-day JSON)
+GET    /api/salonsdashboard/analytics/revenue?days      # daily revenue/tips/discounts/bookings (1..90, default 30)
+GET    /api/salonsdashboard/analytics/top-services?days # top 5 completed services in window
 
 GET    /api/staff/today                   # staff member's today schedule
 
