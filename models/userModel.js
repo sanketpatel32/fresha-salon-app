@@ -55,6 +55,23 @@ const User = sequelize.define('user', {
         allowNull: true
     },
 
+    // Loyalty points (#27): a flat 10 points per completed appointment.
+    // loyaltyPoints is the current (spendable) balance; lifetimePointsEarned
+    // is the cumulative, never-decrementing audit counter. Both are added to
+    // existing databases as INTEGER NOT NULL DEFAULT 0 (boot backfill in
+    // app.js) so every legacy row starts at zero; readers additionally coerce
+    // null/undefined to 0 defensively.
+    loyaltyPoints: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+    },
+    lifetimePointsEarned: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+    },
+
 }, { timestamps: true });
 
 module.exports = User;

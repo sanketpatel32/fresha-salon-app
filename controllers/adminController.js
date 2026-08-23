@@ -253,6 +253,17 @@ const getPlatformStats = async (req, res) => {
         });
         const totalTips = Number(tipsRow ? tipsRow.get('totalTips') : 0);
 
+        // Outstanding loyalty liability (#27): SUM(loyaltyPoints) over users —
+        // the total unspent balance currently owed to customers. COALESCE
+        // keeps this 0 (not null) on an empty table — same fn/col/literal
+        // aggregation style as revenueTotal/totalTips above. SUM skips NULLs,
+        // so any pre-backfill row that somehow carries NULL contributes 0
+        // rather than poisoning the sum.
+        const loyaltyRow = await userModel.findOne({
+            attributes: [[fn('COALESCE', fn('SUM', col('loyaltyPoints')), literal('0')), 'outstanding']],
+        });
+        const totalLoyaltyOutstanding = Number(loyaltyRow ? loyaltyRow.get('outstanding') : 0);
+
         // New customer signups in the trailing 7 days.
         const weekAgo = new Date(Date.now() - 7 * 24 * 3600 * 1000);
         const newCustomers = await userModel.count({
@@ -266,6 +277,7 @@ const getPlatformStats = async (req, res) => {
             appointmentsByStatus,
             revenueTotal,
             totalTips,
+            totalLoyaltyOutstanding,
             last7Days: { newCustomers },
             serverTimestamp: new Date().toISOString(),
         });

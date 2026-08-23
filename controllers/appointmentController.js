@@ -12,6 +12,7 @@ const { toCsv } = require('../utils/csv');
 const sequelize = require('../utils/database');
 const { notify } = require('../services/notificationService');
 const { sendBookingStatusEmail } = require('../services/emailService');
+const { awardForCompletedAppointment } = require('../services/loyaltyService');
 const {
   computeEndTime,
   validateSalonHours,
@@ -657,6 +658,16 @@ const updateAppointmentStatus = async (req, res) => {
 
         appointment.status = newStatus;
         await appointment.save();
+
+        // Loyalty (#27): a completed booking earns its customer a flat 10
+        // points (Appointments store no price — see the CSV note above — so
+        // there is no amount to scale by; per booking regardless of partySize).
+        // The helper stamps pointsAwardedAt first, so replays can't double-
+        // credit, and never throws — a broken ledger can't undo this
+        // successful transition.
+        if (newStatus === 'completed') {
+            await awardForCompletedAppointment(appointment);
+        }
 
         // Fire-and-forget: tell the customer their booking moved. Only the
         // statuses a customer cares about get a notification; notify() runs

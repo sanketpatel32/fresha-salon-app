@@ -281,6 +281,28 @@ const getUserProfile = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+// ── Loyalty points (#27) ────────────────────────────────────────────────
+// The caller's own balance. Values are coerced with `|| 0` so a legacy row
+// that somehow carries NULL (or a row written before the boot backfill ran)
+// reads as zero rather than leaking null to the SPA.
+const getLoyaltyBalance = async (req, res) => {
+    try {
+        const user = await userModel.findByPk(req.user.userId, {
+            attributes: ['id', 'loyaltyPoints', 'lifetimePointsEarned'],
+        });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.status(200).json({
+            points: Number(user.loyaltyPoints) || 0,
+            lifetimePointsEarned: Number(user.lifetimePointsEarned) || 0,
+        });
+    } catch (error) {
+        logger.error('Error fetching loyalty balance:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 const editProfile = async (req, res) => {
     const userId = req.user.userId; // Get the user ID from the JWT token
     const { name, email, phoneNumber } = req.body;
@@ -307,4 +329,4 @@ const editProfile = async (req, res) => {
 };
 
 
-module.exports = { handleUserLogin, handleUserSignup, searchUsers, getUserProfile, editProfile, forgotPassword, resetPassword, verifyEmail, resendVerification };
+module.exports = { handleUserLogin, handleUserSignup, searchUsers, getUserProfile, editProfile, forgotPassword, resetPassword, verifyEmail, resendVerification, getLoyaltyBalance };

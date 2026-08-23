@@ -89,6 +89,16 @@ const Appointment = sequelize.define('Appointment', {
         allowNull: true, // nullable for legacy rows created before this column existed
         unique: true, // DB-level guard against duplicate appointment creation on payment replay
     },
+    // Loyalty idempotency stamp (#27): set the moment completion points are
+    // CLAIMED for this booking, before the balance is touched. Null = nothing
+    // awarded yet. Any re-entry into the award path (a replayed request, a
+    // future second caller) sees the stamp and bails, so a booking earns
+    // exactly once. Backfilled at boot via ensureColumns (nullable — legacy
+    // bookings completed before loyalty existed stay legitimately unstamped).
+    pointsAwardedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
 });
 
 module.exports = Appointment;

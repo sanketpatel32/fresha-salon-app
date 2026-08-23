@@ -276,6 +276,11 @@ app.listen(PORT, () => {
           name: 'verificationExpiresAt',
           typeSql: sequelize.getDialect() === 'postgres' ? 'TIMESTAMP' : 'DATETIME',
         },
+        // Loyalty points (#27) — the balance and its cumulative audit counter.
+        // INTEGER NOT NULL DEFAULT 0 works identically on SQLite and Postgres
+        // and backfills every legacy row at 0 during this ALTER.
+        { name: 'loyaltyPoints', typeSql: 'INTEGER NOT NULL DEFAULT 0' },
+        { name: 'lifetimePointsEarned', typeSql: 'INTEGER NOT NULL DEFAULT 0' },
       ]);
       // Salon replies to customer reviews — TEXT is valid on both SQLite and
       // Postgres, so no dialect switch needed here. customerNote is the
@@ -286,6 +291,12 @@ app.listen(PORT, () => {
         { name: 'salonReply', typeSql: 'TEXT' },
         { name: 'customerNote', typeSql: 'TEXT' },
         { name: 'partySize', typeSql: 'INTEGER NOT NULL DEFAULT 1' },
+        // Loyalty idempotency stamp (#27) — nullable DATETIME on SQLite,
+        // TIMESTAMP on Postgres (same dialect split as resetTokenExpiresAt).
+        {
+          name: 'pointsAwardedAt',
+          typeSql: sequelize.getDialect() === 'postgres' ? 'TIMESTAMP' : 'DATETIME',
+        },
       ]);
       // Promo-code ledger columns on payments. originalAmount/discountAmount
       // preserve the pre-discount price and what the promo took off, while

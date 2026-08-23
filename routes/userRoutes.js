@@ -29,4 +29,8 @@ router.get('/search', authMiddleware, authMiddleware.requireRole('admin'), userC
 router.get('/profile', authMiddleware, userController.getUserProfile);
 router.put('/edit', authMiddleware, userController.editProfile);
 
+// A customer's own loyalty balance (#27). Customer tokens only: the role
+// guard rejects salon/staff/admin tokens (they carry no userId to scope by).
+router.get('/loyalty', authMiddleware, authMiddleware.requireRole('customer'), userController.getLoyaltyBalance);
+
 module.exports = router;

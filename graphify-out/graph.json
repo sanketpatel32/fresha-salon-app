@@ -187,7 +187,7 @@
       "label": "{ migrateCategories }",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L321",
+      "source_location": "L332",
       "id": "fresha_salon_app_app_migratecategories",
       "community": 4,
       "norm_label": "{ migratecategories }"
@@ -702,7 +702,7 @@
       "source_file": "controllers/adminController.js",
       "source_location": "L101",
       "id": "controllers_admincontroller_deleteappointment",
-      "community": 122,
+      "community": 30,
       "norm_label": "deleteappointment()"
     },
     {
@@ -720,7 +720,7 @@
       "source_file": "controllers/adminController.js",
       "source_location": "L165",
       "id": "controllers_admincontroller_deleteuser",
-      "community": 122,
+      "community": 30,
       "norm_label": "deleteuser()"
     },
     {
@@ -736,7 +736,7 @@
       "label": "getAuditLog()",
       "file_type": "code",
       "source_file": "controllers/adminController.js",
-      "source_location": "L278",
+      "source_location": "L290",
       "id": "controllers_admincontroller_getauditlog",
       "community": 109,
       "norm_label": "getauditlog()"
@@ -877,10 +877,19 @@
       "norm_label": "{ sendbookingstatusemail }"
     },
     {
-      "label": "{\r\n  computeEndTime,\r\n  validateSalonHours,\r\n  validateLeadTime,\r\n  resolveSlotStepMinutes,\r\n  getEffectiveWeeklyHours,\r\n  staffForService,\r\n  conflictingStaffIds,\r\n}",
+      "label": "{ awardForCompletedAppointment }",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
       "source_location": "L15",
+      "id": "controllers_appointmentcontroller_awardforcompletedappointment",
+      "community": 9,
+      "norm_label": "{ awardforcompletedappointment }"
+    },
+    {
+      "label": "{\r\n  computeEndTime,\r\n  validateSalonHours,\r\n  validateLeadTime,\r\n  resolveSlotStepMinutes,\r\n  getEffectiveWeeklyHours,\r\n  staffForService,\r\n  conflictingStaffIds,\r\n}",
+      "file_type": "code",
+      "source_file": "controllers/appointmentController.js",
+      "source_location": "L16",
       "id": "controllers_appointmentcontroller_computeendtime_validatesalonhours_validateleadtime_resolveslotstepminutes_geteffectiveweeklyhours_staffforservice_conflictingstaffids",
       "community": 9,
       "norm_label": "{\r\n  computeendtime,\r\n  validatesalonhours,\r\n  validateleadtime,\r\n  resolveslotstepminutes,\r\n  geteffectiveweeklyhours,\r\n  staffforservice,\r\n  conflictingstaffids,\r\n}"
@@ -889,16 +898,16 @@
       "label": "refreshSalonRatingCache()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L30",
+      "source_location": "L31",
       "id": "controllers_appointmentcontroller_refreshsalonratingcache",
-      "community": 35,
+      "community": 9,
       "norm_label": "refreshsalonratingcache()"
     },
     {
       "label": "{ v4: uuidv4 }",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L50",
+      "source_location": "L51",
       "id": "controllers_appointmentcontroller_v4_uuidv4",
       "community": 9,
       "norm_label": "{ v4: uuidv4 }"
@@ -907,7 +916,7 @@
       "label": "appointmentChecker()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L57",
+      "source_location": "L58",
       "id": "controllers_appointmentcontroller_appointmentchecker",
       "community": 106,
       "norm_label": "appointmentchecker()"
@@ -916,7 +925,7 @@
       "label": "getAllAppointmentsByUserId()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L106",
+      "source_location": "L107",
       "id": "controllers_appointmentcontroller_getallappointmentsbyuserid",
       "community": 109,
       "norm_label": "getallappointmentsbyuserid()"
@@ -925,7 +934,7 @@
       "label": "getScheduledAppointmentsBySalonId()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L157",
+      "source_location": "L158",
       "id": "controllers_appointmentcontroller_getscheduledappointmentsbysalonid",
       "community": 109,
       "norm_label": "getscheduledappointmentsbysalonid()"
@@ -934,7 +943,7 @@
       "label": "exportAppointmentsCsv()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L214",
+      "source_location": "L215",
       "id": "controllers_appointmentcontroller_exportappointmentscsv",
       "community": 33,
       "norm_label": "exportappointmentscsv()"
@@ -943,25 +952,25 @@
       "label": "mailAppointment()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L290",
+      "source_location": "L291",
       "id": "controllers_appointmentcontroller_mailappointment",
-      "community": 100,
+      "community": 67,
       "norm_label": "mailappointment()"
     },
     {
       "label": "updateCustomerReview()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L329",
+      "source_location": "L330",
       "id": "controllers_appointmentcontroller_updatecustomerreview",
-      "community": 35,
+      "community": 9,
       "norm_label": "updatecustomerreview()"
     },
     {
       "label": "updateStaffReview()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L366",
+      "source_location": "L367",
       "id": "controllers_appointmentcontroller_updatestaffreview",
       "community": 9,
       "norm_label": "updatestaffreview()"
@@ -970,7 +979,7 @@
       "label": "replyToReview()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L393",
+      "source_location": "L394",
       "id": "controllers_appointmentcontroller_replytoreview",
       "community": 75,
       "norm_label": "replytoreview()"
@@ -979,7 +988,7 @@
       "label": "cancelAppointment()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L422",
+      "source_location": "L423",
       "id": "controllers_appointmentcontroller_cancelappointment",
       "community": 9,
       "norm_label": "cancelappointment()"
@@ -988,7 +997,7 @@
       "label": "rescheduleAppointment()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L472",
+      "source_location": "L473",
       "id": "controllers_appointmentcontroller_rescheduleappointment",
       "community": 106,
       "norm_label": "rescheduleappointment()"
@@ -997,7 +1006,7 @@
       "label": "sendCustomerStatusEmail()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L586",
+      "source_location": "L587",
       "id": "controllers_appointmentcontroller_sendcustomerstatusemail",
       "community": 9,
       "norm_label": "sendcustomerstatusemail()"
@@ -1006,7 +1015,7 @@
       "label": "updateAppointmentStatus()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L612",
+      "source_location": "L613",
       "id": "controllers_appointmentcontroller_updateappointmentstatus",
       "community": 9,
       "norm_label": "updateappointmentstatus()"
@@ -1053,7 +1062,7 @@
       "source_file": "controllers/favoriteController.js",
       "source_location": "L11",
       "id": "controllers_favoritecontroller_getfavorites",
-      "community": 109,
+      "community": 120,
       "norm_label": "getfavorites()"
     },
     {
@@ -1080,7 +1089,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L1",
       "id": "controllers_notificationcontroller_js",
-      "community": 109,
+      "community": 13,
       "norm_label": "notificationcontroller.js"
     },
     {
@@ -1089,7 +1098,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L1",
       "id": "controllers_notificationcontroller_notification",
-      "community": 109,
+      "community": 13,
       "norm_label": "notification"
     },
     {
@@ -1098,7 +1107,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L2",
       "id": "controllers_notificationcontroller_paginatequery_buildmeta",
-      "community": 109,
+      "community": 13,
       "norm_label": "{ paginatequery, buildmeta }"
     },
     {
@@ -1107,7 +1116,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L11",
       "id": "controllers_notificationcontroller_resolverecipient",
-      "community": 109,
+      "community": 13,
       "norm_label": "resolverecipient()"
     },
     {
@@ -1116,7 +1125,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L25",
       "id": "controllers_notificationcontroller_listnotifications",
-      "community": 109,
+      "community": 13,
       "norm_label": "listnotifications()"
     },
     {
@@ -1125,7 +1134,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L60",
       "id": "controllers_notificationcontroller_marknotificationread",
-      "community": 109,
+      "community": 13,
       "norm_label": "marknotificationread()"
     },
     {
@@ -1134,7 +1143,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L89",
       "id": "controllers_notificationcontroller_markallnotificationsread",
-      "community": 109,
+      "community": 13,
       "norm_label": "markallnotificationsread()"
     },
     {
@@ -1575,7 +1584,7 @@
       "source_file": "controllers/salonController.js",
       "source_location": "L339",
       "id": "controllers_saloncontroller_getsalonstaff",
-      "community": 22,
+      "community": 65,
       "norm_label": "getsalonstaff()"
     },
     {
@@ -1602,7 +1611,7 @@
       "source_file": "controllers/salonGalleryController.js",
       "source_location": "L1",
       "id": "controllers_salongallerycontroller_js",
-      "community": 22,
+      "community": 125,
       "norm_label": "salongallerycontroller.js"
     },
     {
@@ -1611,7 +1620,7 @@
       "source_file": "controllers/salonGalleryController.js",
       "source_location": "L1",
       "id": "controllers_salongallerycontroller_salons",
-      "community": 22,
+      "community": 125,
       "norm_label": "salons"
     },
     {
@@ -1620,7 +1629,7 @@
       "source_file": "controllers/salonGalleryController.js",
       "source_location": "L11",
       "id": "controllers_salongallerycontroller_parsegallery",
-      "community": 22,
+      "community": 125,
       "norm_label": "parsegallery()"
     },
     {
@@ -1629,7 +1638,7 @@
       "source_file": "controllers/salonGalleryController.js",
       "source_location": "L29",
       "id": "controllers_salongallerycontroller_updategallery",
-      "community": 22,
+      "community": 125,
       "norm_label": "updategallery()"
     },
     {
@@ -1908,7 +1917,7 @@
       "source_file": "controllers/salonWorkingHoursController.js",
       "source_location": "L1",
       "id": "controllers_salonworkinghourscontroller_js",
-      "community": 116,
+      "community": 106,
       "norm_label": "salonworkinghourscontroller.js"
     },
     {
@@ -1917,7 +1926,7 @@
       "source_file": "controllers/salonWorkingHoursController.js",
       "source_location": "L1",
       "id": "controllers_salonworkinghourscontroller_salons",
-      "community": 116,
+      "community": 106,
       "norm_label": "salons"
     },
     {
@@ -1926,7 +1935,7 @@
       "source_file": "controllers/salonWorkingHoursController.js",
       "source_location": "L2",
       "id": "controllers_salonworkinghourscontroller_geteffectiveweeklyhours",
-      "community": 116,
+      "community": 106,
       "norm_label": "{ geteffectiveweeklyhours }"
     },
     {
@@ -1935,7 +1944,7 @@
       "source_file": "controllers/salonWorkingHoursController.js",
       "source_location": "L17",
       "id": "controllers_salonworkinghourscontroller_gethours",
-      "community": 116,
+      "community": 106,
       "norm_label": "gethours()"
     },
     {
@@ -1944,7 +1953,7 @@
       "source_file": "controllers/salonWorkingHoursController.js",
       "source_location": "L40",
       "id": "controllers_salonworkinghourscontroller_updatehours",
-      "community": 116,
+      "community": 106,
       "norm_label": "updatehours()"
     },
     {
@@ -2200,10 +2209,19 @@
       "norm_label": "getuserprofile()"
     },
     {
+      "label": "getLoyaltyBalance()",
+      "file_type": "code",
+      "source_file": "controllers/userController.js",
+      "source_location": "L288",
+      "id": "controllers_usercontroller_getloyaltybalance",
+      "community": 114,
+      "norm_label": "getloyaltybalance()"
+    },
+    {
       "label": "editProfile()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L284",
+      "source_location": "L306",
       "id": "controllers_usercontroller_editprofile",
       "community": 114,
       "norm_label": "editprofile()"
@@ -2619,7 +2637,7 @@
       "source_file": "frontend/src/App.jsx",
       "source_location": "L58",
       "id": "src_app_authgatedroutes",
-      "community": 0,
+      "community": 121,
       "norm_label": "authgatedroutes()"
     },
     {
@@ -2646,7 +2664,7 @@
       "source_file": "frontend/src/components/ConfirmDialog.jsx",
       "source_location": "L1",
       "id": "frontend_src_components_confirmdialog_jsx",
-      "community": 0,
+      "community": 123,
       "norm_label": "confirmdialog.jsx"
     },
     {
@@ -2655,7 +2673,7 @@
       "source_file": "frontend/src/components/ConfirmDialog.jsx",
       "source_location": "L21",
       "id": "components_confirmdialog_confirmdialog",
-      "community": 0,
+      "community": 123,
       "norm_label": "confirmdialog()"
     },
     {
@@ -2718,7 +2736,7 @@
       "source_file": "frontend/src/components/Modal.jsx",
       "source_location": "L1",
       "id": "frontend_src_components_modal_jsx",
-      "community": 0,
+      "community": 123,
       "norm_label": "modal.jsx"
     },
     {
@@ -2727,7 +2745,7 @@
       "source_file": "frontend/src/components/Modal.jsx",
       "source_location": "L14",
       "id": "components_modal_modal",
-      "community": 0,
+      "community": 123,
       "norm_label": "modal()"
     },
     {
@@ -2754,7 +2772,7 @@
       "source_file": "frontend/src/components/NotificationsPanel.jsx",
       "source_location": "L1",
       "id": "frontend_src_components_notificationspanel_jsx",
-      "community": 0,
+      "community": 107,
       "norm_label": "notificationspanel.jsx"
     },
     {
@@ -2763,7 +2781,7 @@
       "source_file": "frontend/src/components/NotificationsPanel.jsx",
       "source_location": "L13",
       "id": "components_notificationspanel_type_meta",
-      "community": 0,
+      "community": 107,
       "norm_label": "type_meta"
     },
     {
@@ -2772,7 +2790,7 @@
       "source_file": "frontend/src/components/NotificationsPanel.jsx",
       "source_location": "L23",
       "id": "components_notificationspanel_metafortype",
-      "community": 0,
+      "community": 107,
       "norm_label": "metafortype()"
     },
     {
@@ -2781,7 +2799,7 @@
       "source_file": "frontend/src/components/NotificationsPanel.jsx",
       "source_location": "L26",
       "id": "components_notificationspanel_relativetime",
-      "community": 0,
+      "community": 107,
       "norm_label": "relativetime()"
     },
     {
@@ -2790,7 +2808,7 @@
       "source_file": "frontend/src/components/NotificationsPanel.jsx",
       "source_location": "L48",
       "id": "components_notificationspanel_notificationspanel",
-      "community": 0,
+      "community": 107,
       "norm_label": "notificationspanel()"
     },
     {
@@ -2799,7 +2817,7 @@
       "source_file": "frontend/src/components/ProtectedRoute.jsx",
       "source_location": "L1",
       "id": "frontend_src_components_protectedroute_jsx",
-      "community": 0,
+      "community": 121,
       "norm_label": "protectedroute.jsx"
     },
     {
@@ -2808,7 +2826,7 @@
       "source_file": "frontend/src/components/ProtectedRoute.jsx",
       "source_location": "L9",
       "id": "components_protectedroute_protectedroute",
-      "community": 0,
+      "community": 121,
       "norm_label": "protectedroute()"
     },
     {
@@ -2817,7 +2835,7 @@
       "source_file": "frontend/src/components/Skeleton.jsx",
       "source_location": "L1",
       "id": "frontend_src_components_skeleton_jsx",
-      "community": 0,
+      "community": 123,
       "norm_label": "skeleton.jsx"
     },
     {
@@ -2826,7 +2844,7 @@
       "source_file": "frontend/src/components/Skeleton.jsx",
       "source_location": "L14",
       "id": "components_skeleton_skeleton",
-      "community": 0,
+      "community": 123,
       "norm_label": "skeleton()"
     },
     {
@@ -2835,7 +2853,7 @@
       "source_file": "frontend/src/components/Skeleton.jsx",
       "source_location": "L36",
       "id": "components_skeleton_skeletoncardgrid",
-      "community": 0,
+      "community": 116,
       "norm_label": "skeletoncardgrid()"
     },
     {
@@ -2844,7 +2862,7 @@
       "source_file": "frontend/src/components/Skeleton.jsx",
       "source_location": "L57",
       "id": "components_skeleton_skeletontable",
-      "community": 0,
+      "community": 123,
       "norm_label": "skeletontable()"
     },
     {
@@ -2853,7 +2871,7 @@
       "source_file": "frontend/src/context/AuthContext.jsx",
       "source_location": "L1",
       "id": "frontend_src_context_authcontext_jsx",
-      "community": 0,
+      "community": 121,
       "norm_label": "authcontext.jsx"
     },
     {
@@ -2862,7 +2880,7 @@
       "source_file": "frontend/src/context/AuthContext.jsx",
       "source_location": "L6",
       "id": "context_authcontext_authcontext",
-      "community": 0,
+      "community": 121,
       "norm_label": "authcontext"
     },
     {
@@ -2871,7 +2889,7 @@
       "source_file": "frontend/src/context/AuthContext.jsx",
       "source_location": "L17",
       "id": "context_authcontext_authprovider",
-      "community": 0,
+      "community": 121,
       "norm_label": "authprovider()"
     },
     {
@@ -2880,7 +2898,7 @@
       "source_file": "frontend/src/context/AuthContext.jsx",
       "source_location": "L85",
       "id": "context_authcontext_useauth",
-      "community": 0,
+      "community": 121,
       "norm_label": "useauth()"
     },
     {
@@ -2925,7 +2943,7 @@
       "source_file": "frontend/src/context/ToastContext.jsx",
       "source_location": "L1",
       "id": "frontend_src_context_toastcontext_jsx",
-      "community": 0,
+      "community": 107,
       "norm_label": "toastcontext.jsx"
     },
     {
@@ -2934,7 +2952,7 @@
       "source_file": "frontend/src/context/ToastContext.jsx",
       "source_location": "L4",
       "id": "context_toastcontext_toastcontext",
-      "community": 0,
+      "community": 107,
       "norm_label": "toastcontext"
     },
     {
@@ -2943,7 +2961,7 @@
       "source_file": "frontend/src/context/ToastContext.jsx",
       "source_location": "L10",
       "id": "context_toastcontext_toastprovider",
-      "community": 0,
+      "community": 107,
       "norm_label": "toastprovider()"
     },
     {
@@ -2952,7 +2970,7 @@
       "source_file": "frontend/src/context/ToastContext.jsx",
       "source_location": "L27",
       "id": "context_toastcontext_usetoast",
-      "community": 0,
+      "community": 107,
       "norm_label": "usetoast()"
     },
     {
@@ -2961,7 +2979,7 @@
       "source_file": "frontend/src/context/ToastContext.jsx",
       "source_location": "L33",
       "id": "context_toastcontext_toastview",
-      "community": 0,
+      "community": 107,
       "norm_label": "toastview()"
     },
     {
@@ -2970,7 +2988,7 @@
       "source_file": "frontend/src/hooks/useDocumentTitle.js",
       "source_location": "L1",
       "id": "frontend_src_hooks_usedocumenttitle_js",
-      "community": 0,
+      "community": 116,
       "norm_label": "usedocumenttitle.js"
     },
     {
@@ -2979,7 +2997,7 @@
       "source_file": "frontend/src/hooks/useDocumentTitle.js",
       "source_location": "L16",
       "id": "hooks_usedocumenttitle_usedocumenttitle",
-      "community": 0,
+      "community": 116,
       "norm_label": "usedocumenttitle()"
     },
     {
@@ -2988,7 +3006,7 @@
       "source_file": "frontend/src/pages/LandingPage.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_landingpage_jsx",
-      "community": 0,
+      "community": 116,
       "norm_label": "landingpage.jsx"
     },
     {
@@ -2997,7 +3015,7 @@
       "source_file": "frontend/src/pages/LandingPage.jsx",
       "source_location": "L6",
       "id": "pages_landingpage_landingpage",
-      "community": 0,
+      "community": 116,
       "norm_label": "landingpage()"
     },
     {
@@ -3006,7 +3024,7 @@
       "source_file": "frontend/src/pages/admin/AdminDashboard.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_admin_admindashboard_jsx",
-      "community": 0,
+      "community": 123,
       "norm_label": "admindashboard.jsx"
     },
     {
@@ -3015,7 +3033,7 @@
       "source_file": "frontend/src/pages/admin/AdminDashboard.jsx",
       "source_location": "L10",
       "id": "admin_admindashboard_admindashboard",
-      "community": 0,
+      "community": 121,
       "norm_label": "admindashboard()"
     },
     {
@@ -3024,7 +3042,7 @@
       "source_file": "frontend/src/pages/auth/AdminLogin.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_auth_adminlogin_jsx",
-      "community": 0,
+      "community": 121,
       "norm_label": "adminlogin.jsx"
     },
     {
@@ -3033,7 +3051,7 @@
       "source_file": "frontend/src/pages/auth/AdminLogin.jsx",
       "source_location": "L9",
       "id": "auth_adminlogin_adminlogin",
-      "community": 0,
+      "community": 121,
       "norm_label": "adminlogin()"
     },
     {
@@ -3042,7 +3060,7 @@
       "source_file": "frontend/src/pages/auth/SalonLogin.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_auth_salonlogin_jsx",
-      "community": 0,
+      "community": 121,
       "norm_label": "salonlogin.jsx"
     },
     {
@@ -3051,7 +3069,7 @@
       "source_file": "frontend/src/pages/auth/SalonLogin.jsx",
       "source_location": "L9",
       "id": "auth_salonlogin_salonlogin",
-      "community": 0,
+      "community": 121,
       "norm_label": "salonlogin()"
     },
     {
@@ -3060,7 +3078,7 @@
       "source_file": "frontend/src/pages/auth/SalonSignup.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_auth_salonsignup_jsx",
-      "community": 0,
+      "community": 107,
       "norm_label": "salonsignup.jsx"
     },
     {
@@ -3069,7 +3087,7 @@
       "source_file": "frontend/src/pages/auth/SalonSignup.jsx",
       "source_location": "L8",
       "id": "auth_salonsignup_salonsignup",
-      "community": 0,
+      "community": 107,
       "norm_label": "salonsignup()"
     },
     {
@@ -3078,7 +3096,7 @@
       "source_file": "frontend/src/pages/auth/StaffLogin.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_auth_stafflogin_jsx",
-      "community": 0,
+      "community": 121,
       "norm_label": "stafflogin.jsx"
     },
     {
@@ -3087,7 +3105,7 @@
       "source_file": "frontend/src/pages/auth/StaffLogin.jsx",
       "source_location": "L9",
       "id": "auth_stafflogin_stafflogin",
-      "community": 0,
+      "community": 121,
       "norm_label": "stafflogin()"
     },
     {
@@ -3096,7 +3114,7 @@
       "source_file": "frontend/src/pages/auth/UserLogin.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_auth_userlogin_jsx",
-      "community": 0,
+      "community": 121,
       "norm_label": "userlogin.jsx"
     },
     {
@@ -3105,7 +3123,7 @@
       "source_file": "frontend/src/pages/auth/UserLogin.jsx",
       "source_location": "L9",
       "id": "auth_userlogin_userlogin",
-      "community": 0,
+      "community": 121,
       "norm_label": "userlogin()"
     },
     {
@@ -3114,7 +3132,7 @@
       "source_file": "frontend/src/pages/auth/UserSignup.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_auth_usersignup_jsx",
-      "community": 0,
+      "community": 107,
       "norm_label": "usersignup.jsx"
     },
     {
@@ -3123,7 +3141,7 @@
       "source_file": "frontend/src/pages/auth/UserSignup.jsx",
       "source_location": "L8",
       "id": "auth_usersignup_usersignup",
-      "community": 0,
+      "community": 107,
       "norm_label": "usersignup()"
     },
     {
@@ -3132,7 +3150,7 @@
       "source_file": "frontend/src/pages/customer/AppointmentBooking.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_customer_appointmentbooking_jsx",
-      "community": 0,
+      "community": 116,
       "norm_label": "appointmentbooking.jsx"
     },
     {
@@ -3141,7 +3159,7 @@
       "source_file": "frontend/src/pages/customer/AppointmentBooking.jsx",
       "source_location": "L8",
       "id": "customer_appointmentbooking_appointmentbooking",
-      "community": 0,
+      "community": 116,
       "norm_label": "appointmentbooking()"
     },
     {
@@ -3150,7 +3168,7 @@
       "source_file": "frontend/src/pages/customer/BookedAppointments.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_customer_bookedappointments_jsx",
-      "community": 0,
+      "community": 123,
       "norm_label": "bookedappointments.jsx"
     },
     {
@@ -3159,7 +3177,7 @@
       "source_file": "frontend/src/pages/customer/BookedAppointments.jsx",
       "source_location": "L12",
       "id": "customer_bookedappointments_bookedappointments",
-      "community": 0,
+      "community": 116,
       "norm_label": "bookedappointments()"
     },
     {
@@ -3168,7 +3186,7 @@
       "source_file": "frontend/src/pages/customer/CustomerDashboard.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_customer_customerdashboard_jsx",
-      "community": 0,
+      "community": 116,
       "norm_label": "customerdashboard.jsx"
     },
     {
@@ -3177,7 +3195,7 @@
       "source_file": "frontend/src/pages/customer/CustomerDashboard.jsx",
       "source_location": "L10",
       "id": "customer_customerdashboard_categories",
-      "community": 0,
+      "community": 116,
       "norm_label": "categories"
     },
     {
@@ -3186,7 +3204,7 @@
       "source_file": "frontend/src/pages/customer/CustomerDashboard.jsx",
       "source_location": "L15",
       "id": "customer_customerdashboard_sorts",
-      "community": 0,
+      "community": 116,
       "norm_label": "sorts"
     },
     {
@@ -3195,7 +3213,7 @@
       "source_file": "frontend/src/pages/customer/CustomerDashboard.jsx",
       "source_location": "L25",
       "id": "customer_customerdashboard_customerdashboard",
-      "community": 0,
+      "community": 116,
       "norm_label": "customerdashboard()"
     },
     {
@@ -3204,7 +3222,7 @@
       "source_file": "frontend/src/pages/customer/EditProfile.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_customer_editprofile_jsx",
-      "community": 0,
+      "community": 107,
       "norm_label": "editprofile.jsx"
     },
     {
@@ -3213,7 +3231,7 @@
       "source_file": "frontend/src/pages/customer/EditProfile.jsx",
       "source_location": "L8",
       "id": "customer_editprofile_editprofile",
-      "community": 0,
+      "community": 107,
       "norm_label": "editprofile()"
     },
     {
@@ -3240,7 +3258,7 @@
       "source_file": "frontend/src/pages/customer/SalonProfile.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_customer_salonprofile_jsx",
-      "community": 0,
+      "community": 116,
       "norm_label": "salonprofile.jsx"
     },
     {
@@ -3249,7 +3267,7 @@
       "source_file": "frontend/src/pages/customer/SalonProfile.jsx",
       "source_location": "L8",
       "id": "customer_salonprofile_category_order",
-      "community": 0,
+      "community": 116,
       "norm_label": "category_order"
     },
     {
@@ -3258,7 +3276,7 @@
       "source_file": "frontend/src/pages/customer/SalonProfile.jsx",
       "source_location": "L14",
       "id": "customer_salonprofile_groupbycategory",
-      "community": 0,
+      "community": 116,
       "norm_label": "groupbycategory()"
     },
     {
@@ -3267,7 +3285,7 @@
       "source_file": "frontend/src/pages/customer/SalonProfile.jsx",
       "source_location": "L27",
       "id": "customer_salonprofile_salonprofile",
-      "community": 0,
+      "community": 116,
       "norm_label": "salonprofile()"
     },
     {
@@ -3276,7 +3294,7 @@
       "source_file": "frontend/src/pages/salon/SalonDashboard.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_salon_salondashboard_jsx",
-      "community": 0,
+      "community": 123,
       "norm_label": "salondashboard.jsx"
     },
     {
@@ -3285,7 +3303,7 @@
       "source_file": "frontend/src/pages/salon/SalonDashboard.jsx",
       "source_location": "L16",
       "id": "salon_salondashboard_salondashboard",
-      "community": 0,
+      "community": 116,
       "norm_label": "salondashboard()"
     },
     {
@@ -3294,7 +3312,7 @@
       "source_file": "frontend/src/pages/staff/StaffDashboard.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_staff_staffdashboard_jsx",
-      "community": 0,
+      "community": 123,
       "norm_label": "staffdashboard.jsx"
     },
     {
@@ -3303,7 +3321,7 @@
       "source_file": "frontend/src/pages/staff/StaffDashboard.jsx",
       "source_location": "L10",
       "id": "staff_staffdashboard_staffdashboard",
-      "community": 0,
+      "community": 107,
       "norm_label": "staffdashboard()"
     },
     {
@@ -3555,7 +3573,7 @@
       "source_file": "models/notificationModel.js",
       "source_location": "L1",
       "id": "models_notificationmodel_js",
-      "community": 123,
+      "community": 13,
       "norm_label": "notificationmodel.js"
     },
     {
@@ -3564,7 +3582,7 @@
       "source_file": "models/notificationModel.js",
       "source_location": "L1",
       "id": "models_notificationmodel_datatypes",
-      "community": 123,
+      "community": 13,
       "norm_label": "{ datatypes }"
     },
     {
@@ -3573,7 +3591,7 @@
       "source_file": "models/notificationModel.js",
       "source_location": "L2",
       "id": "models_notificationmodel_sequelize",
-      "community": 123,
+      "community": 13,
       "norm_label": "sequelize"
     },
     {
@@ -3582,7 +3600,7 @@
       "source_file": "models/notificationModel.js",
       "source_location": "L9",
       "id": "models_notificationmodel_notification",
-      "community": 123,
+      "community": 13,
       "norm_label": "notification"
     },
     {
@@ -3645,7 +3663,7 @@
       "source_file": "models/salonsModel.js",
       "source_location": "L1",
       "id": "models_salonsmodel_js",
-      "community": 107,
+      "community": 120,
       "norm_label": "salonsmodel.js"
     },
     {
@@ -3654,7 +3672,7 @@
       "source_file": "models/salonsModel.js",
       "source_location": "L1",
       "id": "models_salonsmodel_sequelize",
-      "community": 107,
+      "community": 120,
       "norm_label": "sequelize"
     },
     {
@@ -3663,7 +3681,7 @@
       "source_file": "models/salonsModel.js",
       "source_location": "L4",
       "id": "models_salonsmodel_salons",
-      "community": 107,
+      "community": 120,
       "norm_label": "salons"
     },
     {
@@ -3699,7 +3717,7 @@
       "source_file": "models/staffBlockoutModel.js",
       "source_location": "L1",
       "id": "models_staffblockoutmodel_js",
-      "community": 25,
+      "community": 87,
       "norm_label": "staffblockoutmodel.js"
     },
     {
@@ -3708,7 +3726,7 @@
       "source_file": "models/staffBlockoutModel.js",
       "source_location": "L1",
       "id": "models_staffblockoutmodel_sequelize",
-      "community": 25,
+      "community": 87,
       "norm_label": "sequelize"
     },
     {
@@ -3717,7 +3735,7 @@
       "source_file": "models/staffBlockoutModel.js",
       "source_location": "L4",
       "id": "models_staffblockoutmodel_staffblockout",
-      "community": 25,
+      "community": 87,
       "norm_label": "staffblockout"
     },
     {
@@ -3726,7 +3744,7 @@
       "source_file": "models/staffModel.js",
       "source_location": "L1",
       "id": "models_staffmodel_js",
-      "community": 87,
+      "community": 118,
       "norm_label": "staffmodel.js"
     },
     {
@@ -3735,7 +3753,7 @@
       "source_file": "models/staffModel.js",
       "source_location": "L1",
       "id": "models_staffmodel_sequelize",
-      "community": 87,
+      "community": 118,
       "norm_label": "sequelize"
     },
     {
@@ -3744,7 +3762,7 @@
       "source_file": "models/staffModel.js",
       "source_location": "L4",
       "id": "models_staffmodel_staff",
-      "community": 87,
+      "community": 118,
       "norm_label": "staff"
     },
     {
@@ -3753,7 +3771,7 @@
       "source_file": "models/StaffServices.js",
       "source_location": "L1",
       "id": "models_staffservices_js",
-      "community": 107,
+      "community": 87,
       "norm_label": "staffservices.js"
     },
     {
@@ -3762,7 +3780,7 @@
       "source_file": "models/StaffServices.js",
       "source_location": "L1",
       "id": "models_staffservices_sequelize",
-      "community": 107,
+      "community": 87,
       "norm_label": "sequelize"
     },
     {
@@ -3771,7 +3789,7 @@
       "source_file": "models/StaffServices.js",
       "source_location": "L4",
       "id": "models_staffservices_staffservices",
-      "community": 107,
+      "community": 87,
       "norm_label": "staffservices"
     },
     {
@@ -3780,7 +3798,7 @@
       "source_file": "models/userModel.js",
       "source_location": "L1",
       "id": "models_usermodel_js",
-      "community": 118,
+      "community": 87,
       "norm_label": "usermodel.js"
     },
     {
@@ -3789,7 +3807,7 @@
       "source_file": "models/userModel.js",
       "source_location": "L1",
       "id": "models_usermodel_sequelize",
-      "community": 118,
+      "community": 87,
       "norm_label": "sequelize"
     },
     {
@@ -3798,7 +3816,7 @@
       "source_file": "models/userModel.js",
       "source_location": "L4",
       "id": "models_usermodel_user",
-      "community": 118,
+      "community": 87,
       "norm_label": "user"
     },
     {
@@ -5472,7 +5490,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L1",
       "id": "routes_staffroutes_js",
-      "community": 104,
+      "community": 124,
       "norm_label": "staffroutes.js"
     },
     {
@@ -5481,7 +5499,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L1",
       "id": "routes_staffroutes_express",
-      "community": 104,
+      "community": 124,
       "norm_label": "express"
     },
     {
@@ -5490,7 +5508,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L2",
       "id": "routes_staffroutes_router",
-      "community": 104,
+      "community": 124,
       "norm_label": "router"
     },
     {
@@ -5499,7 +5517,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L3",
       "id": "routes_staffroutes_staffcontroller",
-      "community": 104,
+      "community": 124,
       "norm_label": "staffcontroller"
     },
     {
@@ -5508,7 +5526,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L4",
       "id": "routes_staffroutes_authmiddleware",
-      "community": 104,
+      "community": 124,
       "norm_label": "authmiddleware"
     },
     {
@@ -5517,7 +5535,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L5",
       "id": "routes_staffroutes_validate_loginschema",
-      "community": 104,
+      "community": 124,
       "norm_label": "{ validate, loginschema }"
     },
     {
@@ -5526,7 +5544,7 @@
       "source_file": "routes/userDashboard.js",
       "source_location": "L1",
       "id": "routes_userdashboard_js",
-      "community": 21,
+      "community": 122,
       "norm_label": "userdashboard.js"
     },
     {
@@ -5535,7 +5553,7 @@
       "source_file": "routes/userDashboard.js",
       "source_location": "L1",
       "id": "routes_userdashboard_router",
-      "community": 21,
+      "community": 122,
       "norm_label": "router"
     },
     {
@@ -5544,7 +5562,7 @@
       "source_file": "routes/userDashboard.js",
       "source_location": "L2",
       "id": "routes_userdashboard_salonservices",
-      "community": 21,
+      "community": 122,
       "norm_label": "salonservices"
     },
     {
@@ -5553,7 +5571,7 @@
       "source_file": "routes/userDashboard.js",
       "source_location": "L3",
       "id": "routes_userdashboard_validate_activeservicesbysalonschema",
-      "community": 21,
+      "community": 122,
       "norm_label": "{ validate, activeservicesbysalonschema }"
     },
     {
@@ -5562,7 +5580,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L1",
       "id": "routes_userroutes_js",
-      "community": 38,
+      "community": 24,
       "norm_label": "userroutes.js"
     },
     {
@@ -5571,7 +5589,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L1",
       "id": "routes_userroutes_express",
-      "community": 38,
+      "community": 24,
       "norm_label": "express"
     },
     {
@@ -5580,7 +5598,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L2",
       "id": "routes_userroutes_router",
-      "community": 38,
+      "community": 24,
       "norm_label": "router"
     },
     {
@@ -5589,7 +5607,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L3",
       "id": "routes_userroutes_usercontroller",
-      "community": 38,
+      "community": 24,
       "norm_label": "usercontroller"
     },
     {
@@ -5598,7 +5616,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L4",
       "id": "routes_userroutes_authmiddleware",
-      "community": 38,
+      "community": 24,
       "norm_label": "authmiddleware"
     },
     {
@@ -5607,7 +5625,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L5",
       "id": "routes_userroutes_validate_loginschema_customersignupschema_forgotpasswordschema_resetpasswordschema_verifyemailschema_resendverificationschema",
-      "community": 38,
+      "community": 24,
       "norm_label": "{ validate, loginschema, customersignupschema, forgotpasswordschema, resetpasswordschema, verifyemailschema, resendverificationschema }"
     },
     {
@@ -5616,7 +5634,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L6",
       "id": "routes_userroutes_strictlimiter",
-      "community": 38,
+      "community": 24,
       "norm_label": "{ strictlimiter }"
     },
     {
@@ -5625,7 +5643,7 @@
       "source_file": "services/adminAuditService.js",
       "source_location": "L1",
       "id": "services_adminauditservice_js",
-      "community": 122,
+      "community": 30,
       "norm_label": "adminauditservice.js"
     },
     {
@@ -5634,7 +5652,7 @@
       "source_file": "services/adminAuditService.js",
       "source_location": "L10",
       "id": "services_adminauditservice_logger",
-      "community": 122,
+      "community": 30,
       "norm_label": "logger"
     },
     {
@@ -5643,7 +5661,7 @@
       "source_file": "services/adminAuditService.js",
       "source_location": "L19",
       "id": "services_adminauditservice_recordaudit",
-      "community": 122,
+      "community": 30,
       "norm_label": "recordaudit()"
     },
     {
@@ -5751,7 +5769,7 @@
       "source_file": "services/availabilityService.js",
       "source_location": "L80",
       "id": "services_availabilityservice_defaultweeklyhours",
-      "community": 116,
+      "community": 106,
       "norm_label": "defaultweeklyhours()"
     },
     {
@@ -5760,7 +5778,7 @@
       "source_file": "services/availabilityService.js",
       "source_location": "L104",
       "id": "services_availabilityservice_geteffectiveweeklyhours",
-      "community": 116,
+      "community": 106,
       "norm_label": "geteffectiveweeklyhours()"
     },
     {
@@ -5814,7 +5832,7 @@
       "source_file": "services/availabilityService.js",
       "source_location": "L280",
       "id": "services_availabilityservice_conflictingstaffids",
-      "community": 106,
+      "community": 99,
       "norm_label": "conflictingstaffids()"
     },
     {
@@ -5823,7 +5841,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L1",
       "id": "services_cashfreeservices_js",
-      "community": 121,
+      "community": 111,
       "norm_label": "cashfreeservices.js"
     },
     {
@@ -5832,7 +5850,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L1",
       "id": "services_cashfreeservices_cashfree",
-      "community": 121,
+      "community": 111,
       "norm_label": "{ cashfree }"
     },
     {
@@ -5841,7 +5859,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L2",
       "id": "services_cashfreeservices_dotenv",
-      "community": 121,
+      "community": 111,
       "norm_label": "dotenv"
     },
     {
@@ -5850,7 +5868,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L25",
       "id": "services_cashfreeservices_expirydate",
-      "community": 121,
+      "community": 111,
       "norm_label": "expirydate"
     },
     {
@@ -5859,7 +5877,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L26",
       "id": "services_cashfreeservices_formattedexpirydate",
-      "community": 121,
+      "community": 111,
       "norm_label": "formattedexpirydate"
     },
     {
@@ -5868,7 +5886,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L28",
       "id": "services_cashfreeservices_request",
-      "community": 121,
+      "community": 111,
       "norm_label": "request"
     },
     {
@@ -5877,7 +5895,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L93",
       "id": "services_cashfreeservices_verificationresponse",
-      "community": 121,
+      "community": 111,
       "norm_label": "verificationresponse"
     },
     {
@@ -5886,7 +5904,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L1",
       "id": "services_emailservice_js",
-      "community": 100,
+      "community": 67,
       "norm_label": "emailservice.js"
     },
     {
@@ -5895,7 +5913,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L13",
       "id": "services_emailservice_client",
-      "community": 100,
+      "community": 67,
       "norm_label": "client()"
     },
     {
@@ -5904,7 +5922,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L34",
       "id": "services_emailservice_isconfigured",
-      "community": 100,
+      "community": 67,
       "norm_label": "isconfigured()"
     },
     {
@@ -5913,7 +5931,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L43",
       "id": "services_emailservice_sendbookingconfirmation",
-      "community": 100,
+      "community": 67,
       "norm_label": "sendbookingconfirmation()"
     },
     {
@@ -5922,7 +5940,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L107",
       "id": "services_emailservice_sendpasswordresetemail",
-      "community": 100,
+      "community": 67,
       "norm_label": "sendpasswordresetemail()"
     },
     {
@@ -5931,7 +5949,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L159",
       "id": "services_emailservice_sendverificationemail",
-      "community": 100,
+      "community": 67,
       "norm_label": "sendverificationemail()"
     },
     {
@@ -5940,7 +5958,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L208",
       "id": "services_emailservice_booking_status_copy",
-      "community": 100,
+      "community": 67,
       "norm_label": "booking_status_copy"
     },
     {
@@ -5949,7 +5967,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L248",
       "id": "services_emailservice_bookingstatussubject",
-      "community": 100,
+      "community": 67,
       "norm_label": "bookingstatussubject()"
     },
     {
@@ -5958,8 +5976,44 @@
       "source_file": "services/emailService.js",
       "source_location": "L261",
       "id": "services_emailservice_sendbookingstatusemail",
-      "community": 100,
+      "community": 67,
       "norm_label": "sendbookingstatusemail()"
+    },
+    {
+      "label": "loyaltyService.js",
+      "file_type": "code",
+      "source_file": "services/loyaltyService.js",
+      "source_location": "L1",
+      "id": "services_loyaltyservice_js",
+      "community": 9,
+      "norm_label": "loyaltyservice.js"
+    },
+    {
+      "label": "User",
+      "file_type": "code",
+      "source_file": "services/loyaltyService.js",
+      "source_location": "L21",
+      "id": "services_loyaltyservice_user",
+      "community": 9,
+      "norm_label": "user"
+    },
+    {
+      "label": "logger",
+      "file_type": "code",
+      "source_file": "services/loyaltyService.js",
+      "source_location": "L22",
+      "id": "services_loyaltyservice_logger",
+      "community": 9,
+      "norm_label": "logger"
+    },
+    {
+      "label": "awardForCompletedAppointment()",
+      "file_type": "code",
+      "source_file": "services/loyaltyService.js",
+      "source_location": "L31",
+      "id": "services_loyaltyservice_awardforcompletedappointment",
+      "community": 9,
+      "norm_label": "awardforcompletedappointment()"
     },
     {
       "label": "notificationService.js",
@@ -6084,7 +6138,7 @@
       "source_file": "services/paymentService.js",
       "source_location": "L106",
       "id": "services_paymentservice_finalizeappointmentfrompayment",
-      "community": 106,
+      "community": 99,
       "norm_label": "finalizeappointmentfrompayment()"
     },
     {
@@ -6246,7 +6300,7 @@
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L31",
       "id": "tests_admin_stats_audit_test_waitfor",
-      "community": 124,
+      "community": 44,
       "norm_label": "waitfor()"
     },
     {
@@ -6264,7 +6318,7 @@
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L59",
       "id": "tests_admin_stats_audit_test_now",
-      "community": 124,
+      "community": 44,
       "norm_label": "now"
     },
     {
@@ -6345,7 +6399,7 @@
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L217",
       "id": "tests_admin_stats_audit_test_t",
-      "community": 124,
+      "community": 44,
       "norm_label": "t()"
     },
     {
@@ -6660,7 +6714,7 @@
       "source_file": "tests/booking-config.test.js",
       "source_location": "L47",
       "id": "tests_booking_config_test_runmw",
-      "community": 15,
+      "community": 122,
       "norm_label": "runmw()"
     },
     {
@@ -6966,7 +7020,7 @@
       "source_file": "tests/booking-notes.test.js",
       "source_location": "L47",
       "id": "tests_booking_notes_test_runmw",
-      "community": 65,
+      "community": 122,
       "norm_label": "runmw()"
     },
     {
@@ -7812,7 +7866,7 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L166",
       "id": "tests_csv_export_test_runmw",
-      "community": 33,
+      "community": 122,
       "norm_label": "runmw()"
     },
     {
@@ -8282,6 +8336,267 @@
       "id": "tests_favorites_enhancements_test_flagged",
       "community": 117,
       "norm_label": "flagged"
+    },
+    {
+      "label": "loyalty.test.js",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L1",
+      "id": "tests_loyalty_test_js",
+      "community": 38,
+      "norm_label": "loyalty.test.js"
+    },
+    {
+      "label": "{ test, before, after }",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L1",
+      "id": "tests_loyalty_test_test_before_after",
+      "community": 38,
+      "norm_label": "{ test, before, after }"
+    },
+    {
+      "label": "assert",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L2",
+      "id": "tests_loyalty_test_assert",
+      "community": 38,
+      "norm_label": "assert"
+    },
+    {
+      "label": "sequelize",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L3",
+      "id": "tests_loyalty_test_sequelize",
+      "community": 38,
+      "norm_label": "sequelize"
+    },
+    {
+      "label": "Salons",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L5",
+      "id": "tests_loyalty_test_salons",
+      "community": 38,
+      "norm_label": "salons"
+    },
+    {
+      "label": "Staff",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L6",
+      "id": "tests_loyalty_test_staff",
+      "community": 38,
+      "norm_label": "staff"
+    },
+    {
+      "label": "Services",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L7",
+      "id": "tests_loyalty_test_services",
+      "community": 38,
+      "norm_label": "services"
+    },
+    {
+      "label": "User",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L8",
+      "id": "tests_loyalty_test_user",
+      "community": 38,
+      "norm_label": "user"
+    },
+    {
+      "label": "Appointment",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L9",
+      "id": "tests_loyalty_test_appointment",
+      "community": 38,
+      "norm_label": "appointment"
+    },
+    {
+      "label": "Notification",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L10",
+      "id": "tests_loyalty_test_notification",
+      "community": 38,
+      "norm_label": "notification"
+    },
+    {
+      "label": "{ updateAppointmentStatus }",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L14",
+      "id": "tests_loyalty_test_updateappointmentstatus",
+      "community": 38,
+      "norm_label": "{ updateappointmentstatus }"
+    },
+    {
+      "label": "{ getLoyaltyBalance, getUserProfile }",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L15",
+      "id": "tests_loyalty_test_getloyaltybalance_getuserprofile",
+      "community": 38,
+      "norm_label": "{ getloyaltybalance, getuserprofile }"
+    },
+    {
+      "label": "{ getPlatformStats }",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L16",
+      "id": "tests_loyalty_test_getplatformstats",
+      "community": 38,
+      "norm_label": "{ getplatformstats }"
+    },
+    {
+      "label": "{ awardForCompletedAppointment, POINTS_PER_APPOINTMENT }",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L17",
+      "id": "tests_loyalty_test_awardforcompletedappointment_points_per_appointment",
+      "community": 38,
+      "norm_label": "{ awardforcompletedappointment, points_per_appointment }"
+    },
+    {
+      "label": "authMiddleware",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L18",
+      "id": "tests_loyalty_test_authmiddleware",
+      "community": 38,
+      "norm_label": "authmiddleware"
+    },
+    {
+      "label": "userRoutes",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L19",
+      "id": "tests_loyalty_test_userroutes",
+      "community": 38,
+      "norm_label": "userroutes"
+    },
+    {
+      "label": "mockReq()",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L23",
+      "id": "tests_loyalty_test_mockreq",
+      "community": 38,
+      "norm_label": "mockreq()"
+    },
+    {
+      "label": "mockRes()",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L24",
+      "id": "tests_loyalty_test_mockres",
+      "community": 38,
+      "norm_label": "mockres()"
+    },
+    {
+      "label": "waitFor()",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L34",
+      "id": "tests_loyalty_test_waitfor",
+      "community": 38,
+      "norm_label": "waitfor()"
+    },
+    {
+      "label": "salonAs()",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L45",
+      "id": "tests_loyalty_test_salonas",
+      "community": 38,
+      "norm_label": "salonas()"
+    },
+    {
+      "label": "mkConfirmedAppt()",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L65",
+      "id": "tests_loyalty_test_mkconfirmedappt",
+      "community": 38,
+      "norm_label": "mkconfirmedappt()"
+    },
+    {
+      "label": "setStatus()",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L77",
+      "id": "tests_loyalty_test_setstatus",
+      "community": 38,
+      "norm_label": "setstatus()"
+    },
+    {
+      "label": "res",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L170",
+      "id": "tests_loyalty_test_res",
+      "community": 38,
+      "norm_label": "res"
+    },
+    {
+      "label": "theirs",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L181",
+      "id": "tests_loyalty_test_theirs",
+      "community": 38,
+      "norm_label": "theirs"
+    },
+    {
+      "label": "guard",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L195",
+      "id": "tests_loyalty_test_guard",
+      "community": 38,
+      "norm_label": "guard"
+    },
+    {
+      "label": "denied",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L197",
+      "id": "tests_loyalty_test_denied",
+      "community": 38,
+      "norm_label": "denied"
+    },
+    {
+      "label": "allowed",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L203",
+      "id": "tests_loyalty_test_allowed",
+      "community": 38,
+      "norm_label": "allowed"
+    },
+    {
+      "label": "layer",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L209",
+      "id": "tests_loyalty_test_layer",
+      "community": 38,
+      "norm_label": "layer"
+    },
+    {
+      "label": "handlers",
+      "file_type": "code",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L211",
+      "id": "tests_loyalty_test_handlers",
+      "community": 38,
+      "norm_label": "handlers"
     },
     {
       "label": "noshow-and-staff-schedule.test.js",
@@ -9189,7 +9504,7 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L50",
       "id": "tests_party_size_test_runmw",
-      "community": 65,
+      "community": 122,
       "norm_label": "runmw()"
     },
     {
@@ -10296,7 +10611,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L1",
       "id": "tests_salon_gallery_test_js",
-      "community": 22,
+      "community": 100,
       "norm_label": "salon-gallery.test.js"
     },
     {
@@ -10305,7 +10620,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L1",
       "id": "tests_salon_gallery_test_test_before_after",
-      "community": 22,
+      "community": 100,
       "norm_label": "{ test, before, after }"
     },
     {
@@ -10314,7 +10629,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L2",
       "id": "tests_salon_gallery_test_assert",
-      "community": 22,
+      "community": 100,
       "norm_label": "assert"
     },
     {
@@ -10323,7 +10638,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L3",
       "id": "tests_salon_gallery_test_sequelize",
-      "community": 22,
+      "community": 100,
       "norm_label": "sequelize"
     },
     {
@@ -10332,7 +10647,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L5",
       "id": "tests_salon_gallery_test_salons",
-      "community": 22,
+      "community": 100,
       "norm_label": "salons"
     },
     {
@@ -10341,7 +10656,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L6",
       "id": "tests_salon_gallery_test_parsegallery_updategallery",
-      "community": 22,
+      "community": 100,
       "norm_label": "{ parsegallery, updategallery }"
     },
     {
@@ -10350,7 +10665,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L7",
       "id": "tests_salon_gallery_test_getsalonbyid_getsalonprofile",
-      "community": 22,
+      "community": 100,
       "norm_label": "{ getsalonbyid, getsalonprofile }"
     },
     {
@@ -10359,7 +10674,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L8",
       "id": "tests_salon_gallery_test_validate_galleryschema",
-      "community": 22,
+      "community": 100,
       "norm_label": "{ validate, galleryschema }"
     },
     {
@@ -10368,7 +10683,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L11",
       "id": "tests_salon_gallery_test_mockreq",
-      "community": 22,
+      "community": 100,
       "norm_label": "mockreq()"
     },
     {
@@ -10377,7 +10692,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L12",
       "id": "tests_salon_gallery_test_mockres",
-      "community": 22,
+      "community": 100,
       "norm_label": "mockres()"
     },
     {
@@ -10386,7 +10701,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L21",
       "id": "tests_salon_gallery_test_runmw",
-      "community": 22,
+      "community": 122,
       "norm_label": "runmw()"
     },
     {
@@ -10395,7 +10710,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L74",
       "id": "tests_salon_gallery_test_images",
-      "community": 22,
+      "community": 100,
       "norm_label": "images"
     },
     {
@@ -10404,7 +10719,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L75",
       "id": "tests_salon_gallery_test_err_ok",
-      "community": 22,
+      "community": 100,
       "norm_label": "{ err, ok }"
     },
     {
@@ -10413,7 +10728,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L85",
       "id": "tests_salon_gallery_test_plain",
-      "community": 22,
+      "community": 100,
       "norm_label": "plain()"
     },
     {
@@ -10422,7 +10737,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L102",
       "id": "tests_salon_gallery_test_req",
-      "community": 22,
+      "community": 100,
       "norm_label": "req"
     },
     {
@@ -10431,7 +10746,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L114",
       "id": "tests_salon_gallery_test_res",
-      "community": 22,
+      "community": 100,
       "norm_label": "res"
     },
     {
@@ -10440,7 +10755,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L131",
       "id": "tests_salon_gallery_test_profile",
-      "community": 22,
+      "community": 100,
       "norm_label": "profile"
     },
     {
@@ -10449,7 +10764,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L134",
       "id": "tests_salon_gallery_test_salon",
-      "community": 22,
+      "community": 100,
       "norm_label": "salon"
     },
     {
@@ -10458,7 +10773,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L183",
       "id": "tests_salon_gallery_test_profilea",
-      "community": 22,
+      "community": 100,
       "norm_label": "profilea"
     },
     {
@@ -10467,7 +10782,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L187",
       "id": "tests_salon_gallery_test_profileb",
-      "community": 22,
+      "community": 100,
       "norm_label": "profileb"
     },
     {
@@ -10566,7 +10881,7 @@
       "source_file": "tests/services-crud.test.js",
       "source_location": "L21",
       "id": "tests_services_crud_test_runvalidate",
-      "community": 65,
+      "community": 122,
       "norm_label": "runvalidate()"
     },
     {
@@ -11232,7 +11547,7 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L48",
       "id": "tests_tips_test_runmw",
-      "community": 65,
+      "community": 122,
       "norm_label": "runmw()"
     },
     {
@@ -11790,7 +12105,7 @@
       "source_file": "utils/database.js",
       "source_location": "L1",
       "id": "utils_database_js",
-      "community": 107,
+      "community": 87,
       "norm_label": "database.js"
     },
     {
@@ -11799,7 +12114,7 @@
       "source_file": "utils/database.js",
       "source_location": "L1",
       "id": "utils_database_sequelize",
-      "community": 107,
+      "community": 87,
       "norm_label": "sequelize"
     },
     {
@@ -11808,7 +12123,7 @@
       "source_file": "utils/database.js",
       "source_location": "L2",
       "id": "utils_database_path",
-      "community": 107,
+      "community": 87,
       "norm_label": "path"
     },
     {
@@ -12114,7 +12429,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L10",
       "id": "utils_validators_validate",
-      "community": 65,
+      "community": 122,
       "norm_label": "validate()"
     },
     {
@@ -12123,7 +12438,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L29",
       "id": "utils_validators_loginschema",
-      "community": 104,
+      "community": 24,
       "norm_label": "loginschema"
     },
     {
@@ -12132,7 +12447,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L34",
       "id": "utils_validators_customersignupschema",
-      "community": 38,
+      "community": 24,
       "norm_label": "customersignupschema"
     },
     {
@@ -12159,7 +12474,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L56",
       "id": "utils_validators_forgotpasswordschema",
-      "community": 38,
+      "community": 24,
       "norm_label": "forgotpasswordschema"
     },
     {
@@ -12168,7 +12483,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L62",
       "id": "utils_validators_resetpasswordschema",
-      "community": 38,
+      "community": 24,
       "norm_label": "resetpasswordschema"
     },
     {
@@ -12177,7 +12492,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L69",
       "id": "utils_validators_verifyemailschema",
-      "community": 38,
+      "community": 24,
       "norm_label": "verifyemailschema"
     },
     {
@@ -12186,7 +12501,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L74",
       "id": "utils_validators_resendverificationschema",
-      "community": 38,
+      "community": 24,
       "norm_label": "resendverificationschema"
     },
     {
@@ -12366,7 +12681,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L320",
       "id": "utils_validators_galleryschema",
-      "community": 22,
+      "community": 100,
       "norm_label": "galleryschema"
     },
     {
@@ -12393,7 +12708,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L350",
       "id": "utils_validators_activeservicesbysalonschema",
-      "community": 21,
+      "community": 122,
       "norm_label": "activeservicesbysalonschema"
     },
     {
@@ -12787,7 +13102,7 @@
       "label": "Completed",
       "file_type": "document",
       "source_file": "IMPROVEMENT_LOG.md",
-      "source_location": "L37",
+      "source_location": "L38",
       "id": "fresha_salon_app_improvement_log_completed",
       "community": 82,
       "norm_label": "completed"
@@ -15902,7 +16217,7 @@
       "file_type": "code",
       "source_file": "routes/userRoutes.js",
       "source_location": "L5",
-      "community": 38,
+      "community": 24,
       "norm_label": "{ validate, loginschema, customersignupschema, forgotpasswordschema, resetpasswordschema }",
       "id": "routes_userroutes_validate_loginschema_customersignupschema_forgotpasswordschema_resetpasswordschema"
     },
@@ -17062,6 +17377,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "controllers_admincontroller_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/pagination.test.js",
       "source_location": "L15",
       "weight": 1.0,
@@ -17076,9 +17402,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "controllers_admincontroller_js",
-      "confidence_score": 1.0
+      "target": "controllers_admincontroller_js"
     },
     {
       "relation": "imports_from",
@@ -17087,9 +17413,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "controllers_admincontroller_js",
-      "confidence_score": 1.0
+      "target": "controllers_admincontroller_js"
     },
     {
       "relation": "contains",
@@ -17141,9 +17467,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "controllers_admincontroller_getallappointments",
-      "confidence_score": 1.0
+      "target": "controllers_admincontroller_getallappointments"
     },
     {
       "relation": "calls",
@@ -17226,12 +17552,23 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "controllers_admincontroller_getplatformstats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/tips.test.js",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "controllers_admincontroller_getplatformstats",
-      "confidence_score": 1.0
+      "target": "controllers_admincontroller_getplatformstats"
     },
     {
       "relation": "imports",
@@ -17642,6 +17979,38 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "controllers/appointmentController.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "controllers_appointmentcontroller_js",
+      "target": "services_loyaltyservice_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/appointmentController.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "controllers_appointmentcontroller_js",
+      "target": "services_loyaltyservice_awardforcompletedappointment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/appointmentController.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "controllers_appointmentcontroller_js",
+      "target": "controllers_appointmentcontroller_awardforcompletedappointment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/appointmentController.js",
       "source_location": "L13",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -17956,6 +18325,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "controllers_appointmentcontroller_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/noshow-and-staff-schedule.test.js",
       "source_location": "L12",
       "weight": 1.0,
@@ -17992,9 +18372,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "controllers_appointmentcontroller_js",
-      "confidence_score": 1.0
+      "target": "controllers_appointmentcontroller_js"
     },
     {
       "relation": "imports_from",
@@ -18231,9 +18611,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "controllers_appointmentcontroller_getallappointmentsbyuserid",
-      "confidence_score": 1.0
+      "target": "controllers_appointmentcontroller_getallappointmentsbyuserid"
     },
     {
       "relation": "calls",
@@ -18286,9 +18666,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "controllers_appointmentcontroller_getscheduledappointmentsbysalonid",
-      "confidence_score": 1.0
+      "target": "controllers_appointmentcontroller_getscheduledappointmentsbysalonid"
     },
     {
       "relation": "calls",
@@ -18330,9 +18710,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "controllers_appointmentcontroller_exportappointmentscsv",
-      "confidence_score": 1.0
+      "target": "controllers_appointmentcontroller_exportappointmentscsv"
     },
     {
       "relation": "calls",
@@ -18495,9 +18875,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "controllers_appointmentcontroller_rescheduleappointment",
-      "confidence_score": 1.0
+      "target": "controllers_appointmentcontroller_rescheduleappointment"
     },
     {
       "relation": "imports",
@@ -18635,6 +19015,17 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "controllers_appointmentcontroller_updateappointmentstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/noshow-and-staff-schedule.test.js",
       "source_location": "L12",
       "weight": 1.0,
@@ -18681,10 +19072,32 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "controllers/appointmentController.js",
+      "source_location": "L669",
+      "weight": 1.0,
+      "source": "controllers_appointmentcontroller_updateappointmentstatus",
+      "target": "services_loyaltyservice_awardforcompletedappointment"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "controllers/appointmentController.js",
       "source_location": "L382",
       "weight": 1.0,
       "source": "controllers_appointmentcontroller_updateappointmentstatus",
       "target": "services_notificationservice_notify"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_setstatus",
+      "target": "controllers_appointmentcontroller_updateappointmentstatus"
     },
     {
       "relation": "imports_from",
@@ -19448,9 +19861,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "controllers_paymentcontroller_js",
-      "confidence_score": 1.0
+      "target": "controllers_paymentcontroller_js"
     },
     {
       "relation": "imports_from",
@@ -19470,9 +19883,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "controllers_paymentcontroller_js",
-      "confidence_score": 1.0
+      "target": "controllers_paymentcontroller_js"
     },
     {
       "relation": "imports_from",
@@ -21363,6 +21776,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "controllers/userController.js",
+      "source_location": "L288",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "controllers_usercontroller_getloyaltybalance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
       "source_location": "L183",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -21390,6 +21813,17 @@
       "confidence_score": 1.0,
       "source": "tests_email_verification_test_js",
       "target": "controllers_usercontroller_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "controllers_usercontroller_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -21478,6 +21912,28 @@
       "confidence_score": 1.0,
       "source": "tests_email_verification_test_js",
       "target": "controllers_usercontroller_resendverification"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "controllers_usercontroller_getuserprofile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "controllers_usercontroller_getloyaltybalance",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -23962,6 +24418,17 @@
       "target": "middlewares_authmiddleware_js"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "middlewares_authmiddleware_js",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "middlewares/rateLimiters.js",
@@ -24178,6 +24645,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "models_appointmentmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/noshow-and-staff-schedule.test.js",
       "source_location": "L6",
       "weight": 1.0,
@@ -24214,9 +24692,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "models_appointmentmodel_js",
-      "confidence_score": 1.0
+      "target": "models_appointmentmodel_js"
     },
     {
       "relation": "imports_from",
@@ -24269,9 +24747,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "models_appointmentmodel_js",
-      "confidence_score": 1.0
+      "target": "models_appointmentmodel_js"
     },
     {
       "relation": "imports_from",
@@ -24592,6 +25070,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "models_notificationmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/noshow-and-staff-schedule.test.js",
       "source_location": "L11",
       "weight": 1.0,
@@ -24703,9 +25192,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "models_paymentmodel_js",
-      "confidence_score": 1.0
+      "target": "models_paymentmodel_js"
     },
     {
       "relation": "imports_from",
@@ -24736,9 +25225,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "models_paymentmodel_js",
-      "confidence_score": 1.0
+      "target": "models_paymentmodel_js"
     },
     {
       "relation": "contains",
@@ -24800,9 +25289,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "models_promocodemodel_js",
-      "confidence_score": 1.0
+      "target": "models_promocodemodel_js"
     },
     {
       "relation": "contains",
@@ -24960,6 +25449,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "models_salonsmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/noshow-and-staff-schedule.test.js",
       "source_location": "L8",
       "weight": 1.0,
@@ -24996,9 +25496,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "models_salonsmodel_js",
-      "confidence_score": 1.0
+      "target": "models_salonsmodel_js"
     },
     {
       "relation": "imports_from",
@@ -25106,9 +25606,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "models_salonsmodel_js",
-      "confidence_score": 1.0
+      "target": "models_salonsmodel_js"
     },
     {
       "relation": "imports_from",
@@ -25244,6 +25744,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "models_servicesmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/noshow-and-staff-schedule.test.js",
       "source_location": "L10",
       "weight": 1.0,
@@ -25280,9 +25791,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "models_servicesmodel_js",
-      "confidence_score": 1.0
+      "target": "models_servicesmodel_js"
     },
     {
       "relation": "imports_from",
@@ -25379,9 +25890,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "models_servicesmodel_js",
-      "confidence_score": 1.0
+      "target": "models_servicesmodel_js"
     },
     {
       "relation": "imports_from",
@@ -25581,6 +26092,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "models_staffmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/noshow-and-staff-schedule.test.js",
       "source_location": "L9",
       "weight": 1.0,
@@ -25617,9 +26139,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "models_staffmodel_js",
-      "confidence_score": 1.0
+      "target": "models_staffmodel_js"
     },
     {
       "relation": "imports_from",
@@ -25705,9 +26227,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "models_staffmodel_js",
-      "confidence_score": 1.0
+      "target": "models_staffmodel_js"
     },
     {
       "relation": "imports_from",
@@ -25803,6 +26325,17 @@
       "confidence_score": 1.0,
       "source": "models_usermodel_js",
       "target": "models_usermodel_user"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "services/loyaltyService.js",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "services_loyaltyservice_js",
+      "target": "models_usermodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -25918,6 +26451,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "models_usermodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/noshow-and-staff-schedule.test.js",
       "source_location": "L7",
       "weight": 1.0,
@@ -25954,9 +26498,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "models_usermodel_js",
-      "confidence_score": 1.0
+      "target": "models_usermodel_js"
     },
     {
       "relation": "imports_from",
@@ -26031,9 +26575,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "models_usermodel_js",
-      "confidence_score": 1.0
+      "target": "models_usermodel_js"
     },
     {
       "relation": "imports_from",
@@ -28542,6 +29086,17 @@
       "target": "routes_userroutes_strictlimiter"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "routes_userroutes_js",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "routes/userRoutes.js",
@@ -29027,9 +29582,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "services_cashfreeservices_js",
-      "confidence_score": 1.0
+      "target": "services_cashfreeservices_js"
     },
     {
       "relation": "imports_from",
@@ -29038,9 +29593,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "services_cashfreeservices_js",
-      "confidence_score": 1.0
+      "target": "services_cashfreeservices_js"
     },
     {
       "relation": "imports_from",
@@ -29220,6 +29775,80 @@
       "confidence_score": 1.0,
       "source": "tests_status_emails_test_js",
       "target": "services_emailservice_sendbookingstatusemail"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/loyaltyService.js",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "services_loyaltyservice_js",
+      "target": "services_loyaltyservice_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "services/loyaltyService.js",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "services_loyaltyservice_js",
+      "target": "utils_logger_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/loyaltyService.js",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "services_loyaltyservice_js",
+      "target": "services_loyaltyservice_logger",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/loyaltyService.js",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "services_loyaltyservice_js",
+      "target": "services_loyaltyservice_awardforcompletedappointment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "services_loyaltyservice_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "services_loyaltyservice_awardforcompletedappointment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "services/loyaltyService.js",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "services_loyaltyservice_awardforcompletedappointment",
+      "target": "services_notificationservice_notify"
     },
     {
       "relation": "imports_from",
@@ -29402,9 +30031,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "services_paymentservice_js",
-      "confidence_score": 1.0
+      "target": "services_paymentservice_js"
     },
     {
       "relation": "imports_from",
@@ -29424,9 +30053,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "services_paymentservice_js",
-      "confidence_score": 1.0
+      "target": "services_paymentservice_js"
     },
     {
       "relation": "calls",
@@ -29501,9 +30130,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "services_paymentservice_finalizeappointmentfrompayment",
-      "confidence_score": 1.0
+      "target": "services_paymentservice_finalizeappointmentfrompayment"
     },
     {
       "relation": "imports",
@@ -29523,9 +30152,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "services_paymentservice_finalizeappointmentfrompayment",
-      "confidence_score": 1.0
+      "target": "services_paymentservice_finalizeappointmentfrompayment"
     },
     {
       "relation": "contains",
@@ -32245,6 +32874,319 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_test_before_after",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_assert",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "utils_database_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_sequelize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_salons",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_staff",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_services",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_appointment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_notification",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_updateappointmentstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_getloyaltybalance_getuserprofile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_getplatformstats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_awardforcompletedappointment_points_per_appointment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_authmiddleware",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_userroutes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_mockreq",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_mockres",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_waitfor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_salonas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_mkconfirmedappt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L77",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_setstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L264",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_res",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L181",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_theirs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L195",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_guard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L197",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_denied",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L203",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_allowed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L209",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_layer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L211",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_js",
+      "target": "tests_loyalty_test_handlers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_setstatus",
+      "target": "tests_loyalty_test_mockreq",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/loyalty.test.js",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "tests_loyalty_test_setstatus",
+      "target": "tests_loyalty_test_mockres",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "tests/noshow-and-staff-schedule.test.js",
       "source_location": "L1",
       "weight": 1.0,
@@ -33194,9 +34136,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_test_before_after",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_test_before_after"
     },
     {
       "relation": "contains",
@@ -33204,9 +34146,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_assert",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_assert"
     },
     {
       "relation": "imports_from",
@@ -33215,9 +34157,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "utils_database_js",
-      "confidence_score": 1.0
+      "target": "utils_database_js"
     },
     {
       "relation": "contains",
@@ -33225,9 +34167,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_sequelize",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_sequelize"
     },
     {
       "relation": "contains",
@@ -33235,9 +34177,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_salons",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_salons"
     },
     {
       "relation": "contains",
@@ -33245,9 +34187,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_staff",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_staff"
     },
     {
       "relation": "contains",
@@ -33255,9 +34197,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_services",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_services"
     },
     {
       "relation": "contains",
@@ -33265,9 +34207,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_user",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_user"
     },
     {
       "relation": "contains",
@@ -33275,9 +34217,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_appointment",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_appointment"
     },
     {
       "relation": "contains",
@@ -33285,9 +34227,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_payment",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_payment"
     },
     {
       "relation": "contains",
@@ -33295,9 +34237,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_cashfree",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_cashfree"
     },
     {
       "relation": "contains",
@@ -33305,9 +34247,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_processpayment",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_processpayment"
     },
     {
       "relation": "contains",
@@ -33315,9 +34257,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_finalizeappointmentfrompayment",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_finalizeappointmentfrompayment"
     },
     {
       "relation": "contains",
@@ -33325,9 +34267,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_rescheduleappointment_getallappointmentsbyuserid_getscheduledappointmentsbysalonid_exportappointmentscsv",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_rescheduleappointment_getallappointmentsbyuserid_getscheduledappointmentsbysalonid_exportappointmentscsv"
     },
     {
       "relation": "contains",
@@ -33335,9 +34277,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_getallappointments",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_getallappointments"
     },
     {
       "relation": "imports_from",
@@ -33346,9 +34288,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "utils_validators_js",
-      "confidence_score": 1.0
+      "target": "utils_validators_js"
     },
     {
       "relation": "imports",
@@ -33357,9 +34299,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "utils_validators_validate",
-      "confidence_score": 1.0
+      "target": "utils_validators_validate"
     },
     {
       "relation": "imports",
@@ -33368,9 +34310,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "utils_validators_paymentcreateschema",
-      "confidence_score": 1.0
+      "target": "utils_validators_paymentcreateschema"
     },
     {
       "relation": "imports",
@@ -33379,9 +34321,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "utils_validators_rescheduleschema",
-      "confidence_score": 1.0
+      "target": "utils_validators_rescheduleschema"
     },
     {
       "relation": "contains",
@@ -33389,9 +34331,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_validate_paymentcreateschema_rescheduleschema",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_validate_paymentcreateschema_rescheduleschema"
     },
     {
       "relation": "contains",
@@ -33399,9 +34341,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_mockreq",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_mockreq"
     },
     {
       "relation": "contains",
@@ -33409,9 +34351,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_mockres",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_mockres"
     },
     {
       "relation": "contains",
@@ -33419,9 +34361,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_mockpayreq",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_mockpayreq"
     },
     {
       "relation": "contains",
@@ -33429,9 +34371,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L50",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_runmw",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_runmw"
     },
     {
       "relation": "contains",
@@ -33439,9 +34381,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L57",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_pad",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_pad"
     },
     {
       "relation": "contains",
@@ -33449,9 +34391,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L58",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_ymd",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_ymd"
     },
     {
       "relation": "contains",
@@ -33459,9 +34401,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L59",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_daysfromnow",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_daysfromnow"
     },
     {
       "relation": "contains",
@@ -33469,9 +34411,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L124",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_base",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_base"
     },
     {
       "relation": "contains",
@@ -33479,9 +34421,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L126",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_err",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_err"
     },
     {
       "relation": "contains",
@@ -33489,9 +34431,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L94",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_parsedlow",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_parsedlow"
     },
     {
       "relation": "contains",
@@ -33499,9 +34441,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L101",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_parsedhigh",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_parsedhigh"
     },
     {
       "relation": "contains",
@@ -33509,9 +34451,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L108",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_coerced",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_coerced"
     },
     {
       "relation": "contains",
@@ -33519,9 +34461,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L116",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_parsed",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_parsed"
     },
     {
       "relation": "contains",
@@ -33529,9 +34471,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L133",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_bare",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_bare"
     },
     {
       "relation": "contains",
@@ -33539,9 +34481,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L169",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_payreq",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_payreq"
     },
     {
       "relation": "contains",
@@ -33549,9 +34491,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L177",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_payres",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_payres"
     },
     {
       "relation": "contains",
@@ -33559,9 +34501,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L201",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_moveres",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_moveres"
     },
     {
       "relation": "contains",
@@ -33569,9 +34511,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L212",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_keepres",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_keepres"
     },
     {
       "relation": "contains",
@@ -33579,9 +34521,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L227",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_bigday",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_bigday"
     },
     {
       "relation": "contains",
@@ -33589,9 +34531,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L235",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_custres",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_custres"
     },
     {
       "relation": "contains",
@@ -33599,9 +34541,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L241",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_salonres",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_salonres"
     },
     {
       "relation": "contains",
@@ -33609,9 +34551,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L247",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_adminres",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_adminres"
     },
     {
       "relation": "contains",
@@ -33619,9 +34561,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L254",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_soloday",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_soloday"
     },
     {
       "relation": "contains",
@@ -33629,9 +34571,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L255",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_groupday",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_groupday"
     },
     {
       "relation": "contains",
@@ -33639,9 +34581,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L267",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_res",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_res"
     },
     {
       "relation": "contains",
@@ -33649,9 +34591,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L271",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_lines",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_lines"
     },
     {
       "relation": "contains",
@@ -33659,9 +34601,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L272",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_header",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_header"
     },
     {
       "relation": "contains",
@@ -33669,9 +34611,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L275",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_js",
-      "target": "tests_party_size_test_rowfor",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_rowfor"
     },
     {
       "relation": "calls",
@@ -33691,9 +34633,9 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L58",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_party_size_test_ymd",
-      "target": "tests_party_size_test_pad",
-      "confidence_score": 1.0
+      "target": "tests_party_size_test_pad"
     },
     {
       "relation": "contains",
@@ -35784,9 +36726,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_test_before_after",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_test_before_after"
     },
     {
       "relation": "contains",
@@ -35794,9 +36736,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_assert",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_assert"
     },
     {
       "relation": "imports_from",
@@ -35805,9 +36747,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "utils_database_js",
-      "confidence_score": 1.0
+      "target": "utils_database_js"
     },
     {
       "relation": "contains",
@@ -35815,9 +36757,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_sequelize",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_sequelize"
     },
     {
       "relation": "contains",
@@ -35825,9 +36767,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_salons",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_salons"
     },
     {
       "relation": "contains",
@@ -35835,9 +36777,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_staff",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_staff"
     },
     {
       "relation": "contains",
@@ -35845,9 +36787,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_services",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_services"
     },
     {
       "relation": "contains",
@@ -35855,9 +36797,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_user",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_user"
     },
     {
       "relation": "contains",
@@ -35865,9 +36807,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_appointment",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_appointment"
     },
     {
       "relation": "contains",
@@ -35875,9 +36817,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_payment",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_payment"
     },
     {
       "relation": "contains",
@@ -35885,9 +36827,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_promocode",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_promocode"
     },
     {
       "relation": "contains",
@@ -35895,9 +36837,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_cashfree",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_cashfree"
     },
     {
       "relation": "contains",
@@ -35905,9 +36847,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_gatewaycalls",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_gatewaycalls"
     },
     {
       "relation": "contains",
@@ -35915,9 +36857,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_processpayment",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_processpayment"
     },
     {
       "relation": "contains",
@@ -35925,9 +36867,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_finalizeappointmentfrompayment",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_finalizeappointmentfrompayment"
     },
     {
       "relation": "contains",
@@ -35935,9 +36877,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_getplatformstats",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_getplatformstats"
     },
     {
       "relation": "imports_from",
@@ -35946,9 +36888,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "utils_validators_js",
-      "confidence_score": 1.0
+      "target": "utils_validators_js"
     },
     {
       "relation": "imports",
@@ -35957,9 +36899,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "utils_validators_validate",
-      "confidence_score": 1.0
+      "target": "utils_validators_validate"
     },
     {
       "relation": "imports",
@@ -35968,9 +36910,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "utils_validators_paymentcreateschema",
-      "confidence_score": 1.0
+      "target": "utils_validators_paymentcreateschema"
     },
     {
       "relation": "contains",
@@ -35978,9 +36920,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_validate_paymentcreateschema",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_validate_paymentcreateschema"
     },
     {
       "relation": "contains",
@@ -35988,9 +36930,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_mockreq",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_mockreq"
     },
     {
       "relation": "contains",
@@ -35998,9 +36940,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L30",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_mockres",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_mockres"
     },
     {
       "relation": "contains",
@@ -36008,9 +36950,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_mockpayreq",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_mockpayreq"
     },
     {
       "relation": "contains",
@@ -36018,9 +36960,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L48",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_runmw",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_runmw"
     },
     {
       "relation": "contains",
@@ -36028,9 +36970,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_pad",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_pad"
     },
     {
       "relation": "contains",
@@ -36038,9 +36980,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_ymd",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_ymd"
     },
     {
       "relation": "contains",
@@ -36048,9 +36990,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L57",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_daysfromnow",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_daysfromnow"
     },
     {
       "relation": "contains",
@@ -36058,9 +37000,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L61",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_basebody",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_basebody"
     },
     {
       "relation": "contains",
@@ -36068,9 +37010,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L119",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_base",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_base"
     },
     {
       "relation": "contains",
@@ -36078,9 +37020,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L95",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_err",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_err"
     },
     {
       "relation": "contains",
@@ -36088,9 +37030,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L109",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_coerced",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_coerced"
     },
     {
       "relation": "contains",
@@ -36098,9 +37040,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L112",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_rounded",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_rounded"
     },
     {
       "relation": "contains",
@@ -36108,9 +37050,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_dust",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_dust"
     },
     {
       "relation": "contains",
@@ -36118,9 +37060,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L120",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_bare",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_bare"
     },
     {
       "relation": "contains",
@@ -36128,9 +37070,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L124",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_nulled",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_nulled"
     },
     {
       "relation": "contains",
@@ -36138,9 +37080,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L304",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_res",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_res"
     },
     {
       "relation": "contains",
@@ -36148,9 +37090,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L254",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_payres",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_payres"
     },
     {
       "relation": "contains",
@@ -36158,9 +37100,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L242",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_gw",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_gw"
     },
     {
       "relation": "contains",
@@ -36168,9 +37110,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L288",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_js",
-      "target": "tests_tips_test_mkrow",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_mkrow"
     },
     {
       "relation": "calls",
@@ -36190,9 +37132,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_ymd",
-      "target": "tests_tips_test_pad",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_pad"
     },
     {
       "relation": "calls",
@@ -36201,9 +37143,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_basebody",
-      "target": "tests_tips_test_ymd",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_ymd"
     },
     {
       "relation": "calls",
@@ -36212,9 +37154,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L294",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_mkrow",
-      "target": "tests_tips_test_ymd",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_ymd"
     },
     {
       "relation": "calls",
@@ -36223,9 +37165,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_basebody",
-      "target": "tests_tips_test_daysfromnow",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_daysfromnow"
     },
     {
       "relation": "calls",
@@ -36234,9 +37176,9 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L294",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_tips_test_mkrow",
-      "target": "tests_tips_test_daysfromnow",
-      "confidence_score": 1.0
+      "target": "tests_tips_test_daysfromnow"
     },
     {
       "relation": "contains",
@@ -41107,5 +42049,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "db22b57685276aa2f97dd7b5f728ccbb494d4693"
+  "built_at_commit": "9a4775790ad582467df7618f9fc7974f3515775e"
 }
