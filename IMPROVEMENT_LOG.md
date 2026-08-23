@@ -28,6 +28,7 @@ Baseline at start: 21/21 tests passing on branch `improve/app-hardening`.
 | 19 | Frontend polish (React) | ✅ |
 | 20 | Test sweep: favorites & services CRUD coverage | ✅ |
 | 21 | Docs: README feature matrix + final verification | ✅ |
+| 22 | Feature: browse search & filters | ✅ |
 
 ## Completed
 
@@ -73,5 +74,7 @@ Baseline at start: 21/21 tests passing on branch `improve/app-hardening`.
 
 - **#21 Docs: README feature matrix + final verification** — created `README.md` at the repo root: product overview (salon booking platform with customer/salon/staff/admin surfaces), a grouped feature matrix (Security & Auth, Booking, Engagement, Salon tools, Platform), an API quick reference of the notable endpoints added across this loop, and setup/test/build instructions (`JWT_SECRET` mandatory, SQLite dev / Postgres prod, `npm test` = 207 tests, Vite build via `npm run build --prefix frontend`). Renumbered this log's Completed entries to run sequentially #1–#21 in roadmap order and marked roadmap row 21 done. Final verification: full suite green and boot smoke test exited 0.
 
-Loop complete: 21 iterations, tests 21 → 207, all committed & pushed.
+- **#22 Browse search & filters** — the public browse endpoint `GET /api/business/getall` (+ `/buisness` alias) now fully honors its discovery params. New `search` query param: case-insensitive substring over salon name AND address implemented as `lower(column) LIKE '%term%'` via `sequelize.fn/col/where` — deliberately NOT bare `Op.like` (case-insensitive on SQLite only) or `Op.iLike` (Postgres-only) so SQLite dev and Postgres prod behave identically; zod trims it, and if the legacy raw-LIKE `q` is also given both filters intersect via an `Op.and` group. New `sort=name` option (ORDER BY name ASC) added to the existing rating/price-low/price-high/newest enum in `salonBrowseSchema`. `category` and `minRating` were already wired in `getAllSalons` (active-service subquery → `salonId IN (...)`; denormalized `avgRating` column kept correct by `refreshSalonRatingCache` after every review write) — investigated, reused as-is rather than reimplemented, and pinned by tests. Backward compatible: no params → legacy bare array unchanged; any param → `{ data, total, page, totalPages }` envelope; response shape never changed, only filtering/ordering. 12 new tests in `tests/browse-search.test.js`: no-param insertion-order passthrough, search hit-by-name / hit-by-address case-insensitively / miss → empty envelope, category filter incl. zero-provider category, minRating boundary (avg exactly 3.0 passes at `minRating=3`, drops at 3.5, unrated NULLs never match), sort by name/rating (unrated last)/newest actually reorder scrambled fixtures, combined search+sort, invalid sort enum + out-of-range/garbage minRating → 400 with string coercion verified at the middleware layer. Tests: 207 → 219.
+
+Loop complete: 22 iterations, tests 21 → 219, all committed & pushed.
 

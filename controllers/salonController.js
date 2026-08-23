@@ -122,12 +122,14 @@ const salonLogin = async (req, res) => {
  * Browse salons with optional server-side filtering, sorting, and pagination.
  *
  * Query params (all optional — from salonBrowseSchema):
- *   q         — name/address LIKE search
+ *   q         — name/address LIKE search (legacy param, raw LIKE)
+ *   search    — case-insensitive name/address substring search (portable)
  *   category  — filter to salons offering a service in this category
  *   pricing   — Affordable | Moderate | Premium
  *   minPrice  / maxPrice — filter by service price range
- *   minRating — 1-5 (uses the denormalized avgRating column)
- *   sort      — rating | price-low | price-high | newest
+ *   minRating — 1-5 (uses the denormalized avgRating column, kept in sync by
+ *               refreshSalonRatingCache after every customer review)
+ *   sort      — rating | price-low | price-high | newest | name
  *   page / limit — pagination (1-based page)
  *
  * Backward compat: when NO query params are present, returns the bare array
@@ -136,7 +138,7 @@ const salonLogin = async (req, res) => {
  */
 const getAllSalons = async (req, res) => {
     try {
-        const { q, category, pricing, minPrice, maxPrice, minRating, sort, page, limit } = req.query;
+        const { q, search, category, pricing, minPrice, maxPrice, minRating, sort, page, limit } = req.query;
 
         // Detect "plain browse" — no params at all -> legacy bare-array response.
         const hasParams = Object.keys(req.query).length > 0;
@@ -149,6 +151,26 @@ const getAllSalons = async (req, res) => {
                 { name: { [Op.like]: `%${q}%` } },
                 { address: { [Op.like]: `%${q}%` } },
             ];
+        }
+        // Newer `search`: case-insensitive substring on name + address. Done as
+        // lower(column) LIKE lower(term) so SQLite and Postgres behave the same
+        // (bare Op.like is case-insensitive only on SQLite; Postgres LIKE is
+        // case-sensitive and Op.iLike is Postgres-only). If the legacy `q` was
+        // also given, both filters intersect (AND).
+        if (search) {
+            const needle = `%${search.toLowerCase()}%`;
+            const searchGroup = {
+                [Op.or]: [
+                    sequelize.where(sequelize.fn('lower', sequelize.col('name')), { [Op.like]: needle }),
+                    sequelize.where(sequelize.fn('lower', sequelize.col('address')), { [Op.like]: needle }),
+                ],
+            };
+            if (where[Op.or]) {
+                where[Op.and] = [{ [Op.or]: where[Op.or] }, searchGroup];
+                delete where[Op.or];
+            } else {
+                where[Op.and] = [searchGroup];
+            }
         }
         if (pricing) {
             where.pricing = pricing;
@@ -187,6 +209,8 @@ const getAllSalons = async (req, res) => {
             order.push([sequelize.literal('avgRating DESC NULLS LAST')]);
         } else if (sort === 'newest') {
             order.push(['createdAt', 'DESC']);
+        } else if (sort === 'name') {
+            order.push(['name', 'ASC']);
         } else if (sort === 'price-low' || sort === 'price-high') {
             // Price sort: order by the salon's minimum service price.
             const dir = sort === 'price-low' ? 'ASC' : 'DESC';

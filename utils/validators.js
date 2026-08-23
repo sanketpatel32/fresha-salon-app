@@ -99,12 +99,15 @@ const serviceUpdateSchema = z.object({
 // ── Salon browse / discovery (GET query params) ─────────────────────────
 const salonBrowseSchema = z.object({
   q: z.string().max(200).optional(),
+  // Newer, portable case-insensitive text search (see getAllSalons): trimmed
+  // so leading/trailing whitespace can't silently narrow a substring match.
+  search: z.string().trim().max(200).optional(),
   category: z.enum(SERVICE_CATEGORIES).optional(),
   pricing: z.enum(['Affordable', 'Moderate', 'Premium']).optional(),
   minPrice: z.coerce.number().min(0).optional(),
   maxPrice: z.coerce.number().min(0).optional(),
   minRating: z.coerce.number().min(1).max(5).optional(),
-  sort: z.enum(['rating', 'price-low', 'price-high', 'newest']).optional(),
+  sort: z.enum(['rating', 'price-low', 'price-high', 'newest', 'name']).optional(),
   page: z.coerce.number().int().positive().max(1000).optional(),
   limit: z.coerce.number().int().positive().max(100).optional(),
 });
