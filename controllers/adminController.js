@@ -241,6 +241,18 @@ const getPlatformStats = async (req, res) => {
         });
         const revenueTotal = Number(revenueRow ? revenueRow.get('revenue') : 0);
 
+        // Total customer tips actually captured: SUM(tipAmount) over successful
+        // payments whose booking finalized (tipCaptured=1, flipped inside
+        // finalizeAppointmentFromPayment). Pending/failed/unfinalized orders
+        // are excluded; NULL (tip-less) rows are skipped by SUM itself.
+        // COALESCE keeps this 0 (not null) on an empty ledger — same
+        // fn/col/literal aggregation style as the revenue sum above.
+        const tipsRow = await paymentModel.findOne({
+            attributes: [[fn('COALESCE', fn('SUM', col('tipAmount')), literal('0')), 'totalTips']],
+            where: { paymentStatus: 'Success', tipCaptured: 1 },
+        });
+        const totalTips = Number(tipsRow ? tipsRow.get('totalTips') : 0);
+
         // New customer signups in the trailing 7 days.
         const weekAgo = new Date(Date.now() - 7 * 24 * 3600 * 1000);
         const newCustomers = await userModel.count({
@@ -253,6 +265,7 @@ const getPlatformStats = async (req, res) => {
             totalStaff,
             appointmentsByStatus,
             revenueTotal,
+            totalTips,
             last7Days: { newCustomers },
             serverTimestamp: new Date().toISOString(),
         });

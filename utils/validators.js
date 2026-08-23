@@ -160,6 +160,19 @@ const paymentCreateSchema = z.object({
     .min(1, 'Party size must be at least 1')
     .max(20, 'Party size cannot exceed 20')
     .default(1),
+  // Optional tip on top of the final charge. Coerced (the SPA may send a
+  // string), bounded 0..10000 inclusive, and rounded to 2dp so the ledger
+  // never carries sub-paise dust. Omitted or null → no tip; the controller
+  // then runs byte-identically to the pre-tip flow. The tip is added AFTER
+  // the promo discount and deliberately does NOT count toward promo
+  // min-order thresholds (see processPayment — resolvePromo only ever sees
+  // the authoritative price).
+  tipAmount: z.coerce.number()
+    .min(0, 'Tip cannot be negative')
+    .max(10000, 'Tip cannot exceed 10000')
+    .transform((v) => (v == null ? v : Math.round((Number(v) + Number.EPSILON) * 100) / 100))
+    .optional()
+    .nullable(),
 });
 
 // ── Promo codes (salon management) ─────────────────────────────────────

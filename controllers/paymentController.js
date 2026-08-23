@@ -32,7 +32,7 @@ const crypto = require("crypto");
  */
 exports.processPayment = async (req, res) => {
   const userId = req.user.userId;
-  const { serviceId, salonId, dateSelect, time, staffId, duration, promoCode, customerNote } = req.body;
+  const { serviceId, salonId, dateSelect, time, staffId, duration, promoCode, customerNote, tipAmount } = req.body;
   // Group bookings: the schema coerces + bounds this to 1..20 and defaults it
   // to 1 when omitted; the fallback covers direct callers that skip the
   // middleware. One professional serves the whole group — the size never
@@ -68,7 +68,19 @@ exports.processPayment = async (req, res) => {
     // the same number is non-negotiable.
     const originalAmount = priceResult.price;
     const discountAmount = promoResult ? promoResult.discountAmount : 0;
-    const orderAmount = Math.max(0, round2(originalAmount - discountAmount));
+
+    // Optional customer tip (schema-clamped 0..10000, already 2dp). It is
+    // ADDED ON TOP of the discounted charge — never discounted itself — and,
+    // because resolvePromo above was called with the authoritative price only,
+    // a large tip can NEVER satisfy a promo's min-order threshold
+    // (deliberate anti-gaming rule; covered by tests).
+    const tip = typeof tipAmount === 'number' && Number.isFinite(tipAmount) && tipAmount > 0
+      ? round2(tipAmount)
+      : null;
+    // Final charge = max(0, original − discount) + tip. The outer round2 only
+    // strips float dust from the addition (e.g. 424.96 + 7.77) — when no tip
+    // is present this is byte-identical to the pre-tip expression.
+    const orderAmount = round2(Math.max(0, round2(originalAmount - discountAmount)) + (tip || 0));
 
     // 1b. Enforce salon working hours/days here too. A customer could otherwise
     //     skip the /appointment/check step and POST straight to /pay with an
@@ -126,11 +138,14 @@ exports.processPayment = async (req, res) => {
     await Payment.create({
       orderId,
       paymentSessionId,
-      orderAmount, // discounted final charge — matches the Cashfree order
+      orderAmount, // discounted final charge + optional tip — matches the Cashfree order
       orderCurrency,
       originalAmount,
       discountAmount,
       promoCodeApplied: promoResult ? promoResult.promo.code : null,
+      // Persisted so the breakdown stays auditable (original vs discount vs
+      // tip); tipCaptured stays 0 until the booking actually finalizes.
+      tipAmount: tip,
       paymentStatus: "Pending",
       customerID: userId,
       dateSelected: dateSelect,

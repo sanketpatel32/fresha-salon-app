@@ -293,13 +293,17 @@ app.listen(PORT, () => {
       // customerNote is the carrier that threads the customer's booking note
       // from order creation to appointment finalization; partySize is the
       // matching carrier for group bookings (NOT NULL DEFAULT 1 so legacy
-      // rows stay valid).
+      // rows stay valid). tipAmount/tipCaptured are the optional-tip pair:
+      // nullable DECIMAL for the amount (null = no tip), INTEGER NOT NULL
+      // DEFAULT 0 for the "booking finalized" flag.
       await ensureColumns(Payment, 'payments', [
         { name: 'originalAmount', typeSql: 'DECIMAL(10,2)' },
         { name: 'discountAmount', typeSql: 'DECIMAL(10,2)' },
         { name: 'promoCodeApplied', typeSql: 'VARCHAR(64)' },
         { name: 'customerNote', typeSql: 'TEXT' },
         { name: 'partySize', typeSql: 'INTEGER NOT NULL DEFAULT 1' },
+        { name: 'tipAmount', typeSql: 'DECIMAL(10,2)' },
+        { name: 'tipCaptured', typeSql: 'INTEGER NOT NULL DEFAULT 0' },
       ]);
       // Salon photo gallery (JSON string[] of image URLs). TEXT is valid on
       // both SQLite and Postgres, so no dialect switch needed here either.

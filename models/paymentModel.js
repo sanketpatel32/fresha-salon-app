@@ -101,6 +101,29 @@ const Payment = sequelize.define('payment', {
         defaultValue: 1
     },
 
+    // ── Optional customer tip ──
+    // Captured at order creation (schema-clamped 0..10000, rounded to 2dp).
+    // The tip is ADDED ON TOP of the discounted service charge when both the
+    // Cashfree order and this row's orderAmount are computed (see
+    // processPayment) — it is itself never discounted, and it deliberately
+    // does NOT count toward promo min-order thresholds. Null = no tip, which
+    // keeps legacy rows (and tip-less orders) valid without backfill.
+    tipAmount: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: true
+    },
+    // Flips to 1 inside finalizeAppointmentFromPayment once the booking has
+    // actually materialized — mirroring how success bookkeeping works for the
+    // promo ledger. Admin tip totals only sum rows where this flag is set, so
+    // a tipped order that never completes a booking can't inflate them.
+    // NOT NULL DEFAULT 0 keeps legacy rows valid after the boot-time
+    // ensureColumns backfill.
+    tipCaptured: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    },
+
 });
 
 module.exports = Payment;

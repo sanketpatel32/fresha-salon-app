@@ -156,6 +156,22 @@ const finalizeAppointmentFromPayment = async (order) => {
     partySize: order.partySize || 1,
   });
 
+  // Tip bookkeeping: mark any tip on this order as captured now that the
+  // booking exists. Admin tip totals only count Success rows with this flag
+  // set, so a tipped order that never finalizes can't inflate them. The
+  // idempotent early-return above means redirect + webhook replays for the
+  // same order never reach this twice. Failures are swallowed like the promo
+  // counter below: a missed flag under-reports one stat but must never undo
+  // an already-captured booking.
+  if (order.tipCaptured !== 1) {
+    try {
+      order.tipCaptured = 1;
+      await order.save();
+    } catch (err) {
+      console.error('Tip capture flag update failed:', err.message);
+    }
+  }
+
   // Redeem the promo exactly once per booking. Only the success path reaches
   // here — the idempotent early-return above prevents replays (redirect +
   // webhook firing for the same order) from double-counting. Atomic SQL
