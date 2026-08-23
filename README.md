@@ -19,7 +19,8 @@ A salon booking platform. Customers browse salons and book **paid** appointments
 | Feature | Notes |
 |---|---|
 | Availability engine | Per-salon working hours, lead time (`bookingLeadTimeMinutes`) & slot step (`slotStepMinutes`), staff conflict + blockout checks |
-| Reschedule | Customers move upcoming bookings (>24 h out), optional staff reassignment, slot revalidated |
+| Group bookings | Optional `partySize` (1–20, default 1) on bookings; one professional serves the group — no extra staff slots |
+| Reschedule | Customers move upcoming bookings (>24 h out), optional staff reassignment + headcount change, slot revalidated |
 | Cancel policy | >24 h free cancellation window |
 | No-show status | Terminal `no-show` status, salon-only, past appointments only |
 | Promo codes | Percent/flat discounts with caps, windows, usage limits, per-salon scoping; idempotent redemption accounting |
@@ -110,7 +111,7 @@ npm run dev                # nodemon on http://localhost:3000
 ### Tests
 
 ```bash
-npm test                   # 244 tests across tests/*.test.js (node:test runner)
+npm test                   # 253 tests across tests/*.test.js (node:test runner)
 ```
 
 ### Frontend build
@@ -123,6 +124,6 @@ The Express server serves `frontend/dist` statically and falls back to its `inde
 
 ## Docs
 
-- [`IMPROVEMENT_LOG.md`](./IMPROVEMENT_LOG.md) — 24-iteration improvement loop log (security, features, tests).
+- [`IMPROVEMENT_LOG.md`](./IMPROVEMENT_LOG.md) — 25-iteration improvement loop log (security, features, tests).
 - [`DEPLOYMENT.md`](./DEPLOYMENT.md) — Render deployment notes.
 - [`SAMPLE_DATA.md`](./SAMPLE_DATA.md) — seeded demo accounts.

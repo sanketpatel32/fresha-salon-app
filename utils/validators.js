@@ -149,6 +149,17 @@ const paymentCreateSchema = z.object({
     .max(500, 'Customer note cannot exceed 500 characters')
     .optional()
     .nullable(),
+  // Group bookings: how many people the booking covers. Coerced (the SPA may
+  // send a string), whole-numbered, hard bounds 1..20 — out-of-range values
+  // are REJECTED with a 400 rather than silently clamped, matching how
+  // duration is validated. Omitted → defaults to 1 (a solo booking), so the
+  // parsed body always carries an explicit number for the Payment row. It is
+  // carried on the Payment until payment succeeds, then lands on the
+  // Appointment (see finalizeAppointmentFromPayment).
+  partySize: z.coerce.number().int('Party size must be a whole number')
+    .min(1, 'Party size must be at least 1')
+    .max(20, 'Party size cannot exceed 20')
+    .default(1),
 });
 
 // ── Promo codes (salon management) ─────────────────────────────────────
@@ -202,6 +213,9 @@ const promoUpdateSchema = z.object({
 // customerNote is optional too: a non-empty value overwrites the booking's
 // note, an empty (or whitespace-only) string CLEARS it — the controller
 // stores null — and omitting it leaves any existing note untouched.
+// partySize is optional the same way: omitted → current headcount stays;
+// provided → must be a whole number 1..20 (no default here, unlike the
+// booking schema — rescheduling shouldn't silently reset a group to 1).
 const rescheduleSchema = z.object({
   dateSelect: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'dateSelect must be YYYY-MM-DD').refine(
     (d) => d >= new Date().toISOString().slice(0, 10),
@@ -213,6 +227,10 @@ const rescheduleSchema = z.object({
     .max(500, 'Customer note cannot exceed 500 characters')
     .optional()
     .nullable(),
+  partySize: z.coerce.number().int('Party size must be a whole number')
+    .min(1, 'Party size must be at least 1')
+    .max(20, 'Party size cannot exceed 20')
+    .optional(),
 });
 
 // ── Reviews ────────────────────────────────────────────────────────────

@@ -115,7 +115,8 @@ test('export returns text/csv attachment with header row, correct count, scoped 
     );
 
     const lines = res.body.split('\r\n').filter((l) => l !== '');
-    assert.equal(lines[0], 'AppointmentID,Date,Time,EndTime,Status,Service,Staff,Customer');
+    // PartySize added after Status in iteration #25 (group bookings).
+    assert.equal(lines[0], 'AppointmentID,Date,Time,EndTime,Status,PartySize,Service,Staff,Customer');
     // Exactly salon A's four bookings — no pagination cap.
     assert.equal(lines.length - 1, 4);
 

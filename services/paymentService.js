@@ -112,6 +112,10 @@ const finalizeAppointmentFromPayment = async (order) => {
   }
 
   // Re-check the slot is still free. Single-staff scope; returns a Set.
+  // AVAILABILITY DECISION (group bookings): partySize deliberately plays no
+  // part here — one professional serves the whole party, so a booking for 20
+  // occupies exactly the same single staff slot as a solo booking and needs
+  // no conflict-logic changes.
   const conflicted = await conflictingStaffIds(
     [order.staffId],
     order.salonId,
@@ -147,6 +151,9 @@ const finalizeAppointmentFromPayment = async (order) => {
     // carried on the Payment row; it lands on the booking here. Null-safe
     // for legacy rows that predate notes.
     customerNote: order.customerNote || null,
+    // Same for the group size: `|| 1` covers legacy Payment rows that
+    // predate party bookings (the model default also guards this).
+    partySize: order.partySize || 1,
   });
 
   // Redeem the promo exactly once per booking. Only the success path reaches

@@ -254,6 +254,7 @@ const exportAppointmentsCsv = async (req, res) => {
             time: a.time,
             endTime: a.endTime,
             status: a.status,
+            partySize: a.partySize,
             service: a.service ? a.service.name : '',
             staff: a.staff ? a.staff.name : '',
             customer: a.user ? a.user.name : '',
@@ -265,6 +266,8 @@ const exportAppointmentsCsv = async (req, res) => {
             { key: 'time', label: 'Time' },
             { key: 'endTime', label: 'EndTime' },
             { key: 'status', label: 'Status' },
+            // Group bookings: how many people this booking covers (1 for solo).
+            { key: 'partySize', label: 'PartySize' },
             { key: 'service', label: 'Service' },
             { key: 'staff', label: 'Staff' },
             { key: 'customer', label: 'Customer' },
@@ -468,7 +471,7 @@ const cancelAppointment = async (req, res) => {
 // staff member of the same salon who provides the same service.
 const rescheduleAppointment = async (req, res) => {
     const { appointmentId } = req.params;
-    const { dateSelect, time, staffId, customerNote } = req.body;
+    const { dateSelect, time, staffId, customerNote, partySize } = req.body;
     const userId = req.user.userId;
 
     try {
@@ -546,6 +549,14 @@ const rescheduleAppointment = async (req, res) => {
         // other value overwrites it. Omitted → existing note stays untouched.
         if (customerNote !== undefined) {
             appointment.customerNote = customerNote || null;
+        }
+        // Optional headcount update for group bookings: provided → overwrite
+        // (the schema has already bounded it to 1..20); omitted → the current
+        // size stays, mirroring how staffId and customerNote behave here.
+        // Party size never affects conflict checking — one professional
+        // serves the whole group.
+        if (partySize !== undefined) {
+            appointment.partySize = partySize;
         }
         await appointment.save();
 

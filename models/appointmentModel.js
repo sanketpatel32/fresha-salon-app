@@ -72,6 +72,18 @@ const Appointment = sequelize.define('Appointment', {
         type: DataTypes.TEXT,
         allowNull: true,
     },
+    // Number of people this booking covers (bridal parties, friends).
+    // AVAILABILITY DECISION: party size does NOT consume extra staff slots —
+    // one professional serves the whole group — so conflict detection
+    // (conflictingStaffIds) deliberately ignores it and no extra duration is
+    // added. Bounds are enforced here as defense-in-depth; the zod schemas
+    // reject out-of-range values with a 400 before any DB write.
+    partySize: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
+        validate: { min: 1, max: 20 }
+    },
     orderId: {
         type: DataTypes.STRING,
         allowNull: true, // nullable for legacy rows created before this column existed

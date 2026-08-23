@@ -33,6 +33,11 @@ const crypto = require("crypto");
 exports.processPayment = async (req, res) => {
   const userId = req.user.userId;
   const { serviceId, salonId, dateSelect, time, staffId, duration, promoCode, customerNote } = req.body;
+  // Group bookings: the schema coerces + bounds this to 1..20 and defaults it
+  // to 1 when omitted; the fallback covers direct callers that skip the
+  // middleware. One professional serves the whole group — the size never
+  // changes price (authoritative per-service), duration, or staff conflicts.
+  const partySize = req.body.partySize || 1;
 
   try {
     // 1. Look up the real price from the DB — never trust the client.
@@ -114,9 +119,10 @@ exports.processPayment = async (req, res) => {
 
     // 4. Persist the pending payment row. A failure here is NOT swallowed —
     //    if we can't record the order, we must not hand the session id back.
-    //    customerNote rides along on the row (like promoCodeApplied) so the
-    //    finalizer can copy it onto the Appointment once payment succeeds —
-    //    the webhook/redirect handlers only ever hold the Payment row.
+    //    customerNote and partySize ride along on the row (like
+    //    promoCodeApplied) so the finalizer can copy them onto the Appointment
+    //    once payment succeeds — the webhook/redirect handlers only ever hold
+    //    the Payment row.
     await Payment.create({
       orderId,
       paymentSessionId,
@@ -136,6 +142,7 @@ exports.processPayment = async (req, res) => {
       endTime,
       // Schema already trimmed it; an empty string stores as null.
       customerNote: customerNote || null,
+      partySize,
     });
 
     res.json({ paymentSessionId, orderId });

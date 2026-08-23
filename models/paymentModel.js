@@ -89,6 +89,18 @@ const Payment = sequelize.define('payment', {
         allowNull: true
     },
 
+    // ── Group booking size (carrier) ──
+    // Captured at order creation (schema-clamped 1..20, default 1) and copied
+    // onto the Appointment in finalizeAppointmentFromPayment — the webhook and
+    // redirect handlers only ever hold the Payment row, so it must ride along
+    // here exactly like customerNote. NOT NULL DEFAULT 1 keeps legacy rows
+    // valid after the boot-time ensureColumns backfill.
+    partySize: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 1
+    },
+
 });
 
 module.exports = Payment;
