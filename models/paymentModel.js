@@ -79,6 +79,16 @@ const Payment = sequelize.define('payment', {
         allowNull: true
     },
 
+    // ── Customer booking note ──
+    // Captured (trimmed, ≤500 chars) at order creation and copied onto the
+    // Appointment when the payment finalizes into a booking — see
+    // finalizeAppointmentFromPayment. Nullable: most orders carry none and
+    // legacy rows predate notes entirely.
+    customerNote: {
+        type: Sequelize.TEXT,
+        allowNull: true
+    },
+
 });
 
 module.exports = Payment;

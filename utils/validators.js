@@ -140,6 +140,15 @@ const paymentCreateSchema = z.object({
   // Optional promo code. Trimmed + uppercased here so every downstream
   // lookup/uniqueness check sees one canonical form.
   promoCode: z.string().trim().toUpperCase().max(64, 'Promo code is too long').optional(),
+  // Optional free-text note from the customer to the salon ("please use
+  // hypoallergenic dye"). Trimmed so whitespace-only input can't masquerade
+  // as a note; the controller stores null when it arrives empty. The note
+  // rides on the Payment row until payment succeeds, then lands on the
+  // Appointment (see finalizeAppointmentFromPayment).
+  customerNote: z.string().trim()
+    .max(500, 'Customer note cannot exceed 500 characters')
+    .optional()
+    .nullable(),
 });
 
 // ── Promo codes (salon management) ─────────────────────────────────────
@@ -190,6 +199,9 @@ const promoUpdateSchema = z.object({
 // ── Reschedule ─────────────────────────────────────────────────────────
 // New slot must be today-or-later (YYYY-MM-DD strings compare correctly);
 // staffId is optional — omitted means "keep the currently assigned staff".
+// customerNote is optional too: a non-empty value overwrites the booking's
+// note, an empty (or whitespace-only) string CLEARS it — the controller
+// stores null — and omitting it leaves any existing note untouched.
 const rescheduleSchema = z.object({
   dateSelect: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'dateSelect must be YYYY-MM-DD').refine(
     (d) => d >= new Date().toISOString().slice(0, 10),
@@ -197,6 +209,10 @@ const rescheduleSchema = z.object({
   ),
   time: z.string().regex(/^\d{2}:\d{2}$/, 'time must be HH:mm'),
   staffId: z.coerce.number().int().positive('staffId must be a positive integer').optional(),
+  customerNote: z.string().trim()
+    .max(500, 'Customer note cannot exceed 500 characters')
+    .optional()
+    .nullable(),
 });
 
 // ── Reviews ────────────────────────────────────────────────────────────

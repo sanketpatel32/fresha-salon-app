@@ -463,7 +463,7 @@ const cancelAppointment = async (req, res) => {
 // staff member of the same salon who provides the same service.
 const rescheduleAppointment = async (req, res) => {
     const { appointmentId } = req.params;
-    const { dateSelect, time, staffId } = req.body;
+    const { dateSelect, time, staffId, customerNote } = req.body;
     const userId = req.user.userId;
 
     try {
@@ -536,6 +536,12 @@ const rescheduleAppointment = async (req, res) => {
         appointment.time = time;
         appointment.endTime = endTime;
         appointment.staffId = effectiveStaffId;
+        // Optional note update: the schema already trimmed it. An empty
+        // string (or explicit null) CLEARS the note — stored as null; any
+        // other value overwrites it. Omitted → existing note stays untouched.
+        if (customerNote !== undefined) {
+            appointment.customerNote = customerNote || null;
+        }
         await appointment.save();
 
         // Fire-and-forget: the salon learns the booking moved (this endpoint

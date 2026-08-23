@@ -64,6 +64,14 @@ const Appointment = sequelize.define('Appointment', {
         type: DataTypes.TEXT,
         allowNull: true,
     },
+    // Customer's free-text note attached at booking time ("please use
+    // hypoallergenic dye", "running 5 min late"). Nullable — most bookings
+    // carry none; an empty-string clear stores NULL. Visible to the booking's
+    // salon in its appointment views. Backfilled at boot via ensureColumns.
+    customerNote: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+    },
     orderId: {
         type: DataTypes.STRING,
         allowNull: true, // nullable for legacy rows created before this column existed

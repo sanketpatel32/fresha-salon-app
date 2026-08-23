@@ -278,17 +278,22 @@ app.listen(PORT, () => {
         },
       ]);
       // Salon replies to customer reviews — TEXT is valid on both SQLite and
-      // Postgres, so no dialect switch needed here.
+      // Postgres, so no dialect switch needed here. customerNote is the
+      // customer's own free-text note on a booking (same TEXT reasoning).
       await ensureColumns(Appointment, 'Appointments', [
         { name: 'salonReply', typeSql: 'TEXT' },
+        { name: 'customerNote', typeSql: 'TEXT' },
       ]);
       // Promo-code ledger columns on payments. originalAmount/discountAmount
       // preserve the pre-discount price and what the promo took off, while
       // orderAmount (and the Cashfree order) carry the discounted final.
+      // customerNote is the carrier that threads the customer's booking note
+      // from order creation to appointment finalization.
       await ensureColumns(Payment, 'payments', [
         { name: 'originalAmount', typeSql: 'DECIMAL(10,2)' },
         { name: 'discountAmount', typeSql: 'DECIMAL(10,2)' },
         { name: 'promoCodeApplied', typeSql: 'VARCHAR(64)' },
+        { name: 'customerNote', typeSql: 'TEXT' },
       ]);
       // Salon photo gallery (JSON string[] of image URLs). TEXT is valid on
       // both SQLite and Postgres, so no dialect switch needed here either.

@@ -143,6 +143,10 @@ const finalizeAppointmentFromPayment = async (order) => {
     time: order.timeSelected,
     endTime: order.endTime,
     status: initialStatus,
+    // The customer's free-text note was captured at order creation and
+    // carried on the Payment row; it lands on the booking here. Null-safe
+    // for legacy rows that predate notes.
+    customerNote: order.customerNote || null,
   });
 
   // Redeem the promo exactly once per booking. Only the success path reaches
