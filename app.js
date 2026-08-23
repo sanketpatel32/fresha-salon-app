@@ -25,6 +25,7 @@ const Appointment = require('./models/appointmentModel');
 const Payment = require('./models/paymentModel');
 const Salons = require('./models/salonsModel');
 const { ensureColumns } = require('./utils/ensureColumns');
+const { isSchedulerEnabled } = require('./services/reminderService');
 require('./models/associations'); // Import relationships
 
 // Initialize express app
@@ -313,7 +314,35 @@ app.listen(PORT, () => {
           name: 'pointsAwardedAt',
           typeSql: sequelize.getDialect() === 'postgres' ? 'TIMESTAMP' : 'DATETIME',
         },
+        // Reminder idempotency stamp (#29) — same nullable stamp shape as
+        // pointsAwardedAt: the hourly sweep claims bookings by setting this
+        // BEFORE sending, so restarts/replays can never double-send.
+        {
+          name: 'reminderSentAt',
+          typeSql: sequelize.getDialect() === 'postgres' ? 'TIMESTAMP' : 'DATETIME',
+        },
       ]);
+      // ── Reminder email scheduler (#29) ──────────────────────────────────
+      // Hourly sweep of bookings starting within the next 24h: each gets one
+      // reminder, claimed by stamping reminderSentAt first (at-most-once).
+      // Runs once ~30s after boot (harmless when the mailer is unconfigured)
+      // and then every hour. REMINDERS_DISABLED=1 opts tests/CI out entirely.
+      // Both timers funnel through a wrapper that catches everything — sync
+      // throws AND promise rejections — so the scheduler can never crash the
+      // process. Timers are unref'd so they can't hold a dying process open.
+      if (isSchedulerEnabled()) {
+        const { runReminderSweep, SWEEP_INTERVAL_MS } = require('./services/reminderService');
+        const safeSweep = () => {
+          try {
+            Promise.resolve(runReminderSweep()).catch((err) =>
+              console.error('⚠️ Reminder sweep failed:', err.message));
+          } catch (err) {
+            console.error('⚠️ Reminder sweep failed:', err.message);
+          }
+        };
+        setTimeout(safeSweep, 30 * 1000).unref();
+        setInterval(safeSweep, SWEEP_INTERVAL_MS).unref();
+      }
       // Promo-code ledger columns on payments. originalAmount/discountAmount
       // preserve the pre-discount price and what the promo took off, while
       // orderAmount (and the Cashfree order) carry the discounted final.

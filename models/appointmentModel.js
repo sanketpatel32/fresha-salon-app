@@ -99,6 +99,16 @@ const Appointment = sequelize.define('Appointment', {
         type: DataTypes.DATE,
         allowNull: true,
     },
+    // Reminder idempotency stamp (#29): set when the ~24h-before reminder
+    // email has been CLAIMED for this booking (stamped BEFORE the send, so a
+    // crash between the two can only SKIP a reminder, never double-send).
+    // Null = not reminded yet; the sweep's WHERE clause filters stamped rows
+    // out, so replays/restarts are naturally idempotent. Nullable DATETIME,
+    // backfilled at boot via ensureColumns like pointsAwardedAt.
+    reminderSentAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
 });
 
 module.exports = Appointment;

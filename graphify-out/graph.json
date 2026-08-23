@@ -130,10 +130,19 @@
       "norm_label": "{ ensurecolumns }"
     },
     {
+      "label": "{ isSchedulerEnabled }",
+      "file_type": "code",
+      "source_file": "app.js",
+      "source_location": "L28",
+      "id": "fresha_salon_app_app_isschedulerenabled",
+      "community": 4,
+      "norm_label": "{ isschedulerenabled }"
+    },
+    {
       "label": "app",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L31",
+      "source_location": "L32",
       "id": "fresha_salon_app_app_app",
       "community": 4,
       "norm_label": "app"
@@ -142,7 +151,7 @@
       "label": "{ requestIdMiddleware, requestLogger, deepHealth }",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L33",
+      "source_location": "L34",
       "id": "fresha_salon_app_app_requestidmiddleware_requestlogger_deephealth",
       "community": 4,
       "norm_label": "{ requestidmiddleware, requestlogger, deephealth }"
@@ -151,7 +160,7 @@
       "label": "allowedOrigins",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L63",
+      "source_location": "L64",
       "id": "fresha_salon_app_app_allowedorigins",
       "community": 4,
       "norm_label": "allowedorigins"
@@ -160,7 +169,7 @@
       "label": "apiLimiter",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L73",
+      "source_location": "L74",
       "id": "fresha_salon_app_app_apilimiter",
       "community": 4,
       "norm_label": "apilimiter"
@@ -169,7 +178,7 @@
       "label": "{ strictLimiter: loginLimiter }",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L86",
+      "source_location": "L87",
       "id": "fresha_salon_app_app_strictlimiter_loginlimiter",
       "community": 4,
       "norm_label": "{ strictlimiter: loginlimiter }"
@@ -178,16 +187,34 @@
       "label": "seedSampleData()",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L152",
+      "source_location": "L153",
       "id": "fresha_salon_app_app_seedsampledata",
       "community": 4,
       "norm_label": "seedsampledata()"
     },
     {
+      "label": "{ runReminderSweep, SWEEP_INTERVAL_MS }",
+      "file_type": "code",
+      "source_file": "app.js",
+      "source_location": "L334",
+      "id": "fresha_salon_app_app_runremindersweep_sweep_interval_ms",
+      "community": 4,
+      "norm_label": "{ runremindersweep, sweep_interval_ms }"
+    },
+    {
+      "label": "safeSweep()",
+      "file_type": "code",
+      "source_file": "app.js",
+      "source_location": "L335",
+      "id": "fresha_salon_app_app_safesweep",
+      "community": 122,
+      "norm_label": "safesweep()"
+    },
+    {
       "label": "{ migrateCategories }",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L348",
+      "source_location": "L377",
       "id": "fresha_salon_app_app_migratecategories",
       "community": 4,
       "norm_label": "{ migratecategories }"
@@ -900,7 +927,7 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L31",
       "id": "controllers_appointmentcontroller_refreshsalonratingcache",
-      "community": 35,
+      "community": 9,
       "norm_label": "refreshsalonratingcache()"
     },
     {
@@ -931,10 +958,19 @@
       "norm_label": "getallappointmentsbyuserid()"
     },
     {
+      "label": "getUpcomingAppointments()",
+      "file_type": "code",
+      "source_file": "controllers/appointmentController.js",
+      "source_location": "L162",
+      "id": "controllers_appointmentcontroller_getupcomingappointments",
+      "community": 101,
+      "norm_label": "getupcomingappointments()"
+    },
+    {
       "label": "getScheduledAppointmentsBySalonId()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L158",
+      "source_location": "L215",
       "id": "controllers_appointmentcontroller_getscheduledappointmentsbysalonid",
       "community": 109,
       "norm_label": "getscheduledappointmentsbysalonid()"
@@ -943,34 +979,34 @@
       "label": "exportAppointmentsCsv()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L215",
+      "source_location": "L272",
       "id": "controllers_appointmentcontroller_exportappointmentscsv",
-      "community": 33,
+      "community": 131,
       "norm_label": "exportappointmentscsv()"
     },
     {
       "label": "mailAppointment()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L291",
+      "source_location": "L348",
       "id": "controllers_appointmentcontroller_mailappointment",
-      "community": 67,
+      "community": 125,
       "norm_label": "mailappointment()"
     },
     {
       "label": "updateCustomerReview()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L330",
+      "source_location": "L387",
       "id": "controllers_appointmentcontroller_updatecustomerreview",
-      "community": 35,
+      "community": 9,
       "norm_label": "updatecustomerreview()"
     },
     {
       "label": "updateStaffReview()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L367",
+      "source_location": "L424",
       "id": "controllers_appointmentcontroller_updatestaffreview",
       "community": 9,
       "norm_label": "updatestaffreview()"
@@ -979,7 +1015,7 @@
       "label": "replyToReview()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L394",
+      "source_location": "L451",
       "id": "controllers_appointmentcontroller_replytoreview",
       "community": 75,
       "norm_label": "replytoreview()"
@@ -988,16 +1024,16 @@
       "label": "cancelAppointment()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L423",
+      "source_location": "L480",
       "id": "controllers_appointmentcontroller_cancelappointment",
-      "community": 9,
+      "community": 129,
       "norm_label": "cancelappointment()"
     },
     {
       "label": "rescheduleAppointment()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L473",
+      "source_location": "L530",
       "id": "controllers_appointmentcontroller_rescheduleappointment",
       "community": 106,
       "norm_label": "rescheduleappointment()"
@@ -1006,18 +1042,18 @@
       "label": "sendCustomerStatusEmail()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L587",
+      "source_location": "L644",
       "id": "controllers_appointmentcontroller_sendcustomerstatusemail",
-      "community": 9,
+      "community": 129,
       "norm_label": "sendcustomerstatusemail()"
     },
     {
       "label": "updateAppointmentStatus()",
       "file_type": "code",
       "source_file": "controllers/appointmentController.js",
-      "source_location": "L613",
+      "source_location": "L670",
       "id": "controllers_appointmentcontroller_updateappointmentstatus",
-      "community": 38,
+      "community": 129,
       "norm_label": "updateappointmentstatus()"
     },
     {
@@ -1584,7 +1620,7 @@
       "source_file": "controllers/salonController.js",
       "source_location": "L339",
       "id": "controllers_saloncontroller_getsalonstaff",
-      "community": 65,
+      "community": 22,
       "norm_label": "getsalonstaff()"
     },
     {
@@ -1611,7 +1647,7 @@
       "source_file": "controllers/salonGalleryController.js",
       "source_location": "L1",
       "id": "controllers_salongallerycontroller_js",
-      "community": 125,
+      "community": 100,
       "norm_label": "salongallerycontroller.js"
     },
     {
@@ -1620,7 +1656,7 @@
       "source_file": "controllers/salonGalleryController.js",
       "source_location": "L1",
       "id": "controllers_salongallerycontroller_salons",
-      "community": 125,
+      "community": 100,
       "norm_label": "salons"
     },
     {
@@ -1629,7 +1665,7 @@
       "source_file": "controllers/salonGalleryController.js",
       "source_location": "L11",
       "id": "controllers_salongallerycontroller_parsegallery",
-      "community": 125,
+      "community": 100,
       "norm_label": "parsegallery()"
     },
     {
@@ -1638,7 +1674,7 @@
       "source_file": "controllers/salonGalleryController.js",
       "source_location": "L29",
       "id": "controllers_salongallerycontroller_updategallery",
-      "community": 125,
+      "community": 100,
       "norm_label": "updategallery()"
     },
     {
@@ -1647,7 +1683,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L1",
       "id": "controllers_salonpromoscontroller_js",
-      "community": 101,
+      "community": 76,
       "norm_label": "salonpromoscontroller.js"
     },
     {
@@ -1656,7 +1692,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L7",
       "id": "controllers_salonpromoscontroller_promocode",
-      "community": 101,
+      "community": 76,
       "norm_label": "promocode"
     },
     {
@@ -1665,7 +1701,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L9",
       "id": "controllers_salonpromoscontroller_issequelizeuniqueerror",
-      "community": 101,
+      "community": 76,
       "norm_label": "issequelizeuniqueerror()"
     },
     {
@@ -1674,7 +1710,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L15",
       "id": "controllers_salonpromoscontroller_createpromo",
-      "community": 101,
+      "community": 76,
       "norm_label": "createpromo()"
     },
     {
@@ -1683,7 +1719,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L49",
       "id": "controllers_salonpromoscontroller_listpromos",
-      "community": 101,
+      "community": 76,
       "norm_label": "listpromos()"
     },
     {
@@ -1692,7 +1728,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L68",
       "id": "controllers_salonpromoscontroller_updatepromo",
-      "community": 101,
+      "community": 76,
       "norm_label": "updatepromo()"
     },
     {
@@ -1701,7 +1737,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L101",
       "id": "controllers_salonpromoscontroller_deletepromo",
-      "community": 101,
+      "community": 76,
       "norm_label": "deletepromo()"
     },
     {
@@ -2664,7 +2700,7 @@
       "source_file": "frontend/src/App.jsx",
       "source_location": "L58",
       "id": "src_app_authgatedroutes",
-      "community": 121,
+      "community": 123,
       "norm_label": "authgatedroutes()"
     },
     {
@@ -2844,7 +2880,7 @@
       "source_file": "frontend/src/components/ProtectedRoute.jsx",
       "source_location": "L1",
       "id": "frontend_src_components_protectedroute_jsx",
-      "community": 121,
+      "community": 123,
       "norm_label": "protectedroute.jsx"
     },
     {
@@ -2853,7 +2889,7 @@
       "source_file": "frontend/src/components/ProtectedRoute.jsx",
       "source_location": "L9",
       "id": "components_protectedroute_protectedroute",
-      "community": 121,
+      "community": 123,
       "norm_label": "protectedroute()"
     },
     {
@@ -2889,7 +2925,7 @@
       "source_file": "frontend/src/components/Skeleton.jsx",
       "source_location": "L57",
       "id": "components_skeleton_skeletontable",
-      "community": 121,
+      "community": 123,
       "norm_label": "skeletontable()"
     },
     {
@@ -2925,7 +2961,7 @@
       "source_file": "frontend/src/context/AuthContext.jsx",
       "source_location": "L85",
       "id": "context_authcontext_useauth",
-      "community": 121,
+      "community": 123,
       "norm_label": "useauth()"
     },
     {
@@ -3015,7 +3051,7 @@
       "source_file": "frontend/src/hooks/useDocumentTitle.js",
       "source_location": "L1",
       "id": "frontend_src_hooks_usedocumenttitle_js",
-      "community": 123,
+      "community": 116,
       "norm_label": "usedocumenttitle.js"
     },
     {
@@ -3024,7 +3060,7 @@
       "source_file": "frontend/src/hooks/useDocumentTitle.js",
       "source_location": "L16",
       "id": "hooks_usedocumenttitle_usedocumenttitle",
-      "community": 123,
+      "community": 116,
       "norm_label": "usedocumenttitle()"
     },
     {
@@ -3033,7 +3069,7 @@
       "source_file": "frontend/src/pages/LandingPage.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_landingpage_jsx",
-      "community": 123,
+      "community": 116,
       "norm_label": "landingpage.jsx"
     },
     {
@@ -3042,7 +3078,7 @@
       "source_file": "frontend/src/pages/LandingPage.jsx",
       "source_location": "L6",
       "id": "pages_landingpage_landingpage",
-      "community": 123,
+      "community": 116,
       "norm_label": "landingpage()"
     },
     {
@@ -3051,7 +3087,7 @@
       "source_file": "frontend/src/pages/admin/AdminDashboard.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_admin_admindashboard_jsx",
-      "community": 121,
+      "community": 123,
       "norm_label": "admindashboard.jsx"
     },
     {
@@ -3060,7 +3096,7 @@
       "source_file": "frontend/src/pages/admin/AdminDashboard.jsx",
       "source_location": "L10",
       "id": "admin_admindashboard_admindashboard",
-      "community": 121,
+      "community": 123,
       "norm_label": "admindashboard()"
     },
     {
@@ -3339,7 +3375,7 @@
       "source_file": "frontend/src/pages/staff/StaffDashboard.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_staff_staffdashboard_jsx",
-      "community": 121,
+      "community": 123,
       "norm_label": "staffdashboard.jsx"
     },
     {
@@ -3348,7 +3384,7 @@
       "source_file": "frontend/src/pages/staff/StaffDashboard.jsx",
       "source_location": "L10",
       "id": "staff_staffdashboard_staffdashboard",
-      "community": 121,
+      "community": 123,
       "norm_label": "staffdashboard()"
     },
     {
@@ -3438,7 +3474,7 @@
       "source_file": "models/appointmentModel.js",
       "source_location": "L1",
       "id": "models_appointmentmodel_js",
-      "community": 34,
+      "community": 118,
       "norm_label": "appointmentmodel.js"
     },
     {
@@ -3447,7 +3483,7 @@
       "source_file": "models/appointmentModel.js",
       "source_location": "L1",
       "id": "models_appointmentmodel_datatypes",
-      "community": 34,
+      "community": 118,
       "norm_label": "{ datatypes }"
     },
     {
@@ -3456,7 +3492,7 @@
       "source_file": "models/appointmentModel.js",
       "source_location": "L2",
       "id": "models_appointmentmodel_sequelize",
-      "community": 34,
+      "community": 118,
       "norm_label": "sequelize"
     },
     {
@@ -3465,7 +3501,7 @@
       "source_file": "models/appointmentModel.js",
       "source_location": "L5",
       "id": "models_appointmentmodel_appointment",
-      "community": 34,
+      "community": 118,
       "norm_label": "appointment"
     },
     {
@@ -3663,7 +3699,7 @@
       "source_file": "models/promoCodeModel.js",
       "source_location": "L1",
       "id": "models_promocodemodel_js",
-      "community": 101,
+      "community": 76,
       "norm_label": "promocodemodel.js"
     },
     {
@@ -3672,7 +3708,7 @@
       "source_file": "models/promoCodeModel.js",
       "source_location": "L1",
       "id": "models_promocodemodel_sequelize",
-      "community": 101,
+      "community": 76,
       "norm_label": "sequelize"
     },
     {
@@ -3681,7 +3717,7 @@
       "source_file": "models/promoCodeModel.js",
       "source_location": "L17",
       "id": "models_promocodemodel_promocode",
-      "community": 101,
+      "community": 76,
       "norm_label": "promocode"
     },
     {
@@ -3717,7 +3753,7 @@
       "source_file": "models/servicesModel.js",
       "source_location": "L1",
       "id": "models_servicesmodel_js",
-      "community": 26,
+      "community": 34,
       "norm_label": "servicesmodel.js"
     },
     {
@@ -3726,7 +3762,7 @@
       "source_file": "models/servicesModel.js",
       "source_location": "L1",
       "id": "models_servicesmodel_sequelize",
-      "community": 26,
+      "community": 34,
       "norm_label": "sequelize"
     },
     {
@@ -3735,7 +3771,7 @@
       "source_file": "models/servicesModel.js",
       "source_location": "L4",
       "id": "models_servicesmodel_services",
-      "community": 26,
+      "community": 34,
       "norm_label": "services"
     },
     {
@@ -3744,7 +3780,7 @@
       "source_file": "models/staffBlockoutModel.js",
       "source_location": "L1",
       "id": "models_staffblockoutmodel_js",
-      "community": 25,
+      "community": 87,
       "norm_label": "staffblockoutmodel.js"
     },
     {
@@ -3753,7 +3789,7 @@
       "source_file": "models/staffBlockoutModel.js",
       "source_location": "L1",
       "id": "models_staffblockoutmodel_sequelize",
-      "community": 25,
+      "community": 87,
       "norm_label": "sequelize"
     },
     {
@@ -3762,7 +3798,7 @@
       "source_file": "models/staffBlockoutModel.js",
       "source_location": "L4",
       "id": "models_staffblockoutmodel_staffblockout",
-      "community": 25,
+      "community": 87,
       "norm_label": "staffblockout"
     },
     {
@@ -3771,7 +3807,7 @@
       "source_file": "models/staffModel.js",
       "source_location": "L1",
       "id": "models_staffmodel_js",
-      "community": 87,
+      "community": 132,
       "norm_label": "staffmodel.js"
     },
     {
@@ -3780,7 +3816,7 @@
       "source_file": "models/staffModel.js",
       "source_location": "L1",
       "id": "models_staffmodel_sequelize",
-      "community": 87,
+      "community": 132,
       "norm_label": "sequelize"
     },
     {
@@ -3789,7 +3825,7 @@
       "source_file": "models/staffModel.js",
       "source_location": "L4",
       "id": "models_staffmodel_staff",
-      "community": 87,
+      "community": 132,
       "norm_label": "staff"
     },
     {
@@ -3825,7 +3861,7 @@
       "source_file": "models/userModel.js",
       "source_location": "L1",
       "id": "models_usermodel_js",
-      "community": 118,
+      "community": 26,
       "norm_label": "usermodel.js"
     },
     {
@@ -3834,7 +3870,7 @@
       "source_file": "models/userModel.js",
       "source_location": "L1",
       "id": "models_usermodel_sequelize",
-      "community": 118,
+      "community": 26,
       "norm_label": "sequelize"
     },
     {
@@ -3843,7 +3879,7 @@
       "source_file": "models/userModel.js",
       "source_location": "L4",
       "id": "models_usermodel_user",
-      "community": 118,
+      "community": 26,
       "norm_label": "user"
     },
     {
@@ -5517,7 +5553,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L1",
       "id": "routes_staffroutes_js",
-      "community": 124,
+      "community": 104,
       "norm_label": "staffroutes.js"
     },
     {
@@ -5526,7 +5562,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L1",
       "id": "routes_staffroutes_express",
-      "community": 124,
+      "community": 104,
       "norm_label": "express"
     },
     {
@@ -5535,7 +5571,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L2",
       "id": "routes_staffroutes_router",
-      "community": 124,
+      "community": 104,
       "norm_label": "router"
     },
     {
@@ -5544,7 +5580,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L3",
       "id": "routes_staffroutes_staffcontroller",
-      "community": 124,
+      "community": 104,
       "norm_label": "staffcontroller"
     },
     {
@@ -5553,7 +5589,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L4",
       "id": "routes_staffroutes_authmiddleware",
-      "community": 124,
+      "community": 104,
       "norm_label": "authmiddleware"
     },
     {
@@ -5562,7 +5598,7 @@
       "source_file": "routes/staffRoutes.js",
       "source_location": "L5",
       "id": "routes_staffroutes_validate_loginschema",
-      "community": 124,
+      "community": 104,
       "norm_label": "{ validate, loginschema }"
     },
     {
@@ -5571,7 +5607,7 @@
       "source_file": "routes/userDashboard.js",
       "source_location": "L1",
       "id": "routes_userdashboard_js",
-      "community": 122,
+      "community": 21,
       "norm_label": "userdashboard.js"
     },
     {
@@ -5580,7 +5616,7 @@
       "source_file": "routes/userDashboard.js",
       "source_location": "L1",
       "id": "routes_userdashboard_router",
-      "community": 122,
+      "community": 21,
       "norm_label": "router"
     },
     {
@@ -5589,7 +5625,7 @@
       "source_file": "routes/userDashboard.js",
       "source_location": "L2",
       "id": "routes_userdashboard_salonservices",
-      "community": 122,
+      "community": 21,
       "norm_label": "salonservices"
     },
     {
@@ -5598,7 +5634,7 @@
       "source_file": "routes/userDashboard.js",
       "source_location": "L3",
       "id": "routes_userdashboard_validate_activeservicesbysalonschema",
-      "community": 122,
+      "community": 21,
       "norm_label": "{ validate, activeservicesbysalonschema }"
     },
     {
@@ -5607,7 +5643,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L1",
       "id": "routes_userroutes_js",
-      "community": 24,
+      "community": 124,
       "norm_label": "userroutes.js"
     },
     {
@@ -5616,7 +5652,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L1",
       "id": "routes_userroutes_express",
-      "community": 24,
+      "community": 124,
       "norm_label": "express"
     },
     {
@@ -5625,7 +5661,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L2",
       "id": "routes_userroutes_router",
-      "community": 24,
+      "community": 124,
       "norm_label": "router"
     },
     {
@@ -5634,7 +5670,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L3",
       "id": "routes_userroutes_usercontroller",
-      "community": 24,
+      "community": 124,
       "norm_label": "usercontroller"
     },
     {
@@ -5643,7 +5679,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L4",
       "id": "routes_userroutes_authmiddleware",
-      "community": 24,
+      "community": 124,
       "norm_label": "authmiddleware"
     },
     {
@@ -5652,7 +5688,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L5",
       "id": "routes_userroutes_validate_loginschema_customersignupschema_forgotpasswordschema_resetpasswordschema_verifyemailschema_resendverificationschema",
-      "community": 24,
+      "community": 124,
       "norm_label": "{ validate, loginschema, customersignupschema, forgotpasswordschema, resetpasswordschema, verifyemailschema, resendverificationschema }"
     },
     {
@@ -5661,7 +5697,7 @@
       "source_file": "routes/userRoutes.js",
       "source_location": "L6",
       "id": "routes_userroutes_strictlimiter",
-      "community": 24,
+      "community": 124,
       "norm_label": "{ strictlimiter }"
     },
     {
@@ -5859,7 +5895,7 @@
       "source_file": "services/availabilityService.js",
       "source_location": "L280",
       "id": "services_availabilityservice_conflictingstaffids",
-      "community": 99,
+      "community": 106,
       "norm_label": "conflictingstaffids()"
     },
     {
@@ -5868,7 +5904,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L1",
       "id": "services_cashfreeservices_js",
-      "community": 129,
+      "community": 111,
       "norm_label": "cashfreeservices.js"
     },
     {
@@ -5877,7 +5913,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L1",
       "id": "services_cashfreeservices_cashfree",
-      "community": 129,
+      "community": 111,
       "norm_label": "{ cashfree }"
     },
     {
@@ -5886,7 +5922,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L2",
       "id": "services_cashfreeservices_dotenv",
-      "community": 129,
+      "community": 111,
       "norm_label": "dotenv"
     },
     {
@@ -5895,7 +5931,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L25",
       "id": "services_cashfreeservices_expirydate",
-      "community": 129,
+      "community": 111,
       "norm_label": "expirydate"
     },
     {
@@ -5904,7 +5940,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L26",
       "id": "services_cashfreeservices_formattedexpirydate",
-      "community": 129,
+      "community": 111,
       "norm_label": "formattedexpirydate"
     },
     {
@@ -5913,7 +5949,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L28",
       "id": "services_cashfreeservices_request",
-      "community": 129,
+      "community": 111,
       "norm_label": "request"
     },
     {
@@ -5922,7 +5958,7 @@
       "source_file": "services/cashfreeServices.js",
       "source_location": "L93",
       "id": "services_cashfreeservices_verificationresponse",
-      "community": 129,
+      "community": 111,
       "norm_label": "verificationresponse"
     },
     {
@@ -5931,7 +5967,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L1",
       "id": "services_emailservice_js",
-      "community": 67,
+      "community": 125,
       "norm_label": "emailservice.js"
     },
     {
@@ -5940,7 +5976,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L13",
       "id": "services_emailservice_client",
-      "community": 67,
+      "community": 125,
       "norm_label": "client()"
     },
     {
@@ -5949,7 +5985,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L34",
       "id": "services_emailservice_isconfigured",
-      "community": 67,
+      "community": 125,
       "norm_label": "isconfigured()"
     },
     {
@@ -5958,7 +5994,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L43",
       "id": "services_emailservice_sendbookingconfirmation",
-      "community": 67,
+      "community": 125,
       "norm_label": "sendbookingconfirmation()"
     },
     {
@@ -5967,7 +6003,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L107",
       "id": "services_emailservice_sendpasswordresetemail",
-      "community": 67,
+      "community": 125,
       "norm_label": "sendpasswordresetemail()"
     },
     {
@@ -5976,7 +6012,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L159",
       "id": "services_emailservice_sendverificationemail",
-      "community": 67,
+      "community": 125,
       "norm_label": "sendverificationemail()"
     },
     {
@@ -5985,7 +6021,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L208",
       "id": "services_emailservice_booking_status_copy",
-      "community": 67,
+      "community": 125,
       "norm_label": "booking_status_copy"
     },
     {
@@ -5994,7 +6030,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L248",
       "id": "services_emailservice_bookingstatussubject",
-      "community": 67,
+      "community": 125,
       "norm_label": "bookingstatussubject()"
     },
     {
@@ -6003,8 +6039,35 @@
       "source_file": "services/emailService.js",
       "source_location": "L261",
       "id": "services_emailservice_sendbookingstatusemail",
-      "community": 67,
+      "community": 129,
       "norm_label": "sendbookingstatusemail()"
+    },
+    {
+      "label": "APPOINTMENT_REMINDER_COPY",
+      "file_type": "code",
+      "source_file": "services/emailService.js",
+      "source_location": "L314",
+      "id": "services_emailservice_appointment_reminder_copy",
+      "community": 125,
+      "norm_label": "appointment_reminder_copy"
+    },
+    {
+      "label": "appointmentReminderSubject()",
+      "file_type": "code",
+      "source_file": "services/emailService.js",
+      "source_location": "L327",
+      "id": "services_emailservice_appointmentremindersubject",
+      "community": 125,
+      "norm_label": "appointmentremindersubject()"
+    },
+    {
+      "label": "sendAppointmentReminderEmail()",
+      "file_type": "code",
+      "source_file": "services/emailService.js",
+      "source_location": "L340",
+      "id": "services_emailservice_sendappointmentreminderemail",
+      "community": 125,
+      "norm_label": "sendappointmentreminderemail()"
     },
     {
       "label": "loyaltyService.js",
@@ -6012,7 +6075,7 @@
       "source_file": "services/loyaltyService.js",
       "source_location": "L1",
       "id": "services_loyaltyservice_js",
-      "community": 130,
+      "community": 105,
       "norm_label": "loyaltyservice.js"
     },
     {
@@ -6021,7 +6084,7 @@
       "source_file": "services/loyaltyService.js",
       "source_location": "L21",
       "id": "services_loyaltyservice_user",
-      "community": 130,
+      "community": 105,
       "norm_label": "user"
     },
     {
@@ -6030,7 +6093,7 @@
       "source_file": "services/loyaltyService.js",
       "source_location": "L22",
       "id": "services_loyaltyservice_logger",
-      "community": 130,
+      "community": 105,
       "norm_label": "logger"
     },
     {
@@ -6039,7 +6102,7 @@
       "source_file": "services/loyaltyService.js",
       "source_location": "L35",
       "id": "services_loyaltyservice_awardforcompletedappointment",
-      "community": 38,
+      "community": 129,
       "norm_label": "awardforcompletedappointment()"
     },
     {
@@ -6057,7 +6120,7 @@
       "source_file": "services/notificationService.js",
       "source_location": "L1",
       "id": "services_notificationservice_js",
-      "community": 9,
+      "community": 129,
       "norm_label": "notificationservice.js"
     },
     {
@@ -6066,7 +6129,7 @@
       "source_file": "services/notificationService.js",
       "source_location": "L10",
       "id": "services_notificationservice_logger",
-      "community": 9,
+      "community": 129,
       "norm_label": "logger"
     },
     {
@@ -6075,7 +6138,7 @@
       "source_file": "services/notificationService.js",
       "source_location": "L19",
       "id": "services_notificationservice_notify",
-      "community": 9,
+      "community": 129,
       "norm_label": "notify()"
     },
     {
@@ -6174,7 +6237,7 @@
       "source_file": "services/paymentService.js",
       "source_location": "L106",
       "id": "services_paymentservice_finalizeappointmentfrompayment",
-      "community": 99,
+      "community": 106,
       "norm_label": "finalizeappointmentfrompayment()"
     },
     {
@@ -6239,6 +6302,123 @@
       "id": "services_referralservice_ensurereferralcode",
       "community": 127,
       "norm_label": "ensurereferralcode()"
+    },
+    {
+      "label": "reminderService.js",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L1",
+      "id": "services_reminderservice_js",
+      "community": 122,
+      "norm_label": "reminderservice.js"
+    },
+    {
+      "label": "{ Op }",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L22",
+      "id": "services_reminderservice_op",
+      "community": 122,
+      "norm_label": "{ op }"
+    },
+    {
+      "label": "Appointment",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L23",
+      "id": "services_reminderservice_appointment",
+      "community": 122,
+      "norm_label": "appointment"
+    },
+    {
+      "label": "User",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L24",
+      "id": "services_reminderservice_user",
+      "community": 122,
+      "norm_label": "user"
+    },
+    {
+      "label": "Salons",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L25",
+      "id": "services_reminderservice_salons",
+      "community": 122,
+      "norm_label": "salons"
+    },
+    {
+      "label": "Services",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L26",
+      "id": "services_reminderservice_services",
+      "community": 122,
+      "norm_label": "services"
+    },
+    {
+      "label": "logger",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L27",
+      "id": "services_reminderservice_logger",
+      "community": 122,
+      "norm_label": "logger"
+    },
+    {
+      "label": "emailService",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L32",
+      "id": "services_reminderservice_emailservice",
+      "community": 122,
+      "norm_label": "emailservice"
+    },
+    {
+      "label": "pad()",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L37",
+      "id": "services_reminderservice_pad",
+      "community": 122,
+      "norm_label": "pad()"
+    },
+    {
+      "label": "localDateStr()",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L39",
+      "id": "services_reminderservice_localdatestr",
+      "community": 122,
+      "norm_label": "localdatestr()"
+    },
+    {
+      "label": "pickReminders()",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L52",
+      "id": "services_reminderservice_pickreminders",
+      "community": 122,
+      "norm_label": "pickreminders()"
+    },
+    {
+      "label": "runReminderSweep()",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L71",
+      "id": "services_reminderservice_runremindersweep",
+      "community": 122,
+      "norm_label": "runremindersweep()"
+    },
+    {
+      "label": "isSchedulerEnabled()",
+      "file_type": "code",
+      "source_file": "services/reminderService.js",
+      "source_location": "L132",
+      "id": "services_reminderservice_isschedulerenabled",
+      "community": 122,
+      "norm_label": "isschedulerenabled()"
     },
     {
       "label": "admin-stats-audit.test.js",
@@ -6804,7 +6984,7 @@
       "source_file": "tests/booking-config.test.js",
       "source_location": "L47",
       "id": "tests_booking_config_test_runmw",
-      "community": 122,
+      "community": 15,
       "norm_label": "runmw()"
     },
     {
@@ -7110,7 +7290,7 @@
       "source_file": "tests/booking-notes.test.js",
       "source_location": "L47",
       "id": "tests_booking_notes_test_runmw",
-      "community": 122,
+      "community": 65,
       "norm_label": "runmw()"
     },
     {
@@ -7956,7 +8136,7 @@
       "source_file": "tests/csv-export.test.js",
       "source_location": "L166",
       "id": "tests_csv_export_test_runmw",
-      "community": 122,
+      "community": 33,
       "norm_label": "runmw()"
     },
     {
@@ -9594,7 +9774,7 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L50",
       "id": "tests_party_size_test_runmw",
-      "community": 122,
+      "community": 65,
       "norm_label": "runmw()"
     },
     {
@@ -9603,7 +9783,7 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L57",
       "id": "tests_party_size_test_pad",
-      "community": 5,
+      "community": 133,
       "norm_label": "pad()"
     },
     {
@@ -9612,7 +9792,7 @@
       "source_file": "tests/party-size.test.js",
       "source_location": "L58",
       "id": "tests_party_size_test_ymd",
-      "community": 5,
+      "community": 133,
       "norm_label": "ymd()"
     },
     {
@@ -10642,6 +10822,330 @@
       "norm_label": "handlers"
     },
     {
+      "label": "reminders.test.js",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L1",
+      "id": "tests_reminders_test_js",
+      "community": 101,
+      "norm_label": "reminders.test.js"
+    },
+    {
+      "label": "{ test, before, after }",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L1",
+      "id": "tests_reminders_test_test_before_after",
+      "community": 101,
+      "norm_label": "{ test, before, after }"
+    },
+    {
+      "label": "assert",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L2",
+      "id": "tests_reminders_test_assert",
+      "community": 101,
+      "norm_label": "assert"
+    },
+    {
+      "label": "sequelize",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L3",
+      "id": "tests_reminders_test_sequelize",
+      "community": 101,
+      "norm_label": "sequelize"
+    },
+    {
+      "label": "User",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L5",
+      "id": "tests_reminders_test_user",
+      "community": 101,
+      "norm_label": "user"
+    },
+    {
+      "label": "Salons",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L6",
+      "id": "tests_reminders_test_salons",
+      "community": 101,
+      "norm_label": "salons"
+    },
+    {
+      "label": "Staff",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L7",
+      "id": "tests_reminders_test_staff",
+      "community": 101,
+      "norm_label": "staff"
+    },
+    {
+      "label": "Services",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L8",
+      "id": "tests_reminders_test_services",
+      "community": 101,
+      "norm_label": "services"
+    },
+    {
+      "label": "Appointment",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L9",
+      "id": "tests_reminders_test_appointment",
+      "community": 101,
+      "norm_label": "appointment"
+    },
+    {
+      "label": "emailService",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L15",
+      "id": "tests_reminders_test_emailservice",
+      "community": 101,
+      "norm_label": "emailservice"
+    },
+    {
+      "label": "reminderCalls",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L17",
+      "id": "tests_reminders_test_remindercalls",
+      "community": 101,
+      "norm_label": "remindercalls"
+    },
+    {
+      "label": "{ appointmentReminderSubject }",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L23",
+      "id": "tests_reminders_test_appointmentremindersubject",
+      "community": 101,
+      "norm_label": "{ appointmentremindersubject }"
+    },
+    {
+      "label": "{ pickReminders, runReminderSweep, isSchedulerEnabled, REMINDER_WINDOW_HOURS }",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L24",
+      "id": "tests_reminders_test_pickreminders_runremindersweep_isschedulerenabled_reminder_window_hours",
+      "community": 101,
+      "norm_label": "{ pickreminders, runremindersweep, isschedulerenabled, reminder_window_hours }"
+    },
+    {
+      "label": "{ getUpcomingAppointments }",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L26",
+      "id": "tests_reminders_test_getupcomingappointments",
+      "community": 101,
+      "norm_label": "{ getupcomingappointments }"
+    },
+    {
+      "label": "appointmentRoutes",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L27",
+      "id": "tests_reminders_test_appointmentroutes",
+      "community": 101,
+      "norm_label": "appointmentroutes"
+    },
+    {
+      "label": "mockReq()",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L31",
+      "id": "tests_reminders_test_mockreq",
+      "community": 101,
+      "norm_label": "mockreq()"
+    },
+    {
+      "label": "mockRes()",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L32",
+      "id": "tests_reminders_test_mockres",
+      "community": 101,
+      "norm_label": "mockres()"
+    },
+    {
+      "label": "pad()",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L40",
+      "id": "tests_reminders_test_pad",
+      "community": 130,
+      "norm_label": "pad()"
+    },
+    {
+      "label": "ymd()",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L41",
+      "id": "tests_reminders_test_ymd",
+      "community": 130,
+      "norm_label": "ymd()"
+    },
+    {
+      "label": "hms()",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L42",
+      "id": "tests_reminders_test_hms",
+      "community": 130,
+      "norm_label": "hms()"
+    },
+    {
+      "label": "fromNowH()",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L43",
+      "id": "tests_reminders_test_fromnowh",
+      "community": 130,
+      "norm_label": "fromnowh()"
+    },
+    {
+      "label": "mkAppt()",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L68",
+      "id": "tests_reminders_test_mkappt",
+      "community": 130,
+      "norm_label": "mkappt()"
+    },
+    {
+      "label": "startMsOf()",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L83",
+      "id": "tests_reminders_test_startmsof",
+      "community": 101,
+      "norm_label": "startmsof()"
+    },
+    {
+      "label": "now",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L88",
+      "id": "tests_reminders_test_now",
+      "community": 130,
+      "norm_label": "now"
+    },
+    {
+      "label": "horizon",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L89",
+      "id": "tests_reminders_test_horizon",
+      "community": 101,
+      "norm_label": "horizon"
+    },
+    {
+      "label": "justInside",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L90",
+      "id": "tests_reminders_test_justinside",
+      "community": 101,
+      "norm_label": "justinside"
+    },
+    {
+      "label": "justOutside",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L91",
+      "id": "tests_reminders_test_justoutside",
+      "community": 101,
+      "norm_label": "justoutside"
+    },
+    {
+      "label": "rows",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L93",
+      "id": "tests_reminders_test_rows",
+      "community": 101,
+      "norm_label": "rows"
+    },
+    {
+      "label": "picked",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L98",
+      "id": "tests_reminders_test_picked",
+      "community": 101,
+      "norm_label": "picked"
+    },
+    {
+      "label": "eligible",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L212",
+      "id": "tests_reminders_test_eligible",
+      "community": 101,
+      "norm_label": "eligible"
+    },
+    {
+      "label": "res",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L223",
+      "id": "tests_reminders_test_res",
+      "community": 101,
+      "norm_label": "res"
+    },
+    {
+      "label": "ids",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L230",
+      "id": "tests_reminders_test_ids",
+      "community": 101,
+      "norm_label": "ids"
+    },
+    {
+      "label": "expectedSoonFive",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L231",
+      "id": "tests_reminders_test_expectedsoonfive",
+      "community": 101,
+      "norm_label": "expectedsoonfive"
+    },
+    {
+      "label": "starts",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L234",
+      "id": "tests_reminders_test_starts",
+      "community": 101,
+      "norm_label": "starts"
+    },
+    {
+      "label": "layer",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L272",
+      "id": "tests_reminders_test_layer",
+      "community": 101,
+      "norm_label": "layer"
+    },
+    {
+      "label": "handlers",
+      "file_type": "code",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L274",
+      "id": "tests_reminders_test_handlers",
+      "community": 101,
+      "norm_label": "handlers"
+    },
+    {
       "label": "reschedule.test.js",
       "file_type": "code",
       "source_file": "tests/reschedule.test.js",
@@ -11061,7 +11565,7 @@
       "source_file": "tests/salon-gallery.test.js",
       "source_location": "L21",
       "id": "tests_salon_gallery_test_runmw",
-      "community": 122,
+      "community": 100,
       "norm_label": "runmw()"
     },
     {
@@ -11241,7 +11745,7 @@
       "source_file": "tests/services-crud.test.js",
       "source_location": "L21",
       "id": "tests_services_crud_test_runvalidate",
-      "community": 122,
+      "community": 65,
       "norm_label": "runvalidate()"
     },
     {
@@ -11907,7 +12411,7 @@
       "source_file": "tests/tips.test.js",
       "source_location": "L48",
       "id": "tests_tips_test_runmw",
-      "community": 122,
+      "community": 65,
       "norm_label": "runmw()"
     },
     {
@@ -12438,7 +12942,7 @@
       "source_file": "utils/csv.js",
       "source_location": "L1",
       "id": "utils_csv_js",
-      "community": 33,
+      "community": 131,
       "norm_label": "csv.js"
     },
     {
@@ -12447,7 +12951,7 @@
       "source_file": "utils/csv.js",
       "source_location": "L20",
       "id": "utils_csv_escapefield",
-      "community": 33,
+      "community": 131,
       "norm_label": "escapefield()"
     },
     {
@@ -12456,7 +12960,7 @@
       "source_file": "utils/csv.js",
       "source_location": "L26",
       "id": "utils_csv_tocsv",
-      "community": 33,
+      "community": 131,
       "norm_label": "tocsv()"
     },
     {
@@ -12789,7 +13293,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L10",
       "id": "utils_validators_validate",
-      "community": 122,
+      "community": 65,
       "norm_label": "validate()"
     },
     {
@@ -12798,7 +13302,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L29",
       "id": "utils_validators_loginschema",
-      "community": 24,
+      "community": 104,
       "norm_label": "loginschema"
     },
     {
@@ -12807,7 +13311,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L34",
       "id": "utils_validators_customersignupschema",
-      "community": 24,
+      "community": 124,
       "norm_label": "customersignupschema"
     },
     {
@@ -12834,7 +13338,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L62",
       "id": "utils_validators_forgotpasswordschema",
-      "community": 24,
+      "community": 124,
       "norm_label": "forgotpasswordschema"
     },
     {
@@ -12843,7 +13347,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L68",
       "id": "utils_validators_resetpasswordschema",
-      "community": 24,
+      "community": 124,
       "norm_label": "resetpasswordschema"
     },
     {
@@ -12852,7 +13356,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L75",
       "id": "utils_validators_verifyemailschema",
-      "community": 24,
+      "community": 124,
       "norm_label": "verifyemailschema"
     },
     {
@@ -12861,7 +13365,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L80",
       "id": "utils_validators_resendverificationschema",
-      "community": 24,
+      "community": 124,
       "norm_label": "resendverificationschema"
     },
     {
@@ -13068,7 +13572,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L356",
       "id": "utils_validators_activeservicesbysalonschema",
-      "community": 122,
+      "community": 21,
       "norm_label": "activeservicesbysalonschema"
     },
     {
@@ -13462,7 +13966,7 @@
       "label": "Completed",
       "file_type": "document",
       "source_file": "IMPROVEMENT_LOG.md",
-      "source_location": "L39",
+      "source_location": "L40",
       "id": "fresha_salon_app_improvement_log_completed",
       "community": 82,
       "norm_label": "completed"
@@ -16577,7 +17081,7 @@
       "file_type": "code",
       "source_file": "routes/userRoutes.js",
       "source_location": "L5",
-      "community": 24,
+      "community": 124,
       "norm_label": "{ validate, loginschema, customersignupschema, forgotpasswordschema, resetpasswordschema }",
       "id": "routes_userroutes_validate_loginschema_customersignupschema_forgotpasswordschema_resetpasswordschema"
     },
@@ -16820,6 +17324,38 @@
       "target": "fresha_salon_app_app_ensurecolumns"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app.js",
+      "source_location": "L334",
+      "weight": 1.0,
+      "source": "app_js",
+      "target": "services_reminderservice_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app.js",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "app_js",
+      "target": "services_reminderservice_isschedulerenabled",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app.js",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "app_js",
+      "target": "fresha_salon_app_app_isschedulerenabled",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.js",
@@ -16946,6 +17482,37 @@
       "target": "fresha_salon_app_app_seedsampledata"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app.js",
+      "source_location": "L334",
+      "weight": 1.0,
+      "source": "app_js",
+      "target": "services_reminderservice_runremindersweep",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app.js",
+      "source_location": "L334",
+      "weight": 1.0,
+      "source": "app_js",
+      "target": "fresha_salon_app_app_runremindersweep_sweep_interval_ms",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app.js",
+      "source_location": "L335",
+      "weight": 1.0,
+      "source": "app_js",
+      "target": "fresha_salon_app_app_safesweep",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -16976,6 +17543,17 @@
       "confidence_score": 1.0,
       "source": "app_js",
       "target": "fresha_salon_app_app_migratecategories"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app.js",
+      "source_location": "L337",
+      "weight": 1.0,
+      "source": "fresha_salon_app_app_safesweep",
+      "target": "services_reminderservice_runremindersweep"
     },
     {
       "relation": "contains",
@@ -18508,6 +19086,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "controllers/appointmentController.js",
+      "source_location": "L162",
+      "weight": 1.0,
+      "source": "controllers_appointmentcontroller_js",
+      "target": "controllers_appointmentcontroller_getupcomingappointments",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/appointmentController.js",
       "source_location": "L136",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -18746,6 +19334,17 @@
       "confidence_score": 1.0,
       "source": "tests_ratings_aggregation_test_js",
       "target": "controllers_appointmentcontroller_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "controllers_appointmentcontroller_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -18996,6 +19595,17 @@
       "weight": 1.0,
       "source": "controllers_appointmentcontroller_getallappointmentsbyuserid",
       "target": "utils_pagination_buildmeta"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "controllers_appointmentcontroller_getupcomingappointments",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -22039,9 +22649,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "services_referralservice_js",
-      "confidence_score": 1.0
+      "target": "services_referralservice_js"
     },
     {
       "relation": "imports",
@@ -22050,9 +22660,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "services_referralservice_ensurereferralcode",
-      "confidence_score": 1.0
+      "target": "services_referralservice_ensurereferralcode"
     },
     {
       "relation": "contains",
@@ -22060,9 +22670,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "controllers_usercontroller_ensurereferralcode",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_ensurereferralcode"
     },
     {
       "relation": "imports_from",
@@ -22071,9 +22681,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "services_loyaltyservice_js",
-      "confidence_score": 1.0
+      "target": "services_loyaltyservice_js"
     },
     {
       "relation": "imports",
@@ -22082,9 +22692,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "services_loyaltyservice_awardreferralbonus",
-      "confidence_score": 1.0
+      "target": "services_loyaltyservice_awardreferralbonus"
     },
     {
       "relation": "contains",
@@ -22092,9 +22702,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "controllers_usercontroller_awardreferralbonus",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_awardreferralbonus"
     },
     {
       "relation": "contains",
@@ -22212,9 +22822,9 @@
       "source_file": "controllers/userController.js",
       "source_location": "L351",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_usercontroller_js",
-      "target": "controllers_usercontroller_getmyreferralcode",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_getmyreferralcode"
     },
     {
       "relation": "contains",
@@ -22266,9 +22876,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "controllers_usercontroller_js",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_js"
     },
     {
       "relation": "calls",
@@ -22299,9 +22909,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "controllers_usercontroller_handleusersignup",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_handleusersignup"
     },
     {
       "relation": "calls",
@@ -22409,9 +23019,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "controllers_usercontroller_getloyaltybalance",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_getloyaltybalance"
     },
     {
       "relation": "calls",
@@ -22431,9 +23041,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "controllers_usercontroller_getmyreferralcode",
-      "confidence_score": 1.0
+      "target": "controllers_usercontroller_getmyreferralcode"
     },
     {
       "relation": "calls",
@@ -24946,9 +25556,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "middlewares_authmiddleware_js",
-      "confidence_score": 1.0
+      "target": "middlewares_authmiddleware_js"
     },
     {
       "relation": "contains",
@@ -25112,6 +25722,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "models_appointmentmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L5",
       "weight": 1.0,
@@ -25228,6 +25849,17 @@
       "confidence_score": 1.0,
       "source": "tests_ratings_aggregation_test_js",
       "target": "models_appointmentmodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "models_appointmentmodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -25628,9 +26260,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "models_notificationmodel_js",
-      "confidence_score": 1.0
+      "target": "models_notificationmodel_js"
     },
     {
       "relation": "imports_from",
@@ -25883,6 +26515,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "models_salonsmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L7",
       "weight": 1.0,
@@ -26070,6 +26713,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "models_salonsmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/reschedule.test.js",
       "source_location": "L7",
       "weight": 1.0,
@@ -26195,6 +26849,17 @@
       "confidence_score": 1.0,
       "source": "services_availabilityservice_js",
       "target": "models_servicesmodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "models_servicesmodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -26360,6 +27025,17 @@
       "confidence_score": 1.0,
       "source": "tests_ratings_aggregation_test_js",
       "target": "models_servicesmodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "models_servicesmodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -26713,6 +27389,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "models_staffmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/reschedule.test.js",
       "source_location": "L8",
       "weight": 1.0,
@@ -26877,7 +27564,18 @@
       "source_file": "services/referralService.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_referralservice_js",
+      "target": "models_usermodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
       "target": "models_usermodel_js",
       "confidence_score": 1.0
     },
@@ -27086,7 +27784,18 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
+      "target": "models_usermodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
       "target": "models_usermodel_js",
       "confidence_score": 1.0
     },
@@ -28703,6 +29412,17 @@
       "target": "routes_appointmentroutes_validate_appointmentcheckschema_customerreviewschema_staffreviewschema_reviewreplyschema_statusupdateschema_rescheduleschema_csvexportschema"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "routes_appointmentroutes_js",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "routes/appointmentRoutes.js",
@@ -29658,9 +30378,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "routes_userroutes_js",
-      "confidence_score": 1.0
+      "target": "routes_userroutes_js"
     },
     {
       "relation": "contains",
@@ -30255,6 +30975,47 @@
       "target": "services_emailservice_sendbookingstatusemail"
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/emailService.js",
+      "source_location": "L314",
+      "weight": 1.0,
+      "source": "services_emailservice_js",
+      "target": "services_emailservice_appointment_reminder_copy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/emailService.js",
+      "source_location": "L327",
+      "weight": 1.0,
+      "source": "services_emailservice_js",
+      "target": "services_emailservice_appointmentremindersubject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/emailService.js",
+      "source_location": "L340",
+      "weight": 1.0,
+      "source": "services_emailservice_js",
+      "target": "services_emailservice_sendappointmentreminderemail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_emailservice_js",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -30264,6 +31025,17 @@
       "confidence_score": 1.0,
       "source": "tests_email_verification_test_js",
       "target": "services_emailservice_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "services_emailservice_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -30321,6 +31093,17 @@
       "target": "services_emailservice_client"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "services/emailService.js",
+      "source_location": "L341",
+      "weight": 1.0,
+      "source": "services_emailservice_sendappointmentreminderemail",
+      "target": "services_emailservice_client",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -30341,6 +31124,28 @@
       "confidence_score": 1.0,
       "source": "tests_status_emails_test_js",
       "target": "services_emailservice_sendbookingstatusemail"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "services/emailService.js",
+      "source_location": "L348",
+      "weight": 1.0,
+      "source": "services_emailservice_sendappointmentreminderemail",
+      "target": "services_emailservice_appointmentremindersubject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "services_emailservice_appointmentremindersubject",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -30389,9 +31194,9 @@
       "source_file": "services/loyaltyService.js",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_loyaltyservice_js",
-      "target": "services_loyaltyservice_awardreferralbonus",
-      "confidence_score": 1.0
+      "target": "services_loyaltyservice_awardreferralbonus"
     },
     {
       "relation": "imports_from",
@@ -30411,9 +31216,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "services_loyaltyservice_js",
-      "confidence_score": 1.0
+      "target": "services_loyaltyservice_js"
     },
     {
       "relation": "imports",
@@ -30444,9 +31249,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "services_loyaltyservice_awardreferralbonus",
-      "confidence_score": 1.0
+      "target": "services_loyaltyservice_awardreferralbonus"
     },
     {
       "relation": "calls",
@@ -30771,9 +31576,9 @@
       "source_file": "services/referralService.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_referralservice_js",
-      "target": "services_referralservice_crypto",
-      "confidence_score": 1.0
+      "target": "services_referralservice_crypto"
     },
     {
       "relation": "contains",
@@ -30781,9 +31586,9 @@
       "source_file": "services/referralService.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_referralservice_js",
-      "target": "services_referralservice_user",
-      "confidence_score": 1.0
+      "target": "services_referralservice_user"
     },
     {
       "relation": "imports_from",
@@ -30792,9 +31597,9 @@
       "source_file": "services/referralService.js",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_referralservice_js",
-      "target": "utils_logger_js",
-      "confidence_score": 1.0
+      "target": "utils_logger_js"
     },
     {
       "relation": "contains",
@@ -30802,9 +31607,9 @@
       "source_file": "services/referralService.js",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_referralservice_js",
-      "target": "services_referralservice_logger",
-      "confidence_score": 1.0
+      "target": "services_referralservice_logger"
     },
     {
       "relation": "contains",
@@ -30812,9 +31617,9 @@
       "source_file": "services/referralService.js",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_referralservice_js",
-      "target": "services_referralservice_generatereferralcode",
-      "confidence_score": 1.0
+      "target": "services_referralservice_generatereferralcode"
     },
     {
       "relation": "contains",
@@ -30822,9 +31627,9 @@
       "source_file": "services/referralService.js",
       "source_location": "L49",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_referralservice_js",
-      "target": "services_referralservice_ensurereferralcode",
-      "confidence_score": 1.0
+      "target": "services_referralservice_ensurereferralcode"
     },
     {
       "relation": "imports_from",
@@ -30833,9 +31638,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "services_referralservice_js",
-      "confidence_score": 1.0
+      "target": "services_referralservice_js"
     },
     {
       "relation": "calls",
@@ -30844,9 +31649,9 @@
       "source_file": "services/referralService.js",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_referralservice_ensurereferralcode",
-      "target": "services_referralservice_generatereferralcode",
-      "confidence_score": 1.0
+      "target": "services_referralservice_generatereferralcode"
     },
     {
       "relation": "imports",
@@ -30855,9 +31660,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "services_referralservice_generatereferralcode",
-      "confidence_score": 1.0
+      "target": "services_referralservice_generatereferralcode"
     },
     {
       "relation": "imports",
@@ -30866,8 +31671,216 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "services_referralservice_ensurereferralcode",
+      "target": "services_referralservice_ensurereferralcode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_reminderservice_op",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_reminderservice_appointment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_reminderservice_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_reminderservice_salons",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_reminderservice_services",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "utils_logger_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_reminderservice_logger",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_reminderservice_emailservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_reminderservice_pad",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_reminderservice_localdatestr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_reminderservice_pickreminders",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L71",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_reminderservice_runremindersweep",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L132",
+      "weight": 1.0,
+      "source": "services_reminderservice_js",
+      "target": "services_reminderservice_isschedulerenabled",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "services_reminderservice_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "services_reminderservice_localdatestr",
+      "target": "services_reminderservice_pad",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "services_reminderservice_runremindersweep",
+      "target": "services_reminderservice_localdatestr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "services/reminderService.js",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "services_reminderservice_runremindersweep",
+      "target": "services_reminderservice_pickreminders",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "services_reminderservice_pickreminders",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "services_reminderservice_runremindersweep",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "services_reminderservice_isschedulerenabled",
       "confidence_score": 1.0
     },
     {
@@ -36024,9 +37037,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_test_before_after",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_test_before_after"
     },
     {
       "relation": "contains",
@@ -36034,9 +37047,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_assert",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_assert"
     },
     {
       "relation": "imports_from",
@@ -36045,9 +37058,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "utils_database_js",
-      "confidence_score": 1.0
+      "target": "utils_database_js"
     },
     {
       "relation": "contains",
@@ -36055,9 +37068,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_sequelize",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_sequelize"
     },
     {
       "relation": "contains",
@@ -36065,9 +37078,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_user",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_user"
     },
     {
       "relation": "contains",
@@ -36075,9 +37088,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_notification",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_notification"
     },
     {
       "relation": "contains",
@@ -36085,9 +37098,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_handleusersignup_getmyreferralcode_getloyaltybalance",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_handleusersignup_getmyreferralcode_getloyaltybalance"
     },
     {
       "relation": "contains",
@@ -36095,9 +37108,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_generatereferralcode_ensurereferralcode_referral_alphabet_referral_code_length",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_generatereferralcode_ensurereferralcode_referral_alphabet_referral_code_length"
     },
     {
       "relation": "contains",
@@ -36105,9 +37118,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_awardreferralbonus_referral_bonus_points",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_awardreferralbonus_referral_bonus_points"
     },
     {
       "relation": "contains",
@@ -36115,9 +37128,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_authmiddleware",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_authmiddleware"
     },
     {
       "relation": "contains",
@@ -36125,9 +37138,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_userroutes",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_userroutes"
     },
     {
       "relation": "imports_from",
@@ -36136,9 +37149,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "utils_validators_js",
-      "confidence_score": 1.0
+      "target": "utils_validators_js"
     },
     {
       "relation": "imports",
@@ -36147,9 +37160,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "utils_validators_customersignupschema",
-      "confidence_score": 1.0
+      "target": "utils_validators_customersignupschema"
     },
     {
       "relation": "contains",
@@ -36157,9 +37170,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_customersignupschema",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_customersignupschema"
     },
     {
       "relation": "contains",
@@ -36167,9 +37180,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_mockreq",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_mockreq"
     },
     {
       "relation": "contains",
@@ -36177,9 +37190,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_mockres",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_mockres"
     },
     {
       "relation": "contains",
@@ -36187,9 +37200,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_waitfor",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_waitfor"
     },
     {
       "relation": "contains",
@@ -36197,9 +37210,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L51",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_code",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_code"
     },
     {
       "relation": "contains",
@@ -36207,9 +37220,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L271",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_res1",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_res1"
     },
     {
       "relation": "contains",
@@ -36217,9 +37230,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L278",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_res2",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_res2"
     },
     {
       "relation": "contains",
@@ -36227,9 +37240,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L185",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_res",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_res"
     },
     {
       "relation": "contains",
@@ -36237,9 +37250,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L155",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_baseline",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_baseline"
     },
     {
       "relation": "contains",
@@ -36247,9 +37260,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L156",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_badcodes",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_badcodes"
     },
     {
       "relation": "contains",
@@ -36257,9 +37270,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L246",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_base",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_base"
     },
     {
       "relation": "contains",
@@ -36267,9 +37280,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L250",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_toolong",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_toolong"
     },
     {
       "relation": "contains",
@@ -36277,9 +37290,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L253",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_exact",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_exact"
     },
     {
       "relation": "contains",
@@ -36287,9 +37300,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L257",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_padded",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_padded"
     },
     {
       "relation": "contains",
@@ -36297,9 +37310,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L261",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_omitted",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_omitted"
     },
     {
       "relation": "contains",
@@ -36307,9 +37320,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L286",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_guard",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_guard"
     },
     {
       "relation": "contains",
@@ -36317,9 +37330,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L287",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_denied",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_denied"
     },
     {
       "relation": "contains",
@@ -36327,9 +37340,9 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L295",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_layer",
-      "confidence_score": 1.0
+      "target": "tests_referrals_test_layer"
     },
     {
       "relation": "contains",
@@ -36337,8 +37350,435 @@
       "source_file": "tests/referrals.test.js",
       "source_location": "L297",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
-      "target": "tests_referrals_test_handlers",
+      "target": "tests_referrals_test_handlers"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_test_before_after",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_assert",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "utils_database_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_sequelize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_salons",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_staff",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_services",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_appointment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_emailservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_remindercalls",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_appointmentremindersubject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_pickreminders_runremindersweep_isschedulerenabled_reminder_window_hours",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_getupcomingappointments",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_appointmentroutes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_mockreq",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_mockres",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_pad",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_ymd",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_hms",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_fromnowh",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_mkappt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L83",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_startmsof",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L139",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_now",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_horizon",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L90",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_justinside",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L91",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_justoutside",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L105",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_rows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L118",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_picked",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L212",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_eligible",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L264",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_res",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L266",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_ids",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L231",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_expectedsoonfive",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L234",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_starts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L272",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_layer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L274",
+      "weight": 1.0,
+      "source": "tests_reminders_test_js",
+      "target": "tests_reminders_test_handlers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "tests_reminders_test_ymd",
+      "target": "tests_reminders_test_pad",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "tests_reminders_test_hms",
+      "target": "tests_reminders_test_pad",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L75",
+      "weight": 1.0,
+      "source": "tests_reminders_test_mkappt",
+      "target": "tests_reminders_test_ymd",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L76",
+      "weight": 1.0,
+      "source": "tests_reminders_test_mkappt",
+      "target": "tests_reminders_test_hms",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "tests_reminders_test_fromnowh",
+      "target": "tests_reminders_test_now",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/reminders.test.js",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "tests_reminders_test_mkappt",
+      "target": "tests_reminders_test_fromnowh",
       "confidence_score": 1.0
     },
     {
@@ -43086,5 +44526,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1404f803c75ea695b6e5a3b3783bf58d513c1d15"
+  "built_at_commit": "f163142f1b7a631620a28a29dc494ab225100904"
 }

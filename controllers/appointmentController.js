@@ -155,6 +155,63 @@ const getAllAppointmentsByUserId = async (req, res) => {
     }
 };
 
+// The authenticated customer's NEXT appointments (status pending|confirmed,
+// start datetime strictly in the future), soonest first, capped at 5.
+// Bare-array response for drop-in frontend consumption. Scoped strictly to
+// req.user.userId like every customer listing — never a query param.
+const getUpcomingAppointments = async (req, res) => {
+    const userId = req.user.userId;
+
+    try {
+        // date/time are separate DATEONLY/TIME columns, so "start > now" is
+        // expressed as two SQL branches over the LOCAL calendar frame (same
+        // frame every other consumer parses these fields in):
+        //   date > today   OR   (date = today AND time > current-time-of-day)
+        // This filters exactly in SQL, so LIMIT 5 applies AFTER the cutoff
+        // rather than truncating before it. String comparison is safe: both
+        // columns hold zero-padded HH:mm[:ss]-style values.
+        const pad = (n) => String(n).padStart(2, '0');
+        const now = new Date();
+        const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+        const nowTime = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+        const rows = await appointmentModel.findAll({
+            where: {
+                userId,
+                status: { [Op.in]: ['pending', 'confirmed'] },
+                [Op.or]: [
+                    { date: { [Op.gt]: today } },
+                    { date: today, time: { [Op.gt]: nowTime } },
+                ],
+            },
+            include: [
+                {
+                    model: staffModel,
+                    as: 'staff',
+                    attributes: ['name', 'phoneNumber'],
+                },
+                {
+                    model: Services,
+                    as: 'service',
+                    attributes: ['name'],
+                },
+                {
+                    model: Salons,
+                    as: 'salon',
+                    attributes: ['name'],
+                },
+            ],
+            order: [['date', 'ASC'], ['time', 'ASC']],
+            limit: 5,
+        });
+
+        return res.status(200).json(rows);
+    } catch (error) {
+        console.error('Error fetching upcoming appointments:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 const getScheduledAppointmentsBySalonId = async (req, res) => {
     const salonId = req.user.salonId;
     try {
@@ -705,6 +762,7 @@ const updateAppointmentStatus = async (req, res) => {
 module.exports = {
     appointmentChecker,
     getAllAppointmentsByUserId,
+    getUpcomingAppointments,
     getScheduledAppointmentsBySalonId,
     exportAppointmentsCsv,
     mailAppointment,

@@ -307,6 +307,84 @@ async function sendBookingStatusEmail(toEmail, ctx = {}) {
   }
 }
 
+/**
+ * Reminder copy — pure data + function so the subject is assertable without
+ * ever sending mail (same pattern as BOOKING_STATUS_COPY above).
+ */
+const APPOINTMENT_REMINDER_COPY = {
+  subject: (s) => `Reminder: your appointment at ${s} is coming up`,
+  title: 'Your appointment is coming up',
+  line: 'This is a friendly reminder that your booking starts in about 24 hours.',
+  closing: "Can't make it? Please contact the salon as soon as possible.",
+};
+
+/**
+ * Friendly subject line for the ~24h reminder. Pure — no client, no env
+ * reads — so callers/tests can inspect copy without any mail being sent.
+ * @param {string} [salonName]
+ * @returns {string}
+ */
+function appointmentReminderSubject(salonName) {
+  return APPOINTMENT_REMINDER_COPY.subject(salonName || 'the salon');
+}
+
+/**
+ * Send the customer a reminder about an upcoming appointment (~24h before
+ * start). Same fire-and-forget contract as sendBookingStatusEmail: resolves
+ * to { sent: false, reason: 'not-configured' } when Brevo isn't configured,
+ * 'missing-data' for an absent recipient, and NEVER throws.
+ * @param {string} toEmail - customer's email address
+ * @param {object} ctx - { salonName?, serviceName?, date?, time? }
+ * @returns {Promise<{sent: boolean, reason?: string}>}
+ */
+async function sendAppointmentReminderEmail(toEmail, ctx = {}) {
+  const c = client();
+  if (!c) return { sent: false, reason: 'not-configured' };
+
+  const { salonName, serviceName, date, time } = ctx;
+  if (!toEmail) return { sent: false, reason: 'missing-data' };
+
+  const where = salonName || 'the salon';
+  const subject = appointmentReminderSubject(salonName);
+  const details = [
+    ['Service', serviceName],
+    ['Date', date],
+    ['Time', time],
+    ['Salon', salonName],
+  ];
+  const textContent = [
+    'Dear customer,', '',
+    APPOINTMENT_REMINDER_COPY.title, '',
+    APPOINTMENT_REMINDER_COPY.line, '',
+    ...details.map(([label, value]) => `- ${label}: ${value || '—'}`), '',
+    APPOINTMENT_REMINDER_COPY.closing, '',
+    'Best regards,', 'Fresha Team',
+  ].join('\n');
+  const htmlContent = `
+    <p>Dear customer,</p>
+    <p><strong>${APPOINTMENT_REMINDER_COPY.title}</strong></p>
+    <p>${APPOINTMENT_REMINDER_COPY.line}</p>
+    <ul>${details.map(([label, value]) => `<li><strong>${label}:</strong> ${value || '—'}</li>`).join('')}</ul>
+    <p>${APPOINTMENT_REMINDER_COPY.closing}</p>
+    <p>Best regards,<br>Fresha Team</p>
+  `;
+
+  try {
+    await c.api.sendTransacEmail({
+      sender: c.sender,
+      to: [{ email: toEmail }],
+      subject,
+      textContent,
+      htmlContent,
+    });
+    return { sent: true };
+  } catch (error) {
+    // Email failure must never break the sweep — log and move on.
+    console.error('❌ Error sending appointment reminder email:', error.response?.body || error.message);
+    return { sent: false, reason: 'send-failed' };
+  }
+}
+
 module.exports = {
   isConfigured,
   sendBookingConfirmation,
@@ -314,4 +392,6 @@ module.exports = {
   sendVerificationEmail,
   sendBookingStatusEmail,
   bookingStatusSubject,
+  sendAppointmentReminderEmail,
+  appointmentReminderSubject,
 };

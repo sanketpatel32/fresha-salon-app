@@ -9,6 +9,11 @@ router.post('/check', authMiddleware, authMiddleware.requireRole('customer'), va
 // A customer's own bookings. Scoped to req.user.userId in the controller.
 router.get('/getAll', authMiddleware, authMiddleware.requireRole('customer'), appointmentController.getAllAppointmentsByUserId);
 
+// The customer's NEXT appointments (pending|confirmed, future, soonest-first,
+// limit 5). Static path declared before the parameterized routes; same
+// customer-only guard and controller-side scoping as /getAll.
+router.get('/upcoming', authMiddleware, authMiddleware.requireRole('customer'), appointmentController.getUpcomingAppointments);
+
 // Salon-side scheduled appointments (already had auth; now role-gated).
 router.get('/sceduledAppointments', authMiddleware, authMiddleware.requireRole('salon'), appointmentController.getScheduledAppointmentsBySalonId);
 
