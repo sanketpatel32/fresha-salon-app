@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const authMiddleware = require('../middlewares/authMiddleware');
-const { validate, loginSchema, customerSignupSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendVerificationSchema } = require('../utils/validators');
+const { validate, loginSchema, customerSignupSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendVerificationSchema, accountDeletionSchema } = require('../utils/validators');
 const { strictLimiter } = require('../middlewares/rateLimiters');
 
 // Public auth endpoints.
@@ -36,5 +36,12 @@ router.get('/loyalty', authMiddleware, authMiddleware.requireRole('customer'), u
 // The customer's personal referral code (#28) — lazily assigned on first
 // read. Customer-only for the same reason as /loyalty.
 router.get('/referral', authMiddleware, authMiddleware.requireRole('customer'), userController.getMyReferralCode);
+
+// GDPR account self-deletion (#32). Customer-only (salon/staff/admin tokens
+// carry no userId to scope by and must never erase a customer row), body
+// password re-auth in the controller, and behind the SAME strict limiter as
+// every other credential endpoint: this verifies a password AND destroys
+// data, making it exactly as abuse-worthy as login.
+router.delete('/me', strictLimiter, authMiddleware, authMiddleware.requireRole('customer'), validate(accountDeletionSchema), userController.deleteMyAccount);
 
 module.exports = router;

@@ -729,7 +729,7 @@
       "source_file": "controllers/adminController.js",
       "source_location": "L101",
       "id": "controllers_admincontroller_deleteappointment",
-      "community": 132,
+      "community": 30,
       "norm_label": "deleteappointment()"
     },
     {
@@ -747,7 +747,7 @@
       "source_file": "controllers/adminController.js",
       "source_location": "L165",
       "id": "controllers_admincontroller_deleteuser",
-      "community": 132,
+      "community": 30,
       "norm_label": "deleteuser()"
     },
     {
@@ -999,7 +999,7 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L349",
       "id": "controllers_appointmentcontroller_mailappointment",
-      "community": 67,
+      "community": 129,
       "norm_label": "mailappointment()"
     },
     {
@@ -1035,7 +1035,7 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L481",
       "id": "controllers_appointmentcontroller_cancelappointment",
-      "community": 9,
+      "community": 119,
       "norm_label": "cancelappointment()"
     },
     {
@@ -1053,7 +1053,7 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L651",
       "id": "controllers_appointmentcontroller_sendcustomerstatusemail",
-      "community": 9,
+      "community": 119,
       "norm_label": "sendcustomerstatusemail()"
     },
     {
@@ -1062,7 +1062,7 @@
       "source_file": "controllers/appointmentController.js",
       "source_location": "L677",
       "id": "controllers_appointmentcontroller_updateappointmentstatus",
-      "community": 9,
+      "community": 119,
       "norm_label": "updateappointmentstatus()"
     },
     {
@@ -1107,7 +1107,7 @@
       "source_file": "controllers/favoriteController.js",
       "source_location": "L11",
       "id": "controllers_favoritecontroller_getfavorites",
-      "community": 109,
+      "community": 120,
       "norm_label": "getfavorites()"
     },
     {
@@ -1134,7 +1134,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L1",
       "id": "controllers_notificationcontroller_js",
-      "community": 119,
+      "community": 109,
       "norm_label": "notificationcontroller.js"
     },
     {
@@ -1143,7 +1143,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L1",
       "id": "controllers_notificationcontroller_notification",
-      "community": 119,
+      "community": 109,
       "norm_label": "notification"
     },
     {
@@ -1152,7 +1152,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L2",
       "id": "controllers_notificationcontroller_paginatequery_buildmeta",
-      "community": 119,
+      "community": 109,
       "norm_label": "{ paginatequery, buildmeta }"
     },
     {
@@ -1161,7 +1161,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L11",
       "id": "controllers_notificationcontroller_resolverecipient",
-      "community": 119,
+      "community": 109,
       "norm_label": "resolverecipient()"
     },
     {
@@ -1170,7 +1170,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L25",
       "id": "controllers_notificationcontroller_listnotifications",
-      "community": 119,
+      "community": 109,
       "norm_label": "listnotifications()"
     },
     {
@@ -1179,7 +1179,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L60",
       "id": "controllers_notificationcontroller_marknotificationread",
-      "community": 119,
+      "community": 109,
       "norm_label": "marknotificationread()"
     },
     {
@@ -1188,7 +1188,7 @@
       "source_file": "controllers/notificationController.js",
       "source_location": "L89",
       "id": "controllers_notificationcontroller_markallnotificationsread",
-      "community": 119,
+      "community": 109,
       "norm_label": "markallnotificationsread()"
     },
     {
@@ -1710,7 +1710,7 @@
       "source_file": "controllers/salonGalleryController.js",
       "source_location": "L1",
       "id": "controllers_salongallerycontroller_js",
-      "community": 100,
+      "community": 134,
       "norm_label": "salongallerycontroller.js"
     },
     {
@@ -1719,7 +1719,7 @@
       "source_file": "controllers/salonGalleryController.js",
       "source_location": "L1",
       "id": "controllers_salongallerycontroller_salons",
-      "community": 100,
+      "community": 134,
       "norm_label": "salons"
     },
     {
@@ -1728,7 +1728,7 @@
       "source_file": "controllers/salonGalleryController.js",
       "source_location": "L11",
       "id": "controllers_salongallerycontroller_parsegallery",
-      "community": 22,
+      "community": 134,
       "norm_label": "parsegallery()"
     },
     {
@@ -1737,7 +1737,7 @@
       "source_file": "controllers/salonGalleryController.js",
       "source_location": "L29",
       "id": "controllers_salongallerycontroller_updategallery",
-      "community": 100,
+      "community": 134,
       "norm_label": "updategallery()"
     },
     {
@@ -1746,7 +1746,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L1",
       "id": "controllers_salonpromoscontroller_js",
-      "community": 76,
+      "community": 131,
       "norm_label": "salonpromoscontroller.js"
     },
     {
@@ -1755,7 +1755,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L7",
       "id": "controllers_salonpromoscontroller_promocode",
-      "community": 76,
+      "community": 131,
       "norm_label": "promocode"
     },
     {
@@ -1764,7 +1764,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L9",
       "id": "controllers_salonpromoscontroller_issequelizeuniqueerror",
-      "community": 76,
+      "community": 131,
       "norm_label": "issequelizeuniqueerror()"
     },
     {
@@ -1773,7 +1773,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L15",
       "id": "controllers_salonpromoscontroller_createpromo",
-      "community": 76,
+      "community": 131,
       "norm_label": "createpromo()"
     },
     {
@@ -1782,7 +1782,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L49",
       "id": "controllers_salonpromoscontroller_listpromos",
-      "community": 76,
+      "community": 131,
       "norm_label": "listpromos()"
     },
     {
@@ -1791,7 +1791,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L68",
       "id": "controllers_salonpromoscontroller_updatepromo",
-      "community": 76,
+      "community": 131,
       "norm_label": "updatepromo()"
     },
     {
@@ -1800,7 +1800,7 @@
       "source_file": "controllers/salonPromosController.js",
       "source_location": "L101",
       "id": "controllers_salonpromoscontroller_deletepromo",
-      "community": 76,
+      "community": 131,
       "norm_label": "deletepromo()"
     },
     {
@@ -2061,7 +2061,7 @@
       "source_file": "controllers/staffController.js",
       "source_location": "L1",
       "id": "controllers_staffcontroller_js",
-      "community": 29,
+      "community": 118,
       "norm_label": "staffcontroller.js"
     },
     {
@@ -2070,7 +2070,7 @@
       "source_file": "controllers/staffController.js",
       "source_location": "L1",
       "id": "controllers_staffcontroller_staffmodel",
-      "community": 29,
+      "community": 118,
       "norm_label": "staffmodel"
     },
     {
@@ -2079,7 +2079,7 @@
       "source_file": "controllers/staffController.js",
       "source_location": "L3",
       "id": "controllers_staffcontroller_bcrypt",
-      "community": 29,
+      "community": 118,
       "norm_label": "bcrypt"
     },
     {
@@ -2088,7 +2088,7 @@
       "source_file": "controllers/staffController.js",
       "source_location": "L4",
       "id": "controllers_staffcontroller_jwt",
-      "community": 29,
+      "community": 118,
       "norm_label": "jwt"
     },
     {
@@ -2097,7 +2097,7 @@
       "source_file": "controllers/staffController.js",
       "source_location": "L5",
       "id": "controllers_staffcontroller_appointmentmodel",
-      "community": 29,
+      "community": 118,
       "norm_label": "appointmentmodel"
     },
     {
@@ -2106,7 +2106,7 @@
       "source_file": "controllers/staffController.js",
       "source_location": "L6",
       "id": "controllers_staffcontroller_servicesmodel",
-      "community": 29,
+      "community": 118,
       "norm_label": "servicesmodel"
     },
     {
@@ -2115,7 +2115,7 @@
       "source_file": "controllers/staffController.js",
       "source_location": "L7",
       "id": "controllers_staffcontroller_usermodel",
-      "community": 29,
+      "community": 118,
       "norm_label": "usermodel"
     },
     {
@@ -2124,7 +2124,7 @@
       "source_file": "controllers/staffController.js",
       "source_location": "L9",
       "id": "controllers_staffcontroller_handlestafflogin",
-      "community": 29,
+      "community": 118,
       "norm_label": "handlestafflogin()"
     },
     {
@@ -2133,7 +2133,7 @@
       "source_file": "controllers/staffController.js",
       "source_location": "L38",
       "id": "controllers_staffcontroller_getappointments",
-      "community": 29,
+      "community": 118,
       "norm_label": "getappointments()"
     },
     {
@@ -2142,7 +2142,7 @@
       "source_file": "controllers/staffController.js",
       "source_location": "L59",
       "id": "controllers_staffcontroller_getmytodayschedule",
-      "community": 29,
+      "community": 118,
       "norm_label": "getmytodayschedule()"
     },
     {
@@ -2236,19 +2236,64 @@
       "norm_label": "{ awardreferralbonus }"
     },
     {
-      "label": "handleUserSignup()",
+      "label": "appointmentModel",
+      "file_type": "code",
+      "source_file": "controllers/userController.js",
+      "source_location": "L11",
+      "id": "controllers_usercontroller_appointmentmodel",
+      "community": 114,
+      "norm_label": "appointmentmodel"
+    },
+    {
+      "label": "favoriteModel",
       "file_type": "code",
       "source_file": "controllers/userController.js",
       "source_location": "L12",
-      "id": "controllers_usercontroller_handleusersignup",
+      "id": "controllers_usercontroller_favoritemodel",
       "community": 114,
+      "norm_label": "favoritemodel"
+    },
+    {
+      "label": "waitlistModel",
+      "file_type": "code",
+      "source_file": "controllers/userController.js",
+      "source_location": "L13",
+      "id": "controllers_usercontroller_waitlistmodel",
+      "community": 114,
+      "norm_label": "waitlistmodel"
+    },
+    {
+      "label": "notificationModel",
+      "file_type": "code",
+      "source_file": "controllers/userController.js",
+      "source_location": "L14",
+      "id": "controllers_usercontroller_notificationmodel",
+      "community": 114,
+      "norm_label": "notificationmodel"
+    },
+    {
+      "label": "{ recordAudit }",
+      "file_type": "code",
+      "source_file": "controllers/userController.js",
+      "source_location": "L15",
+      "id": "controllers_usercontroller_recordaudit",
+      "community": 114,
+      "norm_label": "{ recordaudit }"
+    },
+    {
+      "label": "handleUserSignup()",
+      "file_type": "code",
+      "source_file": "controllers/userController.js",
+      "source_location": "L17",
+      "id": "controllers_usercontroller_handleusersignup",
+      "community": 16,
       "norm_label": "handleusersignup()"
     },
     {
       "label": "handleUserLogin()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L98",
+      "source_location": "L103",
       "id": "controllers_usercontroller_handleuserlogin",
       "community": 114,
       "norm_label": "handleuserlogin()"
@@ -2257,7 +2302,7 @@
       "label": "hashResetToken()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L134",
+      "source_location": "L139",
       "id": "controllers_usercontroller_hashresettoken",
       "community": 114,
       "norm_label": "hashresettoken()"
@@ -2266,16 +2311,16 @@
       "label": "hashToken()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L143",
+      "source_location": "L148",
       "id": "controllers_usercontroller_hashtoken",
-      "community": 114,
+      "community": 16,
       "norm_label": "hashtoken()"
     },
     {
       "label": "forgotPassword()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L146",
+      "source_location": "L151",
       "id": "controllers_usercontroller_forgotpassword",
       "community": 114,
       "norm_label": "forgotpassword()"
@@ -2284,7 +2329,7 @@
       "label": "resetPassword()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L178",
+      "source_location": "L183",
       "id": "controllers_usercontroller_resetpassword",
       "community": 114,
       "norm_label": "resetpassword()"
@@ -2293,25 +2338,34 @@
       "label": "verifyEmail()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L214",
+      "source_location": "L219",
       "id": "controllers_usercontroller_verifyemail",
-      "community": 114,
+      "community": 16,
       "norm_label": "verifyemail()"
     },
     {
       "label": "resendVerification()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L248",
+      "source_location": "L253",
       "id": "controllers_usercontroller_resendverification",
-      "community": 114,
+      "community": 16,
       "norm_label": "resendverification()"
+    },
+    {
+      "label": "deleteMyAccount()",
+      "file_type": "code",
+      "source_file": "controllers/userController.js",
+      "source_location": "L294",
+      "id": "controllers_usercontroller_deletemyaccount",
+      "community": 30,
+      "norm_label": "deletemyaccount()"
     },
     {
       "label": "searchUsers()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L278",
+      "source_location": "L416",
       "id": "controllers_usercontroller_searchusers",
       "community": 114,
       "norm_label": "searchusers()"
@@ -2320,7 +2374,7 @@
       "label": "getUserProfile()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L300",
+      "source_location": "L438",
       "id": "controllers_usercontroller_getuserprofile",
       "community": 114,
       "norm_label": "getuserprofile()"
@@ -2329,7 +2383,7 @@
       "label": "getLoyaltyBalance()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L325",
+      "source_location": "L463",
       "id": "controllers_usercontroller_getloyaltybalance",
       "community": 127,
       "norm_label": "getloyaltybalance()"
@@ -2338,7 +2392,7 @@
       "label": "getMyReferralCode()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L351",
+      "source_location": "L489",
       "id": "controllers_usercontroller_getmyreferralcode",
       "community": 127,
       "norm_label": "getmyreferralcode()"
@@ -2347,7 +2401,7 @@
       "label": "editProfile()",
       "file_type": "code",
       "source_file": "controllers/userController.js",
-      "source_location": "L376",
+      "source_location": "L514",
       "id": "controllers_usercontroller_editprofile",
       "community": 114,
       "norm_label": "editprofile()"
@@ -2430,7 +2484,7 @@
       "source_file": "controllers/waitlistController.js",
       "source_location": "L86",
       "id": "controllers_waitlistcontroller_getmywaitlist",
-      "community": 109,
+      "community": 99,
       "norm_label": "getmywaitlist()"
     },
     {
@@ -2862,7 +2916,7 @@
       "source_file": "frontend/src/App.jsx",
       "source_location": "L58",
       "id": "src_app_authgatedroutes",
-      "community": 121,
+      "community": 123,
       "norm_label": "authgatedroutes()"
     },
     {
@@ -3042,7 +3096,7 @@
       "source_file": "frontend/src/components/ProtectedRoute.jsx",
       "source_location": "L1",
       "id": "frontend_src_components_protectedroute_jsx",
-      "community": 121,
+      "community": 123,
       "norm_label": "protectedroute.jsx"
     },
     {
@@ -3051,7 +3105,7 @@
       "source_file": "frontend/src/components/ProtectedRoute.jsx",
       "source_location": "L9",
       "id": "components_protectedroute_protectedroute",
-      "community": 121,
+      "community": 123,
       "norm_label": "protectedroute()"
     },
     {
@@ -3123,7 +3177,7 @@
       "source_file": "frontend/src/context/AuthContext.jsx",
       "source_location": "L85",
       "id": "context_authcontext_useauth",
-      "community": 121,
+      "community": 123,
       "norm_label": "useauth()"
     },
     {
@@ -3168,7 +3222,7 @@
       "source_file": "frontend/src/context/ToastContext.jsx",
       "source_location": "L1",
       "id": "frontend_src_context_toastcontext_jsx",
-      "community": 107,
+      "community": 121,
       "norm_label": "toastcontext.jsx"
     },
     {
@@ -3177,7 +3231,7 @@
       "source_file": "frontend/src/context/ToastContext.jsx",
       "source_location": "L4",
       "id": "context_toastcontext_toastcontext",
-      "community": 107,
+      "community": 121,
       "norm_label": "toastcontext"
     },
     {
@@ -3186,7 +3240,7 @@
       "source_file": "frontend/src/context/ToastContext.jsx",
       "source_location": "L10",
       "id": "context_toastcontext_toastprovider",
-      "community": 107,
+      "community": 121,
       "norm_label": "toastprovider()"
     },
     {
@@ -3204,7 +3258,7 @@
       "source_file": "frontend/src/context/ToastContext.jsx",
       "source_location": "L33",
       "id": "context_toastcontext_toastview",
-      "community": 107,
+      "community": 121,
       "norm_label": "toastview()"
     },
     {
@@ -3213,7 +3267,7 @@
       "source_file": "frontend/src/hooks/useDocumentTitle.js",
       "source_location": "L1",
       "id": "frontend_src_hooks_usedocumenttitle_js",
-      "community": 123,
+      "community": 116,
       "norm_label": "usedocumenttitle.js"
     },
     {
@@ -3222,7 +3276,7 @@
       "source_file": "frontend/src/hooks/useDocumentTitle.js",
       "source_location": "L16",
       "id": "hooks_usedocumenttitle_usedocumenttitle",
-      "community": 123,
+      "community": 116,
       "norm_label": "usedocumenttitle()"
     },
     {
@@ -3231,7 +3285,7 @@
       "source_file": "frontend/src/pages/LandingPage.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_landingpage_jsx",
-      "community": 123,
+      "community": 116,
       "norm_label": "landingpage.jsx"
     },
     {
@@ -3240,7 +3294,7 @@
       "source_file": "frontend/src/pages/LandingPage.jsx",
       "source_location": "L6",
       "id": "pages_landingpage_landingpage",
-      "community": 123,
+      "community": 116,
       "norm_label": "landingpage()"
     },
     {
@@ -3249,7 +3303,7 @@
       "source_file": "frontend/src/pages/admin/AdminDashboard.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_admin_admindashboard_jsx",
-      "community": 121,
+      "community": 123,
       "norm_label": "admindashboard.jsx"
     },
     {
@@ -3258,7 +3312,7 @@
       "source_file": "frontend/src/pages/admin/AdminDashboard.jsx",
       "source_location": "L10",
       "id": "admin_admindashboard_admindashboard",
-      "community": 121,
+      "community": 123,
       "norm_label": "admindashboard()"
     },
     {
@@ -3357,7 +3411,7 @@
       "source_file": "frontend/src/pages/auth/UserSignup.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_auth_usersignup_jsx",
-      "community": 107,
+      "community": 121,
       "norm_label": "usersignup.jsx"
     },
     {
@@ -3366,7 +3420,7 @@
       "source_file": "frontend/src/pages/auth/UserSignup.jsx",
       "source_location": "L8",
       "id": "auth_usersignup_usersignup",
-      "community": 107,
+      "community": 121,
       "norm_label": "usersignup()"
     },
     {
@@ -3537,7 +3591,7 @@
       "source_file": "frontend/src/pages/staff/StaffDashboard.jsx",
       "source_location": "L1",
       "id": "frontend_src_pages_staff_staffdashboard_jsx",
-      "community": 121,
+      "community": 123,
       "norm_label": "staffdashboard.jsx"
     },
     {
@@ -3546,7 +3600,7 @@
       "source_file": "frontend/src/pages/staff/StaffDashboard.jsx",
       "source_location": "L10",
       "id": "staff_staffdashboard_staffdashboard",
-      "community": 121,
+      "community": 123,
       "norm_label": "staffdashboard()"
     },
     {
@@ -3555,7 +3609,7 @@
       "source_file": "middlewares/authMiddleware.js",
       "source_location": "L1",
       "id": "middlewares_authmiddleware_js",
-      "community": 103,
+      "community": 63,
       "norm_label": "authmiddleware.js"
     },
     {
@@ -3564,7 +3618,7 @@
       "source_file": "middlewares/authMiddleware.js",
       "source_location": "L1",
       "id": "middlewares_authmiddleware_jwt",
-      "community": 103,
+      "community": 63,
       "norm_label": "jwt"
     },
     {
@@ -3573,7 +3627,7 @@
       "source_file": "middlewares/authMiddleware.js",
       "source_location": "L31",
       "id": "middlewares_authmiddleware_decoded",
-      "community": 103,
+      "community": 63,
       "norm_label": "decoded"
     },
     {
@@ -3582,7 +3636,7 @@
       "source_file": "middlewares/rateLimiters.js",
       "source_location": "L1",
       "id": "middlewares_ratelimiters_js",
-      "community": 4,
+      "community": 136,
       "norm_label": "ratelimiters.js"
     },
     {
@@ -3591,7 +3645,7 @@
       "source_file": "middlewares/rateLimiters.js",
       "source_location": "L9",
       "id": "middlewares_ratelimiters_ratelimit",
-      "community": 4,
+      "community": 136,
       "norm_label": "ratelimit"
     },
     {
@@ -3600,7 +3654,7 @@
       "source_file": "middlewares/rateLimiters.js",
       "source_location": "L11",
       "id": "middlewares_ratelimiters_strictlimiter",
-      "community": 4,
+      "community": 136,
       "norm_label": "strictlimiter"
     },
     {
@@ -3636,7 +3690,7 @@
       "source_file": "models/appointmentModel.js",
       "source_location": "L1",
       "id": "models_appointmentmodel_js",
-      "community": 8,
+      "community": 87,
       "norm_label": "appointmentmodel.js"
     },
     {
@@ -3645,7 +3699,7 @@
       "source_file": "models/appointmentModel.js",
       "source_location": "L1",
       "id": "models_appointmentmodel_datatypes",
-      "community": 8,
+      "community": 87,
       "norm_label": "{ datatypes }"
     },
     {
@@ -3654,7 +3708,7 @@
       "source_file": "models/appointmentModel.js",
       "source_location": "L2",
       "id": "models_appointmentmodel_sequelize",
-      "community": 8,
+      "community": 87,
       "norm_label": "sequelize"
     },
     {
@@ -3663,7 +3717,7 @@
       "source_file": "models/appointmentModel.js",
       "source_location": "L5",
       "id": "models_appointmentmodel_appointment",
-      "community": 8,
+      "community": 87,
       "norm_label": "appointment"
     },
     {
@@ -3771,7 +3825,7 @@
       "source_file": "models/favoriteModel.js",
       "source_location": "L1",
       "id": "models_favoritemodel_js",
-      "community": 87,
+      "community": 120,
       "norm_label": "favoritemodel.js"
     },
     {
@@ -3780,7 +3834,7 @@
       "source_file": "models/favoriteModel.js",
       "source_location": "L1",
       "id": "models_favoritemodel_sequelize",
-      "community": 87,
+      "community": 120,
       "norm_label": "sequelize"
     },
     {
@@ -3789,7 +3843,7 @@
       "source_file": "models/favoriteModel.js",
       "source_location": "L4",
       "id": "models_favoritemodel_favorite",
-      "community": 87,
+      "community": 120,
       "norm_label": "favorite"
     },
     {
@@ -3861,7 +3915,7 @@
       "source_file": "models/promoCodeModel.js",
       "source_location": "L1",
       "id": "models_promocodemodel_js",
-      "community": 126,
+      "community": 131,
       "norm_label": "promocodemodel.js"
     },
     {
@@ -3870,7 +3924,7 @@
       "source_file": "models/promoCodeModel.js",
       "source_location": "L1",
       "id": "models_promocodemodel_sequelize",
-      "community": 126,
+      "community": 131,
       "norm_label": "sequelize"
     },
     {
@@ -3879,7 +3933,7 @@
       "source_file": "models/promoCodeModel.js",
       "source_location": "L17",
       "id": "models_promocodemodel_promocode",
-      "community": 126,
+      "community": 131,
       "norm_label": "promocode"
     },
     {
@@ -3888,7 +3942,7 @@
       "source_file": "models/salonsModel.js",
       "source_location": "L1",
       "id": "models_salonsmodel_js",
-      "community": 18,
+      "community": 26,
       "norm_label": "salonsmodel.js"
     },
     {
@@ -3897,7 +3951,7 @@
       "source_file": "models/salonsModel.js",
       "source_location": "L1",
       "id": "models_salonsmodel_sequelize",
-      "community": 18,
+      "community": 26,
       "norm_label": "sequelize"
     },
     {
@@ -3906,7 +3960,7 @@
       "source_file": "models/salonsModel.js",
       "source_location": "L4",
       "id": "models_salonsmodel_salons",
-      "community": 18,
+      "community": 26,
       "norm_label": "salons"
     },
     {
@@ -3942,7 +3996,7 @@
       "source_file": "models/staffBlockoutModel.js",
       "source_location": "L1",
       "id": "models_staffblockoutmodel_js",
-      "community": 25,
+      "community": 26,
       "norm_label": "staffblockoutmodel.js"
     },
     {
@@ -3951,7 +4005,7 @@
       "source_file": "models/staffBlockoutModel.js",
       "source_location": "L1",
       "id": "models_staffblockoutmodel_sequelize",
-      "community": 25,
+      "community": 26,
       "norm_label": "sequelize"
     },
     {
@@ -3960,7 +4014,7 @@
       "source_file": "models/staffBlockoutModel.js",
       "source_location": "L4",
       "id": "models_staffblockoutmodel_staffblockout",
-      "community": 25,
+      "community": 26,
       "norm_label": "staffblockout"
     },
     {
@@ -3996,7 +4050,7 @@
       "source_file": "models/StaffServices.js",
       "source_location": "L1",
       "id": "models_staffservices_js",
-      "community": 118,
+      "community": 25,
       "norm_label": "staffservices.js"
     },
     {
@@ -4005,7 +4059,7 @@
       "source_file": "models/StaffServices.js",
       "source_location": "L1",
       "id": "models_staffservices_sequelize",
-      "community": 118,
+      "community": 25,
       "norm_label": "sequelize"
     },
     {
@@ -4014,7 +4068,7 @@
       "source_file": "models/StaffServices.js",
       "source_location": "L4",
       "id": "models_staffservices_staffservices",
-      "community": 118,
+      "community": 25,
       "norm_label": "staffservices"
     },
     {
@@ -4023,7 +4077,7 @@
       "source_file": "models/userModel.js",
       "source_location": "L1",
       "id": "models_usermodel_js",
-      "community": 26,
+      "community": 18,
       "norm_label": "usermodel.js"
     },
     {
@@ -4032,7 +4086,7 @@
       "source_file": "models/userModel.js",
       "source_location": "L1",
       "id": "models_usermodel_sequelize",
-      "community": 26,
+      "community": 18,
       "norm_label": "sequelize"
     },
     {
@@ -4041,7 +4095,7 @@
       "source_file": "models/userModel.js",
       "source_location": "L4",
       "id": "models_usermodel_user",
-      "community": 26,
+      "community": 18,
       "norm_label": "user"
     },
     {
@@ -5481,7 +5535,7 @@
       "source_file": "routes/favoriteRoutes.js",
       "source_location": "L1",
       "id": "routes_favoriteroutes_js",
-      "community": 21,
+      "community": 63,
       "norm_label": "favoriteroutes.js"
     },
     {
@@ -5490,7 +5544,7 @@
       "source_file": "routes/favoriteRoutes.js",
       "source_location": "L1",
       "id": "routes_favoriteroutes_router",
-      "community": 21,
+      "community": 63,
       "norm_label": "router"
     },
     {
@@ -5499,7 +5553,7 @@
       "source_file": "routes/favoriteRoutes.js",
       "source_location": "L2",
       "id": "routes_favoriteroutes_authmiddleware",
-      "community": 21,
+      "community": 63,
       "norm_label": "authmiddleware"
     },
     {
@@ -5508,7 +5562,7 @@
       "source_file": "routes/favoriteRoutes.js",
       "source_location": "L3",
       "id": "routes_favoriteroutes_favoritecontroller",
-      "community": 21,
+      "community": 63,
       "norm_label": "favoritecontroller"
     },
     {
@@ -5517,7 +5571,7 @@
       "source_file": "routes/favoriteRoutes.js",
       "source_location": "L4",
       "id": "routes_favoriteroutes_validate_favoriteaddschema",
-      "community": 21,
+      "community": 63,
       "norm_label": "{ validate, favoriteaddschema }"
     },
     {
@@ -5526,7 +5580,7 @@
       "source_file": "routes/notificationsRoutes.js",
       "source_location": "L1",
       "id": "routes_notificationsroutes_js",
-      "community": 103,
+      "community": 21,
       "norm_label": "notificationsroutes.js"
     },
     {
@@ -5535,7 +5589,7 @@
       "source_file": "routes/notificationsRoutes.js",
       "source_location": "L1",
       "id": "routes_notificationsroutes_router",
-      "community": 103,
+      "community": 21,
       "norm_label": "router"
     },
     {
@@ -5544,7 +5598,7 @@
       "source_file": "routes/notificationsRoutes.js",
       "source_location": "L2",
       "id": "routes_notificationsroutes_authmiddleware",
-      "community": 103,
+      "community": 21,
       "norm_label": "authmiddleware"
     },
     {
@@ -5553,7 +5607,7 @@
       "source_file": "routes/notificationsRoutes.js",
       "source_location": "L3",
       "id": "routes_notificationsroutes_notificationcontroller",
-      "community": 103,
+      "community": 21,
       "norm_label": "notificationcontroller"
     },
     {
@@ -5908,13 +5962,13 @@
       "norm_label": "authmiddleware"
     },
     {
-      "label": "{ validate, loginSchema, customerSignupSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendVerificationSchema }",
+      "label": "{ validate, loginSchema, customerSignupSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendVerificationSchema, accountDeletionSchema }",
       "file_type": "code",
       "source_file": "routes/userRoutes.js",
       "source_location": "L5",
-      "id": "routes_userroutes_validate_loginschema_customersignupschema_forgotpasswordschema_resetpasswordschema_verifyemailschema_resendverificationschema",
+      "id": "routes_userroutes_validate_loginschema_customersignupschema_forgotpasswordschema_resetpasswordschema_verifyemailschema_resendverificationschema_accountdeletionschema",
       "community": 124,
-      "norm_label": "{ validate, loginschema, customersignupschema, forgotpasswordschema, resetpasswordschema, verifyemailschema, resendverificationschema }"
+      "norm_label": "{ validate, loginschema, customersignupschema, forgotpasswordschema, resetpasswordschema, verifyemailschema, resendverificationschema, accountdeletionschema }"
     },
     {
       "label": "{ strictLimiter }",
@@ -5931,7 +5985,7 @@
       "source_file": "services/adminAuditService.js",
       "source_location": "L1",
       "id": "services_adminauditservice_js",
-      "community": 132,
+      "community": 30,
       "norm_label": "adminauditservice.js"
     },
     {
@@ -5940,7 +5994,7 @@
       "source_file": "services/adminAuditService.js",
       "source_location": "L10",
       "id": "services_adminauditservice_logger",
-      "community": 132,
+      "community": 30,
       "norm_label": "logger"
     },
     {
@@ -5949,7 +6003,7 @@
       "source_file": "services/adminAuditService.js",
       "source_location": "L19",
       "id": "services_adminauditservice_recordaudit",
-      "community": 132,
+      "community": 30,
       "norm_label": "recordaudit()"
     },
     {
@@ -6192,7 +6246,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L1",
       "id": "services_emailservice_js",
-      "community": 67,
+      "community": 129,
       "norm_label": "emailservice.js"
     },
     {
@@ -6201,7 +6255,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L13",
       "id": "services_emailservice_client",
-      "community": 67,
+      "community": 129,
       "norm_label": "client()"
     },
     {
@@ -6210,7 +6264,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L34",
       "id": "services_emailservice_isconfigured",
-      "community": 67,
+      "community": 129,
       "norm_label": "isconfigured()"
     },
     {
@@ -6219,7 +6273,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L43",
       "id": "services_emailservice_sendbookingconfirmation",
-      "community": 67,
+      "community": 129,
       "norm_label": "sendbookingconfirmation()"
     },
     {
@@ -6228,7 +6282,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L107",
       "id": "services_emailservice_sendpasswordresetemail",
-      "community": 67,
+      "community": 129,
       "norm_label": "sendpasswordresetemail()"
     },
     {
@@ -6237,7 +6291,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L159",
       "id": "services_emailservice_sendverificationemail",
-      "community": 67,
+      "community": 129,
       "norm_label": "sendverificationemail()"
     },
     {
@@ -6246,7 +6300,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L208",
       "id": "services_emailservice_booking_status_copy",
-      "community": 67,
+      "community": 129,
       "norm_label": "booking_status_copy"
     },
     {
@@ -6255,7 +6309,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L248",
       "id": "services_emailservice_bookingstatussubject",
-      "community": 67,
+      "community": 129,
       "norm_label": "bookingstatussubject()"
     },
     {
@@ -6264,7 +6318,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L261",
       "id": "services_emailservice_sendbookingstatusemail",
-      "community": 67,
+      "community": 119,
       "norm_label": "sendbookingstatusemail()"
     },
     {
@@ -6273,7 +6327,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L314",
       "id": "services_emailservice_appointment_reminder_copy",
-      "community": 67,
+      "community": 129,
       "norm_label": "appointment_reminder_copy"
     },
     {
@@ -6282,7 +6336,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L327",
       "id": "services_emailservice_appointmentremindersubject",
-      "community": 67,
+      "community": 129,
       "norm_label": "appointmentremindersubject()"
     },
     {
@@ -6291,7 +6345,7 @@
       "source_file": "services/emailService.js",
       "source_location": "L340",
       "id": "services_emailservice_sendappointmentreminderemail",
-      "community": 67,
+      "community": 129,
       "norm_label": "sendappointmentreminderemail()"
     },
     {
@@ -6327,7 +6381,7 @@
       "source_file": "services/loyaltyService.js",
       "source_location": "L35",
       "id": "services_loyaltyservice_awardforcompletedappointment",
-      "community": 9,
+      "community": 119,
       "norm_label": "awardforcompletedappointment()"
     },
     {
@@ -6336,7 +6390,7 @@
       "source_file": "services/loyaltyService.js",
       "source_location": "L80",
       "id": "services_loyaltyservice_awardreferralbonus",
-      "community": 114,
+      "community": 16,
       "norm_label": "awardreferralbonus()"
     },
     {
@@ -6345,7 +6399,7 @@
       "source_file": "services/notificationService.js",
       "source_location": "L1",
       "id": "services_notificationservice_js",
-      "community": 105,
+      "community": 119,
       "norm_label": "notificationservice.js"
     },
     {
@@ -6354,7 +6408,7 @@
       "source_file": "services/notificationService.js",
       "source_location": "L10",
       "id": "services_notificationservice_logger",
-      "community": 105,
+      "community": 119,
       "norm_label": "logger"
     },
     {
@@ -6363,7 +6417,7 @@
       "source_file": "services/notificationService.js",
       "source_location": "L19",
       "id": "services_notificationservice_notify",
-      "community": 9,
+      "community": 119,
       "norm_label": "notify()"
     },
     {
@@ -6651,7 +6705,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L1",
       "id": "services_waitlistservice_js",
-      "community": 105,
+      "community": 119,
       "norm_label": "waitlistservice.js"
     },
     {
@@ -6660,7 +6714,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L19",
       "id": "services_waitlistservice_op",
-      "community": 105,
+      "community": 119,
       "norm_label": "{ op }"
     },
     {
@@ -6669,7 +6723,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L20",
       "id": "services_waitlistservice_waitlist",
-      "community": 105,
+      "community": 119,
       "norm_label": "waitlist"
     },
     {
@@ -6678,7 +6732,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L21",
       "id": "services_waitlistservice_salons",
-      "community": 105,
+      "community": 119,
       "norm_label": "salons"
     },
     {
@@ -6687,7 +6741,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L22",
       "id": "services_waitlistservice_notify",
-      "community": 105,
+      "community": 119,
       "norm_label": "{ notify }"
     },
     {
@@ -6696,7 +6750,7 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L23",
       "id": "services_waitlistservice_logger",
-      "community": 105,
+      "community": 119,
       "norm_label": "logger"
     },
     {
@@ -6705,8 +6759,296 @@
       "source_file": "services/waitlistService.js",
       "source_location": "L25",
       "id": "services_waitlistservice_findnextwaitlistentry",
-      "community": 9,
+      "community": 119,
       "norm_label": "findnextwaitlistentry()"
+    },
+    {
+      "label": "account-deletion.test.js",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L1",
+      "id": "tests_account_deletion_test_js",
+      "community": 136,
+      "norm_label": "account-deletion.test.js"
+    },
+    {
+      "label": "{ test, before, after }",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L1",
+      "id": "tests_account_deletion_test_test_before_after",
+      "community": 136,
+      "norm_label": "{ test, before, after }"
+    },
+    {
+      "label": "assert",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L2",
+      "id": "tests_account_deletion_test_assert",
+      "community": 136,
+      "norm_label": "assert"
+    },
+    {
+      "label": "bcrypt",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L3",
+      "id": "tests_account_deletion_test_bcrypt",
+      "community": 136,
+      "norm_label": "bcrypt"
+    },
+    {
+      "label": "crypto",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L4",
+      "id": "tests_account_deletion_test_crypto",
+      "community": 136,
+      "norm_label": "crypto"
+    },
+    {
+      "label": "sequelize",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L5",
+      "id": "tests_account_deletion_test_sequelize",
+      "community": 136,
+      "norm_label": "sequelize"
+    },
+    {
+      "label": "User",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L7",
+      "id": "tests_account_deletion_test_user",
+      "community": 136,
+      "norm_label": "user"
+    },
+    {
+      "label": "Appointment",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L8",
+      "id": "tests_account_deletion_test_appointment",
+      "community": 136,
+      "norm_label": "appointment"
+    },
+    {
+      "label": "Favorite",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L9",
+      "id": "tests_account_deletion_test_favorite",
+      "community": 136,
+      "norm_label": "favorite"
+    },
+    {
+      "label": "Waitlist",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L10",
+      "id": "tests_account_deletion_test_waitlist",
+      "community": 136,
+      "norm_label": "waitlist"
+    },
+    {
+      "label": "Notification",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L11",
+      "id": "tests_account_deletion_test_notification",
+      "community": 136,
+      "norm_label": "notification"
+    },
+    {
+      "label": "Salons",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L12",
+      "id": "tests_account_deletion_test_salons",
+      "community": 136,
+      "norm_label": "salons"
+    },
+    {
+      "label": "Staff",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L13",
+      "id": "tests_account_deletion_test_staff",
+      "community": 136,
+      "norm_label": "staff"
+    },
+    {
+      "label": "Services",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L14",
+      "id": "tests_account_deletion_test_services",
+      "community": 136,
+      "norm_label": "services"
+    },
+    {
+      "label": "AdminAudit",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L15",
+      "id": "tests_account_deletion_test_adminaudit",
+      "community": 136,
+      "norm_label": "adminaudit"
+    },
+    {
+      "label": "authMiddleware",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L16",
+      "id": "tests_account_deletion_test_authmiddleware",
+      "community": 136,
+      "norm_label": "authmiddleware"
+    },
+    {
+      "label": "userRoutes",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L17",
+      "id": "tests_account_deletion_test_userroutes",
+      "community": 136,
+      "norm_label": "userroutes"
+    },
+    {
+      "label": "{ strictLimiter }",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L18",
+      "id": "tests_account_deletion_test_strictlimiter",
+      "community": 136,
+      "norm_label": "{ strictlimiter }"
+    },
+    {
+      "label": "{ validate, accountDeletionSchema }",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L19",
+      "id": "tests_account_deletion_test_validate_accountdeletionschema",
+      "community": 136,
+      "norm_label": "{ validate, accountdeletionschema }"
+    },
+    {
+      "label": "{ deleteMyAccount, handleUserLogin }",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L20",
+      "id": "tests_account_deletion_test_deletemyaccount_handleuserlogin",
+      "community": 136,
+      "norm_label": "{ deletemyaccount, handleuserlogin }"
+    },
+    {
+      "label": "mockRes()",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L23",
+      "id": "tests_account_deletion_test_mockres",
+      "community": 136,
+      "norm_label": "mockres()"
+    },
+    {
+      "label": "reqWith()",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L29",
+      "id": "tests_account_deletion_test_reqwith",
+      "community": 136,
+      "norm_label": "reqwith()"
+    },
+    {
+      "label": "waitFor()",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L35",
+      "id": "tests_account_deletion_test_waitfor",
+      "community": 136,
+      "norm_label": "waitfor()"
+    },
+    {
+      "label": "sha256()",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L45",
+      "id": "tests_account_deletion_test_sha256",
+      "community": 136,
+      "norm_label": "sha256()"
+    },
+    {
+      "label": "base",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L86",
+      "id": "tests_account_deletion_test_base",
+      "community": 136,
+      "norm_label": "base"
+    },
+    {
+      "label": "layer",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L141",
+      "id": "tests_account_deletion_test_layer",
+      "community": 136,
+      "norm_label": "layer"
+    },
+    {
+      "label": "handlers",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L144",
+      "id": "tests_account_deletion_test_handlers",
+      "community": 136,
+      "norm_label": "handlers"
+    },
+    {
+      "label": "guard",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L156",
+      "id": "tests_account_deletion_test_guard",
+      "community": 136,
+      "norm_label": "guard"
+    },
+    {
+      "label": "res",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L158",
+      "id": "tests_account_deletion_test_res",
+      "community": 136,
+      "norm_label": "res"
+    },
+    {
+      "label": "allowed",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L165",
+      "id": "tests_account_deletion_test_allowed",
+      "community": 136,
+      "norm_label": "allowed"
+    },
+    {
+      "label": "oldEmail",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L274",
+      "id": "tests_account_deletion_test_oldemail",
+      "community": 136,
+      "norm_label": "oldemail"
+    },
+    {
+      "label": "anonEmail",
+      "file_type": "code",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L278",
+      "id": "tests_account_deletion_test_anonemail",
+      "community": 136,
+      "norm_label": "anonemail"
     },
     {
       "label": "admin-stats-audit.test.js",
@@ -6858,7 +7200,7 @@
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L31",
       "id": "tests_admin_stats_audit_test_waitfor",
-      "community": 137,
+      "community": 44,
       "norm_label": "waitfor()"
     },
     {
@@ -6876,7 +7218,7 @@
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L59",
       "id": "tests_admin_stats_audit_test_now",
-      "community": 137,
+      "community": 44,
       "norm_label": "now"
     },
     {
@@ -6957,7 +7299,7 @@
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L217",
       "id": "tests_admin_stats_audit_test_t",
-      "community": 137,
+      "community": 44,
       "norm_label": "t()"
     },
     {
@@ -11268,7 +11610,7 @@
       "source_file": "tests/reminders.test.js",
       "source_location": "L40",
       "id": "tests_reminders_test_pad",
-      "community": 101,
+      "community": 133,
       "norm_label": "pad()"
     },
     {
@@ -11277,7 +11619,7 @@
       "source_file": "tests/reminders.test.js",
       "source_location": "L41",
       "id": "tests_reminders_test_ymd",
-      "community": 101,
+      "community": 133,
       "norm_label": "ymd()"
     },
     {
@@ -11286,7 +11628,7 @@
       "source_file": "tests/reminders.test.js",
       "source_location": "L42",
       "id": "tests_reminders_test_hms",
-      "community": 101,
+      "community": 133,
       "norm_label": "hms()"
     },
     {
@@ -11295,7 +11637,7 @@
       "source_file": "tests/reminders.test.js",
       "source_location": "L43",
       "id": "tests_reminders_test_fromnowh",
-      "community": 101,
+      "community": 133,
       "norm_label": "fromnowh()"
     },
     {
@@ -11304,7 +11646,7 @@
       "source_file": "tests/reminders.test.js",
       "source_location": "L68",
       "id": "tests_reminders_test_mkappt",
-      "community": 101,
+      "community": 133,
       "norm_label": "mkappt()"
     },
     {
@@ -11322,7 +11664,7 @@
       "source_file": "tests/reminders.test.js",
       "source_location": "L88",
       "id": "tests_reminders_test_now",
-      "community": 101,
+      "community": 133,
       "norm_label": "now"
     },
     {
@@ -13878,7 +14220,7 @@
       "source_file": "utils/database.js",
       "source_location": "L1",
       "id": "utils_database_js",
-      "community": 118,
+      "community": 26,
       "norm_label": "database.js"
     },
     {
@@ -13887,7 +14229,7 @@
       "source_file": "utils/database.js",
       "source_location": "L1",
       "id": "utils_database_sequelize",
-      "community": 118,
+      "community": 26,
       "norm_label": "sequelize"
     },
     {
@@ -13896,7 +14238,7 @@
       "source_file": "utils/database.js",
       "source_location": "L2",
       "id": "utils_database_path",
-      "community": 118,
+      "community": 26,
       "norm_label": "path"
     },
     {
@@ -14031,7 +14373,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L1",
       "id": "utils_observability_js",
-      "community": 110,
+      "community": 132,
       "norm_label": "observability.js"
     },
     {
@@ -14040,7 +14382,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L13",
       "id": "utils_observability_crypto",
-      "community": 110,
+      "community": 132,
       "norm_label": "crypto"
     },
     {
@@ -14049,7 +14391,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L14",
       "id": "utils_observability_logger",
-      "community": 110,
+      "community": 132,
       "norm_label": "logger"
     },
     {
@@ -14058,7 +14400,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L15",
       "id": "utils_observability_sequelize",
-      "community": 110,
+      "community": 132,
       "norm_label": "sequelize"
     },
     {
@@ -14067,7 +14409,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L22",
       "id": "utils_observability_makerequestid",
-      "community": 110,
+      "community": 132,
       "norm_label": "makerequestid()"
     },
     {
@@ -14076,7 +14418,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L28",
       "id": "utils_observability_requestidmiddleware",
-      "community": 110,
+      "community": 132,
       "norm_label": "requestidmiddleware()"
     },
     {
@@ -14085,7 +14427,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L44",
       "id": "utils_observability_requestlogger",
-      "community": 110,
+      "community": 132,
       "norm_label": "requestlogger()"
     },
     {
@@ -14094,7 +14436,7 @@
       "source_file": "utils/observability.js",
       "source_location": "L66",
       "id": "utils_observability_deephealth",
-      "community": 110,
+      "community": 132,
       "norm_label": "deephealth()"
     },
     {
@@ -14427,7 +14769,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L296",
       "id": "utils_validators_favoriteaddschema",
-      "community": 21,
+      "community": 63,
       "norm_label": "favoriteaddschema"
     },
     {
@@ -14454,7 +14796,7 @@
       "source_file": "utils/validators.js",
       "source_location": "L326",
       "id": "utils_validators_galleryschema",
-      "community": 28,
+      "community": 100,
       "norm_label": "galleryschema"
     },
     {
@@ -14539,10 +14881,19 @@
       "norm_label": "analyticswindowschema"
     },
     {
+      "label": "accountDeletionSchema",
+      "file_type": "code",
+      "source_file": "utils/validators.js",
+      "source_location": "L431",
+      "id": "utils_validators_accountdeletionschema",
+      "community": 124,
+      "norm_label": "accountdeletionschema"
+    },
+    {
       "label": "weekDaySchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L434",
+      "source_location": "L443",
       "id": "utils_validators_weekdayschema",
       "community": 24,
       "norm_label": "weekdayschema"
@@ -14551,7 +14902,7 @@
       "label": "weeklyHoursSchema",
       "file_type": "code",
       "source_file": "utils/validators.js",
-      "source_location": "L449",
+      "source_location": "L458",
       "id": "utils_validators_weeklyhoursschema",
       "community": 28,
       "norm_label": "weeklyhoursschema"
@@ -14902,7 +15253,7 @@
       "label": "Completed",
       "file_type": "document",
       "source_file": "IMPROVEMENT_LOG.md",
-      "source_location": "L42",
+      "source_location": "L43",
       "id": "fresha_salon_app_improvement_log_completed",
       "community": 82,
       "norm_label": "completed"
@@ -17903,6 +18254,15 @@
       "id": "frontend_readme_expanding_the_oxlint_configuration",
       "community": 83,
       "norm_label": "expanding the oxlint configuration"
+    },
+    {
+      "label": "{ validate, loginSchema, customerSignupSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendVerificationSchema }",
+      "file_type": "code",
+      "source_file": "routes/userRoutes.js",
+      "source_location": "L5",
+      "community": 124,
+      "norm_label": "{ validate, loginschema, customersignupschema, forgotpasswordschema, resetpasswordschema, verifyemailschema, resendverificationschema }",
+      "id": "routes_userroutes_validate_loginschema_customersignupschema_forgotpasswordschema_resetpasswordschema_verifyemailschema_resendverificationschema"
     },
     {
       "label": "{ validate, appointmentCheckSchema, customerReviewSchema, staffReviewSchema, reviewReplySchema, statusUpdateSchema, rescheduleSchema, csvExportSchema }",
@@ -22007,9 +22367,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_js",
-      "target": "controllers_salonanalyticscontroller_localdatestring",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_localdatestring"
     },
     {
       "relation": "contains",
@@ -22017,9 +22377,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_js",
-      "target": "controllers_salonanalyticscontroller_revenuewindow",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_revenuewindow"
     },
     {
       "relation": "contains",
@@ -22027,9 +22387,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L38",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_js",
-      "target": "controllers_salonanalyticscontroller_round2",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_round2"
     },
     {
       "relation": "contains",
@@ -22037,9 +22397,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_js",
-      "target": "controllers_salonanalyticscontroller_buildrevenueseries",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_buildrevenueseries"
     },
     {
       "relation": "contains",
@@ -22047,9 +22407,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L94",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_js",
-      "target": "controllers_salonanalyticscontroller_getrevenueanalytics",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_getrevenueanalytics"
     },
     {
       "relation": "contains",
@@ -22057,9 +22417,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L120",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_js",
-      "target": "controllers_salonanalyticscontroller_gettopservices",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_gettopservices"
     },
     {
       "relation": "contains",
@@ -22099,9 +22459,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "controllers_salonanalyticscontroller_js",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_js"
     },
     {
       "relation": "calls",
@@ -22110,9 +22470,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_revenuewindow",
-      "target": "controllers_salonanalyticscontroller_localdatestring",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_localdatestring"
     },
     {
       "relation": "calls",
@@ -22121,9 +22481,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L61",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_buildrevenueseries",
-      "target": "controllers_salonanalyticscontroller_localdatestring",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_localdatestring"
     },
     {
       "relation": "calls",
@@ -22132,9 +22492,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_buildrevenueseries",
-      "target": "controllers_salonanalyticscontroller_revenuewindow",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_revenuewindow"
     },
     {
       "relation": "calls",
@@ -22143,9 +22503,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L97",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_getrevenueanalytics",
-      "target": "controllers_salonanalyticscontroller_revenuewindow",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_revenuewindow"
     },
     {
       "relation": "calls",
@@ -22154,9 +22514,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L123",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_gettopservices",
-      "target": "controllers_salonanalyticscontroller_revenuewindow",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_revenuewindow"
     },
     {
       "relation": "imports",
@@ -22165,9 +22525,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "controllers_salonanalyticscontroller_revenuewindow",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_revenuewindow"
     },
     {
       "relation": "calls",
@@ -22176,9 +22536,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L88",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_buildrevenueseries",
-      "target": "controllers_salonanalyticscontroller_round2",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_round2"
     },
     {
       "relation": "calls",
@@ -22187,9 +22547,9 @@
       "source_file": "controllers/salonAnalyticsController.js",
       "source_location": "L107",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "controllers_salonanalyticscontroller_getrevenueanalytics",
-      "target": "controllers_salonanalyticscontroller_buildrevenueseries",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_buildrevenueseries"
     },
     {
       "relation": "imports",
@@ -22198,9 +22558,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "controllers_salonanalyticscontroller_buildrevenueseries",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_buildrevenueseries"
     },
     {
       "relation": "imports",
@@ -22209,9 +22569,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "controllers_salonanalyticscontroller_getrevenueanalytics",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_getrevenueanalytics"
     },
     {
       "relation": "imports",
@@ -22220,9 +22580,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "controllers_salonanalyticscontroller_gettopservices",
-      "confidence_score": 1.0
+      "target": "controllers_salonanalyticscontroller_gettopservices"
     },
     {
       "relation": "imports_from",
@@ -23918,6 +24278,122 @@
       "target": "controllers_usercontroller_awardreferralbonus"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "models_appointmentmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "controllers_usercontroller_appointmentmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "models_favoritemodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "controllers_usercontroller_favoritemodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "models_waitlistmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "controllers_usercontroller_waitlistmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "models_notificationmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "controllers_usercontroller_notificationmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "services_adminauditservice_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "services_adminauditservice_recordaudit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "controllers_usercontroller_recordaudit",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "controllers/userController.js",
@@ -24001,6 +24477,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "controllers/userController.js",
+      "source_location": "L294",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_js",
+      "target": "controllers_usercontroller_deletemyaccount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "controllers/userController.js",
       "source_location": "L142",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -24057,6 +24543,17 @@
       "confidence_score": 1.0,
       "source": "routes_userroutes_js",
       "target": "controllers_usercontroller_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "controllers_usercontroller_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -24136,6 +24633,17 @@
       "target": "services_loyaltyservice_awardreferralbonus"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "controllers_usercontroller_handleuserlogin",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -24200,6 +24708,28 @@
       "confidence_score": 1.0,
       "source": "tests_email_verification_test_js",
       "target": "controllers_usercontroller_resendverification"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "controllers_usercontroller_deletemyaccount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "controllers/userController.js",
+      "source_location": "L401",
+      "weight": 1.0,
+      "source": "controllers_usercontroller_deletemyaccount",
+      "target": "services_adminauditservice_recordaudit"
     },
     {
       "relation": "imports",
@@ -27018,6 +27548,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "middlewares_authmiddleware_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L12",
       "weight": 1.0,
@@ -27054,9 +27595,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "middlewares_authmiddleware_js",
-      "confidence_score": 1.0
+      "target": "middlewares_authmiddleware_js"
     },
     {
       "relation": "contains",
@@ -27090,6 +27631,17 @@
       "target": "middlewares_ratelimiters_js"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "middlewares_ratelimiters_js",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -27099,6 +27651,17 @@
       "confidence_score": 1.0,
       "source": "routes_userroutes_js",
       "target": "middlewares_ratelimiters_strictlimiter"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "middlewares_ratelimiters_strictlimiter",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -27130,6 +27693,17 @@
       "confidence_score": 1.0,
       "source": "models_adminauditmodel_js",
       "target": "models_adminauditmodel_adminaudit"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "models_adminauditmodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -27226,6 +27800,17 @@
       "confidence_score": 1.0,
       "source": "services_reminderservice_js",
       "target": "models_appointmentmodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "models_appointmentmodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -27377,9 +27962,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "models_appointmentmodel_js",
-      "confidence_score": 1.0
+      "target": "models_appointmentmodel_js"
     },
     {
       "relation": "imports_from",
@@ -27670,6 +28255,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "models_favoritemodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/favorites-crud.test.js",
       "source_location": "L5",
       "weight": 1.0,
@@ -27739,6 +28335,17 @@
       "confidence_score": 1.0,
       "source": "models_notificationmodel_js",
       "target": "models_notificationmodel_notification"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "models_notificationmodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -27921,9 +28528,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "models_paymentmodel_js",
-      "confidence_score": 1.0
+      "target": "models_paymentmodel_js"
     },
     {
       "relation": "imports_from",
@@ -28074,6 +28681,17 @@
       "confidence_score": 1.0,
       "source": "services_waitlistservice_js",
       "target": "models_salonsmodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "models_salonsmodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -28291,9 +28909,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "models_salonsmodel_js",
-      "confidence_score": 1.0
+      "target": "models_salonsmodel_js"
     },
     {
       "relation": "imports_from",
@@ -28435,6 +29053,17 @@
       "confidence_score": 1.0,
       "source": "services_reminderservice_js",
       "target": "models_servicesmodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "models_servicesmodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -28630,9 +29259,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "models_servicesmodel_js",
-      "confidence_score": 1.0
+      "target": "models_servicesmodel_js"
     },
     {
       "relation": "imports_from",
@@ -28821,6 +29450,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "models_staffmodel_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/admin-stats-audit.test.js",
       "source_location": "L8",
       "weight": 1.0,
@@ -29011,9 +29651,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "models_staffmodel_js",
-      "confidence_score": 1.0
+      "target": "models_staffmodel_js"
     },
     {
       "relation": "imports_from",
@@ -29197,6 +29837,17 @@
       "confidence_score": 1.0,
       "source": "services_reminderservice_js",
       "target": "models_usermodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "models_usermodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -29436,9 +30087,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "models_usermodel_js",
-      "confidence_score": 1.0
+      "target": "models_usermodel_js"
     },
     {
       "relation": "imports_from",
@@ -29536,6 +30187,17 @@
       "confidence_score": 1.0,
       "source": "services_waitlistservice_js",
       "target": "models_waitlistmodel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "models_waitlistmodel_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -31537,9 +32199,9 @@
       "source_file": "routes/salonAnalyticsRoutes.js",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "routes_salonanalyticsroutes_js",
-      "target": "utils_validators_js",
-      "confidence_score": 1.0
+      "target": "utils_validators_js"
     },
     {
       "relation": "imports",
@@ -31548,9 +32210,9 @@
       "source_file": "routes/salonAnalyticsRoutes.js",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "routes_salonanalyticsroutes_js",
-      "target": "utils_validators_validate",
-      "confidence_score": 1.0
+      "target": "utils_validators_validate"
     },
     {
       "relation": "imports",
@@ -31559,9 +32221,9 @@
       "source_file": "routes/salonAnalyticsRoutes.js",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "routes_salonanalyticsroutes_js",
-      "target": "utils_validators_analyticswindowschema",
-      "confidence_score": 1.0
+      "target": "utils_validators_analyticswindowschema"
     },
     {
       "relation": "contains",
@@ -31569,9 +32231,9 @@
       "source_file": "routes/salonAnalyticsRoutes.js",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "routes_salonanalyticsroutes_js",
-      "target": "routes_salonanalyticsroutes_validate_analyticswindowschema",
-      "confidence_score": 1.0
+      "target": "routes_salonanalyticsroutes_validate_analyticswindowschema"
     },
     {
       "relation": "contains",
@@ -31579,9 +32241,9 @@
       "source_file": "routes/salonAnalyticsRoutes.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "routes_salonanalyticsroutes_js",
-      "target": "routes_salonanalyticsroutes_salononly",
-      "confidence_score": 1.0
+      "target": "routes_salonanalyticsroutes_salononly"
     },
     {
       "relation": "imports_from",
@@ -31590,9 +32252,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "routes_salonanalyticsroutes_js",
-      "confidence_score": 1.0
+      "target": "routes_salonanalyticsroutes_js"
     },
     {
       "relation": "contains",
@@ -32161,14 +32823,25 @@
       "target": "utils_validators_resendverificationschema"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "routes/userRoutes.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "routes_userroutes_js",
+      "target": "utils_validators_accountdeletionschema",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "routes/userRoutes.js",
       "source_location": "L5",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "routes_userroutes_js",
-      "target": "routes_userroutes_validate_loginschema_customersignupschema_forgotpasswordschema_resetpasswordschema_verifyemailschema_resendverificationschema"
+      "target": "routes_userroutes_validate_loginschema_customersignupschema_forgotpasswordschema_resetpasswordschema_verifyemailschema_resendverificationschema_accountdeletionschema",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -32179,6 +32852,17 @@
       "confidence_score": 1.0,
       "source": "routes_userroutes_js",
       "target": "routes_userroutes_strictlimiter"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "routes_userroutes_js",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -32201,6 +32885,16 @@
       "confidence_score": 1.0,
       "source": "tests_referrals_test_js",
       "target": "routes_userroutes_js"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "routes/userRoutes.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routes_userroutes_js",
+      "target": "routes_userroutes_validate_loginschema_customersignupschema_forgotpasswordschema_resetpasswordschema_verifyemailschema_resendverificationschema"
     },
     {
       "relation": "contains",
@@ -33806,6 +34500,360 @@
       "confidence_score": 1.0,
       "source": "services_waitlistservice_js",
       "target": "services_waitlistservice_findnextwaitlistentry"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_test_before_after",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_assert",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_bcrypt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_crypto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "utils_database_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_sequelize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_appointment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_favorite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_waitlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_notification",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_salons",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_staff",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_services",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_adminaudit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_authmiddleware",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_userroutes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_strictlimiter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "utils_validators_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "utils_validators_validate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "utils_validators_accountdeletionschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_validate_accountdeletionschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_deletemyaccount_handleuserlogin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_mockres",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_reqwith",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_waitfor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_sha256",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L86",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_base",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L141",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_layer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L144",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_handlers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L156",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_guard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L285",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_res",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L165",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_allowed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L274",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_oldemail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/account-deletion.test.js",
+      "source_location": "L278",
+      "weight": 1.0,
+      "source": "tests_account_deletion_test_js",
+      "target": "tests_account_deletion_test_anonemail",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -39944,9 +40992,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_test_before_after",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_test_before_after"
     },
     {
       "relation": "contains",
@@ -39954,9 +41002,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_assert",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_assert"
     },
     {
       "relation": "imports_from",
@@ -39965,9 +41013,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "utils_database_js",
-      "confidence_score": 1.0
+      "target": "utils_database_js"
     },
     {
       "relation": "contains",
@@ -39975,9 +41023,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_sequelize",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_sequelize"
     },
     {
       "relation": "contains",
@@ -39985,9 +41033,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_appointment",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_appointment"
     },
     {
       "relation": "contains",
@@ -39995,9 +41043,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_user",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_user"
     },
     {
       "relation": "contains",
@@ -40005,9 +41053,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_salons",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_salons"
     },
     {
       "relation": "contains",
@@ -40015,9 +41063,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_staff",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_staff"
     },
     {
       "relation": "contains",
@@ -40025,9 +41073,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_services",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_services"
     },
     {
       "relation": "contains",
@@ -40035,9 +41083,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_payment",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_payment"
     },
     {
       "relation": "contains",
@@ -40045,9 +41093,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_authmiddleware",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_authmiddleware"
     },
     {
       "relation": "contains",
@@ -40055,9 +41103,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_salonanalyticsroutes",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_salonanalyticsroutes"
     },
     {
       "relation": "contains",
@@ -40065,9 +41113,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_getrevenueanalytics_gettopservices_revenuewindow_buildrevenueseries",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_getrevenueanalytics_gettopservices_revenuewindow_buildrevenueseries"
     },
     {
       "relation": "imports_from",
@@ -40076,9 +41124,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "utils_validators_js",
-      "confidence_score": 1.0
+      "target": "utils_validators_js"
     },
     {
       "relation": "imports",
@@ -40087,9 +41135,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "utils_validators_validate",
-      "confidence_score": 1.0
+      "target": "utils_validators_validate"
     },
     {
       "relation": "imports",
@@ -40098,9 +41146,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "utils_validators_analyticswindowschema",
-      "confidence_score": 1.0
+      "target": "utils_validators_analyticswindowschema"
     },
     {
       "relation": "contains",
@@ -40108,9 +41156,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_validate_analyticswindowschema",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_validate_analyticswindowschema"
     },
     {
       "relation": "contains",
@@ -40118,9 +41166,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_mockres",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_mockres"
     },
     {
       "relation": "contains",
@@ -40128,9 +41176,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_runvalidate",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_runvalidate"
     },
     {
       "relation": "contains",
@@ -40138,9 +41186,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_pad",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_pad"
     },
     {
       "relation": "contains",
@@ -40148,9 +41196,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_dstr",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_dstr"
     },
     {
       "relation": "contains",
@@ -40158,9 +41206,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L47",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_at",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_at"
     },
     {
       "relation": "contains",
@@ -40168,9 +41216,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L130",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_baseappt",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_baseappt"
     },
     {
       "relation": "contains",
@@ -40178,9 +41226,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L253",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_req_passed",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_req_passed"
     },
     {
       "relation": "contains",
@@ -40188,9 +41236,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L175",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_err_passed",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_err_passed"
     },
     {
       "relation": "contains",
@@ -40198,9 +41246,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L333",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_res",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_res"
     },
     {
       "relation": "contains",
@@ -40208,9 +41256,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L192",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_dates",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_dates"
     },
     {
       "relation": "contains",
@@ -40218,9 +41266,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L203",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_quietday",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_quietday"
     },
     {
       "relation": "contains",
@@ -40228,9 +41276,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L210",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_bydate",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_bydate"
     },
     {
       "relation": "contains",
@@ -40238,9 +41286,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L214",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_today",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_today"
     },
     {
       "relation": "contains",
@@ -40248,9 +41296,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L221",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_yesterday",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_yesterday"
     },
     {
       "relation": "contains",
@@ -40258,9 +41306,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L268",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_now",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_now"
     },
     {
       "relation": "contains",
@@ -40268,9 +41316,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L269",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_rows",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_rows"
     },
     {
       "relation": "contains",
@@ -40278,9 +41326,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L274",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_series_totals",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_series_totals"
     },
     {
       "relation": "contains",
@@ -40288,9 +41336,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L285",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_dates_start_end",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_dates_start_end"
     },
     {
       "relation": "contains",
@@ -40298,9 +41346,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L343",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_guard",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_guard"
     },
     {
       "relation": "contains",
@@ -40308,9 +41356,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L351",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_layer",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_layer"
     },
     {
       "relation": "contains",
@@ -40318,9 +41366,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L353",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_js",
-      "target": "tests_revenue_analytics_test_handlers",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_handlers"
     },
     {
       "relation": "calls",
@@ -40329,9 +41377,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_runvalidate",
-      "target": "tests_revenue_analytics_test_mockres",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_mockres"
     },
     {
       "relation": "calls",
@@ -40340,9 +41388,9 @@
       "source_file": "tests/revenue-analytics.test.js",
       "source_location": "L43",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_revenue_analytics_test_dstr",
-      "target": "tests_revenue_analytics_test_pad",
-      "confidence_score": 1.0
+      "target": "tests_revenue_analytics_test_pad"
     },
     {
       "relation": "contains",
@@ -43666,8 +44714,18 @@
       "source_file": "utils/validators.js",
       "source_location": "L420",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "utils_validators_js",
-      "target": "utils_validators_analyticswindowschema",
+      "target": "utils_validators_analyticswindowschema"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "utils/validators.js",
+      "source_location": "L431",
+      "weight": 1.0,
+      "source": "utils_validators_js",
+      "target": "utils_validators_accountdeletionschema",
       "confidence_score": 1.0
     },
     {
@@ -47282,5 +48340,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "61f9376673b5801f5507e25f9826e6f5d813641f"
+  "built_at_commit": "8be119e17a2589ed10996d42ac8931b28b7e3311"
 }

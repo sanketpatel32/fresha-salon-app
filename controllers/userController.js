@@ -8,6 +8,11 @@ const logger = require('../utils/logger');
 const emailService = require('../services/emailService');
 const { ensureReferralCode } = require('../services/referralService');
 const { awardReferralBonus } = require('../services/loyaltyService');
+const appointmentModel = require('../models/appointmentModel');
+const favoriteModel = require('../models/favoriteModel');
+const waitlistModel = require('../models/waitlistModel');
+const notificationModel = require('../models/notificationModel');
+const { recordAudit } = require('../services/adminAuditService');
 
 const handleUserSignup = async (req, res) => {
     const { name, email, password, phoneNumber, referralCode } = req.body;
@@ -275,6 +280,139 @@ const resendVerification = async (req, res) => {
     }
 };
 
+// ── GDPR account self-deletion (#32) ───────────────────────────────────
+// Customers can erase their own account. SOFT deletion by design: the user
+// row is anonymized IN PLACE instead of destroyed, because Appointments
+// reference users via plain integers (no FK) and salon-side booking history
+// must stay coherent — a completed booking keeps resolving to a real row.
+// Every identifying attribute is scrubbed, so the surviving row identifies
+// nobody; subsequent logins fail naturally (the password is replaced with a
+// hash of a discarded random value).
+const ANONYMIZED_EMAIL_RE = /^deleted\+\d+@anonymized\.local$/;
+const ACCOUNT_DELETED_MESSAGE = 'Your account has been deleted.';
+
+const deleteMyAccount = async (req, res) => {
+    const userId = req.user.userId;
+
+    try {
+        const user = await userModel.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Idempotency guard, checked BEFORE the password: an already-
+        // anonymized row no longer carries any usable credential (its stored
+        // hash belongs to a random value nobody knows), so demanding the old
+        // password here could never succeed and would wrongly 401 a replayed
+        // request. The early return performs ZERO writes and answers the byte-
+        // identical generic 200 of a fresh deletion — no information leaks
+        // either way.
+        if (ANONYMIZED_EMAIL_RE.test(String(user.email))) {
+            return res.status(200).json({ message: ACCOUNT_DELETED_MESSAGE });
+        }
+
+        // Re-authentication: the caller must prove ownership of the account.
+        const { password } = req.body;
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ error: 'Incorrect password' });
+        }
+
+        // Future bookings only — status pending|confirmed AND start strictly
+        // after now — expressed as two SQL branches over the LOCAL calendar
+        // frame exactly like getUpcomingAppointments (#29). One bulk UPDATE
+        // lands these rows in the same end state the cancel path produces
+        // (status='cancelled'); PAST rows and every terminal status
+        // (completed/declined/cancelled/no-show) are untouched so salon-side
+        // history keeps its integrity.
+        //
+        // DELIBERATE: no notifications fire for these cancellations. The
+        // house cancel path notifies the customer + salon (+ waitlist), but
+        // this account is being erased — alerting its owner creates fresh
+        // personal-data rows we would then have to destroy, and one salon/
+        // waitlist ping per erased booking is noise without action. The
+        // cancelled rows themselves are visible in the salon's ledger, which
+        // is the history-preserving signal.
+        const pad = (n) => String(n).padStart(2, '0');
+        const now = new Date();
+        const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+        const nowTime = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+        const [cancelledCount] = await appointmentModel.update(
+            { status: 'cancelled' },
+            {
+                where: {
+                    userId,
+                    status: { [Sequelize.Op.in]: ['pending', 'confirmed'] },
+                    [Sequelize.Op.or]: [
+                        { date: { [Sequelize.Op.gt]: today } },
+                        { date: today, time: { [Sequelize.Op.gt]: nowTime } },
+                    ],
+                },
+            }
+        );
+
+        // Personal-data cleanup FIRST, anonymization LAST: if any step below
+        // fails, the account still carries its original email/password, the
+        // caller gets a clean 500, and every step is safe to simply redo on
+        // retry. Once the final anonymization lands, all cleanup has already
+        // happened (and the idempotency guard above makes further calls no-ops).
+
+        // Favorites are pure personal data — destroyed outright.
+        await favoriteModel.destroy({ where: { userId } });
+
+        // Waitlist entries go soft-'left' (rows kept, per that table's
+        // lifecycle): 'left' never blocks anything and keeps salon day-sheets
+        // coherent.
+        await waitlistModel.update({ status: 'left' }, { where: { userId } });
+
+        // Notifications are personal data — destroyed for THIS recipient
+        // identity only (salon notifications belong to salons, not to it).
+        await notificationModel.destroy({
+            where: { recipientRole: 'customer', recipientId: userId },
+        });
+
+        // Anonymize in place. referredByUserId stays (it describes who brought
+        // the signup in and does not identify this row); lifetimePointsEarned
+        // stays too (a cumulative counter, listed deliberately untouched by
+        // the spec — only the spendable balance zeroes).
+        user.name = 'Deleted';
+        user.email = `deleted+${userId}@anonymized.local`; // unique per id
+        // Unusable credential: a random value nobody ever knew, hashed at the
+        // same cost as signup. No login can ever succeed against it again.
+        user.password = await bcrypt.hash(crypto.randomBytes(32).toString('hex'), 10);
+        // phoneNumber is NOT NULL on this model, so it cannot be nulled — ''
+        // is the only PII-free value the column accepts.
+        user.phoneNumber = '';
+        user.emailVerified = false;
+        user.verificationTokenHash = null;
+        user.verificationExpiresAt = null;
+        user.resetTokenHash = null;
+        user.resetTokenExpiresAt = null;
+        user.loyaltyPoints = 0;
+        user.referralCode = null; // frees the unique code for the living
+        await user.save();
+
+        // Audit trail (fire-and-forget, recordAudit contract): this is a
+        // CUSTOMER-initiated action, so adminEmail carries an actor descriptor
+        // rather than an admin identity, and details carry NO PII — this whole
+        // feature exists to scrub identifying data, so writing the old
+        // email/name into an append-only log would defeat it.
+        recordAudit({
+            adminEmail: 'self-service',
+            action: 'account.self_delete',
+            targetType: 'user',
+            targetId: String(userId),
+            details: `gdpr self-deletion; ${cancelledCount} future booking(s) cancelled`,
+        }).catch(() => { }); // never throws; belt-and-braces for lint
+
+        return res.status(200).json({ message: ACCOUNT_DELETED_MESSAGE });
+    } catch (error) {
+        logger.error('Error deleting account:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 const searchUsers = async (req, res) => {
     const { query } = req.query; 
 
@@ -399,4 +537,4 @@ const editProfile = async (req, res) => {
 };
 
 
-module.exports = { handleUserLogin, handleUserSignup, searchUsers, getUserProfile, editProfile, forgotPassword, resetPassword, verifyEmail, resendVerification, getLoyaltyBalance, getMyReferralCode };
+module.exports = { handleUserLogin, handleUserSignup, searchUsers, getUserProfile, editProfile, forgotPassword, resetPassword, verifyEmail, resendVerification, getLoyaltyBalance, getMyReferralCode, deleteMyAccount };

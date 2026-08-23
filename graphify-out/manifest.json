@@ -65,8 +65,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\controllers\\userController.js": {
-    "mtime": 1787516026.357589,
-    "ast_hash": "c1c41d2e48f806145dd3a102e015a013",
+    "mtime": 1787519498.8194106,
+    "ast_hash": "8cdc4f50bb39e926d05a72ff2dc1484a",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\frontend\\.oxlintrc.json": {
@@ -445,8 +445,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\routes\\userRoutes.js": {
-    "mtime": 1787516032.4917195,
-    "ast_hash": "5103c8aafa1d554f845f2ad3322c1b26",
+    "mtime": 1787519521.5474923,
+    "ast_hash": "b7e06f5f2c86c96f9a93b7097953794a",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\services\\availabilityService.js": {
@@ -540,8 +540,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\utils\\validators.js": {
-    "mtime": 1787518434.9376216,
-    "ast_hash": "0219d39b732565267129a6e3c0930687",
+    "mtime": 1787519450.2509851,
+    "ast_hash": "73ca7099228a0d691d169bcc3ad8839a",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\DEPLOYMENT.md": {
@@ -555,8 +555,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\IMPROVEMENT_LOG.md": {
-    "mtime": 1787518951.500076,
-    "ast_hash": "d5e755126acaef4a95e332e474e78c64",
+    "mtime": 1787519807.1704028,
+    "ast_hash": "f3a1d2dc8aabe8c02e345dd06e54c032",
     "semantic_hash": ""
   },
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\render.yaml": {
@@ -972,6 +972,11 @@
   "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\tests\\revenue-analytics.test.js": {
     "mtime": 1787518737.5420957,
     "ast_hash": "d335141570fd164bd7b2669930167a94",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\sanpa\\OneDrive\\Desktop\\Fun projects\\Salon App\\fresha-salon-app\\tests\\account-deletion.test.js": {
+    "mtime": 1787519668.7005944,
+    "ast_hash": "f665f68ec65483eea96faa42d4500b9c",
     "semantic_hash": ""
   }
 }

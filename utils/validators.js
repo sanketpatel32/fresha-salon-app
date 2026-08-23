@@ -423,6 +423,15 @@ const analyticsWindowSchema = z.object({
     .default(30),
 });
 
+// ── GDPR account self-deletion (#32) ──────────────────────────────────
+// DELETE /api/user/me re-authenticates the caller before erasing the
+// account: the current password is the only proof of ownership required,
+// mirroring loginSchema's min(1) (correctness of the password is checked
+// against the stored bcrypt hash in the controller, not here).
+const accountDeletionSchema = z.object({
+  password: z.string().min(1, 'Password is required'),
+});
+
 // ── Weekly working hours ───────────────────────────────────────────────
 // Per-day schedule editor; once saved it replaces the legacy single-window
 // model for that salon (see availabilityService.validateSalonHours). Exactly
@@ -492,4 +501,5 @@ module.exports = {
   analyticsWindowSchema,
   waitlistJoinSchema,
   waitlistDateSchema,
+  accountDeletionSchema,
 };
