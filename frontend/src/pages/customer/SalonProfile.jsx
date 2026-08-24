@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { MapPin, Phone, Clock, Star, Calendar, ArrowLeft, Scissors } from 'lucide-react';
+import { MapPin, Phone, Clock, Star, Calendar, ArrowLeft, Scissors, ListOrdered } from 'lucide-react';
 import Skeleton, { SkeletonCardGrid } from '../../components/Skeleton.jsx';
+import { useToast } from '../../context/ToastContext.jsx';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 
 const CATEGORY_ORDER = [
@@ -30,6 +31,34 @@ export default function SalonProfile() {
   const [data, setData] = useState(null); // { salon, services, reviews }
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  // Waitlist (#30) — queue for a full day at this salon. Date is prefilled
+  // with today; joining is best-effort and surfaces the server's reason
+  // (e.g. "Already on the waitlist") on failure.
+  const showToast = useToast();
+  const todayLocal = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
+  const [waitlistDate, setWaitlistDate] = useState(todayLocal());
+  const [waitlistPartySize, setWaitlistPartySize] = useState(1);
+  const [joiningWaitlist, setJoiningWaitlist] = useState(false);
+
+  const handleJoinWaitlist = async () => {
+    setJoiningWaitlist(true);
+    try {
+      await axios.post('/api/appointment/waitlist', {
+        salonId: parseInt(salonId, 10),
+        date: waitlistDate,
+        partySize: Math.min(20, Math.max(1, parseInt(waitlistPartySize, 10) || 1)),
+      });
+      showToast(`You're on the waitlist for ${waitlistDate}.`, 'success');
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Could not join the waitlist', 'error');
+    } finally {
+      setJoiningWaitlist(false);
+    }
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -160,6 +189,53 @@ export default function SalonProfile() {
           </div>
         ))
       )}
+
+      {/* Waitlist (#30) — for days when the salon is fully booked */}
+      <div className="booking-panel waitlist-join-panel">
+        <h3 className="panel-title"><ListOrdered size={18} /> Fully booked? Join the waitlist</h3>
+        <p className="section-sub" style={{ marginBottom: '12px' }}>
+          If a slot opens up on your day, you'll be alerted automatically.
+        </p>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+          <div className="form-group" style={{ margin: 0 }}>
+            <label htmlFor="waitlist-date" className="form-label">Day</label>
+            <input
+              id="waitlist-date"
+              type="date"
+              min={todayLocal()}
+              className="form-input"
+              style={{ paddingLeft: '16px' }}
+              value={waitlistDate}
+              onChange={e => setWaitlistDate(e.target.value)}
+            />
+          </div>
+          <div className="form-group" style={{ margin: 0, width: '110px' }}>
+            <label htmlFor="waitlist-party" className="form-label">Party size</label>
+            <input
+              id="waitlist-party"
+              type="number"
+              min="1"
+              max="20"
+              step="1"
+              className="form-input"
+              style={{ paddingLeft: '16px' }}
+              value={waitlistPartySize}
+              onChange={e => {
+                const v = parseInt(e.target.value, 10);
+                setWaitlistPartySize(Number.isNaN(v) ? '' : Math.min(20, Math.max(1, v)));
+              }}
+            />
+          </div>
+          <button
+            onClick={handleJoinWaitlist}
+            disabled={joiningWaitlist || !waitlistDate}
+            className="btn btn-primary btn-sm"
+            style={{ height: '42px' }}
+          >
+            {joiningWaitlist ? 'Joining…' : 'Join waitlist'}
+          </button>
+        </div>
+      </div>
 
       {/* Reviews feed */}
       <h2 className="section-head">Reviews ({salon.reviewCount})</h2>

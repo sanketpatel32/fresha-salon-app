@@ -21,6 +21,14 @@ export default function AppointmentBooking() {
   const [bookingLoading, setBookingLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Booking extras (#23/#25/#26): free-text note for the salon, group
+  // headcount, and an optional gratuity — all optional and threaded through
+  // the existing payment-create payload.
+  const NOTE_MAX = 500;
+  const [customerNote, setCustomerNote] = useState('');
+  const [partySize, setPartySize] = useState(1);
+  const [tipAmount, setTipAmount] = useState('');
+
   // Load next 7 dates
   useEffect(() => {
     const datesArr = [];
@@ -89,6 +97,24 @@ export default function AppointmentBooking() {
     }
   };
 
+  // Build the payment payload with the optional booking extras attached.
+  const buildPaymentPayload = () => {
+    const payload = {
+      servicePrice: service.price,
+      dateSelect: selectedDate,
+      time: selectedTime,
+      staffId: parseInt(selectedStaffId),
+      serviceId: parseInt(serviceId),
+      salonId: parseInt(salonId),
+      duration: service.duration,
+      partySize: Math.min(20, Math.max(1, parseInt(partySize, 10) || 1)),
+    };
+    if (customerNote.trim()) payload.customerNote = customerNote.trim();
+    const tip = parseFloat(tipAmount);
+    if (!Number.isNaN(tip) && tip > 0) payload.tipAmount = tip;
+    return payload;
+  };
+
   const handlePayAndBook = async () => {
     if (!selectedStaffId) {
       showToast('Please select an available staff member first', 'error');
@@ -97,17 +123,7 @@ export default function AppointmentBooking() {
     setBookingLoading(true);
     try {
       // 1. Call Payment Endpoint to generate cashfree transaction
-      const paymentPayload = {
-        servicePrice: service.price,
-        dateSelect: selectedDate,
-        time: selectedTime,
-        staffId: parseInt(selectedStaffId),
-        serviceId: parseInt(serviceId),
-        salonId: parseInt(salonId),
-        duration: service.duration
-      };
-
-      const res = await axios.post('/api/pay/', paymentPayload);
+      const res = await axios.post('/api/pay/', buildPaymentPayload());
       const { paymentSessionId, orderId } = res.data;
 
       // 2. Launch Cashfree SDK checkout
@@ -269,7 +285,61 @@ export default function AppointmentBooking() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
                 <span style={{ color: 'var(--text-secondary)' }}>Amount Due</span>
-                <span className="summary-amount">₹{service.price}</span>
+                <span className="summary-amount">₹{service.price}{Number(tipAmount) > 0 ? ` + ₹${Number(tipAmount)} tip` : ''}</span>
+              </div>
+
+              {/* Booking extras (#23 note · #25 party size · #26 tip) */}
+              <div className="booking-extras">
+                <div className="form-group" style={{ marginBottom: '12px' }}>
+                  <label htmlFor="booking-note" className="form-label">
+                    Note for the salon <span className="char-counter">{customerNote.length}/{NOTE_MAX}</span>
+                  </label>
+                  <textarea
+                    id="booking-note"
+                    className="form-textarea"
+                    rows={3}
+                    maxLength={NOTE_MAX}
+                    placeholder="e.g. Please use hypoallergenic products; running 5 minutes late."
+                    value={customerNote}
+                    onChange={e => setCustomerNote(e.target.value.slice(0, NOTE_MAX))}
+                  />
+                </div>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <div className="form-group" style={{ flex: 1, marginBottom: 0 }}>
+                    <label htmlFor="party-size" className="form-label">Party size (1–20)</label>
+                    <input
+                      id="party-size"
+                      type="number"
+                      min="1"
+                      max="20"
+                      step="1"
+                      className="form-input"
+                      style={{ paddingLeft: '16px' }}
+                      value={partySize}
+                      onChange={e => {
+                        const v = parseInt(e.target.value, 10);
+                        setPartySize(Number.isNaN(v) ? '' : Math.min(20, Math.max(1, v)));
+                      }}
+                    />
+                  </div>
+                  <div className="form-group" style={{ flex: 1, marginBottom: 0 }}>
+                    <label htmlFor="tip-amount" className="form-label">Tip (optional)</label>
+                    <input
+                      id="tip-amount"
+                      type="number"
+                      min="0"
+                      step="1"
+                      className="form-input"
+                      style={{ paddingLeft: '16px' }}
+                      placeholder="0"
+                      value={tipAmount}
+                      onChange={e => {
+                        const v = parseFloat(e.target.value);
+                        setTipAmount(e.target.value === '' ? '' : String(Math.max(0, v)));
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -290,16 +360,7 @@ export default function AppointmentBooking() {
                   if (!selectedStaffId) return showToast('Please select staff', 'error');
                   setBookingLoading(true);
                   try {
-                    const paymentPayload = {
-                      servicePrice: service.price,
-                      dateSelect: selectedDate,
-                      time: selectedTime,
-                      staffId: parseInt(selectedStaffId),
-                      serviceId: parseInt(serviceId),
-                      salonId: parseInt(salonId),
-                      duration: service.duration
-                    };
-                    const res = await axios.post('/api/pay/', paymentPayload);
+                    const res = await axios.post('/api/pay/', buildPaymentPayload());
                     const { orderId } = res.data;
                     await axios.get(`/api/pay/${orderId}`);
                     showToast("Local simulator payment success!", "success");

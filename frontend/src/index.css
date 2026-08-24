@@ -1736,3 +1736,178 @@ textarea:focus-visible,
   .notification-item { flex-wrap: wrap; }
   .notification-read-btn { margin-left: calc(32px + var(--space-sm)); }
 }
+
+/* ════════════════════════════════════════════════════════════════════════
+   Iteration #34 — customer extras (loyalty / waitlist / upcoming),
+   salon console (hours editor / revenue chart / waitlist sheet), admin stats.
+   Tokens only (tokens.css) so light + dark both hold.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* Neutral badge variant for terminal/quiet states (e.g. waitlist "left"). */
+.badge-secondary { background-color: var(--color-paper-3); color: var(--color-ink-2); }
+
+/* ── Upcoming appointments strip (#29) ─────────────────────────────────── */
+.upcoming-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  overflow-x: auto;
+  padding: var(--space-2xs) 0;
+  margin-bottom: var(--space-md);
+}
+.upcoming-strip-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-ink-2);
+  margin-right: var(--space-2xs);
+}
+.upcoming-chip {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background-color: var(--color-paper-2);
+  font-size: var(--text-sm);
+}
+.upcoming-chip strong { color: var(--color-ink); }
+.upcoming-chip span { color: var(--text-muted); }
+.upcoming-chip-when { white-space: nowrap; }
+
+/* ── Loyalty card (#27/#28) ────────────────────────────────────────────── */
+.loyalty-card .panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.loyalty-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+.loyalty-points {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: 1.1;
+  color: var(--color-accent);
+}
+.loyalty-lifetime {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+.referral-code-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-rule);
+}
+.referral-code-label { font-size: var(--text-sm); color: var(--color-ink-2); }
+.referral-code {
+  font-size: var(--text-md);
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--color-ink);
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent);
+  padding: 4px var(--space-2xs);
+  border-radius: var(--radius-2xs);
+}
+
+/* ── Waitlist list + join panel (#30) ──────────────────────────────────── */
+.waitlist-list { display: flex; flex-direction: column; }
+.waitlist-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+.waitlist-item:last-child { border-bottom: none; }
+.waitlist-item-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.waitlist-item-info strong { color: var(--color-ink); }
+.waitlist-item-info span { font-size: var(--text-sm); color: var(--text-muted); }
+
+.waitlist-join-panel .panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Booking extras in checkout (#23/#25/#26) ──────────────────────────── */
+.booking-extras {
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--space-sm);
+}
+.char-counter {
+  float: right;
+  font-weight: 400;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+.char-counter.is-over { color: var(--color-danger); }
+
+/* ── Weekly hours editor (#24) ─────────────────────────────────────────── */
+.hours-editor { display: flex; flex-direction: column; gap: var(--space-2xs); }
+.hours-row {
+  display: grid;
+  grid-template-columns: 110px 90px 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-3xs) 0;
+}
+.hours-day { font-weight: 600; color: var(--color-ink); }
+.hours-closed-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+.hours-closed-toggle input { width: 16px; height: 16px; cursor: pointer; }
+.hours-dash { color: var(--text-muted); }
+.hours-row-closed .hours-day,
+.hours-row-closed .hours-dash { color: var(--text-muted); }
+
+@media (max-width: 640px) {
+  /* Stack each day's inputs vertically on small screens. */
+  .hours-row { grid-template-columns: 1fr auto; grid-template-areas: none; }
+}
+
+/* ── Revenue analytics SVG chart (#31) ─────────────────────────────────── */
+.window-selector { display: inline-flex; gap: var(--space-3xs); }
+.revenue-chart svg { width: 100%; height: auto; display: block; }
+.rev-axis { stroke: var(--color-rule-strong); stroke-width: 1; fill: none; }
+.rev-area { fill: var(--color-accent-soft); stroke: none; }
+.rev-line {
+  stroke: var(--color-accent);
+  stroke-width: 2.5;
+  fill: none;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.rev-tick-label {
+  font-size: 11px;
+  fill: var(--color-ink-3);
+}
+.rev-empty-text {
+  font-size: 13px;
+  fill: var(--color-ink-3);
+}

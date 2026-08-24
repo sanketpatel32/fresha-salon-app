@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Trash2, Search } from 'lucide-react';
+import { Trash2, Search, CreditCard, Star } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
 import ConfirmDialog from '../../components/ConfirmDialog.jsx';
@@ -17,6 +17,18 @@ export default function AdminDashboard() {
   const [bookingsLoading, setBookingsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('bookings'); // 'bookings', 'users'
   const [pendingDelete, setPendingDelete] = useState(null); // { type: 'user'|'appointment', id }
+
+  // Platform stats (#26/#27 additions): tips captured + outstanding loyalty
+  // points. Non-2xx degrades to a hidden stats row, never a broken console.
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    axios.get('/api/admin/stats')
+      .then(res => { if (!cancelled && res.data) setStats(res.data); })
+      .catch(err => { console.error('Error fetching admin stats', err); });
+    return () => { cancelled = true; };
+  }, []);
 
   const fetchAllAppointments = async () => {
     setBookingsLoading(true);
@@ -87,6 +99,26 @@ export default function AdminDashboard() {
           <p className="section-sub">Monitor active users and bookings across the platform.</p>
         </div>
       </div>
+
+      {/* Platform stats — tips (#26) + outstanding loyalty points (#27) */}
+      {stats && (
+        <div className="stats-grid" style={{ marginBottom: '24px' }}>
+          <div className="stat-card">
+            <div className="stat-icon warning"><CreditCard size={24} /></div>
+            <div>
+              <div className="stat-value">₹{Number(stats.totalTips || 0).toLocaleString()}</div>
+              <div className="stat-label">Tips captured (all time)</div>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon primary"><Star size={24} /></div>
+            <div>
+              <div className="stat-value">{Number(stats.totalLoyaltyOutstanding || 0).toLocaleString()}</div>
+              <div className="stat-label">Loyalty points outstanding</div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
         <button onClick={() => setActiveTab('bookings')} className={`btn ${activeTab === 'bookings' ? 'btn-primary' : 'btn-secondary'} btn-sm`}>

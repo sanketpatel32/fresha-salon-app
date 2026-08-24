@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Search, Star, Scissors, MapPin, Phone, Clock, SlidersHorizontal, X, Bell } from 'lucide-react';
+import { Search, Star, Scissors, MapPin, Phone, Clock, SlidersHorizontal, X, Bell, Gift, ListOrdered } from 'lucide-react';
 import { SkeletonCardGrid } from '../../components/Skeleton.jsx';
 import NotificationsPanel from '../../components/NotificationsPanel.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
@@ -54,6 +54,18 @@ export default function CustomerDashboard() {
   const [sort, setSort] = useState('');
   const [showFilters, setShowFilters] = useState(false);
 
+  // Loyalty (#27/#28) — one lazy fetch; the endpoint returns points,
+  // lifetimePointsEarned and referralCode together.
+  const [loyalty, setLoyalty] = useState(null);
+
+  // Upcoming appointments (#29) — bare array (≤5), fetched once on mount.
+  const [upcoming, setUpcoming] = useState([]);
+
+  // Waitlist (#30) — my entries + Leave action.
+  const [waitlistEntries, setWaitlistEntries] = useState([]);
+  const [waitlistSalonNames, setWaitlistSalonNames] = useState({}); // salonId → name
+  const [leavingWaitlistId, setLeavingWaitlistId] = useState(null);
+
   // Debounce the search input (300ms).
   useEffect(() => {
     const t = setTimeout(() => {
@@ -70,7 +82,8 @@ export default function CustomerDashboard() {
       setLoadError(false);
       try {
         const params = new URLSearchParams();
-        if (searchQuery) params.set('q', searchQuery);
+        // `search` (#22): case-insensitive over salon name AND address.
+        if (searchQuery) params.set('search', searchQuery);
         if (category) params.set('category', category);
         if (pricing) params.set('pricing', pricing);
         if (minRating) params.set('minRating', minRating);
@@ -111,6 +124,61 @@ export default function CustomerDashboard() {
     };
     fetchFavorites();
   }, []);
+
+  // Loyalty card (#27/#28) — single lazy fetch, non-2xx degrades to a hidden card.
+  useEffect(() => {
+    let cancelled = false;
+    axios.get('/api/user/loyalty')
+      .then(res => { if (!cancelled) setLoyalty(res.data || null); })
+      .catch(() => { /* card simply won't render */ });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Upcoming appointments strip (#29) — non-2xx → empty strip, never breaks render.
+  useEffect(() => {
+    let cancelled = false;
+    axios.get('/api/appointment/upcoming')
+      .then(res => { if (!cancelled) setUpcoming(Array.isArray(res.data) ? res.data : []); })
+      .catch(() => { /* strip stays hidden */ });
+    return () => { cancelled = true; };
+  }, []);
+
+  const fetchWaitlistEntries = useCallback(async () => {
+    try {
+      const res = await axios.get('/api/appointment/waitlist');
+      setWaitlistEntries(Array.isArray(res.data) ? res.data : (res.data?.data || []));
+    } catch (err) {
+      console.error('Error fetching waitlist', err);
+      setWaitlistEntries([]);
+    }
+  }, []);
+
+  useEffect(() => { fetchWaitlistEntries(); }, [fetchWaitlistEntries]);
+
+  // Waitlist rows carry plain salonId refs (no association), so resolve each
+  // unique salon's name lazily; failures degrade to the "Salon #id" label.
+  useEffect(() => {
+    const ids = [...new Set(waitlistEntries.map(e => Number(e.salonId)).filter(Boolean))]
+      .filter(id => !(id in waitlistSalonNames));
+    ids.forEach(id => {
+      axios.get(`/api/buisness/getsalonbyId?salonId=${id}`)
+        .then(res => setWaitlistSalonNames(prev => ({ ...prev, [id]: res.data?.name || `Salon #${id}` })))
+        .catch(() => setWaitlistSalonNames(prev => ({ ...prev, [id]: `Salon #${id}` })));
+    });
+  }, [waitlistEntries]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleLeaveWaitlist = async (id) => {
+    setLeavingWaitlistId(id);
+    try {
+      await axios.delete(`/api/appointment/waitlist/${id}`);
+      setWaitlistEntries(prev => prev.filter(e => e.id !== id));
+    } catch (err) {
+      console.error('Error leaving waitlist', err);
+      fetchWaitlistEntries();
+    } finally {
+      setLeavingWaitlistId(null);
+    }
+  };
 
   const toggleFavorite = useCallback(async (salonId) => {
     const isFav = favoriteSalonIds.has(salonId);
@@ -236,6 +304,71 @@ export default function CustomerDashboard() {
       <div style={{ display: showNotifications ? 'block' : 'none', marginBottom: '24px', maxWidth: '800px' }}>
         <NotificationsPanel onUnreadChange={setUnreadNotifs} />
       </div>
+
+      {/* Upcoming appointments strip (#29) */}
+      {upcoming.length > 0 && (
+        <div className="upcoming-strip" role="list" aria-label="Your upcoming appointments">
+          <span className="upcoming-strip-label"><Clock size={14} /> Next up</span>
+          {upcoming.map(appt => (
+            <div key={appt.id} className="upcoming-chip" role="listitem">
+              <strong>{appt.service?.name || 'Appointment'}</strong>
+              <span>{appt.salon?.name || ''}</span>
+              <span className="upcoming-chip-when">{appt.date} · {String(appt.time).slice(0, 5)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Loyalty (#27/#28) + Waitlist (#30) cards */}
+      {(loyalty || waitlistEntries.length > 0) && (
+        <div className="grid-dashboard-split" style={{ marginBottom: '24px' }}>
+          {loyalty && (
+            <div className="booking-panel loyalty-card">
+              <h3 className="panel-title"><Gift size={18} /> Loyalty</h3>
+              <div className="loyalty-row">
+                <div>
+                  <div className="loyalty-points">{Number(loyalty.points) || 0}</div>
+                  <div className="stat-label">points available</div>
+                </div>
+                <div className="loyalty-lifetime">{Number(loyalty.lifetimePointsEarned) || 0} earned all-time</div>
+              </div>
+              {loyalty.referralCode && (
+                <div className="referral-code-row">
+                  <span className="referral-code-label">Your referral code</span>
+                  <code className="referral-code">{loyalty.referralCode}</code>
+                </div>
+              )}
+            </div>
+          )}
+          {waitlistEntries.length > 0 && (
+            <div className="booking-panel">
+              <h3 className="panel-title"><ListOrdered size={18} /> Waitlists</h3>
+              <div className="waitlist-list">
+                {waitlistEntries.map(entry => (
+                  <div key={entry.id} className="waitlist-item">
+                    <div className="waitlist-item-info">
+                      <strong>{waitlistSalonNames[Number(entry.salonId)] || `Salon #${entry.salonId}`}</strong>
+                      <span>{entry.date} · party of {entry.partySize || 1}</span>
+                    </div>
+                    <span className={`badge ${entry.status === 'waiting' ? 'badge-warning' : entry.status === 'notified' ? 'badge-success' : 'badge-secondary'}`}>
+                      {entry.status || 'waiting'}
+                    </span>
+                    {(entry.status || 'waiting') !== 'left' && (
+                      <button
+                        onClick={() => handleLeaveWaitlist(entry.id)}
+                        disabled={leavingWaitlistId === entry.id}
+                        className="btn btn-secondary btn-sm"
+                      >
+                        {leavingWaitlistId === entry.id ? 'Leaving…' : 'Leave'}
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Results */}
       {loading ? (

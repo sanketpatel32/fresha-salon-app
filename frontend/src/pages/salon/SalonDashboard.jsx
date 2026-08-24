@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Scissors, Activity, Calendar, ListFilter, UserCheck, Settings,
-  CreditCard, CheckCircle, Clock, Plus, Edit, Trash2, Star, Bell
+  CreditCard, CheckCircle, Clock, Plus, Edit, Trash2, Star, Bell,
+  BarChart3, ListOrdered
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
@@ -81,6 +82,29 @@ export default function SalonDashboard() {
   const [blockoutStart, setBlockoutStart] = useState('');
   const [blockoutEnd, setBlockoutEnd] = useState('');
   const [blockoutReason, setBlockoutReason] = useState('');
+
+  // Weekly working hours editor (#24) — 7 day rows from GET /hours, saved
+  // wholesale via PUT. Keys are "0".."6" (Sun..Sat), values {open, close, closed}.
+  const DAY_KEYS = ['0', '1', '2', '3', '4', '5', '6'];
+  const DAY_NAMES = { '0': 'Sunday', '1': 'Monday', '2': 'Tuesday', '3': 'Wednesday', '4': 'Thursday', '5': 'Friday', '6': 'Saturday' };
+  const [weeklyHours, setWeeklyHours] = useState(null);
+  const [hoursLoading, setHoursLoading] = useState(false);
+  const [hoursSaving, setHoursSaving] = useState(false);
+
+  // Revenue & top-services analytics (#31) — inline SVG chart, no chart libs.
+  const [revenueDays, setRevenueDays] = useState(30);
+  const [revenueData, setRevenueData] = useState(null);
+  const [topServicesWindow, setTopServicesWindow] = useState([]);
+  const [revenueLoading, setRevenueLoading] = useState(false);
+
+  // Waitlist day sheet (#30) — who is queued for a given date.
+  const todayLocal = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
+  const [waitlistDay, setWaitlistDay] = useState(todayLocal());
+  const [dayWaitlist, setDayWaitlist] = useState([]);
+  const [dayWaitlistLoading, setDayWaitlistLoading] = useState(false);
 
   const fetchSalonProfile = async () => {
     try {
@@ -167,6 +191,102 @@ export default function SalonDashboard() {
       setBlockouts(res.data);
     } catch (err) {
       console.error('Error fetching blockouts', err);
+    }
+  };
+
+  // ── Weekly hours (#24) / analytics (#31) / waitlist day sheet (#30) ──────
+  // Lazy-loaded on first tab visit, mirroring the Calendar tab's convention.
+  const fetchHours = async () => {
+    setHoursLoading(true);
+    try {
+      const res = await axios.get('/api/salonsdashboard/hours');
+      // The endpoint always returns a complete effective schedule; normalize
+      // defensively anyway so a malformed row can't crash the editor.
+      const wh = res.data?.weeklyHours || {};
+      const normalized = {};
+      DAY_KEYS.forEach(k => {
+        const d = wh[k] || {};
+        normalized[k] = {
+          open: typeof d.open === 'string' ? d.open.slice(0, 5) : '09:00',
+          close: typeof d.close === 'string' ? d.close.slice(0, 5) : '17:00',
+          closed: Boolean(d.closed),
+        };
+      });
+      setWeeklyHours(normalized);
+    } catch (err) {
+      console.error('Error fetching working hours', err);
+      showToast('Could not load working hours.', 'error');
+    } finally {
+      setHoursLoading(false);
+    }
+  };
+
+  const handleHourChange = (key, field, value) => {
+    setWeeklyHours(prev => ({
+      ...prev,
+      [key]: { ...prev[key], [field]: value },
+    }));
+  };
+
+  const handleSaveHours = async () => {
+    if (!weeklyHours) return;
+    // Mirror the server schema client-side: open days need both times and
+    // close after open.
+    for (const k of DAY_KEYS) {
+      const d = weeklyHours[k];
+      if (!d.closed) {
+        if (!d.open || !d.close) {
+          showToast(`${DAY_NAMES[k]} needs both times, or mark it closed.`, 'error');
+          return;
+        }
+        if (d.close <= d.open) {
+          showToast(`Closing time must be after opening time on ${DAY_NAMES[k]}.`, 'error');
+          return;
+        }
+      }
+    }
+    setHoursSaving(true);
+    try {
+      await axios.put('/api/salonsdashboard/hours', { weeklyHours });
+      showToast('Working hours updated successfully!', 'success');
+      fetchSalonProfile();
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to update working hours', 'error');
+    } finally {
+      setHoursSaving(false);
+    }
+  };
+
+  const fetchRevenueAnalytics = async (days = revenueDays) => {
+    setRevenueLoading(true);
+    try {
+      const [revRes, topRes] = await Promise.all([
+        axios.get(`/api/salonsdashboard/analytics/revenue?days=${days}`),
+        axios.get(`/api/salonsdashboard/analytics/top-services?days=${days}`),
+      ]);
+      setRevenueData(revRes.data || null);
+      setTopServicesWindow(Array.isArray(topRes.data) ? topRes.data : []);
+    } catch (err) {
+      console.error('Error fetching revenue analytics', err);
+      showToast('Could not load revenue analytics.', 'error');
+      setRevenueData(null);
+      setTopServicesWindow([]);
+    } finally {
+      setRevenueLoading(false);
+    }
+  };
+
+  const fetchDayWaitlist = async (date = waitlistDay) => {
+    if (!date) return;
+    setDayWaitlistLoading(true);
+    try {
+      const res = await axios.get(`/api/salonsdashboard/waitlist?date=${date}`);
+      setDayWaitlist(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.error('Error fetching waitlist', err);
+      setDayWaitlist([]);
+    } finally {
+      setDayWaitlistLoading(false);
     }
   };
 
@@ -432,6 +552,15 @@ export default function SalonDashboard() {
           </button>
           <button onClick={() => setActiveTab('notifications')} className={`btn sidebar-nav-item ${activeTab === 'notifications' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
             <Bell size={18} /> Notifications{notifCount > 0 ? ` (${notifCount})` : ''}
+          </button>
+          <button onClick={() => { setActiveTab('hours'); if (!weeklyHours) fetchHours(); }} className={`btn sidebar-nav-item ${activeTab === 'hours' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
+            <Clock size={18} /> Working Hours
+          </button>
+          <button onClick={() => { setActiveTab('analytics'); if (!revenueData) fetchRevenueAnalytics(); }} className={`btn sidebar-nav-item ${activeTab === 'analytics' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
+            <BarChart3 size={18} /> Revenue Analytics
+          </button>
+          <button onClick={() => { setActiveTab('waitlist'); fetchDayWaitlist(); }} className={`btn sidebar-nav-item ${activeTab === 'waitlist' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
+            <ListOrdered size={18} /> Waitlist
           </button>
           <button onClick={() => setActiveTab('details')} className={`btn sidebar-nav-item ${activeTab === 'details' ? 'active' : ''}`} style={{ justifyContent: 'flex-start' }}>
             <Settings size={18} /> Salon Settings
@@ -1005,6 +1134,253 @@ export default function SalonDashboard() {
           <div style={{ maxWidth: '800px' }}>
             <NotificationsPanel onUnreadChange={setNotifCount} />
           </div>
+        )}
+
+        {/* Tab: Working Hours (#24) — per-day weekly schedule editor */}
+        {activeTab === 'hours' && (
+          <>
+            <div className="dashboard-header">
+              <h2 className="dashboard-title">Weekly Working Hours</h2>
+              <span className="badge badge-info">Per-day schedule</span>
+            </div>
+            {hoursLoading ? (
+              <SkeletonTable rows={7} cols={4} />
+            ) : !weeklyHours ? (
+              <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Unable to load working hours.</div>
+            ) : (
+              <div className="booking-panel" style={{ maxWidth: '720px' }}>
+                <h3 className="panel-title">Opening times by day</h3>
+                <p className="section-sub" style={{ marginBottom: '16px' }}>
+                  Days marked closed ignore their times. Bookings outside these windows are rejected automatically.
+                </p>
+                <div className="hours-editor">
+                  {DAY_KEYS.map(k => {
+                    const d = weeklyHours[k];
+                    return (
+                      <div key={k} className={`hours-row ${d.closed ? 'hours-row-closed' : ''}`}>
+                        <span className="hours-day">{DAY_NAMES[k]}</span>
+                        <label className="hours-closed-toggle">
+                          <input
+                            type="checkbox"
+                            checked={d.closed}
+                            onChange={e => handleHourChange(k, 'closed', e.target.checked)}
+                          />
+                          Closed
+                        </label>
+                        <input
+                          type="time"
+                          aria-label={`${DAY_NAMES[k]} opening time`}
+                          className="form-input"
+                          disabled={d.closed}
+                          value={d.open}
+                          onChange={e => handleHourChange(k, 'open', e.target.value)}
+                        />
+                        <span className="hours-dash">–</span>
+                        <input
+                          type="time"
+                          aria-label={`${DAY_NAMES[k]} closing time`}
+                          className="form-input"
+                          disabled={d.closed}
+                          value={d.close}
+                          onChange={e => handleHourChange(k, 'close', e.target.value)}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+                <button
+                  onClick={handleSaveHours}
+                  disabled={hoursSaving || hoursLoading}
+                  className="btn btn-primary"
+                  style={{ marginTop: '16px' }}
+                >
+                  {hoursSaving ? 'Saving…' : 'Save Weekly Hours'}
+                </button>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Tab: Revenue Analytics (#31) — inline SVG chart + top services */}
+        {activeTab === 'analytics' && (
+          <>
+            <div className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+              <h2 className="dashboard-title">Revenue Analytics</h2>
+              <div className="window-selector" role="group" aria-label="Analytics window">
+                {[7, 30, 90].map(n => (
+                  <button
+                    key={n}
+                    onClick={() => { setRevenueDays(n); fetchRevenueAnalytics(n); }}
+                    aria-pressed={revenueDays === n}
+                    className={`btn btn-sm ${revenueDays === n ? 'btn-primary' : 'btn-secondary'}`}
+                  >
+                    {n} days
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {revenueLoading && !revenueData ? (
+              <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Loading analytics...</div>
+            ) : !revenueData ? (
+              <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Unable to load revenue analytics.</div>
+            ) : (() => {
+              const series = revenueData.series || [];
+              const totals = revenueData.totals || {};
+              const W = 640; const H = 220; const PAD_X = 34; const PAD_Y = 24;
+              const maxRev = Math.max(1, ...series.map(s => s.revenue));
+              const stepX = series.length > 1 ? (W - PAD_X * 2) / (series.length - 1) : 0;
+              const points = series.map((s, i) => {
+                const x = PAD_X + i * stepX;
+                const y = H - PAD_Y - (s.revenue / maxRev) * (H - PAD_Y * 2);
+                return `${x.toFixed(1)},${y.toFixed(1)}`;
+              });
+              const linePath = points.length ? `M ${points.join(' L ')}` : '';
+              const areaPath = points.length
+                ? `M ${PAD_X},${H - PAD_Y} L ${points.join(' L ')} L ${(PAD_X + (series.length - 1) * stepX).toFixed(1)},${H - PAD_Y} Z`
+                : '';
+              const ticks = [0, Math.floor(series.length / 2), series.length - 1].filter((v, i, a) => v >= 0 && a.indexOf(v) === i);
+              return (
+                <>
+                  <div className="stats-grid" style={{ marginBottom: '24px' }}>
+                    <div className="stat-card">
+                      <div className="stat-icon success"><CreditCard size={24} /></div>
+                      <div>
+                        <div className="stat-value">₹{Number(totals.revenue || 0).toLocaleString()}</div>
+                        <div className="stat-label">Revenue ({revenueDays}d, incl. tips)</div>
+                      </div>
+                    </div>
+                    <div className="stat-card">
+                      <div className="stat-icon warning"><CreditCard size={24} /></div>
+                      <div>
+                        <div className="stat-value">₹{Number(totals.tips || 0).toLocaleString()}</div>
+                        <div className="stat-label">Tips</div>
+                      </div>
+                    </div>
+                    <div className="stat-card">
+                      <div className="stat-icon accent"><Calendar size={24} /></div>
+                      <div>
+                        <div className="stat-value">{totals.bookings || 0}</div>
+                        <div className="stat-label">Paid bookings</div>
+                      </div>
+                    </div>
+                    <div className="stat-card">
+                      <div className="stat-icon primary"><CheckCircle size={24} /></div>
+                      <div>
+                        <div className="stat-value">₹{Number(totals.discounts || 0).toLocaleString()}</div>
+                        <div className="stat-label">Promo discounts</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="booking-panel" style={{ marginBottom: '24px' }}>
+                    <h3 className="panel-title">Daily revenue — last {revenueData.days} days</h3>
+                    <div className="revenue-chart">
+                      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Daily revenue over the last ${revenueData.days} days`} preserveAspectRatio="none">
+                        <line x1={PAD_X} y1={H - PAD_Y} x2={W - PAD_X / 2} y2={H - PAD_Y} className="rev-axis" />
+                        <line x1={PAD_X} y1={PAD_Y} x2={PAD_X} y2={H - PAD_Y} className="rev-axis" />
+                        {areaPath && <path d={areaPath} className="rev-area" />}
+                        {linePath && <path d={linePath} className="rev-line" />}
+                        {!areaPath && (
+                          <text x={W / 2} y={H / 2} textAnchor="middle" className="rev-empty-text">No paid bookings in this window</text>
+                        )}
+                        {ticks.map(i => {
+                          const s = series[i];
+                          if (!s) return null;
+                          const x = PAD_X + i * stepX;
+                          const label = new Date(`${s.date}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                          return (
+                            <text key={i} x={x} y={H - 6} textAnchor="middle" className="rev-tick-label">{label}</text>
+                          );
+                        })}
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div className="booking-panel">
+                    <h3 className="panel-title">Top Services ({revenueDays}d, completed)</h3>
+                    {topServicesWindow.length === 0 ? (
+                      <div style={{ padding: '16px', color: 'var(--text-muted)', fontSize: '14px' }}>No completed bookings in this window yet.</div>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '8px 0' }}>
+                        {topServicesWindow.map((s, i) => (
+                          <div key={s.serviceId ?? i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span className="badge badge-info">{i + 1}</span>
+                              <strong>{s.name}</strong>
+                            </span>
+                            <span style={{ color: 'var(--text-secondary)' }}>{s.bookings} booking{s.bookings === 1 ? '' : 's'}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </>
+              );
+            })()}
+          </>
+        )}
+
+        {/* Tab: Waitlist day sheet (#30) */}
+        {activeTab === 'waitlist' && (
+          <>
+            <div className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+              <h2 className="dashboard-title">Waitlist</h2>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <input
+                  type="date"
+                  aria-label="Waitlist date"
+                  className="form-input"
+                  style={{ paddingLeft: '16px', height: '38px' }}
+                  value={waitlistDay}
+                  onChange={e => setWaitlistDay(e.target.value)}
+                />
+                <button onClick={() => fetchDayWaitlist()} className="btn btn-primary btn-sm" disabled={!waitlistDay}>
+                  Load
+                </button>
+              </div>
+            </div>
+
+            <div className="booking-panel">
+              <h3 className="panel-title">Queue for {waitlistDay || '—'}</h3>
+              {dayWaitlistLoading ? (
+                <SkeletonTable rows={3} cols={5} />
+              ) : dayWaitlist.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
+                  Nobody is waiting for this day.
+                </div>
+              ) : (
+                <div className="table-container" style={{ border: 'none', boxShadow: 'none' }}>
+                  <table className="premium-table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Customer</th>
+                        <th>Party Size</th>
+                        <th>Status</th>
+                        <th>Notified At</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dayWaitlist.map((w, i) => (
+                        <tr key={w.id}>
+                          <td>{i + 1}</td>
+                          <td><strong>{w.customerName || `User #${w.userId}`}</strong></td>
+                          <td>{w.partySize || 1}</td>
+                          <td>
+                            <span className={`badge ${w.status === 'waiting' ? 'badge-warning' : w.status === 'notified' ? 'badge-success' : 'badge-secondary'}`}>
+                              {w.status || 'waiting'}
+                            </span>
+                          </td>
+                          <td>{w.notifiedAt ? new Date(w.notifiedAt).toLocaleString() : '—'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </>
         )}
 
         {/* Tab 5: Salon Profile Details */}
