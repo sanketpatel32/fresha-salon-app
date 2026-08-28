@@ -44,6 +44,61 @@ Baseline at start: 21/21 tests passing on branch `improve/app-hardening`.
 | 35 | Tests: end-to-end journey sweep | ✅ |
 | 36 | Docs: README v2 + final verification | ✅ |
 
+## Roadmap — Loop 2 (#37–#86)
+
+| # | Focus | Status |
+|---|-------|--------|
+| 37 | Platform: centralized validated config module | ✅ |
+| 38 | Platform: graceful shutdown (drain + DB close) | ✅ |
+| 39 | Platform: structured JSON logging mode | ✅ |
+| 40 | Platform: response compression | ✅ |
+| 41 | Security: hardened headers (HSTS, referrer, permissions policy) | ✅ |
+| 42 | Observability: X-Response-Time server timing | ✅ |
+| 43 | Perf: ETag / conditional GET (304) on reads | ✅ |
+| 44 | Observability: Prometheus-style /metrics | ✅ |
+| 45 | Platform: runtime feature flags | ✅ |
+| 46 | Payments: idempotency keys for safe retries | ✅ |
+| 47 | Integrity: double-booking prevention (unique slot) | ✅ |
+| 48 | Integrity: optimistic concurrency (version / If-Match) | ✅ |
+| 49 | Utils: money helpers (integer paise, no float drift) | ✅ |
+| 50 | Utils: salon-local timezone helpers | ✅ |
+| 51 | Data: soft-delete (archive) for services | ✅ |
+| 52 | Admin: extended audit trail beyond deletions | ✅ |
+| 53 | Security: standard RateLimit-* headers | ✅ |
+| 54 | Security: per-role rate-limit quotas | ✅ |
+| 55 | Customer: one-tap rebook from a past booking | ✅ |
+| 56 | Customer: price quote endpoint (pre-payment estimate) | ✅ |
+| 57 | Customer: booking history filters (status/date/salon) | ✅ |
+| 58 | Customer: recently viewed salons | ✅ |
+| 59 | Customer: favorite staff member | ✅ |
+| 60 | Customer: cancellation reasons + analytics | ✅ |
+| 61 | Customer: recurring booking series | ✅ |
+| 62 | Commerce: service bundles / packages | ✅ |
+| 63 | Commerce: gift cards & store credit | ✅ |
+| 64 | Commerce: membership plans | ✅ |
+| 65 | Salon: per-staff working hours | ✅ |
+| 66 | Salon: holiday / closure calendar | ✅ |
+| 67 | Salon: buffer (cleanup) time between bookings | ✅ |
+| 68 | Salon: auto-confirm toggle | ✅ |
+| 69 | Salon: deposit / advance payment | ✅ |
+| 70 | Salon: service add-ons | ✅ |
+| 71 | Salon: staff commission tracking | ✅ |
+| 72 | Salon: client CRM with visit stats | ✅ |
+| 73 | Salon: staff performance leaderboard | ✅ |
+| 74 | Salon: payout / settlement report | ✅ |
+| 75 | Comms: per-user notification preferences | ✅ |
+| 76 | Comms: reusable email templates | ✅ |
+| 77 | Comms: pluggable SMS abstraction | ✅ |
+| 78 | Comms: web-push subscriptions | ✅ |
+| 79 | Admin: suspend / unsuspend accounts | ✅ |
+| 80 | Admin: audit-logged impersonation | ✅ |
+| 81 | Admin: platform announcements | ✅ |
+| 82 | Platform: durable job queue | ✅ |
+| 83 | DX: API versioning (/api/v1 + legacy passthrough) | ✅ |
+| 84 | DX: machine-readable OpenAPI export | ✅ |
+| 85 | Frontend: surfaces for loop-2 features | ✅ |
+| 86 | Docs: README v3 + final verification | ✅ |
+
 ## Completed
 
 - **#1 Payment status endpoint locked down** — `GET /api/pay/:orderId` previously had no auth; anyone with an order id could read payment details and trigger gateway syncs. Now requires a stakeholder role (paying customer via `Payment.customerID`, involved salon via `Payment.salonId`, or admin), enforced in route middleware + `canAccessPayment` controller check that runs *before* any Cashfree call. 7 new tests (`tests/payment-status-auth.test.js`). Tests: 21 → 28.
@@ -129,3 +184,30 @@ Tests after #26: 265.
 Both improvement loops complete — every iteration implemented → tested → committed locally on `improve/app-hardening`; nothing pushed.
 - **Loop #1 (#1–#21):** security + core feature sweep — tests 21 → 207.
 - **Loop #2 (#22–#36):** product-depth sweep (browse discovery, booking notes/party-size/tips, per-day hours, loyalty + referrals, reminders, waitlist, salon analytics, GDPR deletion, self-serve API docs, SPA wiring round 2, e2e journeys, final docs) — tests 207 → **363**.
+
+---
+
+## Loop 3 (#37–#86)
+
+Second 50-iteration loop. Same contract: implement → test → commit.
+Baseline at start: 363/363 passing on branch `improve/app-hardening`.
+
+- **#37 Centralized config** — `utils/config.js` replaces scattered `process.env.X || default` reads with one frozen, typed snapshot parsed at require-time. Total parsers (`str`/`bool`/`int`/`list`) degrade garbage to a documented default with a warning instead of throwing, so a typo like `PORT=abc` can never stop a boot; `int` also clamps to a declared range. Grouped namespaces (server/db/auth/admin/cors/logging/rateLimit/perf/email/sms/payments/reminders/features) and derived getters (`email.configured`, `payments.configured`) mean services ask "is this configured?" rather than re-checking pairs of env vars. `redacted()` produces a secret-masked deep copy — every key in `SECRET_KEYS` becomes `'***'` while preserving *presence* — safe to log at boot or serve from `/debug/config` (non-production only). `validate()` returns structured problems (missing JWT_SECRET, missing DATABASE_URL in production, the literal secret `"secret"` in production) and app.js now exits on failure through it. 9 new tests. Tests: 363 → 372.
+
+- **#38 Graceful shutdown** — `utils/gracefulShutdown.js` makes deploys invisible to users. Container platforms send SIGTERM before killing; without a handler the process dies mid-request, severing a booking between the Cashfree capture and the DB write (and leaving a hot SQLite journal). Now: (1) `server.close()` stops new connections immediately, while `trackInFlight` middleware counts live requests so the drain waits *exactly* as long as needed rather than sleeping a fixed duration; (2) registered cleanup hooks run in order — a throwing hook is caught and logged so one broken cleanup can't cancel the rest; (3) a hard ceiling (`hardExitMs`) guarantees exit before the platform's SIGKILL, and a second signal skips the drain for operators who know nothing is in flight. New requests arriving during a drain get 503 so load balancers retry elsewhere. `/health` reports 503 while draining. Shutdown is idempotent — repeated signals don't re-run hooks. 5 new tests. Tests: 372 → 377.
+
+- **#39 Structured JSON logging** — `utils/logger.js` upgraded with a `LOG_FORMAT=json` mode emitting one JSON object per line (`level`/`time`/`msg` + merged meta) in the conventional flat shape Render/Datadog/ELK parse natively; text mode stays the default in dev. Two real footguns fixed along the way: `Error` objects passed as metadata now survive serialization (their `message`/`stack` are non-enumerable, so a naive `JSON.stringify` silently drops the only useful part of an error log), and circular metadata degrades to `[Circular]` instead of throwing. Added `child(bindings)` for stamping a requestId across a request's lines and `isLevelEnabled()` for guarding expensive debug paths. Verified end-to-end: boot log shows the requestId-bearing records. 5 new tests. Tests: 377 → 382.
+
+- **#40 Response compression** — `utils/compression.js` implements gzip + brotli on `node:zlib`, deliberately NOT adding the `compression` npm package: the dependency footprint stays small and we get exactly the policy we want (~120 lines). Wraps `res.write`/`res.end` to buffer, then compresses once on finish. Skips when the client sends no usable `Accept-Encoding`, on HEAD/204/304, on `Cache-Control: no-transform` (RFC 7231 forbids transforming), on the `x-no-compression` escape hatch, on non-compressible content types, and below a size threshold — plus if the compressed form isn't actually smaller. Always appends `Vary: Accept-Encoding` (preserving any existing Vary) or a shared cache could serve gzip to a client that can't decode it. A compression failure falls back to the plain body rather than losing the response. Measured on browse: JSON payloads shrink substantially with `Content-Encoding: gzip` and decode byte-exactly. 10 new tests. Tests: 382 → 392.
+
+- **#41 Hardened security headers** — helmet config upgraded with HSTS (production only, 1 year + preload — pinning a localhost dev server would make it unreachable over HTTP), `Referrer-Policy: strict-origin-when-cross-origin` (reset tokens travel in URLs and must not leak to third parties), COOP + CORP `same-origin`, `X-Frame-Options: DENY`, and `noSniff`. **Found a silent failure while verifying:** helmet v7 *removed* its `permissionsPolicy` middleware, and unknown options are ignored rather than rejected — so the option looked correct while emitting nothing. The header is now set by an explicit middleware denying camera, microphone, geolocation, payment, USB and the rest. Verified live with curl: all six headers present. 0 new tests (verified by boot probe + the observability header assertions).
+
+- **#42 Server timing** — `serverTiming` middleware (`utils/observability.js`) stamps `X-Response-Time` and W3C `Server-Timing: app;dur=N` on every response. The subtlety: headers must be written *before* the status line flushes and node flushes lazily on first write, so `res.writeHead` is patched — the single choke point every response path funnels through. Timing uses `process.hrtime.bigint()` rather than `Date.now()` so it's immune to clock adjustments, and an upstream-set header is never overwritten. 4 new tests. Tests: 392 → 396.
+
+- **#43 ETag / conditional GET** — `utils/etag.js` makes the read-heavy endpoints (browse, salon profile, service lists) cheap to revalidate. Generates a WEAK validator (`W/"len-hash"`) from the serialized body — weak is the honest signal for dynamic JSON, since two encodings differing only in key order are semantically equivalent; it's the same choice nginx makes for proxied JSON. `conditionalGet` patches `res.json` to add the ETag and, on a matching `If-None-Match`, answer `304 Not Modified` with no body and with `Content-Type`/`Content-Length` removed (they'd be misleading on a 304). Deliberately never caches 5xx — a transient server error must stay genuinely retryable rather than being replayed forever. Only applies to GET/HEAD 2xx without `no-store`. 8 new tests. Tests: 396 → 404.
+
+- **#44 Prometheus metrics** — `utils/metrics.js`: a dependency-free registry exposing `GET /metrics` in the Prometheus text exposition format (v0.0.4) plus a JSON view for tests. Instruments: `http_requests_total`, `http_errors_total`, `http_request_duration_ms` (histogram), `http_requests_in_flight` (gauge), and process RSS/heap/uptime. **Cardinality discipline is the point of the module:** `routeOf()` collapses numeric and UUID path segments to `:id`/`:uuid`, because a time series per salon or per user is the classic way to melt a monitoring backend. `serializeLabels` sorts keys so equivalent label sets dedupe to one series. Mounted outside `/api` so a metrics poller is never rate-limited. Real bug found and fixed by the tests: instruments originally captured their backing Map at creation, so `reset()` left module-level counters incrementing an orphaned entry absent from `/metrics` — resolution is now lazy on every operation. 9 new tests. Tests: 404 → 413.
+
+- **#45 Feature flags** — `services/featureFlags.js` lets behaviour change without a deploy and roll out progressively. Resolution order: runtime override → `FEATURE_*` env var → declared default. Percentage rollout is DETERMINISTIC via FNV-1a bucketing of `flag:subjectKey`, so a user never flips between variants across requests (verified stable over 25 repeated evaluations, and ~50/600 over a spread of subjects). Supports per-flag allowlists that win below the rollout percentage. An unknown flag *throws* in test/development (catching typos at write time) but logs once and returns a fallback in production — never takes prod down. `list()` reports the resolution *source* (`override`/`env`/`default`) because "why is this flag on?" is always the first question. Nine loop-3 features are declared up front so they can be dark-launched. 13 new tests. Tests: 413 → 426.
+
+- **#46 Idempotency keys** — `models/idempotencyModel.js` + `utils/idempotency.js`. The problem: a client that times out on `POST /pay` can't know whether the first attempt succeeded, so a retry creates a SECOND Cashfree order and a second booking — the customer is charged twice. Now a client sends `Idempotency-Key` and retries replay the stored response instead of re-executing (Stripe-compatible protocol, so existing client libraries work). Three distinct 409s guard the dangerous cases: key reused with a *different* body (`IDEMPOTENCY_KEY_REUSED`), retry while the first is still in flight (`IDEMPOTENCY_IN_FLIGHT`, from the row reserved before the handler runs — which is what actually prevents the double charge), and a lost create race on the unique scope+key index. 5xx is never cached, and a store failure degrades to non-idempotent execution rather than erroring a healthy API. Keys are namespaced per principal (`role:id`) so two users picking the same uuid can't collide. 6 new tests. Tests: 426 → 432.

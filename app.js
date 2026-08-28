@@ -7,10 +7,18 @@ const rateLimit = require('express-rate-limit');
 const dotenv = require('dotenv');
 dotenv.config();
 
+// ── Centralized config (#37) ──────────────────────────────────────────
+// Imported first so every later module reads one validated, frozen snapshot
+// instead of re-parsing process.env ad hoc.
+const { config, redacted, validate: validateConfig } = require('./utils/config');
+
 // JWT_SECRET is mandatory — without it anyone could forge auth tokens.
 // Refuse to boot rather than fall back to a known default.
-if (!process.env.JWT_SECRET) {
-  console.error('FATAL: JWT_SECRET is not set. Generate one with:');
+const configCheck = validateConfig();
+if (!configCheck.ok) {
+  console.error('FATAL: invalid configuration');
+  for (const problem of configCheck.problems) console.error(`  - ${problem}`);
+  console.error('Generate a JWT secret with:');
   console.error('  node -e "console.log(require(\'crypto\').randomBytes(48).toString(\'hex\'))"');
   console.error('and add it to your .env file (see .env.example).');
   process.exit(1);
@@ -31,11 +39,15 @@ require('./models/associations'); // Import relationships
 // Initialize express app
 const app = express();
 
-const { requestIdMiddleware, requestLogger, deepHealth } = require('./utils/observability');
+const { requestIdMiddleware, requestLogger, serverTiming, deepHealth } = require('./utils/observability');
+const { compression } = require('./utils/compression');
+const { metricsMiddleware, metricsHandler } = require('./utils/metrics');
+const { trackInFlight, onShutdown, install: installShutdown } = require('./utils/gracefulShutdown');
+const logger = require('./utils/logger');
 
 // Trust Render's load balancer so req.protocol and secure cookies are
 // reported correctly behind TLS termination.
-app.set('trust proxy', 1);
+app.set('trust proxy', config.server.trustProxy);
 
 // Request correlation + access logging run before everything else so every
 // response (including helmet/CORS/429 rejections) carries an X-Request-Id
@@ -44,9 +56,65 @@ app.set('trust proxy', 1);
 // untouched.
 app.use(requestIdMiddleware);
 app.use(requestLogger);
+// Server timing (#42) stamps X-Response-Time / Server-Timing on every response.
+app.use(serverTiming);
+
+// In-flight request accounting (#38) — the graceful-drain phase waits on this
+// counter rather than sleeping a fixed duration, so deploys never sever a
+// booking mid-write.
+app.use(trackInFlight);
+
+// Request metrics (#44): count, duration histogram and error rate, labelled by
+// method + normalized route (never by id — see utils/metrics.js).
+app.use(metricsMiddleware);
+
+// Response compression (#40). Before the routes so everything they emit is
+// eligible; skipped automatically for small/binary/no-transform responses.
+if (config.perf.compression) {
+  app.use(compression({ level: config.perf.compressionLevel }));
+}
 
 // Security headers (CSP disabled for the API server — the SPA sets its own).
-app.use(helmet({ contentSecurityPolicy: false }));
+// Hardened in #41: HSTS, Referrer-Policy, Permissions-Policy and COOP close
+// off whole classes of attack that helmet's defaults leave open.
+app.use(helmet({
+  contentSecurityPolicy: false,
+  // HSTS only in production — a localhost dev server advertising a 1-year
+  // pin makes it awkward to reach over plain HTTP later.
+  hsts: config.isProduction
+    ? { maxAge: 31536000, includeSubDomains: true, preload: true }
+    : false,
+  // Never leak the full URL (which can carry reset tokens) to third parties.
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+  // Deny every powerful browser feature this app has no use for.
+  permissionsPolicy: {
+    features: {
+      camera: ['none'], microphone: ['none'], geolocation: ['none'],
+      payment: ['none'], usb: ['none'], accelerometer: ['none'], gyroscope: ['none'],
+    },
+  },
+  crossOriginOpenerPolicy: { policy: 'same-origin' },
+  crossOriginResourcePolicy: { policy: 'same-origin' },
+  // Frame-busting: no salon page should ever be embeddable in a foreign iframe.
+  frameguard: { action: 'deny' },
+  // Legacy but cheap: stops MIME sniffing turning a JSON error into script.
+  noSniff: true,
+}));
+
+// Permissions-Policy has to be set by hand: helmet REMOVED its
+// permissionsPolicy middleware in v7, and unknown options are silently
+// ignored rather than rejected — so passing it above would have looked right
+// while doing nothing. A booking app needs no camera, mic, geolocation or
+// payment APIs, so deny them all at the document level.
+app.use((_req, res, next) => {
+  res.setHeader(
+    'Permissions-Policy',
+    'accelerometer=(), camera=(), display-capture=(), encrypted-media=(), '
+    + 'geolocation=(), gyroscope=(), magnetometer=(), microphone=(), '
+    + 'midi=(), payment=(), usb=(), xr-spatial-tracking=()'
+  );
+  next();
+});
 
 // Body parsing. The verify hook stashes the raw body on req.rawBody so the
 // Cashfree webhook handler can verify the signature over the exact bytes
@@ -61,20 +129,19 @@ app.use(express.urlencoded({ extended: false }));
 // CORS — reflect the request origin when credentials are involved so the
 // same-origin SPA can call /api. If ALLOWED_ORIGINS is set, restrict to that
 // list (for deployments where the frontend is served from a different host).
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
-  .split(',')
-  .map(s => s.trim())
-  .filter(Boolean);
+const allowedOrigins = config.cors.allowedOrigins;
 app.use(cors({
   origin: allowedOrigins.length > 0 ? allowedOrigins : true,
   credentials: true,
 }));
 
-// General rate limit — 100 requests / minute / IP.
+// General rate limit — config-driven (default 100 requests / minute / IP).
+// standardHeaders (#53) emits the RateLimit-Limit/Remaining/Reset trio so
+// well-behaved clients can back off instead of guessing.
 const apiLimiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 100,
-  standardHeaders: true,
+  windowMs: config.rateLimit.windowMs,
+  max: config.rateLimit.max,
+  standardHeaders: config.rateLimit.standardHeaders ? 'draft-7' : false,
   legacyHeaders: false,
   message: { error: 'Too many requests, please try again later.' },
 });
@@ -99,10 +166,28 @@ app.use('/api/buisness/signup', loginLimiter);
 
 app.use('/api', apiroutes);
 
+// Prometheus scrape endpoint (#44). Mounted outside /api so it is not subject
+// to the API rate limiter — a metrics poller must never get throttled.
+app.get('/metrics', metricsHandler);
+
+// Resolved-configuration snapshot (#37) for operators debugging a deployment.
+// Secrets are redacted and it only answers in non-production, so it can never
+// become a credential-exfiltration vector.
+if (!config.isProduction) {
+  app.get('/debug/config', (_req, res) => {
+    res.status(200).json({ ok: true, config: redacted() });
+  });
+}
+
 // Lightweight health probe for Render's health check. Deliberately has no
 // DB dependency so the service is not killed during a slow DB connect.
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok', uptime: process.uptime() });
+  // During a drain we report 503 so the load balancer stops routing to us
+  // while in-flight requests finish (see utils/gracefulShutdown.js).
+  if (require('./utils/gracefulShutdown').isShuttingDown()) {
+    return res.status(503).json({ status: 'shutting-down', uptime: process.uptime() });
+  }
+  return res.status(200).json({ status: 'ok', uptime: process.uptime() });
 });
 
 // Deep health probe for humans/monitors: actually pings the DB. 200 when the
@@ -257,12 +342,27 @@ const seedSampleData = async () => {
 };
 
 // Start the server immediately and sync database in the background
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const PORT = config.server.port;
+const server = app.listen(PORT, config.server.host, () => {
   console.log(`\n==================================================`);
   console.log(`🚀 Server is running on port ${PORT}`);
   console.log(`👉 Open http://localhost:${PORT} in your browser`);
+  console.log(`   env=${config.env} logFormat=${logger.currentFormat()} compression=${config.perf.compression}`);
   console.log(`==================================================\n`);
+
+  // ── Graceful shutdown (#38) ──────────────────────────────────────────
+  // SIGTERM (deploys) and SIGINT (Ctrl-C) stop accepting connections, let
+  // in-flight requests finish, then release the DB pool. Without this a
+  // routine deploy can sever a booking between payment capture and DB write.
+  onShutdown('database', async () => {
+    try {
+      await sequelize.close();
+      logger.info('shutdown: database connection closed');
+    } catch (err) {
+      logger.error('shutdown: failed to close database', { error: err.message });
+    }
+  });
+  installShutdown({ server });
 
   sequelize
     .sync()

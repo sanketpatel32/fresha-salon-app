@@ -59,6 +59,42 @@ function requestLogger(req, res, next) {
 }
 
 /**
+ * Server-Timing / X-Response-Time (#42).
+ *
+ * Injects the elapsed handler time into the response headers. The header has to
+ * be written BEFORE the status line is flushed, and Express/node flush headers
+ * lazily on the first write — so we patch `writeHead` (the single choke point
+ * every response path funnels through) to stamp it at the last possible moment.
+ *
+ * Emits both header styles:
+ *   X-Response-Time: 12.3ms        — the classic, human-readable one
+ *   Server-Timing: app;dur=12.3    — the W3C standard, shown in browser devtools
+ */
+function serverTiming(req, res, next) {
+  const startNs = process.hrtime.bigint();
+  const origWriteHead = res.writeHead.bind(res);
+
+  res.writeHead = function patchedWriteHead(statusCode, statusMessage, headers) {
+    try {
+      if (!res.headersSent) {
+        const elapsedMs = Number(process.hrtime.bigint() - startNs) / 1e6;
+        // One decimal is plenty and keeps header noise down.
+        const rounded = Math.round(elapsedMs * 10) / 10;
+        if (!res.getHeader('X-Response-Time')) {
+          res.setHeader('X-Response-Time', `${rounded}ms`);
+        }
+        if (!res.getHeader('Server-Timing')) {
+          res.setHeader('Server-Timing', `app;dur=${rounded}`);
+        }
+      }
+    } catch (_err) { /* never let instrumentation break the response */ }
+    return origWriteHead(statusCode, statusMessage, headers);
+  };
+
+  next();
+}
+
+/**
  * Deep health: verifies DB connectivity via authenticate() plus runtime
  * vitals. `ok` mirrors DB status only — callers decide the HTTP code
  * (200 ok / 503 degraded) so the shape stays useful either way.
@@ -80,4 +116,11 @@ async function deepHealth() {
   };
 }
 
-module.exports = { makeRequestId, requestIdMiddleware, requestLogger, deepHealth, UUID_RE };
+module.exports = {
+  makeRequestId,
+  requestIdMiddleware,
+  requestLogger,
+  serverTiming,
+  deepHealth,
+  UUID_RE,
+};
