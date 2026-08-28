@@ -109,6 +109,18 @@ const Appointment = sequelize.define('Appointment', {
         type: DataTypes.DATE,
         allowNull: true,
     },
+    // Optimistic concurrency token (#48). Bumped on every mutation; clients
+    // that read a booking can send `If-Match: W/"<id>-<version>"` on the next
+    // write so a stale edit is rejected with 412 instead of silently
+    // overwriting someone else's change. Starts at 0 — the ensureColumns
+    // backfill uses NOT NULL DEFAULT 0 so legacy rows stay valid, and reads of
+    // a never-updated booking expose a stable W/"12-0".
+    version: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        validate: { min: 0 },
+    },
 });
 
 module.exports = Appointment;

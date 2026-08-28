@@ -32,8 +32,10 @@ const User = require('./models/userModel');
 const Appointment = require('./models/appointmentModel');
 const Payment = require('./models/paymentModel');
 const Salons = require('./models/salonsModel');
+const Services = require('./models/servicesModel');
 const { ensureColumns } = require('./utils/ensureColumns');
 const { isSchedulerEnabled } = require('./services/reminderService');
+const { createSlotUniquenessIndex } = require('./services/bookingGuard');
 require('./models/associations'); // Import relationships
 
 // Initialize express app
@@ -432,6 +434,10 @@ const server = app.listen(PORT, config.server.host, () => {
           name: 'reminderSentAt',
           typeSql: sequelize.getDialect() === 'postgres' ? 'TIMESTAMP' : 'DATETIME',
         },
+        // Optimistic concurrency token (#48). NOT NULL DEFAULT 0 backfills
+        // every legacy row at version 0, which is exactly right: they have
+        // never been mutated through the versioned path.
+        { name: 'version', typeSql: 'INTEGER NOT NULL DEFAULT 0' },
       ]);
       // ── Reminder email scheduler (#29) ──────────────────────────────────
       // Hourly sweep of bookings starting within the next 24h: each gets one
@@ -483,6 +489,21 @@ const server = app.listen(PORT, config.server.host, () => {
         { name: 'slotStepMinutes', typeSql: 'INTEGER' },
         { name: 'weeklyHours', typeSql: 'TEXT' },
       ]);
+      // ── Double-booking constraint (#47) ────────────────────────────────
+      // Partial unique index so two concurrent payments can never both create
+      // a booking for one chair. Best-effort: an old database with pre-existing
+      // duplicates logs a warning and keeps serving rather than failing boot.
+      await createSlotUniquenessIndex(sequelize);
+
+      // Soft-delete stamp for services (#51). Nullable DATETIME/TIMESTAMP —
+      // null means "never archived", so every existing service stays live.
+      await ensureColumns(Services, 'services', [
+        {
+          name: 'archivedAt',
+          typeSql: sequelize.getDialect() === 'postgres' ? 'TIMESTAMP' : 'DATETIME',
+        },
+      ]);
+
       await seedSampleData();
       // Backfill categories on any services that lack one (post-migration safety net).
       const { migrateCategories } = require('./utils/migrateCategories');

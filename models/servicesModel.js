@@ -44,6 +44,14 @@ const Services = sequelize.define('services', {
         allowNull: false,
         defaultValue: 'active' // Default status is 'active'
     },
+    // Soft-delete stamp (#51). Set when a service that has BOOKING HISTORY is
+    // deleted: the row must survive because appointments, payments, CSV exports
+    // and revenue analytics all reference serviceId, and hard-deleting it
+    // would corrupt historical reports. Null = never archived.
+    archivedAt: {
+        type: Sequelize.DATE,
+        allowNull: true,
+    },
 }, { timestamps: true });
 
 module.exports = Services;

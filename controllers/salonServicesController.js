@@ -1,4 +1,6 @@
 const servicesModel = require('../models/servicesModel');
+const appointmentModel = require('../models/appointmentModel');
+const paymentModel = require('../models/paymentModel');
 
 const addService = async (req, res) => {
     try {
@@ -106,6 +108,22 @@ const updateService = async (req, res) => {
     }
 };
 
+/**
+ * Delete a service (#51).
+ *
+ * Two outcomes, chosen by whether the service has BOOKING HISTORY:
+ *
+ *  - Referenced by an appointment or payment → SOFT delete. The row is kept
+ *    and stamped `archivedAt`, `statusbar` flips to 'archived'. Appointments,
+ *    payments, the CSV export and revenue/top-service analytics all hang off
+ *    serviceId; hard-deleting would leave those rows pointing at nothing and
+ *    silently rewrite the salon's historical reports.
+ *  - Unreferenced (a typo, a service never booked) → HARD delete, as before.
+ *    Keeping rows nobody references forever would be its own kind of mess.
+ *
+ * Both paths report success identically so the response carries no
+ * information about the salon's internal data.
+ */
 const deleteService = async (req, res) => {
     try {
         const { id } = req.params;
@@ -120,9 +138,27 @@ const deleteService = async (req, res) => {
             return res.status(403).json({ message: "Unauthorized: Access denied to delete this service" });
         }
 
-        await service.destroy();
+        // Has this service ever been booked or paid for?
+        const [appointmentCount, paymentCount] = await Promise.all([
+            appointmentModel.count({ where: { serviceId: service.id } }),
+            paymentModel.count({ where: { serviceId: service.id } }),
+        ]);
+        const hasHistory = appointmentCount > 0 || paymentCount > 0;
 
-        return res.status(200).json({ message: "Service deleted successfully" });
+        if (hasHistory) {
+            service.statusbar = 'archived';
+            service.archivedAt = new Date();
+            await service.save();
+            return res.status(200).json({
+                message: "Service deleted successfully",
+                // Advisory only: tells the UI why the service still appears in
+                // historical reports. Not a different outcome.
+                archived: true,
+            });
+        }
+
+        await service.destroy();
+        return res.status(200).json({ message: "Service deleted successfully", archived: false });
     } catch (error) {
         console.error("Error in deleteService:", error);
         return res.status(500).json({ message: "Server error" });

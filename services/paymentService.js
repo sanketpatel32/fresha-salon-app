@@ -11,6 +11,7 @@ const appointmentModel = require('../models/appointmentModel');
 const salonModel = require('../models/salonsModel');
 const PromoCode = require('../models/promoCodeModel');
 const { conflictingStaffIds } = require('./availabilityService');
+const { createBookingSafely } = require('./bookingGuard');
 
 /**
  * Round to 2 decimal places (currency-safe: epsilon nudges avoid the classic
@@ -111,50 +112,57 @@ const finalizeAppointmentFromPayment = async (order) => {
     return existing;
   }
 
-  // Re-check the slot is still free. Single-staff scope; returns a Set.
   // AVAILABILITY DECISION (group bookings): partySize deliberately plays no
   // part here — one professional serves the whole party, so a booking for 20
   // occupies exactly the same single staff slot as a solo booking and needs
   // no conflict-logic changes.
-  const conflicted = await conflictingStaffIds(
-    [order.staffId],
-    order.salonId,
-    order.dateSelected,
-    order.timeSelected,
-    order.endTime
-  );
-  if (conflicted.has(order.staffId)) {
-    // Do not create a clashing appointment. Mark the payment so the failure is
-    // visible rather than silently dropping the booking.
-    order.paymentStatus = 'Slot taken';
-    await order.save();
-    const err = new Error('The selected slot was just taken by another booking');
-    err.code = 'SLOT_TAKEN';
-    throw err;
-  }
-
   const salon = await salonModel.findByPk(order.salonId);
   const requiresApproval = salon && salon.requiresApproval;
   const initialStatus = requiresApproval ? 'pending' : 'confirmed';
 
-  const appointment = await appointmentModel.create({
-    orderId: order.orderId,
-    staffId: order.staffId,
-    salonId: order.salonId,
-    serviceId: order.serviceId,
-    userId: order.customerID,
-    date: order.dateSelected,
-    time: order.timeSelected,
-    endTime: order.endTime,
-    status: initialStatus,
-    // The customer's free-text note was captured at order creation and
-    // carried on the Payment row; it lands on the booking here. Null-safe
-    // for legacy rows that predate notes.
-    customerNote: order.customerNote || null,
-    // Same for the group size: `|| 1` covers legacy Payment rows that
-    // predate party bookings (the model default also guards this).
-    partySize: order.partySize || 1,
-  });
+  // #47: create through the double-booking guard rather than a bare create.
+  // It re-checks the slot AND converts a database uniqueness violation (from
+  // the partial unique index, when two payments finalize for the same slot in
+  // the same instant) into one consistent SLOT_TAKEN failure. Previously the
+  // check-then-insert gap could produce two bookings for one chair.
+  const result = await createBookingSafely(
+    {
+      orderId: order.orderId,
+      staffId: order.staffId,
+      salonId: order.salonId,
+      serviceId: order.serviceId,
+      userId: order.customerID,
+      date: order.dateSelected,
+      time: order.timeSelected,
+      endTime: order.endTime,
+      status: initialStatus,
+      // The customer's free-text note was captured at order creation and
+      // carried on the Payment row; it lands on the booking here. Null-safe
+      // for legacy rows that predate notes.
+      customerNote: order.customerNote || null,
+      // Same for the group size: `|| 1` covers legacy Payment rows that
+      // predate party bookings (the model default also guards this).
+      partySize: order.partySize || 1,
+    },
+    {
+      staffId: order.staffId,
+      salonId: order.salonId,
+      date: order.dateSelected,
+      startTime: order.timeSelected,
+      endTime: order.endTime,
+    }
+  );
+
+  if (!result.ok) {
+    // Do not create a clashing appointment. Mark the payment so the failure is
+    // visible rather than silently dropping the booking.
+    order.paymentStatus = 'Slot taken';
+    await order.save();
+    const err = new Error(result.reason);
+    err.code = result.code;
+    throw err;
+  }
+  const appointment = result.appointment;
 
   // Tip bookkeeping: mark any tip on this order as captured now that the
   // booking exists. Admin tip totals only count Success rows with this flag
