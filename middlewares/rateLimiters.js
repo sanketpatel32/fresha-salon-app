@@ -17,6 +17,7 @@
  * destructive admin actions.
  */
 const rateLimit = require('express-rate-limit');
+const { ipKeyGenerator } = require('express-rate-limit');
 const { config } = require('../utils/config');
 
 /**
@@ -91,7 +92,15 @@ const principalKey = (req) => {
   }
   // Anonymous: fall back to IP (with the proxy-aware ip already resolved by
   // app.set('trust proxy')).
-  return `ip:${req.ip || 'unknown'}`;
+  //
+  // ipKeyGenerator, not the raw `req.ip`: an IPv6 client is handed a /64, so
+  // it can rotate through more addresses than there are grains of sand and
+  // never hit a limit keyed on the full address. The helper collapses v6 to
+  // its /56 network (and leaves v4 alone). Skipping it doesn't just weaken
+  // the limit — express-rate-limit detects the pattern at require time and
+  // logs ERR_ERL_KEY_GEN_IPV6 on every boot, which is easy to tune out until
+  // the day someone actually attacks it.
+  return `ip:${ipKeyGenerator(req.ip || 'unknown')}`;
 };
 
 /**

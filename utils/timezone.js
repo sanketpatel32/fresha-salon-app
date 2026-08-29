@@ -147,6 +147,36 @@ const addDays = (dateString, days) => {
   return dt.toISOString().slice(0, 10);
 };
 
+/**
+ * The calendar date "right now" on THIS host, as YYYY-MM-DD.
+ *
+ * Why this exists when `todayIn()` already does dates: `todayIn` answers "what
+ * day is it in Asia/Kolkata?", which is the right question for a salon-local
+ * display. This answers a different one — "what day is it in the frame the
+ * booking columns are written in?" Appointments store `date` as 'YYYY-MM-DD'
+ * and `time` as 'HH:mm', and availabilityService.validateLeadTime() turns them
+ * back into an instant with `new Date(`${dateStr}T${startTime}`)`, which
+ * JavaScript parses as HOST-LOCAL time. So the host's local clock is the
+ * system's frame of record, and anything comparing "today" against a stored
+ * date must use it — including on a UTC server like Render, where
+ * `todayIn()` and this disagree for five and a half hours a day.
+ *
+ * The bug this replaced: `now.toISOString().slice(0, 10)` (UTC day) sitting
+ * next to `now.getHours()` (local hour). On any host west of UTC in the
+ * evening those name two different days, and a rebook search would happily
+ * offer 09:00 "today" at 01:47 local — a slot that had already passed.
+ */
+const localDay = (now = new Date()) => {
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+};
+
+/** Wall-clock time "right now" on THIS host, as HH:mm (24h). See localDay. */
+const localTime = (now = new Date()) => {
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+};
+
 /** Whole days from `from` to `to` (calendar days, ignoring clock time). */
 const daysBetween = (from, to) => {
   const a = Date.parse(`${from}T12:00:00Z`);
@@ -238,6 +268,8 @@ module.exports = {
   resolveTimezone,
   todayIn,
   timeNowIn,
+  localDay,
+  localTime,
   dayCodeOf,
   zonedToUtc,
   addDays,

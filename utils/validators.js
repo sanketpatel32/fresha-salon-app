@@ -461,11 +461,124 @@ const weeklyHoursSchema = z.object({
   )),
 });
 
+// ── One-tap rebook (#55) ──────────────────────────────────────────────
+// POST /appointment/:id/rebook. Everything is optional: the defaults alone
+// produce "the next slot I can get for the same service", which is what the
+// one-tap button wants. horizonDays is clamped rather than rejected — asking
+// for a 500-day search shouldn't 400, it should just search 60 days (the cap
+// keeps the slot scan bounded, since each day costs a query).
+const rebookSchema = z.object({
+  horizonDays: z.coerce.number().int('horizonDays must be a whole number')
+    .transform((v) => Math.min(60, Math.max(1, v)))
+    .default(14),
+  staffId: z.coerce.number().int().positive('A valid staff id is required').optional(),
+  // Prefer a slot near the ORIGINAL booking's time of day — someone who books
+  // a 6pm cut after work wants another 6pm cut, not the 9am opening slot that
+  // happens to be free first. Turn it off to get the earliest free slot.
+  preferSameTime: z.coerce.boolean().default(true),
+  partySize: z.coerce.number().int().min(1).max(20).default(1),
+});
+
+// ── Price quote (#56) ─────────────────────────────────────────────────
+// POST /appointment/quote. A pre-payment estimate: the checkout panel can
+// show the real total (promo + tip included) before the customer commits,
+// instead of surprising them at the gateway.
+const quoteSchema = z.object({
+  salonId: z.coerce.number().int().positive('A valid salon id is required'),
+  serviceId: z.coerce.number().int().positive('A valid service id is required'),
+  staffId: z.coerce.number().int().positive('A valid staff id is required').optional(),
+  promoCode: z.string().trim().max(64).optional(),
+  tipAmount: z.coerce.number().min(0, 'Tip cannot be negative').max(100000).optional(),
+  partySize: z.coerce.number().int().min(1).max(20).default(1),
+});
+
+// ── Booking history filters (#57) ─────────────────────────────────────
+// GET /appointment/getAll?status=&from=&to=&salonId=. All optional — an
+// unfiltered request is byte-identical to the pre-#57 response, so the
+// existing SPA and the pagination contract are untouched.
+const appointmentHistorySchema = z.object({
+  status: z.enum(
+    ['pending', 'confirmed', 'declined', 'completed', 'cancelled', 'no-show'],
+    { error: 'status must be a valid appointment status' }
+  ).optional(),
+  from: z.string().regex(DATE_ONLY_RE, 'from must be YYYY-MM-DD').optional(),
+  to: z.string().regex(DATE_ONLY_RE, 'to must be YYYY-MM-DD').optional(),
+  salonId: z.coerce.number().int().positive('A valid salon id is required').optional(),
+  page: z.coerce.number().int().positive().max(1000).optional(),
+  limit: z.coerce.number().int().positive().max(100).optional(),
+}).refine(
+  (d) => !d.from || !d.to || d.from <= d.to,
+  { message: 'from must be on or before to', path: ['from'] }
+);
+
+// ── Favorite staff (#59) ──────────────────────────────────────────────
+const favoriteStaffSchema = z.object({
+  staffId: z.coerce.number().int().positive('A valid staff id is required'),
+});
+
+// ── Recently viewed salons (#58) ──────────────────────────────────────
+const recentlyViewedSchema = z.object({
+  salonId: z.coerce.number().int().positive('A valid salon id is required'),
+});
+
+// ── Cancellation reasons (#60) ────────────────────────────────────────
+// The fixed vocabulary is what makes the analytics endpoint meaningful —
+// free-text alone produces a hundred one-off answers nobody can aggregate.
+// 'other' is the escape hatch and carries the free-text note.
+const CANCELLATION_REASONS = [
+  'schedule-conflict', 'too-expensive', 'found-elsewhere',
+  'staff-unavailable', 'no-longer-needed', 'unhappy-with-service', 'other',
+];
+const cancelAppointmentSchema = z.object({
+  reason: z.enum(CANCELLATION_REASONS, {
+    error: `reason must be one of: ${CANCELLATION_REASONS.join(', ')}`,
+  }).optional(),
+  reasonNote: z.string().trim().max(200, 'Reason note cannot exceed 200 characters').optional(),
+});
+
+// ── Recurring booking series (#61) ────────────────────────────────────
+// The series stores INTENT, not bookings: occurrences are materialized later
+// by the series sweep, each as its own pending appointment. occurrences is
+// capped at 52 (a year of weekly visits) so a typo can't create a decade of
+// phantom bookings, and the start date must not be in the past — you can't
+// schedule a repeat of something that already happened.
+const seriesCreateSchema = z.object({
+  salonId: z.coerce.number().int().positive('A valid salon id is required'),
+  serviceId: z.coerce.number().int().positive('A valid service id is required'),
+  staffId: z.coerce.number().int().positive('A valid staff id is required'),
+  startDate: z.string().regex(DATE_ONLY_RE, 'startDate must be YYYY-MM-DD').refine(
+    (d) => d >= new Date().toISOString().slice(0, 10),
+    { message: 'startDate must be today or later' }
+  ),
+  time: z.string().regex(TIME_RE, 'time must be HH:mm'),
+  frequency: z.enum(['weekly', 'biweekly', 'monthly'], {
+    error: "frequency must be 'weekly', 'biweekly' or 'monthly'",
+  }),
+  occurrences: z.coerce.number().int().min(2, 'A series needs at least 2 occurrences')
+    .max(52, 'A series cannot exceed 52 occurrences'),
+  partySize: z.coerce.number().int().min(1).max(20).default(1),
+});
+
+const seriesUpdateSchema = z.object({
+  status: z.enum(['active', 'paused', 'cancelled'], {
+    error: "status must be 'active', 'paused' or 'cancelled'",
+  }),
+});
+
 module.exports = {
   validate,
   SLOT_STEP_OPTIONS,
   SERVICE_CATEGORIES,
   DAY_CODES,
+  CANCELLATION_REASONS,
+  rebookSchema,
+  quoteSchema,
+  appointmentHistorySchema,
+  favoriteStaffSchema,
+  recentlyViewedSchema,
+  cancelAppointmentSchema,
+  seriesCreateSchema,
+  seriesUpdateSchema,
   loginSchema,
   customerSignupSchema,
   salonSignupSchema,

@@ -109,6 +109,41 @@ const Appointment = sequelize.define('Appointment', {
         type: DataTypes.DATE,
         allowNull: true,
     },
+    // ── Cancellation reasons (#60) ────────────────────────────────────
+    // Why the booking was cancelled. The vocabulary is the point: free text
+    // alone produces a hundred one-off answers nobody can aggregate, so the
+    // enum lives in validators.CANCELLATION_REASONS and `cancellationNote`
+    // carries the "other" detail. Nullable — every pre-#60 cancellation and
+    // every salon-side cancellation legitimately has no reason recorded.
+    cancellationReason: {
+        type: DataTypes.STRING(32),
+        allowNull: true,
+    },
+    cancellationNote: {
+        type: DataTypes.STRING(200),
+        allowNull: true,
+    },
+    // When the cancellation happened. Separate from `updatedAt` because an
+    // appointment can be edited for plenty of other reasons afterwards.
+    cancelledAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+    // ── Recurring series link (#61) ───────────────────────────────────
+    // Set on occurrences materialized from a RecurringSeries. Nullable — the
+    // overwhelming majority of bookings are one-offs. `occurrenceIndex` is
+    // 1-based (1 = the first visit of the series) so "3rd visit" reads the
+    // way a human counts. No FK: a series can be cancelled while its past
+    // visits must survive for the salon's history.
+    seriesId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    occurrenceIndex: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        validate: { min: 1 },
+    },
     // Optimistic concurrency token (#48). Bumped on every mutation; clients
     // that read a booking can send `If-Match: W/"<id>-<version>"` on the next
     // write so a stale edit is rejected with 412 instead of silently

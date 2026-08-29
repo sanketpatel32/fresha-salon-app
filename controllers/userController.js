@@ -7,6 +7,11 @@ const crypto = require('crypto');
 const logger = require('../utils/logger');
 const emailService = require('../services/emailService');
 const { ensureReferralCode } = require('../services/referralService');
+// #58 / #59 — recently viewed salons and favorite staff.
+const { getRecentlyViewed: getRecentList, recordRecentView, clearRecentViews } = require('../services/recentViewsService');
+const recurringSeriesModel = require('../models/recurringSeriesModel');
+const favoriteStaffModel = require('../models/favoriteStaffModel');
+const staffModel = require('../models/staffModel');
 const { awardReferralBonus } = require('../services/loyaltyService');
 const appointmentModel = require('../models/appointmentModel');
 const favoriteModel = require('../models/favoriteModel');
@@ -360,6 +365,25 @@ const deleteMyAccount = async (req, res) => {
 
         // Favorites are pure personal data — destroyed outright.
         await favoriteModel.destroy({ where: { userId } });
+        // Favorite staff, same reasoning. (It also carries a CASCADE foreign
+        // key, but the anonymization below is an UPDATE, not a DELETE — so
+        // nothing cascades and this has to be explicit.)
+        await favoriteStaffModel.destroy({ where: { userId } });
+        // Browse history (#58) is personal data too, and the table has no FK
+        // association on purpose (see models/recentlyViewModel.js), so it is
+        // never covered by a cascade. Without this line a deleted account's
+        // recently-viewed rows would survive indefinitely.
+        await clearRecentViews(userId);
+        // Active recurring series (#61) must be cancelled, not just orphaned:
+        // a live series is standing INSTRUCTIONS to create bookings, and the
+        // sweep would keep materializing appointments for an account that no
+        // longer exists — forever, since nothing else would ever stop it.
+        // Past occurrences are real bookings and are left alone; only the
+        // series' future is cancelled.
+        await recurringSeriesModel.update(
+            { status: 'cancelled' },
+            { where: { userId, status: { [Sequelize.Op.ne]: 'cancelled' } } }
+        );
 
         // Waitlist entries go soft-'left' (rows kept, per that table's
         // lifecycle): 'left' never blocks anything and keeps salon day-sheets
@@ -537,4 +561,103 @@ const editProfile = async (req, res) => {
 };
 
 
-module.exports = { handleUserLogin, handleUserSignup, searchUsers, getUserProfile, editProfile, forgotPassword, resetPassword, verifyEmail, resendVerification, getLoyaltyBalance, getMyReferralCode, deleteMyAccount };
+// ── Recently viewed salons (#58) ──────────────────────────────────────
+// GET  /user/recently-viewed  — the customer's browse history, newest first.
+// POST /user/recently-viewed  — explicit "I looked at this" ping. The salon
+//   profile endpoint also records views server-side, so this exists for
+//   clients that render the profile without hitting that route.
+const getRecentlyViewed = async (req, res) => {
+    try {
+        const items = await getRecentList(req.user.userId, Number(req.query.limit) || 10);
+        return res.status(200).json(items);
+    } catch (error) {
+        logger.error('Error fetching recently viewed:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+const recordRecentlyViewed = async (req, res) => {
+    try {
+        await recordRecentView(req.user.userId, req.body.salonId);
+        // 204: the client already knows the salon; there's nothing to render.
+        return res.status(204).send();
+    } catch (error) {
+        logger.error('Error recording recent view:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// ── Favorite staff (#59) ──────────────────────────────────────────────
+// Customers are loyal to a person, not a building. Staff rows are hydrated
+// with their salon so the UI can render "Priya · Orchid Spa" in one call.
+const getFavoriteStaff = async (req, res) => {
+    try {
+        const rows = await favoriteStaffModel.findAll({
+            where: { userId: req.user.userId },
+            order: [['createdAt', 'DESC']],
+        });
+        if (rows.length === 0) return res.status(200).json([]);
+
+        const staffRows = await staffModel.findAll({
+            where: { id: rows.map((r) => r.staffId) },
+            attributes: ['id', 'name', 'phoneNumber', 'email', 'salonId', 'statusbar'],
+        });
+        const byId = new Map(staffRows.map((s) => [s.id, s]));
+
+        // Same degradation rule as recently-viewed: a staff member who has
+        // since been removed simply stops appearing, rather than 500ing the
+        // customer's favorites page.
+        return res.status(200).json(rows.filter((r) => byId.has(r.staffId)).map((r) => {
+            const s = byId.get(r.staffId);
+            return {
+                staffId: s.id,
+                name: s.name,
+                phoneNumber: s.phoneNumber,
+                email: s.email,
+                salonId: s.salonId,
+                active: s.statusbar === 'active',
+                addedAt: r.createdAt,
+            };
+        }));
+    } catch (error) {
+        logger.error('Error fetching favorite staff:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+const addFavoriteStaff = async (req, res) => {
+    try {
+        const staff = await staffModel.findByPk(req.body.staffId);
+        if (!staff) return res.status(404).json({ message: 'Staff member not found' });
+
+        const [row, created] = await favoriteStaffModel.findOrCreate({
+            where: { userId: req.user.userId, staffId: req.body.staffId },
+            defaults: { userId: req.user.userId, staffId: req.body.staffId },
+        });
+        if (!created) {
+            // Idempotent by design: double-tapping the heart must not error.
+            return res.status(200).json({ message: 'Already a favorite', staffId: row.staffId });
+        }
+        return res.status(201).json({ message: 'Added to favorites', staffId: row.staffId });
+    } catch (error) {
+        logger.error('Error adding favorite staff:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+const removeFavoriteStaff = async (req, res) => {
+    try {
+        const deleted = await favoriteStaffModel.destroy({
+            where: { userId: req.user.userId, staffId: req.params.staffId },
+        });
+        // Symmetric with the favorites endpoints: removing something that
+        // isn't there reports success rather than 404, so a client retry or a
+        // double-tap can't surface an error for an already-satisfied intent.
+        return res.status(200).json({ message: 'Removed from favorites', removed: deleted });
+    } catch (error) {
+        logger.error('Error removing favorite staff:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+module.exports = { handleUserLogin, handleUserSignup, searchUsers, getUserProfile, editProfile, forgotPassword, resetPassword, verifyEmail, resendVerification, getLoyaltyBalance, getMyReferralCode, deleteMyAccount, getRecentlyViewed, recordRecentlyViewed, getFavoriteStaff, addFavoriteStaff, removeFavoriteStaff };

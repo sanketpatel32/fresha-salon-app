@@ -23,6 +23,11 @@ A salon booking platform. Customers browse salons and book **paid** appointments
 | Group bookings | Optional `partySize` (1–20, default 1) on bookings; one professional serves the group — no extra staff slots |
 | Reschedule | Customers move upcoming bookings (>24 h out), optional staff reassignment + headcount change, slot revalidated |
 | Cancel policy | >24 h free cancellation window |
+| Cancellation reasons | Optional reason from a fixed vocabulary + a ≤200-char note; pre-#60 cancellations stay valid (reported as an explicit "unspecified" bucket) |
+| Price quote | `POST /api/appointment/quote` — the pre-payment total (service price, promo, tip, group size) in minor units before any money moves |
+| One-tap rebook | `POST /api/appointment/:id/rebook` — the next bookable slot for the same service/stylist. Returns a checkout payload, never a booking (a live appointment belongs to reschedule, and 409 says so) |
+| Recurring series | Weekly/biweekly/monthly series; occurrences are materialized by an idempotent sweep, so a conflicting visit is skipped rather than double-booked |
+| Booking history filters | `GET /api/appointment/getAll?status=&from=&to=&salonId` — all optional, bare call is byte-identical to the pre-filter response |
 | No-show status | Terminal `no-show` status, salon-only, past appointments only |
 | Promo codes | Percent/flat discounts with caps, windows, usage limits, per-salon scoping; idempotent redemption accounting |
 | Payments | Cashfree orders with **idempotent webhook** (raw-body signature verify) + stuck-payment recovery |
@@ -36,6 +41,8 @@ A salon booking platform. Customers browse salons and book **paid** appointments
 |---|---|
 | Reviews + salon replies | Customers rate/review completed bookings; owners reply publicly (upsert) |
 | Favorites | Add/remove/list (paginated); `isFavorite` flag in browse for logged-in customers |
+| Favorite staff | Remember a stylist against a salon/service; idempotent add, forgiving remove |
+| Recently viewed | Per-customer "continue where you left off" rail — one row per salon, re-viewing bumps it to the top |
 | Loyalty points | Flat 10 pts per completed booking, awarded exactly once; balance + never-decrementing lifetime counter via `GET /api/user/loyalty` |
 | Referral codes | Lazily assigned on first read (unambiguous 8-char alphabet); a code used at signup credits +100 points to BOTH sides |
 | In-app notifications | Fire-and-forget `notify()` service across booking lifecycle; unread counts, mark-read/read-all |
@@ -49,7 +56,7 @@ A salon booking platform. Customers browse salons and book **paid** appointments
 | CSV export | Full booking ledger, RFC-4180 compliant, optional date range |
 | Booking config | Lead time (0–7 days) + slot step (10–60 min grid) via `GET/PUT /booking-config` |
 | Weekly hours editor | `GET/PUT /hours` — stored per-day overrides merged over legacy defaults on read; PUT replaces all 7 days wholesale |
-| Analytics & calendar | Revenue/ratings aggregation, scheduled-appointments calendar view, plus daily revenue/tips/discounts/bookings series and top-5 services over a clamped 1..90-day window |
+| Analytics & calendar | Revenue/ratings aggregation, scheduled-appointments calendar view, plus daily revenue/tips/discounts/bookings series, top-5 services and cancellation-reason breakdowns over a clamped 1..90-day window |
 | Staff today schedule | `GET /api/staff/today` — the signed-in staff member's appointments for today |
 
 ### Platform
@@ -75,6 +82,11 @@ POST   /api/user/resend-verification      # rotate + resend (generic 200)
 DELETE /api/user/me                       # GDPR self-deletion: password re-auth → anonymize
 
 GET    /api/user/favorites?page&limit     # paginated favorites (legacy array w/o params)
+GET    /api/user/favorites/staff          # favorite stylists + the salon/service context
+POST   /api/user/favorites/staff          # favorite a stylist (idempotent)
+DELETE /api/user/favorites/staff/:staffId # un-favorite (forgiving)
+GET    /api/user/recently-viewed?limit    # recently-viewed salons, one row per salon
+POST   /api/user/recently-viewed          # record a salon view (upsert + bump)
 GET    /api/user/loyalty                  # points balance + lifetime earned
 GET    /api/user/referral                 # personal referral code (lazily assigned)
 
@@ -86,6 +98,12 @@ PATCH  /api/appointment/:id/reschedule    # customer moves own booking (>24h)
 PUT    /api/appointment/:id/reply         # salon replies to a review
 GET    /api/appointment/export/csv?from&to# salon booking ledger as CSV
 GET    /api/appointment/upcoming          # next ≤5 pending/confirmed bookings, soonest-first
+GET    /api/appointment/getAll?status&from&to&salonId  # own history, all filters optional
+POST   /api/appointment/quote             # pre-payment total (promo + tip + partySize)
+POST   /api/appointment/:id/rebook        # next bookable slot for the same booking
+POST   /api/appointment/series            # create a recurring series
+GET    /api/appointment/series            # my series + progress + next due date
+PATCH  /api/appointment/series/:id        # pause | resume | cancel own series
 
 POST   /api/appointment/waitlist          # join a salon day queue (date ≥ today, partySize 1..20)
 GET    /api/appointment/waitlist          # my waitlist entries
@@ -110,6 +128,7 @@ GET/PUT /api/salonsdashboard/booking-config   # lead time + slot step
 GET/PUT /api/salonsdashboard/hours            # per-day weekly schedule (7-day JSON)
 GET    /api/salonsdashboard/analytics/revenue?days      # daily revenue/tips/discounts/bookings (1..90, default 30)
 GET    /api/salonsdashboard/analytics/top-services?days # top 5 completed services in window
+GET    /api/salonsdashboard/analytics/cancellation-reasons?days # cancellations by reason
 
 GET    /api/staff/today                   # staff member's today schedule
 
@@ -141,7 +160,7 @@ npm run dev                # nodemon on http://localhost:3000
 ### Tests
 
 ```bash
-npm test                   # 363 tests across tests/*.test.js (node:test runner)
+npm test                   # 582 tests across tests/*.test.js (node:test runner)
 ```
 
 ### Frontend build
@@ -154,6 +173,6 @@ The Express server serves `frontend/dist` statically and falls back to its `inde
 
 ## Docs
 
-- [`IMPROVEMENT_LOG.md`](./IMPROVEMENT_LOG.md) — 36-iteration improvement log across two loops (security, features, tests, e2e journeys).
+- [`IMPROVEMENT_LOG.md`](./IMPROVEMENT_LOG.md) — 61-iteration improvement log across three loops (security, features, tests, e2e journeys).
 - [`DEPLOYMENT.md`](./DEPLOYMENT.md) — Render deployment notes.
 - [`SAMPLE_DATA.md`](./SAMPLE_DATA.md) — seeded demo accounts.

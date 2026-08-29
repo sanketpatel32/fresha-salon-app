@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const authMiddleware = require('../middlewares/authMiddleware');
-const { validate, loginSchema, customerSignupSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendVerificationSchema, accountDeletionSchema } = require('../utils/validators');
+const { validate, loginSchema, customerSignupSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendVerificationSchema, accountDeletionSchema, recentlyViewedSchema, favoriteStaffSchema } = require('../utils/validators');
 const { strictLimiter } = require('../middlewares/rateLimiters');
 
 // Public auth endpoints.
@@ -32,6 +32,23 @@ router.put('/edit', authMiddleware, userController.editProfile);
 // A customer's own loyalty balance (#27). Customer tokens only: the role
 // guard rejects salon/staff/admin tokens (they carry no userId to scope by).
 router.get('/loyalty', authMiddleware, authMiddleware.requireRole('customer'), userController.getLoyaltyBalance);
+
+// ── Recently viewed salons (#58) ──────────────────────────────────────
+// Customer-only (scoped by userId). The GET is a cheap indexed read; the POST
+// is the explicit record-a-view ping (the salon profile route also records
+// server-side). limit is clamped in the service, not validated here — an
+// out-of-range value degrades to the nearest legal one rather than 400ing a
+// convenience feature.
+router.get('/recently-viewed', authMiddleware, authMiddleware.requireRole('customer'), userController.getRecentlyViewed);
+router.post('/recently-viewed', authMiddleware, authMiddleware.requireRole('customer'), validate(recentlyViewedSchema), userController.recordRecentlyViewed);
+
+// ── Favorite staff (#59) ─────────────────────────────────────────────
+// Same customer-only scoping as salon favorites (which live under
+// /user/favorites). POST is idempotent, DELETE is forgiving — both by design
+// so a double-tap can never surface an error.
+router.get('/favorites/staff', authMiddleware, authMiddleware.requireRole('customer'), userController.getFavoriteStaff);
+router.post('/favorites/staff', authMiddleware, authMiddleware.requireRole('customer'), validate(favoriteStaffSchema), userController.addFavoriteStaff);
+router.delete('/favorites/staff/:staffId', authMiddleware, authMiddleware.requireRole('customer'), userController.removeFavoriteStaff);
 
 // The customer's personal referral code (#28) — lazily assigned on first
 // read. Customer-only for the same reason as /loyalty.

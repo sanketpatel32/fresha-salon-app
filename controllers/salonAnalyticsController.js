@@ -256,11 +256,94 @@ const getCalendar = async (req, res) => {
     }
 };
 
+/**
+ * Cancellation reasons (#60) — why this salon is losing bookings.
+ *
+ * A cancellation COUNT tells a salon something is wrong; the REASON tells them
+ * what. "12 cancellations" is a bad month, but "9 of them were schedule
+ * conflicts at 6pm" is a staffing decision, and "9 were too-expensive" is a
+ * pricing one. Those need opposite responses, and without the breakdown a
+ * salon will guess — usually wrong.
+ *
+ * The rate (cancelled ÷ total) is included because the raw count is
+ * meaningless on its own: 12 cancellations out of 400 visits is a good month,
+ * out of 30 is an emergency.
+ *
+ * Only CUSTOMER cancellations carry a reason (see cancelAppointment), so the
+ * "unspecified" bucket absorbs salon-side cancellations and every cancellation
+ * recorded before this feature existed — it is explicitly reported rather than
+ * hidden, because a large unspecified bucket is itself a signal (the bucket
+ * shrinks over time as more customers pick a reason).
+ */
+const getCancellationReasons = async (req, res) => {
+    try {
+        const salonId = req.user.salonId;
+        const days = Number(req.query.days) || 30;
+        // revenueWindow returns Date objects (start/end) for DATETIME columns
+        // plus the YYYY-MM-DD strings it covers. `Appointments.date` is a
+        // DATEONLY/string column, so the window boundary used here has to be
+        // the STRING, not `start` — and it has to be destructured by the name
+        // the helper actually exposes. Reaching for a `from` that doesn't
+        // exist silently yields `undefined`, which Sequelize compiles into a
+        // comparison that matches nothing: an empty dashboard that looks like
+        // "no cancellations" rather than the bug it is.
+        const { dates } = revenueWindow(days);
+        const from = dates[0];
+
+        const rows = await appointmentModel.findAll({
+            where: {
+                salonId,
+                status: 'cancelled',
+                date: { [Op.gte]: from },
+            },
+            attributes: ['cancellationReason'],
+            raw: true,
+        });
+
+        const totalInWindow = await appointmentModel.count({
+            where: { salonId, date: { [Op.gte]: from } },
+        });
+
+        const counts = new Map();
+        for (const row of rows) {
+            // Null/empty → the "unspecified" bucket, reported honestly.
+            const key = row.cancellationReason || 'unspecified';
+            counts.set(key, (counts.get(key) || 0) + 1);
+        }
+
+        const cancelled = rows.length;
+        const breakdown = [...counts.entries()]
+            .map(([reason, count]) => ({
+                reason,
+                count,
+                // Share of cancellations (not of all bookings) — "why did the
+                // ones that fell through fall through?"
+                shareOfCancellations: cancelled > 0 ? round2((count / cancelled) * 100) : 0,
+            }))
+            .sort((a, b) => b.count - a.count || a.reason.localeCompare(b.reason));
+
+        return res.status(200).json({
+            window: { days, from },
+            totalAppointments: totalInWindow,
+            cancelled,
+            cancellationRate: totalInWindow > 0 ? round2((cancelled / totalInWindow) * 100) : 0,
+            reasons: breakdown,
+            // The single most useful line in the response, computed here so
+            // every client says the same thing.
+            topReason: breakdown.length > 0 ? breakdown[0].reason : null,
+        });
+    } catch (error) {
+        console.error('Error fetching cancellation reasons:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     getAnalytics,
     getCalendar,
     getRevenueAnalytics,
     getTopServices,
+    getCancellationReasons,
     // pure helpers, exported for tests
     localDateString,
     revenueWindow,

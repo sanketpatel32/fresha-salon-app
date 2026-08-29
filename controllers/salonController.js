@@ -9,6 +9,8 @@ const userModel = require('../models/userModel');
 const favoriteModel = require('../models/favoriteModel');
 const { parseGallery } = require('./salonGalleryController');
 const { Op } = require('sequelize');
+// #58 — server-side recording of a salon profile view.
+const { recordRecentView } = require('../services/recentViewsService');
 
 /**
  * Public responses expose the photo gallery as a parsed array field
@@ -293,6 +295,15 @@ const getSalonProfile = async (req, res) => {
         delete salon.dataValues.updatedAt;
         attachGallery(salon);
         await attachRatings([salon]);
+
+        // ── Recently viewed (#58) ──────────────────────────────────────
+        // Recorded server-side so the customer's history fills in no matter
+        // which client rendered the profile. Fire-and-forget and guarded: the
+        // endpoint is public (anonymous visitors must not throw), and a
+        // history write must never fail a profile page load.
+        if (req.user && req.user.userId) {
+            recordRecentView(req.user.userId, Number(salonId));
+        }
 
         // Active services, ordered by category then price.
         const services = await servicesModel.findAll({

@@ -37,6 +37,13 @@ const { ensureColumns } = require('./utils/ensureColumns');
 const { isSchedulerEnabled } = require('./services/reminderService');
 const { createSlotUniquenessIndex } = require('./services/bookingGuard');
 require('./models/associations'); // Import relationships
+// #58 / #59 / #61 — tables for recently-viewed salons, favorite staff and
+// recurring series. Required here (not just in the services that use them) so
+// sequelize.sync() creates them on a fresh database; a model only exists to
+// sync() once it has been require()'d somewhere in the process.
+require('./models/recentlyViewModel');
+require('./models/favoriteStaffModel');
+require('./models/recurringSeriesModel');
 
 // Initialize express app
 const app = express();
@@ -438,7 +445,29 @@ const server = app.listen(PORT, config.server.host, () => {
         // every legacy row at version 0, which is exactly right: they have
         // never been mutated through the versioned path.
         { name: 'version', typeSql: 'INTEGER NOT NULL DEFAULT 0' },
+        // Cancellation reasons (#60). All nullable — every pre-#60
+        // cancellation legitimately has no reason, and the analytics endpoint
+        // reports those as an explicit "unspecified" bucket.
+        { name: 'cancellationReason', typeSql: 'VARCHAR(32)' },
+        { name: 'cancellationNote', typeSql: 'VARCHAR(200)' },
+        {
+          name: 'cancelledAt',
+          typeSql: sequelize.getDialect() === 'postgres' ? 'TIMESTAMP' : 'DATETIME',
+        },
+        // Recurring series link (#61). Nullable — most bookings are one-offs.
+        { name: 'seriesId', typeSql: 'INTEGER' },
+        { name: 'occurrenceIndex', typeSql: 'INTEGER' },
       ]);
+      // Recurring series: (seriesId, occurrenceIndex) is the sweep's
+      // idempotency key (see services/recurringService.js). Partial so
+      // one-off bookings — which all have NULL seriesId — aren't dragged into
+      // the index at all.
+      await sequelize.query(
+        'CREATE UNIQUE INDEX IF NOT EXISTS appointments_series_occurrence_uq '
+        + 'ON "Appointments" (seriesId, occurrenceIndex) WHERE seriesId IS NOT NULL'
+      ).catch((err) => {
+        console.warn('⚠️ Could not create the series-occurrence index:', err.message);
+      });
       // ── Reminder email scheduler (#29) ──────────────────────────────────
       // Hourly sweep of bookings starting within the next 24h: each gets one
       // reminder, claimed by stamping reminderSentAt first (at-most-once).
@@ -459,6 +488,36 @@ const server = app.listen(PORT, config.server.host, () => {
         };
         setTimeout(safeSweep, 30 * 1000).unref();
         setInterval(safeSweep, SWEEP_INTERVAL_MS).unref();
+      }
+      // ── Recurring series sweep (#61) ───────────────────────────────────
+      // Without this the series endpoints are decorative: a series is stored
+      // intent, and only the sweep turns that intent into the pending
+      // appointments the salon actually confirms. Materializing 14 days ahead
+      // is the point of the horizon, so a DAILY sweep is comfortably ahead of
+      // it — and because materialization is idempotent (it counts rows rather
+      // than advancing a cursor) running it more often than needed costs
+      // nothing but a query.
+      //
+      // Same safety contract as the reminder sweep: everything is caught, and
+      // both timers are unref'd so they can never hold a dying process open.
+      if (isSchedulerEnabled()) {
+        const { materializeDueSeries } = require('./services/recurringService');
+        const SERIES_SWEEP_INTERVAL_MS = 24 * 60 * 60 * 1000;
+        const safeSeriesSweep = () => {
+          try {
+            Promise.resolve(materializeDueSeries()).then((stats) => {
+              if (stats.created > 0) {
+                console.log(`🔁 Series sweep: created ${stats.created} occurrence(s), skipped ${stats.skipped}`);
+              }
+            }).catch((err) => console.error('⚠️ Series sweep failed:', err.message));
+          } catch (err) {
+            console.error('⚠️ Series sweep failed:', err.message);
+          }
+        };
+        // ~2 minutes after boot: after the reminder sweep, so the two never
+        // compete for the connection pool on a cold start.
+        setTimeout(safeSeriesSweep, 2 * 60 * 1000).unref();
+        setInterval(safeSeriesSweep, SERIES_SWEEP_INTERVAL_MS).unref();
       }
       // Promo-code ledger columns on payments. originalAmount/discountAmount
       // preserve the pre-discount price and what the promo took off, while

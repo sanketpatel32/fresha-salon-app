@@ -16,4 +16,8 @@ router.get('/calendar', authMiddleware, salonAnalyticsController.getCalendar);
 router.get('/analytics/revenue', salonOnly, validate(analyticsWindowSchema, 'query'), salonAnalyticsController.getRevenueAnalytics);
 router.get('/analytics/top-services', salonOnly, validate(analyticsWindowSchema, 'query'), salonAnalyticsController.getTopServices);
 
+// Cancellation reasons (#60) — the breakdown behind the cancellation count.
+// Same trailing-window contract and salon-only guard as the #31 endpoints.
+router.get('/analytics/cancellation-reasons', salonOnly, validate(analyticsWindowSchema, 'query'), salonAnalyticsController.getCancellationReasons);
+
 module.exports = router;

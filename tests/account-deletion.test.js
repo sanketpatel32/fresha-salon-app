@@ -12,6 +12,12 @@ const Notification = require('../models/notificationModel');
 const Salons = require('../models/salonsModel');
 const Staff = require('../models/staffModel');
 const Services = require('../models/servicesModel');
+const FavoriteStaff = require('../models/favoriteStaffModel');
+// Not wired through models/associations.js (they deliberately carry no FK
+// edges — see the model docstrings), so they must be required here or
+// sequelize.sync() never creates their tables.
+const RecentlyViewed = require('../models/recentlyViewModel');
+const RecurringSeries = require('../models/recurringSeriesModel');
 const AdminAudit = require('../models/adminAuditModel');
 const authMiddleware = require('../middlewares/authMiddleware');
 const userRoutes = require('../routes/userRoutes');
@@ -101,6 +107,33 @@ before(async () => {
         { userId: customer.id, salonId: salonA.id },
         { userId: customer.id, salonId: salonB.id },
         { userId: otherCustomer.id, salonId: salonA.id }, // must survive
+    ]);
+
+    // #59 / #58 / #61 — the personal-data tables added after the deletion
+    // feature shipped. Each is a distinct erasure case: FavoriteStaff has a
+    // CASCADE FK but survives anonymization (an UPDATE, not a DELETE);
+    // RecentlyViewed has no FK at all; RecurringSeries is standing
+    // instructions to create bookings, which must be stopped rather than kept.
+    await FavoriteStaff.bulkCreate([
+        { userId: customer.id, staffId: staffA.id },
+        { userId: otherCustomer.id, staffId: staffA.id }, // must survive
+    ]);
+    await RecentlyViewed.bulkCreate([
+        { userId: customer.id, salonId: salonA.id, viewedAt: new Date() },
+        { userId: customer.id, salonId: salonB.id, viewedAt: new Date() },
+        { userId: otherCustomer.id, salonId: salonA.id, viewedAt: new Date() }, // must survive
+    ]);
+    await RecurringSeries.bulkCreate([
+        {
+            userId: customer.id, salonId: salonA.id, serviceId: serviceA.id, staffId: staffA.id,
+            startDate: FUTURE_DATE, time: '09:00', frequency: 'weekly', occurrences: 8,
+            occurrencesCreated: 0, status: 'active',
+        },
+        {
+            userId: otherCustomer.id, salonId: salonA.id, serviceId: serviceA.id, staffId: staffA.id,
+            startDate: FUTURE_DATE, time: '10:00', frequency: 'weekly', occurrences: 8,
+            occurrencesCreated: 0, status: 'active',
+        }, // must survive, still active
     ]);
 
     await Waitlist.bulkCreate([
@@ -240,6 +273,24 @@ test('future pending/confirmed bookings are bulk-cancelled; history rows are unt
 test('favorites are destroyed for the deleting user only', async () => {
     assert.equal(await Favorite.count({ where: { userId: customer.id } }), 0);
     assert.equal(await Favorite.count({ where: { userId: otherCustomer.id } }), 1);
+});
+
+test('favorite staff are destroyed for the deleting user only', async () => {
+    assert.equal(await FavoriteStaff.count({ where: { userId: customer.id } }), 0);
+    assert.equal(await FavoriteStaff.count({ where: { userId: otherCustomer.id } }), 1);
+});
+
+test('recently-viewed history is destroyed — no FK cascade covers it', async () => {
+    assert.equal(await RecentlyViewed.count({ where: { userId: customer.id } }), 0);
+    assert.equal(await RecentlyViewed.count({ where: { userId: otherCustomer.id } }), 1);
+});
+
+test('active recurring series are cancelled so the sweep stops booking for a deleted account', async () => {
+    const mine = await RecurringSeries.findAll({ where: { userId: customer.id } });
+    assert.equal(mine.length, 1);
+    assert.equal(mine[0].status, 'cancelled', 'a live series would keep materializing bookings forever');
+    const others = await RecurringSeries.findOne({ where: { userId: otherCustomer.id } });
+    assert.equal(others.status, 'active');
 });
 
 test('waitlist entries are flipped to left (rows kept, per lifecycle)', async () => {

@@ -23,6 +23,10 @@ const {
   staffForService,
   conflictingStaffIds,
 } = require('../services/availabilityService');
+// #55 / #56 / #61 — rebook suggestions, pre-payment quotes, recurring series.
+const { findRebookSlot, isRebookable } = require('../services/rebookService');
+const { buildQuote } = require('../services/quoteService');
+const { createSeries, listSeries, setSeriesStatus } = require('../services/recurringService');
 
 /**
  * Recompute and persist the denormalized avgRating + reviewCount for a salon.
@@ -115,8 +119,25 @@ const getAllAppointmentsByUserId = async (req, res) => {
         // opt into the paginated envelope.)
         const { requested, page, limit, offset } = paginateQuery(req);
 
+        // ── History filters (#57) ──────────────────────────────────────
+        // status / date range / salon, all optional and ANDed together.
+        // Applied by ADDING to the where clause rather than replacing it, so
+        // the userId scope above can never be dropped by a future edit — the
+        // single most important property of a customer listing.
+        const where = { userId };
+        if (req.query.status) where.status = req.query.status;
+        if (req.query.salonId) where.salonId = req.query.salonId;
+        // date is DATEONLY, so a plain string comparison against YYYY-MM-DD
+        // is an exact, index-friendly range — no timezone conversion needed
+        // (the column is a wall-clock calendar date, same as the filter).
+        if (req.query.from || req.query.to) {
+            where.date = {};
+            if (req.query.from) where.date[Op.gte] = req.query.from;
+            if (req.query.to) where.date[Op.lte] = req.query.to;
+        }
+
         const findOpts = {
-            where: { userId },
+            where,
             include: [
                 {
                     model: staffModel,
@@ -504,6 +525,24 @@ const cancelAppointment = async (req, res) => {
         }
 
         appointment.status = 'cancelled';
+        // ── Cancellation reason (#60) ──────────────────────────────────
+        // Optional and validated upstream (cancelAppointmentSchema). Recorded
+        // on the row so the salon can aggregate WHY bookings are lost — the
+        // difference between "our prices are too high" and "our 6pm stylist
+        // quit" is the difference between a pricing decision and a hiring one.
+        // Deliberately NOT sent in the cancellation notification: the salon
+        // sees the aggregate in analytics rather than a raw complaint against
+        // an individual customer.
+        // `req.body || {}`: the reason is optional and the route supplies a
+        // validated body, but this handler is also called directly by tests and
+        // internal callers that pass no body at all. Reading `req.body.reason`
+        // unguarded turned "cancel without a reason" — the common case — into
+        // a 500 on a path that used to work, which is exactly the kind of
+        // regression an optional field must never cause.
+        const { reason = null, reasonNote = null } = req.body || {};
+        appointment.cancellationReason = reason || null;
+        appointment.cancellationNote = reasonNote || null;
+        appointment.cancelledAt = new Date();
         await appointment.save();
         // Fire-and-forget: the other party (the salon — this endpoint is
         // customer-only) learns the booking was cancelled. Never awaited.
@@ -766,9 +805,131 @@ const updateAppointmentStatus = async (req, res) => {
     }
 };
 
+// ── One-tap rebook (#55) ──────────────────────────────────────────────
+// POST /appointment/:appointmentId/rebook
+//
+// Returns the next genuinely-bookable slot for the SAME service, ready to
+// hand straight to the checkout — it does NOT create a booking (see the
+// module docstring in services/rebookService.js: bookings are paid for, and
+// this endpoint takes no money).
+const rebookFromAppointment = async (req, res) => {
+    const { appointmentId } = req.params;
+    const userId = req.user.userId;
+    const { horizonDays, staffId, preferSameTime, partySize } = req.body;
+
+    try {
+        const appointment = await appointmentModel.findByPk(appointmentId);
+        if (!appointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+        if (appointment.userId !== userId) {
+            return res.status(403).json({ message: 'Not authorized to rebook this appointment' });
+        }
+        // Rebooking a LIVE appointment is what the reschedule endpoint is for;
+        // the two must never overlap or a customer could "rebook" their way
+        // out of the 24-hour cancellation rule.
+        if (!isRebookable(appointment)) {
+            return res.status(409).json({
+                message: `This appointment is ${appointment.status} — use reschedule to move a live booking.`,
+                code: 'NOT_REBOOKABLE',
+            });
+        }
+
+        const result = await findRebookSlot(appointment, {
+            horizonDays, staffId, preferSameTime, partySize, now: new Date(),
+        });
+        if (!result.ok) {
+            return res.status(404).json({ message: result.reason, code: result.code });
+        }
+        return res.status(200).json({ message: 'Slot found', ...result.suggestion });
+    } catch (error) {
+        console.error('Error in rebookFromAppointment:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// ── Price quote (#56) ─────────────────────────────────────────────────
+// POST /appointment/quote
+//
+// A pre-payment total. Every number comes from the same code path /pay uses
+// (getAuthoritativePrice + resolvePromo), so the quote can never disagree
+// with the charge — see services/quoteService.js.
+const getQuote = async (req, res) => {
+    try {
+        const result = await buildQuote({ ...req.body });
+        if (!result.ok) {
+            return res.status(result.status || 400).json({ message: result.reason, code: result.code });
+        }
+        return res.status(200).json(result.quote);
+    } catch (error) {
+        console.error('Error in getQuote:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// ── Recurring booking series (#61) ────────────────────────────────────
+// The series stores intent; occurrences are materialized by the sweep as
+// pending appointments. See services/recurringService.js for why.
+const createBookingSeries = async (req, res) => {
+    const userId = req.user.userId;
+    try {
+        const result = await createSeries({ userId, ...req.body });
+        if (!result.ok) {
+            return res.status(result.status || 400).json({ message: result.reason, code: result.code });
+        }
+        const s = result.series;
+        return res.status(201).json({
+            message: 'Series created',
+            series: {
+                id: s.id, salonId: s.salonId, serviceId: s.serviceId, staffId: s.staffId,
+                startDate: s.startDate, time: s.time, frequency: s.frequency,
+                occurrences: s.occurrences, partySize: s.partySize, status: s.status,
+            },
+        });
+    } catch (error) {
+        console.error('Error in createBookingSeries:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+const getMySeries = async (req, res) => {
+    try {
+        return res.status(200).json(await listSeries(req.user.userId));
+    } catch (error) {
+        console.error('Error in getMySeries:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+const updateBookingSeries = async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+    try {
+        const result = await setSeriesStatus(id, req.user.userId, status);
+        if (!result.ok) {
+            return res.status(result.status).json({ message: result.reason, code: result.code });
+        }
+        return res.status(200).json({
+            message: `Series ${status}`,
+            series: {
+                id: result.series.id, status: result.series.status,
+                occurrencesCreated: result.series.occurrencesCreated,
+            },
+        });
+    } catch (error) {
+        console.error('Error in updateBookingSeries:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     appointmentChecker,
     getAllAppointmentsByUserId,
+    rebookFromAppointment,
+    getQuote,
+    createBookingSeries,
+    getMySeries,
+    updateBookingSeries,
     getUpcomingAppointments,
     getScheduledAppointmentsBySalonId,
     exportAppointmentsCsv,

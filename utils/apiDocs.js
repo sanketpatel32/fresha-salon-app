@@ -72,10 +72,19 @@ const apiDocs = {
     { method: 'DELETE', path: '/api/user/me', summary: 'GDPR self-deletion: re-auths by password, cancels future bookings, anonymizes the row (#32).', auth: 'customer', tag: 'Account', params: ['body password — required; wrong password 401 with zero writes'] },
     { method: 'GET', path: '/api/user/search', summary: 'Enumerate users by name/email substring.', auth: 'admin', tag: 'Account', params: ['q'] },
 
+    // ── Recently Viewed (#58) ───────────────────────────────────────────
+    { method: 'GET', path: '/api/user/recently-viewed', summary: 'Own recently-viewed salons, most recent first, one row per salon (re-viewing bumps it to the top).', auth: 'customer', tag: 'Account', params: ['limit? — 1..20, default 8; out-of-range values clamp rather than 400'] },
+    { method: 'POST', path: '/api/user/recently-viewed', summary: 'Record a salon view (upsert + bump); inactive salons are ignored, never 404.', auth: 'customer', tag: 'Account', params: ['salonId — required'] },
+
     // ── Favorites ───────────────────────────────────────────────────────
     { method: 'GET', path: '/api/user/favorites', summary: 'Own favorite salons, newest-first.', auth: 'any-auth', tag: 'Favorites', params: ['page, limit — either present switches to the { data, total } envelope'] },
     { method: 'POST', path: '/api/user/favorites', summary: 'Favorite a salon (idempotent).', auth: 'any-auth', tag: 'Favorites', params: ['body salonId'] },
     { method: 'DELETE', path: '/api/user/favorites/:salonId', summary: 'Un-favorite (404 if never added).', auth: 'any-auth', tag: 'Favorites' },
+
+    // ── Favorite Staff (#59) ────────────────────────────────────────────
+    { method: 'GET', path: '/api/user/favorites/staff', summary: 'Own favorite stylists with the salon/service context they were picked in, newest-first.', auth: 'customer', tag: 'Favorites' },
+    { method: 'POST', path: '/api/user/favorites/staff', summary: 'Favorite a stylist (idempotent); 404 for an inactive stylist or a salon/service mismatch.', auth: 'customer', tag: 'Favorites', params: ['staffId — required; must be active and offer serviceId at salonId', 'salonId, serviceId? — the context the customer chose them in'] },
+    { method: 'DELETE', path: '/api/user/favorites/staff/:staffId', summary: 'Un-favorite a stylist; forgiving 200 even when it was never added.', auth: 'customer', tag: 'Favorites' },
 
     // ── Browse (public) ─────────────────────────────────────────────────
     { method: 'GET', path: '/api/business/getall', summary: 'Browse salons with search/filter/sort (#22); optional token adds isFavorite.', auth: 'public', tag: 'Browse', params: ['search — case-insensitive name/address substring', 'category — active-service category filter', 'minRating — average rating floor', 'sort — rating | price-low | price-high | newest | name', 'page, limit — envelope switch'] },
@@ -86,10 +95,18 @@ const apiDocs = {
 
     // ── Appointments ────────────────────────────────────────────────────
     { method: 'POST', path: '/api/appointment/check', summary: 'Availability check: free staff for a slot + configured slot step (#12).', auth: 'customer', tag: 'Appointments', params: ['salonId, serviceId, staffId?, dateSelect (YYYY-MM-DD), time (HH:mm)'] },
-    { method: 'GET', path: '/api/appointment/getAll', summary: "Customer's own bookings, newest-first.", auth: 'customer', tag: 'Appointments', params: ['page, limit — envelope switch'] },
+    { method: 'GET', path: '/api/appointment/getAll', summary: "Customer's own bookings, newest-first (#57).", auth: 'customer', tag: 'Appointments', params: ['page, limit — envelope switch', 'status? — one of the booking statuses; invalid values 400', 'from, to? — YYYY-MM-DD inclusive bounds; inverted ranges 400', 'salonId? — restrict to one salon'] },
     { method: 'GET', path: '/api/appointment/upcoming', summary: 'Next ≤5 pending/confirmed bookings starting in the future, soonest-first (#29).', auth: 'customer', tag: 'Appointments' },
+    { method: 'POST', path: '/api/appointment/quote', summary: 'Pre-payment total in minor units: service price, promo discount, tip and group size (#56).', auth: 'customer', tag: 'Appointments', params: ['serviceId — required; archived services are refused', 'promoCode? — validated against the same rules as checkout', 'tipAmount? — added AFTER the discount, never discounted', 'partySize? — 1..20, default 1'] },
+    { method: 'POST', path: '/api/appointment/:appointmentId/rebook', summary: 'One-tap rebook of a past booking: the next bookable slot for the same service (#55). Returns a checkout payload, NOT a booking.', auth: 'customer', tag: 'Appointments', params: ['horizonDays? — 1..60, default 14', 'staffId? — prefer a specific stylist', 'preferSameTime? — default true; nearest to the original time of day rather than earliest free', '409 NOT_REBOOKABLE on a live booking — that is what reschedule is for'] },
+
+    // ── Recurring Series (#61) ──────────────────────────────────────────
+    { method: 'POST', path: '/api/appointment/series', summary: 'Create a recurring booking series; occurrences are materialized by a sweep, not all at once.', auth: 'customer', tag: 'Appointments', params: ['salonId, serviceId, startDate (today or later), time', 'frequency — weekly | biweekly | monthly', 'totalVisits — 2..52', 'staffId? — falls through to a free colleague when unavailable'] },
+    { method: 'GET', path: '/api/appointment/series', summary: "Caller's own series with progress and the next due date.", auth: 'customer', tag: 'Appointments' },
+    { method: 'PATCH', path: '/api/appointment/series/:id', summary: 'Pause, resume or cancel own series; cancelled is terminal and keeps past occurrences.', auth: 'customer', tag: 'Appointments', params: ['status — active | paused | cancelled'] },
+
     { method: 'PATCH', path: '/api/appointment/:appointmentId/reschedule', summary: 'Move own booking (>24 h out); slot revalidated against hours/conflicts (#6).', auth: 'customer', tag: 'Appointments', params: ['dateSelect, time', 'staffId? — reassign within same salon/service', 'customerNote? — non-empty overwrites, empty clears', 'partySize? — 1..20; omitted leaves headcount untouched'] },
-    { method: 'PUT', path: '/api/appointment/cancel/:appointmentId', summary: 'Owner cancels own booking (>24 h free window).', auth: 'any-auth', tag: 'Appointments' },
+    { method: 'PUT', path: '/api/appointment/cancel/:appointmentId', summary: 'Owner cancels own booking (>24 h free window), optionally with a reason (#60).', auth: 'any-auth', tag: 'Appointments', params: ['cancellationReason? — fixed vocabulary; absent keeps the pre-#60 behaviour byte-identical', 'cancellationNote? — free text, max 200 chars, ignored without a reason'] },
     { method: 'PUT', path: '/api/appointment/status/:appointmentId', summary: 'Accept/decline/complete/no-show workflow; no-show is terminal, past-only, salon-only (#13).', auth: 'salon+staff', tag: 'Appointments', params: ['status'] },
     { method: 'GET', path: '/api/appointment/sceduledAppointments', summary: "Salon's scheduled appointments calendar view.", auth: 'salon', tag: 'Appointments', params: ['page, limit — envelope switch'] },
     { method: 'GET', path: '/api/appointment/export/csv', summary: 'Full booking ledger as RFC-4180 CSV attachment (#9).', auth: 'salon', tag: 'Appointments', params: ['from, to? — YYYY-MM-DD bounds, from <= to'] },
@@ -150,6 +167,7 @@ const apiDocs = {
     { method: 'GET', path: '/api/salonsdashboard/calendar', summary: 'Calendar-view aggregation of scheduled appointments.', auth: 'any-auth', tag: 'Analytics' },
     { method: 'GET', path: '/api/salonsdashboard/analytics/revenue', summary: 'Daily revenue/tips/discounts/bookings series + totals, dense zero days (#31).', auth: 'salon', tag: 'Analytics', params: ['days — clamped 1..90, default 30'] },
     { method: 'GET', path: '/api/salonsdashboard/analytics/top-services', summary: 'Top 5 completed services by booking count in the window (#31).', auth: 'salon', tag: 'Analytics', params: ['days — clamped 1..90, default 30'] },
+    { method: 'GET', path: '/api/salonsdashboard/analytics/cancellation-reasons', summary: 'Cancellation counts grouped by reason, with an explicit bucket for pre-#60 / unreported ones.', auth: 'salon', tag: 'Analytics', params: ['days — clamped 1..90, default 30'] },
 
     // ── Staff ───────────────────────────────────────────────────────────
     { method: 'GET', path: '/api/staff/today', summary: "Signed-in staff member's today appointments, time ASC (#13).", auth: 'staff', tag: 'Staff' },

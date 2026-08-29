@@ -6,6 +6,7 @@ const Appointment = require('./appointmentModel'); // Import the Appointment mod
 const User = require('./userModel'); // Import the User model
 const Payment = require('./paymentModel'); // Import the Payment model
 const Favorite = require('./favoriteModel');
+const FavoriteStaff = require('./favoriteStaffModel');
 const StaffBlockout = require('./staffBlockoutModel');
 // Promo codes are a standalone table (lookups are by `code`, ownership by the
 // plain salonId column) — exported plainly, no associations needed.
@@ -65,6 +66,21 @@ Favorite.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 Salons.hasMany(Favorite, { foreignKey: 'salonId', onDelete: 'CASCADE' });
 Favorite.belongsTo(Salons, { foreignKey: 'salonId', as: 'salon' });
 
+// ==================== FAVORITE STAFF (#59) ====================
+// These edges are NOT cosmetic. FavoriteStaff declares its foreign keys as raw
+// `references:` on the columns, and Sequelize's dependency sort — the thing
+// that decides what order tables are created and dropped in — only sees
+// associations, not attribute-level references. With two parents (users +
+// staffs) and no edges here, `sync({ force: true })` dropped `users` first,
+// and SQLite's cascading delete into favoriteStaffs then had to resolve a
+// parent that was already gone: "no such table: main.users", thrown from an
+// unrelated DROP TABLE, in whichever test file happened to load first.
+// Declaring both sides is what `Favorite` above has always done.
+User.hasMany(FavoriteStaff, { foreignKey: 'userId', onDelete: 'CASCADE' });
+FavoriteStaff.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+Staff.hasMany(FavoriteStaff, { foreignKey: 'staffId', onDelete: 'CASCADE' });
+FavoriteStaff.belongsTo(Staff, { foreignKey: 'staffId', as: 'staffMember' });
+
 // ==================== STAFF BLOCKOUTS ====================
 Staff.hasMany(StaffBlockout, { foreignKey: 'staffId', onDelete: 'CASCADE' });
 StaffBlockout.belongsTo(Staff, { foreignKey: 'staffId', as: 'staff' });
@@ -75,4 +91,4 @@ StaffBlockout.belongsTo(Staff, { foreignKey: 'staffId', as: 'staff' });
 Payment.hasOne(Appointment, { foreignKey: 'orderId', sourceKey: 'orderId', as: 'appointment' });
 Appointment.belongsTo(Payment, { foreignKey: 'orderId', targetKey: 'orderId', as: 'payment', constraints: false });
 
-module.exports = { Salons, Staff, Services, StaffServices, Appointment, User, Payment, Favorite, StaffBlockout, PromoCode };
+module.exports = { Salons, Staff, Services, StaffServices, Appointment, User, Payment, Favorite, FavoriteStaff, StaffBlockout, PromoCode };
