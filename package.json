@@ -7,7 +7,7 @@
     "dev": "nodemon app.js",
     "build": "npm run build --prefix frontend",
     "postinstall": "npm run install-frontend",
-    "install-frontend": "npm install --prefix frontend",
+    "install-frontend": "npm install --prefix frontend --include=dev",
     "test": "node --test --test-concurrency=1 \"tests/**/*.test.js\""
   },
   "repository": {

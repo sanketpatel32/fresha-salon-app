@@ -572,7 +572,11 @@ const server = app.listen(PORT, config.server.host, () => {
         },
       ]);
 
-      await seedSampleData();
+      if (config.db.seedSampleData) {
+        await seedSampleData();
+      } else {
+        logger.info('seed: sample data disabled');
+      }
       // Backfill categories on any services that lack one (post-migration safety net).
       const { migrateCategories } = require('./utils/migrateCategories');
       await migrateCategories();
@@ -581,4 +585,4 @@ const server = app.listen(PORT, config.server.host, () => {
       console.log('⚠️ Database connection failed. Check your DATABASE_URL (or local SQLite).');
       console.error('Error message:', err.message);
     });
-});
+});

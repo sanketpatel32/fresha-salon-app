@@ -52,6 +52,10 @@ your input. Set them in the Render dashboard
 | `BREVO_API_KEY` | No | Brevo (Sendinblue) API key. If unset, booking emails fail silently — the app otherwise works. |
 | `SENDER_EMAIL` | No | Verified sender email in your Brevo account. |
 
+Verification and password-reset links use `APP_URL` when set, otherwise they
+use Render's automatic `RENDER_EXTERNAL_URL`. Set `APP_URL` only when you want
+links to use a custom domain.
+
 After setting them, trigger a redeploy (or just save — Render redeploys on
 env-var change).
 
@@ -72,9 +76,9 @@ Once the deploy is live, check:
 
 ## Database lifecycle notes
 
-- **First boot creates all tables** via `sequelize.sync()` and seeds sample
-  data (3 salons, 4 staff, services, 2 sample users). This only runs when
-  the DB is empty.
+- **First boot creates all tables** via `sequelize.sync()`. Production does
+  not seed sample accounts unless `SEED_SAMPLE_DATA=true` is explicitly set.
+  Local development keeps automatic sample seeding when the database is empty.
 - **Subsequent deploys do NOT drop data** — `sync()` without `force` only
   creates missing tables. Existing rows persist.
 - **Schema changes** (new columns/models) require either `sync({ alter:
@@ -86,13 +90,11 @@ Once the deploy is live, check:
 
 - **Web service (free plan):** sleeps after 15 minutes of inactivity.
   First request after sleep takes ~30–60 seconds to wake up. Upgrading to
-  a paid plan ($7/mo) removes the sleep.
-- **PostgreSQL (free plan):** free for **90 days** from creation, then
-  **~$7/month** automatically. Watch the expiry date in the Render
-  dashboard. Before it expires, either:
-  - Upgrade the database to a paid plan (preserves data), or
-  - Export data (`pg_dump` the connection string), delete the free
-    instance, create a new one, and `pg_restore`.
+  a paid plan removes the sleep.
+- **PostgreSQL (free plan):** expires **30 days** after creation. After
+  expiry, there is a **14-day grace period** to upgrade before Render deletes
+  the database and its data. Free databases have no backups. Before expiry,
+  either upgrade the database to a paid plan or export the data for migration.
 
 ## Viewing logs
 

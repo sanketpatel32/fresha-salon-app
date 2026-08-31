@@ -19,6 +19,8 @@ const waitlistModel = require('../models/waitlistModel');
 const notificationModel = require('../models/notificationModel');
 const { recordAudit } = require('../services/adminAuditService');
 
+const getPublicAppUrl = () => process.env.APP_URL || process.env.RENDER_EXTERNAL_URL || '';
+
 const handleUserSignup = async (req, res) => {
     const { name, email, password, phoneNumber, referralCode } = req.body;
 
@@ -76,7 +78,7 @@ const handleUserSignup = async (req, res) => {
             newUser.verificationExpiresAt = new Date(Date.now() + VERIFICATION_TOKEN_TTL_MS);
             await newUser.save();
 
-            const appUrl = process.env.APP_URL || '';
+            const appUrl = getPublicAppUrl();
             const verifyLink = `${appUrl}/verify-email?token=${verificationToken}&email=${encodeURIComponent(email)}`;
             // Fire-and-forget: sendVerificationEmail already no-ops and never
             // throws on unconfigured/broken mailers; this catch is belt-and-
@@ -173,7 +175,7 @@ const forgotPassword = async (req, res) => {
             user.resetTokenExpiresAt = new Date(Date.now() + RESET_TOKEN_TTL_MS);
             await user.save();
 
-            const appUrl = process.env.APP_URL || '';
+            const appUrl = getPublicAppUrl();
             const resetLink = `${appUrl}/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
 
             // Fire-and-forget: an unconfigured or broken mailer must neither
@@ -275,7 +277,7 @@ const resendVerification = async (req, res) => {
             user.verificationExpiresAt = new Date(Date.now() + VERIFICATION_TOKEN_TTL_MS);
             await user.save();
 
-            const appUrl = process.env.APP_URL || '';
+            const appUrl = getPublicAppUrl();
             const verifyLink = `${appUrl}/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
             // Fire-and-forget, same contract as signup.
             emailService.sendVerificationEmail({

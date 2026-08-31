@@ -4,8 +4,8 @@
 # Cost notes:
 #   - Web service (free plan) sleeps after 15 min of inactivity and spins
 #     back up on the next request (~30-60s cold start).
-#   - PostgreSQL (free plan) is free for 90 days from creation, then ~$7/mo.
-#     See DEPLOYMENT.md for how to handle the 90-day limit.
+#   - PostgreSQL (free plan) expires 30 days after creation, followed by a
+#     14-day upgrade grace period. See DEPLOYMENT.md for lifecycle details.
 
 services:
   - type: web
@@ -20,6 +20,8 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "22.14.0"
+      - key: NODE_ENV
+        value: production
       # Randomly generated on first deploy, reused on subsequent deploys.
       - key: JWT_SECRET
         generateValue: true
@@ -38,15 +40,12 @@ services:
       # Wired to the managed Postgres instance below.
       - key: DATABASE_URL
         fromDatabase:
-          postgresName: fresha-db
+          name: fresha-db
           property: connectionString
 
-  - type: pserv
-    name: fresha-db
-    runtime: postgresql
+databases:
+  - name: fresha-db
     plan: free
     region: oregon
-    # Postgres IP allow-list. 0.0.0.0/0 lets the Render web service reach it.
-    ipAllowList:
-      - source: 0.0.0.0/0
-        description: everywhere
+    # The web service uses Render's private network; block public DB access.
+    ipAllowList: []

@@ -64,22 +64,30 @@ test('forgotPassword answers the same generic message for a known email', async 
 
 test('forgotPassword stores only the hash plus a ~1h expiry', async () => {
     captureSend();
+    process.env.APP_URL = 'https://salon-custom.example.com';
+    process.env.RENDER_EXTERNAL_URL = 'https://salon-render.example.com';
     const started = Date.now() - 1000;
-    const res = mockRes();
-    await forgotPassword(reqWith({ email: customer.email }), res);
-    assert.equal(res.statusCode, 200);
+    try {
+        const res = mockRes();
+        await forgotPassword(reqWith({ email: customer.email }), res);
+        assert.equal(res.statusCode, 200);
 
-    await customer.reload();
-    // 64 hex chars — and never the plaintext token from the link.
-    assert.match(customer.resetTokenHash, /^[a-f0-9]{64}$/);
-    const token = capturedToken();
-    assert.notEqual(token, customer.resetTokenHash);
-    assert.equal(sha256(token), customer.resetTokenHash);
+        await customer.reload();
+        // 64 hex chars — and never the plaintext token from the link.
+        assert.match(customer.resetTokenHash, /^[a-f0-9]{64}$/);
+        assert.ok(capturedLink.startsWith('https://salon-custom.example.com/reset-password?'));
+        const token = capturedToken();
+        assert.notEqual(token, customer.resetTokenHash);
+        assert.equal(sha256(token), customer.resetTokenHash);
 
-    // Expiry sits ~60 minutes ahead of the request.
-    const expiresAt = new Date(customer.resetTokenExpiresAt).getTime();
-    assert.ok(Math.abs(expiresAt - (started + 60 * 60 * 1000)) < 90 * 1000,
-        `expiry ${new Date(expiresAt).toISOString()} should be ~now+60min`);
+        // Expiry sits ~60 minutes ahead of the request.
+        const expiresAt = new Date(customer.resetTokenExpiresAt).getTime();
+        assert.ok(Math.abs(expiresAt - (started + 60 * 60 * 1000)) < 90 * 1000,
+            `expiry ${new Date(expiresAt).toISOString()} should be ~now+60min`);
+    } finally {
+        delete process.env.APP_URL;
+        delete process.env.RENDER_EXTERNAL_URL;
+    }
 });
 
 test('resetPassword rejects a wrong token with 400', async () => {

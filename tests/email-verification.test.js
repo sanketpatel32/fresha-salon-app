@@ -40,11 +40,13 @@ before(async () => {
     // deletes these again to exercise the unconfigured path.
     process.env.BREVO_API_KEY = 'test-key';
     process.env.SENDER_EMAIL = 'test@example.com';
+    process.env.RENDER_EXTERNAL_URL = 'https://salon-render.example.com';
     captureSend();
 });
 
 after(async () => {
     emailService.sendVerificationEmail = realSend;
+    delete process.env.RENDER_EXTERNAL_URL;
     await sequelize.close();
 });
 
@@ -64,6 +66,7 @@ test('signup issues a verification token: stores only its hash plus ~24h expiry'
     const user = await User.findOne({ where: { email: 'vic@t.com' } });
     // 64 hex chars — and never the plaintext token from the link.
     assert.match(user.verificationTokenHash, /^[a-f0-9]{64}$/);
+    assert.ok(capturedLink.startsWith('https://salon-render.example.com/verify-email?'));
     const token = capturedToken();
     assert.notEqual(token, user.verificationTokenHash);
     assert.equal(sha256(token), user.verificationTokenHash);

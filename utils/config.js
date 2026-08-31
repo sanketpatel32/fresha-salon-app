@@ -96,6 +96,8 @@ const config = Object.freeze({
     poolMin: int('DB_POOL_MIN', 0, { min: 0, max: 50 }),
     // Log every SQL statement when set (debug aid; off by default).
     logging: bool('DB_LOGGING', false),
+    // Sample accounts are useful locally, but must be explicitly enabled in production.
+    seedSampleData: !isProduction || bool('SEED_SAMPLE_DATA', false),
   }),
 
   auth: Object.freeze({
