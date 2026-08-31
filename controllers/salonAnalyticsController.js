@@ -194,10 +194,14 @@ const getAnalytics = async (req, res) => {
         });
         const topServices = topServiceRows.map(r => ({ name: r['service.name'], count: parseInt(r.count, 10) }));
 
-        // Bookings per day for the last 7 days (including today).
+        // Bookings per day for the last 7 days (including today). Day math in
+        // the LOCAL frame — the stored date column is host-local, and a UTC
+        // day string buckets evening bookings into the wrong day on any
+        // non-UTC host (localDateString exists for exactly this).
         const today = new Date();
-        const sevenAgo = new Date(today.getTime() - 6 * 24 * 3600 * 1000);
-        const fromDate = sevenAgo.toISOString().slice(0, 10);
+        const sevenAgo = new Date(today);
+        sevenAgo.setDate(today.getDate() - 6);
+        const fromDate = localDateString(sevenAgo);
         const dayRows = await appointmentModel.findAll({
             where: { salonId, date: { [Op.gte]: fromDate } },
             attributes: ['date', [fn('COUNT', col('*')), 'count']],
@@ -208,9 +212,11 @@ const getAnalytics = async (req, res) => {
         // Fill in zero-count days for a continuous 7-day series.
         const bookingsPerDay = [];
         for (let i = 6; i >= 0; i--) {
-            const d = new Date(today.getTime() - i * 24 * 3600 * 1000).toISOString().slice(0, 10);
-            const found = dayRows.find(r => r.date === d);
-            bookingsPerDay.push({ date: d, count: found ? parseInt(found.count, 10) : 0 });
+            const d = new Date(today);
+            d.setDate(today.getDate() - i);
+            const dayStr = localDateString(d);
+            const found = dayRows.find(r => r.date === dayStr);
+            bookingsPerDay.push({ date: dayStr, count: found ? parseInt(found.count, 10) : 0 });
         }
 
         res.status(200).json({ totalRevenue, statusCounts, topServices, bookingsPerDay });
@@ -224,11 +230,22 @@ const getAnalytics = async (req, res) => {
 const getCalendar = async (req, res) => {
     const salonId = req.user.salonId;
     try {
-        const weekStart = req.query.week
-            ? new Date(req.query.week)
-            : new Date();
-        if (Number.isNaN(weekStart.getTime())) {
-            return res.status(400).json({ message: 'Invalid week date' });
+        // Parse the week date as a LOCAL calendar date — `new Date('YYYY-MM-DD')`
+        // is UTC midnight, which lands on the previous local day for any host
+        // west of UTC and then picks the wrong Monday from getDay().
+        let weekStart;
+        if (req.query.week) {
+            const parts = String(req.query.week).split('-').map(Number);
+            const [y, mo, d] = parts;
+            const shaped = parts.length === 3
+                && Number.isInteger(y) && Number.isInteger(mo) && Number.isInteger(d)
+                && y >= 1000 && y <= 9999;
+            weekStart = shaped ? new Date(y, mo - 1, d) : new Date(NaN);
+            if (Number.isNaN(weekStart.getTime())) {
+                return res.status(400).json({ message: 'Invalid week date' });
+            }
+        } else {
+            weekStart = new Date();
         }
         // Normalize to the Monday of that week.
         const dayOfWeek = (weekStart.getDay() + 6) % 7; // Mon=0 ... Sun=6
@@ -236,8 +253,8 @@ const getCalendar = async (req, res) => {
         monday.setDate(weekStart.getDate() - dayOfWeek);
         const sunday = new Date(monday);
         sunday.setDate(monday.getDate() + 6);
-        const fromStr = monday.toISOString().slice(0, 10);
-        const toStr = sunday.toISOString().slice(0, 10);
+        const fromStr = localDateString(monday);
+        const toStr = localDateString(sunday);
 
         const appointments = await appointmentModel.findAll({
             where: { salonId, date: { [Op.between]: [fromStr, toStr] } },

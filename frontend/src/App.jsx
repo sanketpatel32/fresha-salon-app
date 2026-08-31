@@ -35,12 +35,21 @@ const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard.jsx'));
 
 axios.defaults.baseURL = window.location.origin;
 
-// On 401/403, clear storage and notify the app to redirect via React Router
-// (no hard window.location reload — preserves form state and router history).
+// On an unexpected 401 while logged in, clear storage and notify the app to
+// redirect via React Router (no hard window.location reload — preserves form
+// state and router history). Login/signup failures (401 from /login with no
+// stored token) and plain 403s must NOT trigger the logout redirect.
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+    const url = error.config?.url || '';
+    const hadToken = Boolean(localStorage.getItem('token'));
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !url.includes('/login') &&
+      hadToken
+    ) {
       window.dispatchEvent(new CustomEvent(AUTH_EXPIRED_EVENT));
     }
     return Promise.reject(error);

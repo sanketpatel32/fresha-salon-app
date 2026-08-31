@@ -20,10 +20,12 @@ const Waitlist = require('../models/waitlistModel');
 const Salons = require('../models/salonsModel');
 const User = require('../models/userModel');
 const { paginateQuery, buildMeta } = require('../utils/pagination');
+const { localDay } = require('../utils/timezone');
 
-/** Today as YYYY-MM-DD in the SAME UTC frame rescheduleSchema compares in,
- * so route-schema and controller date gates can never contradict each other. */
-const todayStr = () => new Date().toISOString().slice(0, 10);
+/** Today as YYYY-MM-DD in the SAME host-local frame the route schema compares
+ * in (utils/validators uses localDay too), so route-schema and controller
+ * date gates can never contradict each other. */
+const todayStr = () => localDay();
 
 /**
  * POST /waitlist — join a salon's waitlist for a day.
@@ -65,12 +67,23 @@ const joinWaitlist = async (req, res) => {
             return res.status(409).json({ message: 'Already on the waitlist' });
         }
 
-        const entry = await Waitlist.create({
-            userId, // always the caller — never client-supplied
-            salonId,
-            date,
-            partySize,
-        });
+        let entry;
+        try {
+            entry = await Waitlist.create({
+                userId, // always the caller — never client-supplied
+                salonId,
+                date,
+                partySize,
+            });
+        } catch (err) {
+            // The findOne pre-check above is check-then-act; the partial
+            // unique index is the real guard. Translate its violation to the
+            // same 409 the pre-check returns.
+            if (err && err.name === 'SequelizeUniqueConstraintError') {
+                return res.status(409).json({ message: 'Already on the waitlist' });
+            }
+            throw err;
+        }
         return res.status(201).json(entry);
     } catch (error) {
         console.error('Error joining waitlist:', error.message);

@@ -141,6 +141,16 @@ const materializeDueSeries = async (options = {}) => {
       if (exists) { stats.skipped += 1; continue; }
 
       const date = occurrenceDate(series, index);
+      // An occurrence whose date passed while the series was PAUSED is
+      // permanently un-creatable — materializing it would back-fill phantom
+      // past bookings onto the salon's day sheet. Count it skipped and
+      // advance occurrencesCreated past it so future sweeps stop rescanning
+      // it (clashes stay retryable; a past date never becomes bookable).
+      if (date < today) {
+        await series.update({ occurrencesCreated: index });
+        stats.skipped += 1;
+        continue;
+      }
       const service = await servicesModel.findByPk(series.serviceId);
       const salon = await salonModel.findByPk(series.salonId);
       if (!service || !salon || service.statusbar === 'archived') {

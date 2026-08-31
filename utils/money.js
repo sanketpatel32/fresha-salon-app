@@ -56,27 +56,32 @@ const toMinor = (amount, currency = DEFAULT_CURRENCY) => {
   const negative = str.startsWith('-');
   const body = negative ? str.slice(1) : str;
   const [intPart = '0', fracPart = ''] = body.split('.');
-  const paddedFrac = fracPart.padEnd(exponent, '0').slice(0, exponent);
-  const rounded = roundFractionUp(fracPart, exponent);
-  const digits = `${intPart}${rounded}`.replace(/^0+(?=\d)/, '');
+  const { digits: rounded, carry } = roundFractionUp(fracPart, exponent);
+  // The carry must propagate into the integer part: "499.999" rounds to
+  // ₹500.00, not ₹499.00 — dropping it once understated a quote by a rupee.
+  const totalInt = Number(intPart || '0') + carry;
+  const digits = `${totalInt}${rounded}`.replace(/^0+(?=\d)/, '');
   const value = Number(digits === '' ? '0' : digits);
   if (!Number.isFinite(value)) return null;
   return negative ? -value : value;
 };
 
 /**
- * Round a fractional digit string to `exponent` places, half-up, and return
- * the resulting digits. Returns null if rounding carried into the integer part
- * (e.g. "999" rounded to 2dp) — callers handle the carry.
+ * Round a fractional digit string to `exponent` places, half-up. Returns
+ * { digits, carry } — carry is 1 when rounding overflowed the fraction
+ * (e.g. "999" at 2dp → digits "00", carry 1).
  */
 const roundFractionUp = (fracPart, exponent) => {
-  if (exponent === 0) return '';
+  if (exponent === 0) return { digits: '', carry: 0 };
   const truncated = fracPart.slice(0, exponent).padEnd(exponent, '0');
   const nextDigit = Number(fracPart.charAt(exponent) || '0');
-  if (nextDigit < 5) return truncated;
-  // Half-up: increment the truncated string as a number and re-pad.
-  const bumped = (Number(truncated || '0') + 1).toString().padStart(exponent, '0');
-  return bumped.length > exponent ? bumped.slice(bumped.length - exponent) : bumped;
+  if (nextDigit < 5) return { digits: truncated, carry: 0 };
+  // Half-up: increment the truncated value; overflow past the fraction width
+  // is the carry into the integer part.
+  const bumped = (Number(truncated || '0') + 1);
+  const limit = 10 ** exponent;
+  if (bumped >= limit) return { digits: String(bumped - limit).padStart(exponent, '0'), carry: 1 };
+  return { digits: String(bumped).padStart(exponent, '0'), carry: 0 };
 };
 
 /** Convert minor units (123456) back to a major-unit number (1234.56). */
@@ -92,7 +97,8 @@ const fromMinor = (minor, currency = DEFAULT_CURRENCY) => {
 /** Integer addition of minor-unit amounts. Ignores nulls (treated as 0). */
 const add = (...amounts) => amounts.reduce((acc, a) => acc + (a || 0), 0);
 
-/** Subtract later amounts from the first. Result is clamped at 0 by default. */
+/** Subtract later amounts from the first. Result may be negative — callers
+ * that need a floor clamp it themselves (nothing ships a negative charge). */
 const subtract = (a, ...rest) => {
   const total = rest.reduce((acc, x) => acc + (x || 0), 0);
   return (a || 0) - total;

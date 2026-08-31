@@ -369,6 +369,9 @@ const exportAppointmentsCsv = async (req, res) => {
 // payment success path also fires a confirmation automatically.
 const mailAppointment = async (req, res) => {
     const { orderId } = req.body;
+    if (!orderId || typeof orderId !== 'string') {
+        return res.status(400).json({ message: "orderId is required" });
+    }
 
     try {
         const order = await Payment.findOne({
@@ -380,6 +383,13 @@ const mailAppointment = async (req, res) => {
             ],
         });
         if (!order) return res.status(404).json({ message: "Order not found" });
+        // Ownership — same access rule as viewing the payment: without this,
+        // any authenticated customer who learns an orderId can email-bomb
+        // another customer's mailbox via repeated re-sends.
+        const { canAccessPayment } = require('./paymentController');
+        if (!canAccessPayment(order, req.user)) {
+            return res.status(403).json({ message: "Not authorized to email this booking" });
+        }
 
         const customer = await userModel.findOne({ where: { id: order.customerID } });
         if (!customer) return res.status(404).json({ message: "Customer not found" });
@@ -662,7 +672,18 @@ const rescheduleAppointment = async (req, res) => {
         if (partySize !== undefined) {
             appointment.partySize = partySize;
         }
-        await appointment.save();
+        try {
+            await appointment.save();
+        } catch (err) {
+            // The conflict pre-check above is check-then-act: two customers
+            // rescheduling into the SAME exact slot both pass it, and the
+            // partial unique index rejects the second save. Surface that as
+            // the same 409 the pre-check produces instead of a raw 500.
+            if (err && err.name === 'SequelizeUniqueConstraintError') {
+                return res.status(409).json({ message: 'New slot is not available' });
+            }
+            throw err;
+        }
 
         // Fire-and-forget: the salon learns the booking moved (this endpoint
         // is customer-only). Never awaited — mirrors cancelAppointment.

@@ -32,6 +32,9 @@ export default function SalonProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  // Must be called before the early returns below (Rules of Hooks).
+  useDocumentTitle(data?.salon?.name || 'Salon');
+
   // Waitlist (#30) — queue for a full day at this salon. Date is prefilled
   // with today; joining is best-effort and surfaces the server's reason
   // (e.g. "Already on the waitlist") on failure.
@@ -122,7 +125,6 @@ export default function SalonProfile() {
 
   const { salon, services, reviews } = data;
   const grouped = groupByCategory(services);
-  useDocumentTitle(salon.name || 'Salon');
 
   return (
     <div className="container" style={{ padding: '40px 24px' }}>
@@ -254,7 +256,7 @@ export default function SalonProfile() {
                 )}
               </div>
               {rev.userReview && <p className="review-text">“{rev.userReview}”</p>}
-              <span className="review-date">{new Date(rev.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+              <span className="review-date">{new Date(rev.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
             </div>
           ))}
         </div>

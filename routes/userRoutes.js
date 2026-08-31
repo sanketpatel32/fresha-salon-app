@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const authMiddleware = require('../middlewares/authMiddleware');
-const { validate, loginSchema, customerSignupSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendVerificationSchema, accountDeletionSchema, recentlyViewedSchema, favoriteStaffSchema } = require('../utils/validators');
+const { validate, loginSchema, customerSignupSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendVerificationSchema, accountDeletionSchema, recentlyViewedSchema, favoriteStaffSchema, profileUpdateSchema } = require('../utils/validators');
 const { strictLimiter } = require('../middlewares/rateLimiters');
 
 // Public auth endpoints.
@@ -27,7 +27,7 @@ router.get('/search', authMiddleware, authMiddleware.requireRole('admin'), userC
 
 // A customer's own profile — scoped by req.user in the controllers.
 router.get('/profile', authMiddleware, userController.getUserProfile);
-router.put('/edit', authMiddleware, userController.editProfile);
+router.put('/edit', authMiddleware, validate(profileUpdateSchema), userController.editProfile);
 
 // A customer's own loyalty balance (#27). Customer tokens only: the role
 // guard rejects salon/staff/admin tokens (they carry no userId to scope by).

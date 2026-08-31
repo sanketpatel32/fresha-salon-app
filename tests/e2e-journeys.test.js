@@ -46,7 +46,7 @@ cashfree.createOrder = async () => 'stub-e2e-session-id';
 
 const { salonSignup, getAllSalons } = require('../controllers/salonController');
 const { addService } = require('../controllers/salonServicesController');
-const { addStaff } = require('../controllers/salonStaffController');
+const { addStaff, assignServices } = require('../controllers/salonStaffController');
 const { processPayment } = require('../controllers/paymentController');
 const { finalizeAppointmentFromPayment } = require('../services/paymentService');
 const {
@@ -159,6 +159,15 @@ test('JOURNEY 1 book-to-review: signup -> browse(#22) -> pay(note+party) -> fina
     assert.equal(staffRes.statusCode, 201);
     const staff = plain(staffRes.body.staff);
     assert.equal(Number(staff.salonId), Number(salon.id));
+
+    // A stylist only becomes bookable once the console links them to a
+    // service — /pay enforces the same eligibility the checker does.
+    const assignRes = mockRes();
+    await assignServices(mockReq({
+        user: { role: 'salon', salonId: salon.id },
+        body: { staffId: staff.id, services: [service.id] },
+    }), assignRes);
+    assert.equal(assignRes.statusCode, 200);
 
     // ── Customer joins through the REAL signup flow ────────────────────
     const custRes = mockRes();
@@ -328,6 +337,7 @@ test('JOURNEY 2 promo + tip economics: promo(#10) -> discounted+tipped payment(#
     });
     const staff = await Staff.create({ name: 'Stylist Finn', email: 'finn@e2e.com', password: 'x', phoneNumber: '9000000013', salonId: salon.id });
     const service = await Services.create({ name: 'Signature Trim', price: 200, duration: 60, salonId: salon.id });
+    await staff.setServices([service]); // /pay enforces staff-service eligibility
 
     // ── Promo code authored by the salon (#10) ─────────────────────────
     const promoRes = mockRes();
@@ -449,6 +459,7 @@ test('JOURNEY 3 lifecycle edges: referral chain(+100 both,#28) -> waitlist dup-g
     });
     const staff = await Staff.create({ name: 'Stylist Gia', email: 'gia@e2e.com', password: 'x', phoneNumber: '9000000021', salonId: salon.id });
     const service = await Services.create({ name: 'New Client Cut', price: 80, duration: 30, salonId: salon.id });
+    await staff.setServices([service]); // /pay enforces staff-service eligibility
 
     // ── Referral signup chain (#28): referrer exists with a personal code ──
     const referrer = await User.create({ name: 'Rita Referrer', email: 'rita@e2e.com', password: 'x', phoneNumber: '9000000022' });

@@ -79,6 +79,10 @@ before(async () => {
     service500 = await Services.create({ name: 'Signature Cut', price: 500, duration: 60, salonId: salonA.id });
     serviceDecimal = await Services.create({ name: 'Decimal Trim', price: 33.33, duration: 45, salonId: salonA.id });
 
+    // /pay now enforces staff-service eligibility (same source as the
+    // availability checker and reschedule), so the fixture must link them.
+    await staffA.setServices([service500, serviceDecimal]);
+
     // Promos for the discount+tip interactions.
     await PromoCode.create({ code: 'PCT10CAP40', discountType: 'percent', discountValue: 10, maxDiscountAmount: 40 }); // 500 -> min(50, 40) = 40 off
     await PromoCode.create({ code: 'FLAT100', discountType: 'flat', discountValue: 100, minOrderAmount: 300 });        // 500 -> 400

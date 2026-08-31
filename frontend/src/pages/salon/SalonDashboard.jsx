@@ -31,8 +31,15 @@ export default function SalonDashboard() {
   const [staffLoading, setStaffLoading] = useState(true);
   const [appointmentsLoading, setAppointmentsLoading] = useState(true);
 
+  // Local-timezone YYYY-MM-DD — UTC "today" (toISOString) is wrong between
+  // local midnight and the UTC rollover (e.g. IST 00:00–05:30).
+  const todayLocal = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
+
   // Calendar state
-  const [calendarWeek, setCalendarWeek] = useState(new Date().toISOString().slice(0, 10));
+  const [calendarWeek, setCalendarWeek] = useState(todayLocal());
   const [calendarAppointments, setCalendarAppointments] = useState([]);
   const [calendarLoading, setCalendarLoading] = useState(false);
 
@@ -43,6 +50,7 @@ export default function SalonDashboard() {
   const [serviceCategory, setServiceCategory] = useState('Other');
   const [editServiceId, setEditServiceId] = useState(null);
   const [deleteServiceTarget, setDeleteServiceTarget] = useState(null);
+  const [savingService, setSavingService] = useState(false);
 
   // Staff form state
   const [staffName, setStaffName] = useState('');
@@ -52,6 +60,7 @@ export default function SalonDashboard() {
   const [selectedStaffId, setSelectedStaffId] = useState(null);
   const [selectedStaffServices, setSelectedStaffServices] = useState([]);
   const [showAssignModal, setShowAssignModal] = useState(false);
+  const [savingStaff, setSavingStaff] = useState(false);
 
   // Salon details form state
   const [salonName, setSalonName] = useState('');
@@ -98,10 +107,6 @@ export default function SalonDashboard() {
   const [revenueLoading, setRevenueLoading] = useState(false);
 
   // Waitlist day sheet (#30) — who is queued for a given date.
-  const todayLocal = () => {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  };
   const [waitlistDay, setWaitlistDay] = useState(todayLocal());
   const [dayWaitlist, setDayWaitlist] = useState([]);
   const [dayWaitlistLoading, setDayWaitlistLoading] = useState(false);
@@ -302,6 +307,8 @@ export default function SalonDashboard() {
   // Services Management handlers
   const handleAddOrUpdateService = async (e) => {
     e.preventDefault();
+    if (savingService) return;
+    setSavingService(true);
     try {
       if (editServiceId) {
         await axios.put(`/api/salonsdashboard/services/update/${editServiceId}`, {
@@ -329,6 +336,8 @@ export default function SalonDashboard() {
       fetchServices();
     } catch (err) {
       showToast('Error saving service information', 'error');
+    } finally {
+      setSavingService(false);
     }
   };
 
@@ -359,6 +368,8 @@ export default function SalonDashboard() {
   // Staff Management handlers
   const handleAddStaff = async (e) => {
     e.preventDefault();
+    if (savingStaff) return;
+    setSavingStaff(true);
     try {
       await axios.post('/api/salonsdashboard/staff/add', {
         name: staffName,
@@ -374,6 +385,8 @@ export default function SalonDashboard() {
       fetchStaff();
     } catch (err) {
       showToast('Error adding staff member', 'error');
+    } finally {
+      setSavingStaff(false);
     }
   };
 
@@ -400,7 +413,8 @@ export default function SalonDashboard() {
 
   const handleSaveAssignedServices = async () => {
     try {
-      await axios.put(`/api/salonsdashboard/staff/assignServices?staffid=${selectedStaffId}`, {
+      await axios.put('/api/salonsdashboard/staff/assignServices', {
+        staffId: selectedStaffId,
         services: selectedStaffServices
       });
       showToast('Staff services assigned successfully!', 'success');
@@ -475,7 +489,7 @@ export default function SalonDashboard() {
 
   const handleOpenBlockout = (staffId) => {
     setBlockoutStaffId(staffId);
-    setBlockoutDate(new Date().toISOString().slice(0, 10));
+    setBlockoutDate(todayLocal());
     setBlockoutStart('12:00');
     setBlockoutEnd('13:00');
     setBlockoutReason('');
@@ -841,8 +855,8 @@ export default function SalonDashboard() {
                         <th style={{ position: 'sticky', left: 0, background: 'var(--bg-secondary)' }}>Staff</th>
                         {days.map(d => (
                           <th key={d} style={{ textAlign: 'center' }}>
-                            <div>{new Date(d).toLocaleDateString('en-US', { weekday: 'short' })}</div>
-                            <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 400 }}>{new Date(d).getDate()}</div>
+                            <div>{new Date(d + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short' })}</div>
+                            <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 400 }}>{new Date(d + 'T00:00:00').getDate()}</div>
                           </th>
                         ))}
                       </tr>
@@ -963,7 +977,7 @@ export default function SalonDashboard() {
                   </select>
                 </div>
                 <div style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
-                  <button type="submit" className="btn btn-primary btn-sm" style={{ flex: 1 }}>Save Service</button>
+                  <button type="submit" disabled={savingService} className="btn btn-primary btn-sm" style={{ flex: 1 }}>Save Service</button>
                   {editServiceId && (
                     <button type="button" onClick={() => { setEditServiceId(null); setServiceName(''); setServicePrice(''); setServiceCategory('Other'); }} className="btn btn-secondary btn-sm">Cancel</button>
                   )}
@@ -1067,7 +1081,7 @@ export default function SalonDashboard() {
                   <label htmlFor="staff-password" className="form-label">Login Password</label>
                   <input id="staff-password" type="password" minLength={8} title="At least 8 characters" className="form-input" style={{ paddingLeft: '16px' }} placeholder="••••••••" value={staffPassword} onChange={e => setStaffPassword(e.target.value)} required />
                 </div>
-                <button type="submit" className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: '12px' }}>Save Staff Member</button>
+                <button type="submit" disabled={savingStaff} className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: '12px' }}>Save Staff Member</button>
               </form>
             </div>
           </div>

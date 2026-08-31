@@ -195,7 +195,7 @@ const toMinutes = (timeString) => {
   return h * 60 + min;
 };
 
-/** Minutes since midnight -> "HH:mm" (zero-padded, clamped to a 24h day). */
+/** Minutes since midnight -> "HH:mm" (zero-padded; wraps modulo 24h). */
 const fromMinutes = (minutes) => {
   const total = ((Math.trunc(Number(minutes)) % 1440) + 1440) % 1440;
   return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;

@@ -105,20 +105,29 @@ const handleUserSignup = async (req, res) => {
     }
 };
 
+// Timing equalizer for the login path: comparing against this when the email
+// is unknown keeps the response time identical to the wrong-password case, so
+// "Invalid credentials" reveals nothing about which branch ran.
+const DUMMY_HASH = bcrypt.hashSync('not-a-real-password', 10);
+
 const handleUserLogin = async (req, res) => {
     const { email, password } = req.body;
 
     try {
         const user = await userModel.findOne({ where: { email } });
 
+        // Same status AND message whether the account doesn't exist or the
+        // password is wrong — a 404/401 split was a free account-existence
+        // oracle (the password-reset endpoints already follow this rule).
         if (!user) {
-            return res.status(404).json({ error: "User not found" });
+            await bcrypt.compare(password, DUMMY_HASH);
+            return res.status(401).json({ error: "Invalid credentials" });
         }
 
         // Compare the hashed password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(401).json({ error: "Incorrect password" });
+            return res.status(401).json({ error: "Invalid credentials" });
         }
 
         // Generate JWT token
@@ -469,8 +478,14 @@ const getUserProfile = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        
+        // Strip credential material: password plus the reset/verification
+        // token hashes are useless to the client and dangerous in proxies/
+        // logs.
         delete user.dataValues.password;
+        delete user.dataValues.resetTokenHash;
+        delete user.dataValues.resetTokenExpiresAt;
+        delete user.dataValues.verificationTokenHash;
+        delete user.dataValues.verificationExpiresAt;
 
         res.status(200).json(user);
     } catch (error) {
@@ -547,13 +562,42 @@ const editProfile = async (req, res) => {
         }
 
         // Update user details
-        user.name = name;
-        user.email = email;
-        user.phoneNumber = phoneNumber;
+        // Update only provided fields (schema made them all optional) —
+        // blanket assignment wrote `undefined` over columns whenever the
+        // client omitted one.
+        if (name !== undefined) user.name = name;
+        if (phoneNumber !== undefined) user.phoneNumber = phoneNumber;
+        if (email !== undefined && email !== user.email) {
+            // users.email has no DB unique constraint, so the controller owns
+            // this rule: a duplicate would make every email-keyed lookup
+            // (login, password reset, verification) resolve to an arbitrary
+            // row — including the victim's.
+            const clash = await userModel.findOne({ where: { email } });
+            if (clash && clash.id !== user.id) {
+                return res.status(409).json({ message: "Email is already in use" });
+            }
+            // A new address is unproven: drop the verified badge and any
+            // in-flight verification token for the OLD address.
+            user.email = email;
+            user.emailVerified = false;
+            user.verificationTokenHash = null;
+            user.verificationExpiresAt = null;
+        }
 
         await user.save();
 
-        res.status(200).json({ message: "Profile updated successfully", user });
+        // Whitelisted response — serializing the raw instance shipped the
+        // bcrypt password hash and the reset/verification token hashes.
+        res.status(200).json({
+            message: "Profile updated successfully",
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                emailVerified: Boolean(user.emailVerified),
+            },
+        });
     } catch (error) {
         console.error("Error updating profile:", error);
         res.status(500).json({ message: "Internal server error" });

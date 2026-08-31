@@ -468,6 +468,15 @@ const server = app.listen(PORT, config.server.host, () => {
       ).catch((err) => {
         console.warn('⚠️ Could not create the series-occurrence index:', err.message);
       });
+      // One ACTIVE waitlist entry per user+salon+day. Partial (only
+      // status='waiting') so leaving and rejoining stays legal. Best-effort:
+      // a pre-existing duplicate only logs a warning, like the indexes above.
+      await sequelize.query(
+        'CREATE UNIQUE INDEX IF NOT EXISTS waitlist_active_entry_uq '
+        + 'ON "Waitlists" (userId, salonId, date) WHERE status = \'waiting\''
+      ).catch((err) => {
+        console.warn('⚠️ Could not create the waitlist uniqueness index:', err.message);
+      });
       // ── Reminder email scheduler (#29) ──────────────────────────────────
       // Hourly sweep of bookings starting within the next 24h: each gets one
       // reminder, claimed by stamping reminderSentAt first (at-most-once).

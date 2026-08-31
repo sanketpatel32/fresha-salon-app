@@ -34,6 +34,7 @@ export default function CustomerDashboard() {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
   const [page, setPage] = useState(1);
+  const [retryToken, setRetryToken] = useState(0); // bumped by "Try again" to refire the fetch
 
   // Favorites.
   const [favoriteSalonIds, setFavoriteSalonIds] = useState(new Set());
@@ -75,8 +76,11 @@ export default function CustomerDashboard() {
     return () => clearTimeout(t);
   }, [searchInput]);
 
-  // Fetch salons whenever filters/sort/page change.
+  // Fetch salons whenever filters/sort/page change. The ignore flag drops
+  // responses from stale requests (fast filter changes used to race and the
+  // earlier response could overwrite the newer one).
   useEffect(() => {
+    let ignore = false;
     const fetchSalons = async () => {
       setLoading(true);
       setLoadError(false);
@@ -92,6 +96,7 @@ export default function CustomerDashboard() {
         params.set('limit', PAGE_SIZE);
 
         const res = await axios.get(`/api/buisness/getall?${params.toString()}`);
+        if (ignore) return;
         if (Array.isArray(res.data)) {
           // Legacy bare-array response (no pagination wrapper).
           setSalons(res.data);
@@ -104,13 +109,14 @@ export default function CustomerDashboard() {
         }
       } catch (err) {
         console.error('Error fetching salons', err);
-        setLoadError(true);
+        if (!ignore) setLoadError(true);
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
     fetchSalons();
-  }, [searchQuery, category, pricing, minRating, sort, page]);
+    return () => { ignore = true; };
+  }, [searchQuery, category, pricing, minRating, sort, page, retryToken]);
 
   // Fetch favorites (once).
   useEffect(() => {
@@ -378,7 +384,7 @@ export default function CustomerDashboard() {
           <Scissors size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
           <h3>Couldn't load salons</h3>
           <p style={{ color: 'var(--color-ink-2)', marginTop: '8px' }}>Something went wrong on our end.</p>
-          <button onClick={() => { setPage(1); setSearchQuery(''); }} className="btn btn-primary btn-sm" style={{ marginTop: '16px' }}>Try again</button>
+          <button onClick={() => { setPage(1); setSearchQuery(''); setRetryToken(t => t + 1); }} className="btn btn-primary btn-sm" style={{ marginTop: '16px' }}>Try again</button>
         </div>
       ) : displayed.length === 0 ? (
         <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>

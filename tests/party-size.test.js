@@ -72,6 +72,8 @@ before(async () => {
     });
     staffA = await Staff.create({ name: 'Stylist Groups', email: 'stg@t.com', password: 'x', phoneNumber: '3', salonId: salonA.id });
     serviceA = await Services.create({ name: 'Bridal Package', price: 500, duration: 60, salonId: salonA.id });
+    // /pay enforces staff-service eligibility (mirrors the checker).
+    await staffA.setServices([serviceA]);
 });
 
 after(async () => { await sequelize.close(); });

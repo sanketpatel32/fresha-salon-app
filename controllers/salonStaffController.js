@@ -25,6 +25,9 @@ const addStaff = async (req, res) => {
             salonId,
         });
 
+        // Never serialize the raw instance — it carries the bcrypt password
+        // hash (the read path below already restricts attributes).
+        delete staff.dataValues.password;
         return res.status(201).json({ message: 'Staff member added successfully', staff });
     } catch (error) {
         console.error(error);
@@ -87,8 +90,11 @@ const getStaffById = async (req, res) => {
 };
 const assignServices = async (req, res) => {
     try {
-        const staffId = req.query.staffid;
-        const { services } = req.body;
+        // staffId comes from the validated BODY (staffAssignServicesSchema).
+        // It previously read req.query.staffid while the schema validated the
+        // body — the two never agreed, so every HTTP call 400'd and salons
+        // could not assign services to staff at all.
+        const { staffId, services } = req.body;
         const salonId = req.user.salonId;
 
         if (!staffId) {

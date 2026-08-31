@@ -10,6 +10,7 @@ const Payment = require('../models/paymentModel');
 const appointmentModel = require('../models/appointmentModel');
 const salonModel = require('../models/salonsModel');
 const PromoCode = require('../models/promoCodeModel');
+const { Op } = require('sequelize');
 const { conflictingStaffIds } = require('./availabilityService');
 const { createBookingSafely } = require('./bookingGuard');
 
@@ -66,8 +67,14 @@ const resolvePromo = async (rawCode, salonId, amount) => {
   if (!promo || !promo.isActive) return { ok: false, reason: PROMO_REASONS.invalid };
 
   const now = new Date();
+  // DATEONLY values arrive as midnight UTC of that day, so "inclusive" on the
+  // end date means comparing against the END of validUntil's day — otherwise
+  // a promo meant to run through Aug 31 dies at Aug 31 00:00 UTC.
+  const validUntilEnd = promo.validUntil
+    ? new Date(new Date(promo.validUntil).getTime() + 86399999)
+    : null;
   if ((promo.validFrom && now < new Date(promo.validFrom)) ||
-      (promo.validUntil && now > new Date(promo.validUntil))) {
+      (validUntilEnd && now > validUntilEnd)) {
     return { ok: false, reason: PROMO_REASONS.expired };
   }
 
@@ -154,6 +161,17 @@ const finalizeAppointmentFromPayment = async (order) => {
   );
 
   if (!result.ok) {
+    // The webhook and the browser redirect can finalize the SAME order within
+    // milliseconds; the loser violates the orderId unique index, which the
+    // guard reports as SLOT_TAKEN. But the appointment EXISTS — re-check
+    // before mislabeling a fulfilled payment (a "Slot taken" row drops out of
+    // revenue/tip analytics and can trigger a bogus refund).
+    const twin = await appointmentModel.findOne({
+      where: { orderId: order.orderId },
+    });
+    if (twin) {
+      return twin;
+    }
     // Do not create a clashing appointment. Mark the payment so the failure is
     // visible rather than silently dropping the booking.
     order.paymentStatus = 'Slot taken';
@@ -182,15 +200,31 @@ const finalizeAppointmentFromPayment = async (order) => {
 
   // Redeem the promo exactly once per booking. Only the success path reaches
   // here — the idempotent early-return above prevents replays (redirect +
-  // webhook firing for the same order) from double-counting. Atomic SQL
-  // increment, and failures are swallowed: a broken promo counter must never
-  // undo an already-captured booking.
+  // webhook firing for the same order) from double-counting. The increment is
+  // CONDITIONAL on headroom below usageLimit so two concurrent checkouts can't
+  // both spend the last redemption (check-then-act at order creation races);
+  // a payment already captured with the discount still finalizes — the money
+  // moved — but the counter never exceeds the cap. Failures are swallowed: a
+  // broken promo counter must never undo an already-captured booking.
   if (order.promoCodeApplied) {
     try {
-      await PromoCode.increment('usedCount', {
-        by: 1,
-        where: { code: order.promoCodeApplied },
-      });
+      const [affected] = await PromoCode.update(
+        { usedCount: PromoCode.sequelize.literal('usedCount + 1') },
+        {
+          where: {
+            code: order.promoCodeApplied,
+            [Op.or]: [
+              { usageLimit: null },
+              PromoCode.sequelize.literal('usedCount < usageLimit'),
+            ],
+          },
+        }
+      );
+      if (affected === 0) {
+        console.warn(
+          `Promo ${order.promoCodeApplied}: limit reached between order and finalize; counter not incremented.`
+        );
+      }
     } catch (err) {
       console.error('Promo usage increment failed:', err.message);
     }
@@ -242,16 +276,20 @@ const finalizeAppointmentFromPayment = async (order) => {
 };
 
 /**
- * Look up the authoritative price for a service, validating it belongs to
- * the claimed salon. Returns null if the service doesn't exist or the salon
- * ownership is wrong.
+ * Look up the authoritative price AND duration for a service, validating it
+ * belongs to the claimed salon and is still sellable. Returns null if the
+ * service doesn't exist, { mismatch: true } on wrong salon ownership, and
+ * { archived: true } for soft-archived services (#51 policy: an archived
+ * service must never be sold again — the quote and rebook paths already
+ * refuse it; /pay must not disagree with them).
  */
 const getAuthoritativePrice = async (serviceId, salonId) => {
   const servicesModel = require('../models/servicesModel');
   const service = await servicesModel.findByPk(serviceId);
   if (!service) return null;
-  if (service.salonId !== salonId) return { mismatch: true };
-  return { price: service.price };
+  if (Number(service.salonId) !== Number(salonId)) return { mismatch: true };
+  if (service.statusbar === 'archived') return { archived: true };
+  return { price: service.price, duration: service.duration };
 };
 
 module.exports = {

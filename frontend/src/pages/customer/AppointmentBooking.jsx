@@ -181,13 +181,18 @@ export default function AppointmentBooking() {
                 <label className="form-label">Available Date</label>
                 <div className="date-selector-grid" role="group" aria-label="Available dates">
                   {dates.map(date => {
-                    const dateObj = new Date(date);
+                    const dateObj = new Date(date + 'T00:00:00');
                     const isSelected = selectedDate === date;
                     return (
                       <button
                         key={date}
                         type="button"
-                        onClick={() => setSelectedDate(date)}
+                        onClick={() => {
+                          setSelectedDate(date);
+                          // Slot changed — previous availability check is stale.
+                          setAvailableStaff([]);
+                          setSelectedStaffId('');
+                        }}
                         aria-pressed={isSelected}
                         aria-label={`${dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`}
                         className={`slot-btn ${isSelected ? 'selected' : ''}`}
@@ -209,7 +214,12 @@ export default function AppointmentBooking() {
                       <button
                         key={time}
                         type="button"
-                        onClick={() => setSelectedTime(time)}
+                        onClick={() => {
+                          setSelectedTime(time);
+                          // Slot changed — previous availability check is stale.
+                          setAvailableStaff([]);
+                          setSelectedStaffId('');
+                        }}
                         aria-pressed={isSelected}
                         className={`slot-btn ${isSelected ? 'selected' : ''}`}
                       >

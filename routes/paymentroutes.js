@@ -2,10 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { processPayment, getPaymentStatus_, getStuckPayments, handleWebhook } = require('../controllers/paymentController');
 const authMiddleware = require('../middlewares/authMiddleware');
+const { moneyWriteLimiter } = require('../middlewares/rateLimiters');
 const { validate, paymentCreateSchema } = require('../utils/validators');
 
-// Create an order (authenticated customer).
-router.post('/', authMiddleware, authMiddleware.requireRole('customer'), validate(paymentCreateSchema), processPayment);
+// Create an order (authenticated customer). The money-write limiter sits after
+// auth so its key is the caller (role:id), not just the IP — order creation is
+// the one endpoint that can move real money and gets its own tight budget.
+router.post('/', authMiddleware, authMiddleware.requireRole('customer'), moneyWriteLimiter, validate(paymentCreateSchema), processPayment);
 
 // Payments with no booking yet (webhook-miss recovery). Authenticated customer.
 // Declared before /:orderId so "stuck" isn't captured as an order id.

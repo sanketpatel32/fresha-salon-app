@@ -18,7 +18,9 @@ if (process.env.DATABASE_URL) {
 } else {
   const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: path.join(__dirname, '..', 'database.sqlite'),
+    // DB_STORAGE redirects the sqlite file (tests use per-run files so
+    // concurrent `node --test` invocations can't corrupt each other).
+    storage: process.env.DB_STORAGE || path.join(__dirname, '..', 'database.sqlite'),
     logging: false, // Set to console.log to see database queries
   });
   module.exports = sequelize;

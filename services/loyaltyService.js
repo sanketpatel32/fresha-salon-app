@@ -21,6 +21,18 @@
 const User = require('../models/userModel');
 const logger = require('../utils/logger');
 
+// Claim model shared by the award paths: a conditional UPDATE (only when the
+// stamp is still null) is what makes "exactly once" hold under concurrency —
+// instance.save() is UPDATE ... WHERE id only, so two concurrent calls that
+// both read pointsAwardedAt === null would both save and both award.
+const claimOnce = async (model, stampField, id) => {
+  const [affected] = await model.update(
+    { [stampField]: new Date() },
+    { where: { id, [stampField]: null } }
+  );
+  return affected === 1;
+};
+
 const POINTS_PER_APPOINTMENT = 10;
 
 // Referral bonus (#28): both sides get this once, the moment the referred
@@ -35,11 +47,14 @@ const REFERRAL_BONUS_POINTS = 100;
 const awardForCompletedAppointment = async (appointment) => {
   try {
     if (!appointment || !appointment.userId) return { awarded: 0 };
-    // Idempotency claim — a replayed/concurrent call loses this race and no-ops.
+    // Fast path for the common replay (sequential double-click): the in-memory
+    // check avoids a pointless UPDATE. The atomic claim below is what actually
+    // guards the concurrent window.
     if (appointment.pointsAwardedAt) return { awarded: 0 };
 
-    appointment.pointsAwardedAt = new Date();
-    await appointment.save();
+    const won = await claimOnce(require('../models/appointmentModel'), 'pointsAwardedAt', appointment.id);
+    if (!won) return { awarded: 0 };
+    appointment.pointsAwardedAt = appointment.pointsAwardedAt || new Date();
 
     // Atomic SQL increments on both the balance and the audit counter. A user
     // row that vanished mid-flight simply affects 0 rows (no throw).

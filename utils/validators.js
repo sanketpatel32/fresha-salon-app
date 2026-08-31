@@ -6,6 +6,19 @@
  * enough for the client to fix the input, without leaking schema internals.
  */
 const { z } = require('zod');
+const { localDay } = require('./timezone');
+
+// Strict 24h HH:mm (rejects "25:00", "9:99"). Shared by every time field so
+// the booking, payment and reschedule paths can't disagree on what a time is.
+const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+// Calendar-valid YYYY-MM-DD. A shape-only regex lets "2026-02-30" through,
+// which JS silently rolls to Mar 2 — booking a different day than displayed.
+const isValidCalendarDate = (d) => {
+  const [y, m, day] = d.split('-').map(Number);
+  const dt = new Date(y, m - 1, day);
+  return dt.getFullYear() === y && dt.getMonth() === m - 1 && dt.getDate() === day;
+};
 
 const validate = (schema, source = 'body') => (req, _res, next) => {
   const target = source === 'query' ? req.query : req.body;
@@ -120,8 +133,9 @@ const salonBrowseSchema = z.object({
 
 // ── Appointment check ──────────────────────────────────────────────────
 const appointmentCheckSchema = z.object({
-  dateSelect: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'dateSelect must be YYYY-MM-DD'),
-  time: z.string().regex(/^\d{2}:\d{2}$/, 'time must be HH:mm'),
+  dateSelect: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'dateSelect must be YYYY-MM-DD')
+    .refine(isValidCalendarDate, { message: 'dateSelect is not a valid calendar date' }),
+  time: z.string().regex(TIME_RE, 'time must be a valid HH:mm'),
   salonId: z.coerce.number().int().positive(),
   serviceId: z.coerce.number().int().positive(),
   duration: z.coerce.number().int().positive().max(600),
@@ -136,8 +150,9 @@ const paymentCreateSchema = z.object({
   serviceId: z.coerce.number().int().positive(),
   salonId: z.coerce.number().int().positive(),
   staffId: z.coerce.number().int().positive(),
-  dateSelect: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  time: z.string().regex(/^\d{2}:\d{2}$/),
+  dateSelect: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'dateSelect must be YYYY-MM-DD')
+    .refine(isValidCalendarDate, { message: 'dateSelect is not a valid calendar date' }),
+  time: z.string().regex(TIME_RE, 'time must be a valid HH:mm'),
   duration: z.coerce.number().int().positive().max(600),
   // servicePrice is accepted but IGNORED — the server reads the real price
   // from the services table. Kept in the schema so the frontend's payload
@@ -236,11 +251,12 @@ const promoUpdateSchema = z.object({
 // provided → must be a whole number 1..20 (no default here, unlike the
 // booking schema — rescheduling shouldn't silently reset a group to 1).
 const rescheduleSchema = z.object({
-  dateSelect: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'dateSelect must be YYYY-MM-DD').refine(
-    (d) => d >= new Date().toISOString().slice(0, 10),
-    { message: 'dateSelect must be today or later' }
-  ),
-  time: z.string().regex(/^\d{2}:\d{2}$/, 'time must be HH:mm'),
+  dateSelect: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'dateSelect must be YYYY-MM-DD')
+    .refine(isValidCalendarDate, { message: 'dateSelect is not a valid calendar date' })
+    // Today in the SERVER-LOCAL frame — toISOString() is UTC and shifts the
+    // day near midnight (see utils/timezone localDay).
+    .refine((d) => d >= localDay(), { message: 'dateSelect must be today or later' }),
+  time: z.string().regex(TIME_RE, 'time must be a valid HH:mm'),
   staffId: z.coerce.number().int().positive('staffId must be a positive integer').optional(),
   customerNote: z.string().trim()
     .max(500, 'Customer note cannot exceed 500 characters')
@@ -269,8 +285,12 @@ const reviewReplySchema = z.object({
 });
 
 // ── Status update ──────────────────────────────────────────────────────
+// 'no-show' must be here or the entire no-show feature is unreachable via
+// HTTP: the validator 400s it before updateAppointmentStatus's salon-only,
+// past-time-checked branch can ever run (the role/time gates live in the
+// controller, which also allows pending/confirmed → no-show per statusRules).
 const statusUpdateSchema = z.object({
-  status: z.enum(['pending', 'confirmed', 'declined', 'completed', 'cancelled']),
+  status: z.enum(['pending', 'confirmed', 'declined', 'completed', 'cancelled', 'no-show']),
 });
 
 // ── Staff management ───────────────────────────────────────────────────
@@ -302,7 +322,6 @@ const favoriteAddSchema = z.object({
 // availabilityService.validateSalonHours requires, and a bad shape here would
 // silently disable the salon-hours enforcement on the booking flow.
 const DAY_CODES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
 const salonDetailsSchema = z.object({
   salonId: z.coerce.number().int().positive().optional(),
   name: z.string().min(1).max(120).optional(),
@@ -394,7 +413,7 @@ const staffDirectorySchema = z.object({
 const waitlistJoinSchema = z.object({
   salonId: z.coerce.number().int().positive('A valid salon id is required'),
   date: z.string().regex(DATE_ONLY_RE, 'date must be YYYY-MM-DD').refine(
-    (d) => d >= new Date().toISOString().slice(0, 10),
+    (d) => d >= localDay(),
     { message: 'Waitlist date must be today or later' }
   ),
   partySize: z.coerce.number().int('Party size must be a whole number')
@@ -421,6 +440,16 @@ const analyticsWindowSchema = z.object({
   days: z.coerce.number().int('days must be a whole number')
     .transform((v) => Math.min(90, Math.max(1, v)))
     .default(30),
+});
+
+// ── Profile edit ──────────────────────────────────────────────────────
+// All fields optional; the controller only touches what arrived. Email keeps
+// the same shape rule as signup (uniqueness is checked in the controller —
+// the users table has no unique index on email).
+const profileUpdateSchema = z.object({
+  name: z.string().trim().min(1, 'Name cannot be empty').max(100).optional(),
+  email: z.string().trim().email('A valid email is required').optional(),
+  phoneNumber: z.string().min(7, 'A valid phone number is required').max(20).optional(),
 });
 
 // ── GDPR account self-deletion (#32) ──────────────────────────────────
@@ -488,7 +517,15 @@ const quoteSchema = z.object({
   serviceId: z.coerce.number().int().positive('A valid service id is required'),
   staffId: z.coerce.number().int().positive('A valid staff id is required').optional(),
   promoCode: z.string().trim().max(64).optional(),
-  tipAmount: z.coerce.number().min(0, 'Tip cannot be negative').max(100000).optional(),
+  // Same bounds/rounding as paymentCreateSchema.tipAmount — a quote that
+  // allows what /pay rejects (or vice versa) is exactly the quote-vs-charge
+  // divergence this endpoint exists to prevent.
+  tipAmount: z.coerce.number()
+    .min(0, 'Tip cannot be negative')
+    .max(10000, 'Tip cannot exceed 10000')
+    .transform((v) => (v == null ? v : Math.round((Number(v) + Number.EPSILON) * 100) / 100))
+    .optional()
+    .nullable(),
   partySize: z.coerce.number().int().min(1).max(20).default(1),
 });
 
@@ -547,7 +584,7 @@ const seriesCreateSchema = z.object({
   serviceId: z.coerce.number().int().positive('A valid service id is required'),
   staffId: z.coerce.number().int().positive('A valid staff id is required'),
   startDate: z.string().regex(DATE_ONLY_RE, 'startDate must be YYYY-MM-DD').refine(
-    (d) => d >= new Date().toISOString().slice(0, 10),
+    (d) => d >= localDay(),
     { message: 'startDate must be today or later' }
   ),
   time: z.string().regex(TIME_RE, 'time must be HH:mm'),
@@ -615,4 +652,5 @@ module.exports = {
   waitlistJoinSchema,
   waitlistDateSchema,
   accountDeletionSchema,
+  profileUpdateSchema,
 };

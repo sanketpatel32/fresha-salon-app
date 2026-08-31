@@ -143,3 +143,7 @@ dist
 
 # ZCode agent workspace (local-only artifacts)
 .zcode/
+
+# Local tooling artifacts and DB backups (never ship)
+.mimosa/
+*.bak

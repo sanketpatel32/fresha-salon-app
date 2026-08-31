@@ -322,14 +322,17 @@ test('an audit row is recorded asynchronously with action account.self_delete', 
 // ── Aftermath ─────────────────────────────────────────────────────────────
 
 test('post-deletion logins fail naturally — old email unknown, anonymized email unusable', async () => {
+    // Both branches answer identically (401 "Invalid credentials") — a
+    // 404/401 split was an account-existence oracle.
     const oldEmail = mockRes();
     await handleUserLogin({ body: { email: 'jane@t.com', password: PASSWORD } }, oldEmail);
-    assert.equal(oldEmail.statusCode, 404, 'old email no longer resolves to any row');
+    assert.equal(oldEmail.statusCode, 401, 'old email: no existence signal');
+    assert.equal(oldEmail.body.error, 'Invalid credentials');
 
     const anonEmail = mockRes();
     await handleUserLogin({ body: { email: `deleted+${customer.id}@anonymized.local`, password: PASSWORD } }, anonEmail);
     assert.equal(anonEmail.statusCode, 401);
-    assert.equal(anonEmail.body.error, 'Incorrect password');
+    assert.equal(anonEmail.body.error, 'Invalid credentials');
 });
 
 test('idempotency: a second call answers the identical 200 and does zero new work', async () => {

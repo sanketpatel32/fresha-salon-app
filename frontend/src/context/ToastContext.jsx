@@ -11,7 +11,9 @@ export function ToastProvider({ children }) {
   const [toast, setToast] = useState(null);
 
   const showToast = useCallback((message, type = 'success') => {
-    setToast({ message, type });
+    // Fresh id per toast so a replacing toast remounts ToastView and its
+    // auto-dismiss timer restarts (deps-only-[onClose] never restarted it).
+    setToast({ message, type, id: Date.now() });
   }, []);
 
   const dismiss = useCallback(() => setToast(null), []);
@@ -19,7 +21,7 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      {toast && <ToastView message={toast.message} type={toast.type} onClose={dismiss} />}
+      {toast && <ToastView key={toast.id} message={toast.message} type={toast.type} onClose={dismiss} />}
     </ToastContext.Provider>
   );
 }

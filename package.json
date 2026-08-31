@@ -22,6 +22,9 @@
   },
   "homepage": "https://github.com/sanketpatel32/fresha-salon-app#readme",
   "description": "Salon booking app with React frontend and Express/Sequelize backend",
+  "engines": {
+    "node": ">=22"
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cashfree-pg": "^4.3.1",

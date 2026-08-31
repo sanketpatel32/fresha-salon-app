@@ -69,6 +69,13 @@ const getServiceById = async (req, res) => {
             return res.status(404).json({ message: "Service not found" });
         }
 
+        // Ownership, same rule as update/delete below: without it any salon
+        // token could enumerate every other salon's services (including
+        // archived ones the public browse deliberately hides).
+        if (service.salonId !== req.user.salonId) {
+            return res.status(403).json({ message: "Unauthorized: Access denied to this service" });
+        }
+
         return res.status(200).json(service);
     } catch (error) {
         console.error("Error in getServiceById:", error);

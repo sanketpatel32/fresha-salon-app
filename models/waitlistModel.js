@@ -62,6 +62,15 @@ const Waitlist = sequelize.define('Waitlist', {
         // created via sync() only apply on table creation — fine, new table.
         { fields: ['salonId', 'date', 'status'] },
         { fields: ['userId', 'createdAt'] },
+        // One ACTIVE entry per user+salon+date, enforced by the database. The
+        // controller's findOne pre-check is check-then-act; a double-tap on a
+        // flaky network inserted two queue positions before this index existed.
+        {
+            unique: true,
+            fields: ['userId', 'salonId', 'date'],
+            where: { status: 'waiting' },
+            name: 'waitlist_active_entry_uq',
+        },
     ],
 });
 

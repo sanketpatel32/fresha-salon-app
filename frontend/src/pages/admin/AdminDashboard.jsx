@@ -46,7 +46,7 @@ export default function AdminDashboard() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.get(`/api/admin/users/search?searchTerm=${searchTerm}`);
+      const res = await axios.get('/api/admin/users/search', { params: { searchTerm } });
       setUsers(res.data);
       if (res.data.length === 0) {
         showToast('No users found matching search term', 'error');

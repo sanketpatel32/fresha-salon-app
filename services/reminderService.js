@@ -97,8 +97,16 @@ const runReminderSweep = async (now = new Date()) => {
             try {
                 // Claim-first: stamp BEFORE sending (at-most-once semantics).
                 // A failed stamp skips the send — never risk a double-mail.
-                row.reminderSentAt = new Date();
-                await row.save();
+                // The stamp is a CONDITIONAL update (only when still null) so
+                // two overlapping sweeps can't both claim the same row —
+                // instance.save() is UPDATE ... WHERE id only, which lets a
+                // slow sweep (many sends) race the next interval and
+                // double-mail.
+                const [claimed] = await Appointment.update(
+                    { reminderSentAt: new Date() },
+                    { where: { id: row.id, reminderSentAt: null } }
+                );
+                if (claimed === 0) continue; // another sweep already claimed it
 
                 await emailService.sendAppointmentReminderEmail(row.user?.email, {
                     salonName: row.salon?.name,

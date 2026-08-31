@@ -50,9 +50,12 @@ const adminlogin = async (req, res) => {
 
 const getAllAppointments = async (req, res) => {
     try {
-        // Get current date and time in YYYY-MM-DD and HH:mm:ss format
+        // Current date and time in YYYY-MM-DD / HH:mm:ss, both in the
+        // SERVER-LOCAL frame — the stored date/time columns are host-local, so
+        // mixing a UTC day with a local clock skews "today but later than now"
+        // by the whole TZ offset on any non-UTC host.
         const now = new Date();
-        const currentDate = now.toISOString().slice(0, 10); // YYYY-MM-DD
+        const currentDate = require('../utils/timezone').localDay(now); // YYYY-MM-DD
         const currentTime = now.toTimeString().slice(0, 8); // HH:mm:ss
 
         // Backward compat: no page/limit params -> legacy bare-array response.
@@ -152,7 +155,11 @@ const searchUsers = async (req, res) => {
                     { email: pattern },
                     { phoneNumber: pattern }
                 ]
-            }
+            },
+            // Never ship credential material (password, reset/verification
+            // token hashes) to any client — the customer-facing twin of this
+            // endpoint has restricted attributes all along.
+            attributes: ['id', 'name', 'email', 'phoneNumber', 'createdAt'],
         });
 
         return res.status(200).json(users);
@@ -176,11 +183,30 @@ const deleteUser = async (req, res) => {
         // We can't rely on ON DELETE CASCADE: SQLite has foreign keys disabled
         // by default (no PRAGMA foreign_keys=ON), so the association-level
         // onDelete:'CASCADE' is a no-op in dev. Doing it explicitly works on
-        // both SQLite and Postgres.
+        // both SQLite and Postgres. The dependent-row set mirrors the GDPR
+        // self-delete path (deleteMyAccount): recurring series must be
+        // CANCELLED (an orphaned active series makes the nightly sweep create
+        // bookings for a dead account forever), and waitlist/notifications/
+        // favorite-staff rows carry personal data the destroy() below would
+        // otherwise orphan — they have no FK cascade to catch them.
         await sequelize.transaction(async (t) => {
             await appointmentModel.destroy({ where: { userId }, transaction: t });
             await paymentModel.destroy({ where: { customerID: userId }, transaction: t });
             await favoriteModel.destroy({ where: { userId }, transaction: t });
+            await require('../models/favoriteStaffModel').destroy({ where: { userId }, transaction: t });
+            await require('../models/recentlyViewModel').destroy({ where: { userId }, transaction: t });
+            await require('../models/recurringSeriesModel').update(
+                { status: 'cancelled' },
+                { where: { userId, status: { [Op.ne]: 'cancelled' } }, transaction: t }
+            );
+            await require('../models/waitlistModel').update(
+                { status: 'left' },
+                { where: { userId }, transaction: t }
+            );
+            await require('../models/notificationModel').destroy({
+                where: { recipientRole: 'customer', recipientId: userId },
+                transaction: t,
+            });
             await user.destroy({ transaction: t });
         });
 

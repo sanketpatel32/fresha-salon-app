@@ -6,19 +6,25 @@ const appointmentModel = require("../models/appointmentModel")
 const servicesModel = require('../models/servicesModel');
 const userModel = require('../models/userModel')
 
+// Timing equalizer — same pattern/reasoning as userController's login.
+const DUMMY_HASH = bcrypt.hashSync('not-a-real-password', 10);
+
 const handleStaffLogin = async (req, res) => {
     const { email, password } = req.body;
 
     try {
         const user = await staffModel.findOne({ where: { email } });
 
+        // Identical status/message for unknown email vs wrong password —
+        // the 404/401 split enumerated registered staff accounts.
         if (!user) {
-            return res.status(404).json({ error: "User not found" });
+            await bcrypt.compare(password, DUMMY_HASH);
+            return res.status(401).json({ error: "Invalid credentials" });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(401).json({ error: "Incorrect password" });
+            return res.status(401).json({ error: "Invalid credentials" });
         }
 
         // Generate JWT token

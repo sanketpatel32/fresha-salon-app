@@ -9,7 +9,7 @@ const {
   resolvePromo,
   round2,
 } = require("../services/paymentService");
-const { computeEndTime, validateSalonHours, validateLeadTime } = require("../services/availabilityService");
+const { computeEndTime, validateSalonHours, validateLeadTime, staffForService } = require("../services/availabilityService");
 const Salons = require("../models/salonsModel");
 const Payment = require("../models/paymentModel");
 const appointmentModel = require("../models/appointmentModel");
@@ -32,7 +32,7 @@ const crypto = require("crypto");
  */
 exports.processPayment = async (req, res) => {
   const userId = req.user.userId;
-  const { serviceId, salonId, dateSelect, time, staffId, duration, promoCode, customerNote, tipAmount } = req.body;
+  const { serviceId, salonId, dateSelect, time, staffId, promoCode, customerNote, tipAmount } = req.body;
   // Group bookings: the schema coerces + bounds this to 1..20 and defaults it
   // to 1 when omitted; the fallback covers direct callers that skip the
   // middleware. One professional serves the whole group — the size never
@@ -48,6 +48,30 @@ exports.processPayment = async (req, res) => {
     if (priceResult.mismatch) {
       return res.status(400).json({ message: "Service does not belong to this salon" });
     }
+    if (priceResult.archived) {
+      // Same policy as the quote and rebook paths (#51): an archived service
+      // must never be sold again — a stale checkout page doesn't revive it.
+      return res.status(409).json({ message: "This service is no longer available" });
+    }
+
+    // 1a0. Staff eligibility — same source as the availability checker and the
+    //      reschedule path. Without this, a client can name a stylist from a
+    //      DIFFERENT salon (or a nonexistent id): the appointment would be
+    //      created at salon X with salon Y's staff, invisible to that staff's
+    //      real conflict checks at salon Y.
+    const eligibleStaff = await staffForService(salonId, serviceId);
+    const staffMatch = eligibleStaff.find((s) => Number(s.id) === Number(staffId));
+    if (!staffMatch) {
+      return res.status(400).json({ message: "Selected staff is not available for this service" });
+    }
+
+    // 1a1. Authoritative duration: the SERVICE row decides how long the
+    //      booking is, not the client. A client-sent `duration` of 1 minute
+    //      for a 60-minute service would shrink the conflict window and let a
+    //      second booking overlap the same chair. The client field stays in
+    //      the schema for payload compatibility but carries no authority
+    //      (same rule as servicePrice).
+    const authoritativeDuration = priceResult.duration;
 
     // 1a. Optional promo code, validated against the AUTHORITATIVE price so
     //     min-order rules can't be gamed by client-side math. The schema has
@@ -85,8 +109,9 @@ exports.processPayment = async (req, res) => {
     // 1b. Enforce salon working hours/days here too. A customer could otherwise
     //     skip the /appointment/check step and POST straight to /pay with an
     //     out-of-hours slot. Using the shared helper keeps the rule consistent
-    //     with the checker.
-    const endTime = computeEndTime(time, duration);
+    //     with the checker. The endTime (and the persisted duration below) come
+    //     from the authoritative service duration, mirroring reschedule.
+    const endTime = computeEndTime(time, authoritativeDuration);
     const salon = await Salons.findByPk(salonId);
     const hoursCheck = validateSalonHours(salon, dateSelect, time, endTime);
     if (!hoursCheck.ok) {
@@ -153,7 +178,7 @@ exports.processPayment = async (req, res) => {
       staffId,
       serviceId,
       salonId,
-      duration,
+      duration: authoritativeDuration,
       endTime,
       // Schema already trimmed it; an empty string stores as null.
       customerNote: customerNote || null,
