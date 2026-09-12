@@ -1,7 +1,7 @@
 # Graph Report - fresha-salon-app  (2026-09-12)
 
 ## Corpus Check
-- 213 files · ~212,186 words
+- 192 files · ~204,683 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a23273d7`
+- Built from commit: `7fcfe366`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -972,7 +972,7 @@ Nodes (28): coverage, reasonCounts, status, diffHash, errors, evidenceBoundary, 
 
 ### Community 141 - "Community 141"
 Cohesion: 0.09
-Nodes (22): existed, snapshot, files, app.js, frontend/src/pages/salon/SalonDashboard.jsx, models/StaffServices.js, models/userModel.js, public/js/salons/addStaff.js (+14 more)
+Nodes (22): files, frontend/package.json, frontend/src/pages/salon/SalonDashboard.jsx, models/StaffServices.js, models/userModel.js, public/js/salons/addStaff.js, services/featureFlags.js, utils/timezone.js (+14 more)
 
 ### Community 142 - "Community 142"
 Cohesion: 0.12
@@ -992,7 +992,7 @@ Nodes (19): batchId, coverage, reasons, status, diffHash, events, observedFindin
 
 ### Community 146 - "Community 146"
 Cohesion: 0.67
-Nodes (3): frontend/package.json, existed, snapshot
+Nodes (3): existed, snapshot, app.js
 
 ### Community 147 - "Community 147"
 Cohesion: 0.10
@@ -1910,11 +1910,11 @@ Nodes (3): frontend/src/components/ErrorBoundary.jsx, existed, snapshot
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `files` connect `Community 141` to `Community 146`, `Community 152`, `Community 188`, `Community 189`, `Community 190`, `Community 191`, `Community 192`, `Community 193`, `Community 195`, `Community 196`, `Community 197`, `Community 198`, `Community 199`, `Community 200`, `Community 201`, `Community 202`, `Community 203`, `Community 204`, `Community 205`, `Community 206`, `Community 207`, `Community 208`, `Community 209`, `Community 210`, `Community 211`, `Community 212`, `Community 213`, `Community 214`, `Community 215`, `Community 216`, `Community 217`, `Community 218`, `Community 219`, `Community 220`, `Community 221`, `Community 222`, `Community 223`, `Community 224`, `Community 225`, `Community 226`, `Community 227`, `Community 228`, `Community 229`, `Community 230`, `Community 231`, `Community 232`, `Community 233`, `Community 234`, `Community 235`, `Community 236`, `Community 237`, `Community 238`, `Community 239`, `Community 240`, `Community 241`, `Community 242`, `Community 243`, `Community 244`, `Community 245`, `Community 246`, `Community 247`, `Community 248`, `Community 249`, `Community 250`, `Community 251`, `Community 252`, `Community 253`, `Community 254`, `Community 255`, `Community 256`, `Community 257`, `Community 258`, `Community 259`, `Community 260`, `Community 261`, `Community 262`, `Community 263`, `Community 264`, `Community 265`, `Community 266`, `Community 267`, `Community 268`, `Community 269`, `Community 270`, `Community 271`, `Community 272`, `Community 273`, `Community 274`, `Community 275`, `Community 276`, `Community 277`, `Community 278`, `Community 279`, `Community 280`, `Community 281`, `Community 282`, `Community 283`, `Community 284`, `Community 285`, `Community 286`, `Community 287`, `Community 288`, `Community 289`, `Community 290`, `Community 291`, `Community 292`, `Community 293`, `Community 294`, `Community 295`, `Community 296`, `Community 297`, `Community 298`, `Community 299`, `Community 300`, `Community 301`, `Community 302`, `Community 303`, `Community 304`, `Community 305`, `Community 306`, `Community 307`, `Community 308`, `Community 309`, `Community 310`, `Community 311`, `Community 312`, `Community 313`, `Community 314`, `Community 315`, `Community 316`, `Community 317`, `Community 318`, `Community 319`, `Community 320`, `Community 321`, `Community 322`, `Community 323`, `Community 324`, `Community 325`, `Community 326`, `Community 327`, `Community 328`, `Community 329`, `Community 330`, `Community 331`, `Community 332`, `Community 333`, `Community 334`, `Community 335`, `Community 336`, `Community 337`, `Community 338`, `Community 339`, `Community 340`, `Community 341`, `Community 342`, `Community 343`, `Community 382`?**
-  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+  _High betweenness centrality (0.015) - this node is a cross-community bridge._
 - **Why does `validate()` connect `Community 113` to `Community 131`, `Community 132`, `Community 5`, `Community 136`, `Community 138`, `Community 15`, `Community 24`, `Community 28`, `Community 33`, `Community 34`, `Community 35`, `Community 43`, `Community 46`, `Community 63`, `Community 64`, `Community 65`, `Community 76`, `Community 88`, `Community 354`, `Community 99`, `Community 100`, `Community 104`, `Community 105`, `Community 111`, `Community 124`?**
-  _High betweenness centrality (0.006) - this node is a cross-community bridge._
-- **Why does `config` connect `Community 160` to `Community 128`, `Community 161`, `Community 130`, `Community 131`, `Community 4`, `Community 103`, `Community 148`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **Why does `baseline` connect `Community 152` to `Community 141`?**
+  _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **What connects `express`, `path`, `cors` to the rest of the system?**
   _2728 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**

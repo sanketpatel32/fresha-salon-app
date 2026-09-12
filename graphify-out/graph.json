@@ -259,7 +259,7 @@
       "label": "{ seedSampleData }",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L261",
+      "source_location": "L260",
       "id": "fresha_salon_app_app_seedsampledata",
       "community": 4,
       "norm_label": "{ seedsampledata }"
@@ -268,7 +268,7 @@
       "label": "server",
       "file_type": "code",
       "source_file": "app.js",
-      "source_location": "L265",
+      "source_location": "L264",
       "id": "fresha_salon_app_app_server",
       "community": 4,
       "norm_label": "server"
@@ -641,15 +641,6 @@
       "id": "fresha_salon_app_package_devdependencies_nodemon",
       "community": 2,
       "norm_label": "nodemon"
-    },
-    {
-      "label": "log.json",
-      "file_type": "code",
-      "source_file": ".hallmark/log.json",
-      "source_location": "L1",
-      "id": "hallmark_log_json",
-      "community": 97,
-      "norm_label": "log.json"
     },
     {
       "label": "batch-posttooluse-b0b0fe93dcf163bf3eb5260c9d3ed387.json",
@@ -10262,1113 +10253,6 @@
       "id": "models_waitlistmodel_waitlist",
       "community": 136,
       "norm_label": "waitlist"
-    },
-    {
-      "label": "cashfree.js",
-      "file_type": "code",
-      "source_file": "public/js/cashfree.js",
-      "source_location": "L1",
-      "id": "public_js_cashfree_js",
-      "community": 91,
-      "norm_label": "cashfree.js"
-    },
-    {
-      "label": "cashfree",
-      "file_type": "code",
-      "source_file": "public/js/cashfree.js",
-      "source_location": "L3",
-      "id": "js_cashfree_cashfree",
-      "community": 91,
-      "norm_label": "cashfree"
-    },
-    {
-      "label": "checkoutOptions",
-      "file_type": "code",
-      "source_file": "public/js/cashfree.js",
-      "source_location": "L20",
-      "id": "js_cashfree_checkoutoptions",
-      "community": 91,
-      "norm_label": "checkoutoptions"
-    },
-    {
-      "label": "login.js",
-      "file_type": "code",
-      "source_file": "public/js/login.js",
-      "source_location": "L1",
-      "id": "public_js_login_js",
-      "community": 85,
-      "norm_label": "login.js"
-    },
-    {
-      "label": "handleUserLogin()",
-      "file_type": "code",
-      "source_file": "public/js/login.js",
-      "source_location": "L3",
-      "id": "js_login_handleuserlogin",
-      "community": 85,
-      "norm_label": "handleuserlogin()"
-    },
-    {
-      "label": "handleSalonLogin()",
-      "file_type": "code",
-      "source_file": "public/js/login.js",
-      "source_location": "L42",
-      "id": "js_login_handlesalonlogin",
-      "community": 85,
-      "norm_label": "handlesalonlogin()"
-    },
-    {
-      "label": "handleStaffLogin()",
-      "file_type": "code",
-      "source_file": "public/js/login.js",
-      "source_location": "L80",
-      "id": "js_login_handlestafflogin",
-      "community": 85,
-      "norm_label": "handlestafflogin()"
-    },
-    {
-      "label": "signup.js",
-      "file_type": "code",
-      "source_file": "public/js/signup.js",
-      "source_location": "L1",
-      "id": "public_js_signup_js",
-      "community": 92,
-      "norm_label": "signup.js"
-    },
-    {
-      "label": "handleUserSignup()",
-      "file_type": "code",
-      "source_file": "public/js/signup.js",
-      "source_location": "L3",
-      "id": "js_signup_handleusersignup",
-      "community": 92,
-      "norm_label": "handleusersignup()"
-    },
-    {
-      "label": "handleSalonSignup()",
-      "file_type": "code",
-      "source_file": "public/js/signup.js",
-      "source_location": "L46",
-      "id": "js_signup_handlesalonsignup",
-      "community": 92,
-      "norm_label": "handlesalonsignup()"
-    },
-    {
-      "label": "appointments.js",
-      "file_type": "code",
-      "source_file": "public/js/admin/appointments.js",
-      "source_location": "L1",
-      "id": "public_js_admin_appointments_js",
-      "community": 72,
-      "norm_label": "appointments.js"
-    },
-    {
-      "label": "token",
-      "file_type": "code",
-      "source_file": "public/js/admin/appointments.js",
-      "source_location": "L4",
-      "id": "admin_appointments_token",
-      "community": 72,
-      "norm_label": "token"
-    },
-    {
-      "label": "container",
-      "file_type": "code",
-      "source_file": "public/js/admin/appointments.js",
-      "source_location": "L15",
-      "id": "admin_appointments_container",
-      "community": 72,
-      "norm_label": "container"
-    },
-    {
-      "label": "noAppointmentsDiv",
-      "file_type": "code",
-      "source_file": "public/js/admin/appointments.js",
-      "source_location": "L16",
-      "id": "admin_appointments_noappointmentsdiv",
-      "community": 72,
-      "norm_label": "noappointmentsdiv"
-    },
-    {
-      "label": "card",
-      "file_type": "code",
-      "source_file": "public/js/admin/appointments.js",
-      "source_location": "L30",
-      "id": "admin_appointments_card",
-      "community": 72,
-      "norm_label": "card"
-    },
-    {
-      "label": "delBtn",
-      "file_type": "code",
-      "source_file": "public/js/admin/appointments.js",
-      "source_location": "L40",
-      "id": "admin_appointments_delbtn",
-      "community": 72,
-      "norm_label": "delbtn"
-    },
-    {
-      "label": "index.js",
-      "file_type": "code",
-      "source_file": "public/js/admin/index.js",
-      "source_location": "L1",
-      "id": "public_js_admin_index_js",
-      "community": 90,
-      "norm_label": "index.js"
-    },
-    {
-      "label": "token",
-      "file_type": "code",
-      "source_file": "public/js/admin/index.js",
-      "source_location": "L4",
-      "id": "admin_index_token",
-      "community": 90,
-      "norm_label": "token"
-    },
-    {
-      "label": "logoutBtn",
-      "file_type": "code",
-      "source_file": "public/js/admin/index.js",
-      "source_location": "L11",
-      "id": "admin_index_logoutbtn",
-      "community": 90,
-      "norm_label": "logoutbtn"
-    },
-    {
-      "label": "user.js",
-      "file_type": "code",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L1",
-      "id": "public_js_admin_user_js",
-      "community": 61,
-      "norm_label": "user.js"
-    },
-    {
-      "label": "token",
-      "file_type": "code",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L4",
-      "id": "admin_user_token",
-      "community": 61,
-      "norm_label": "token"
-    },
-    {
-      "label": "usersContainer",
-      "file_type": "code",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L15",
-      "id": "admin_user_userscontainer",
-      "community": 61,
-      "norm_label": "userscontainer"
-    },
-    {
-      "label": "noUsersDiv",
-      "file_type": "code",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L16",
-      "id": "admin_user_nousersdiv",
-      "community": 61,
-      "norm_label": "nousersdiv"
-    },
-    {
-      "label": "searchBtn",
-      "file_type": "code",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L17",
-      "id": "admin_user_searchbtn",
-      "community": 61,
-      "norm_label": "searchbtn"
-    },
-    {
-      "label": "searchInput",
-      "file_type": "code",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L18",
-      "id": "admin_user_searchinput",
-      "community": 61,
-      "norm_label": "searchinput"
-    },
-    {
-      "label": "searchUsers()",
-      "file_type": "code",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L20",
-      "id": "admin_user_searchusers",
-      "community": 61,
-      "norm_label": "searchusers()"
-    },
-    {
-      "label": "addServices.js",
-      "file_type": "code",
-      "source_file": "public/js/salons/addServices.js",
-      "source_location": "L1",
-      "id": "public_js_salons_addservices_js",
-      "community": 96,
-      "norm_label": "addservices.js"
-    },
-    {
-      "label": "handleAddService()",
-      "file_type": "code",
-      "source_file": "public/js/salons/addServices.js",
-      "source_location": "L3",
-      "id": "salons_addservices_handleaddservice",
-      "community": 96,
-      "norm_label": "handleaddservice()"
-    },
-    {
-      "label": "addStaff.js",
-      "file_type": "code",
-      "source_file": "public/js/salons/addStaff.js",
-      "source_location": "L1",
-      "id": "public_js_salons_addstaff_js",
-      "community": 73,
-      "norm_label": "addstaff.js"
-    },
-    {
-      "label": "name",
-      "file_type": "code",
-      "source_file": "public/js/salons/addStaff.js",
-      "source_location": "L7",
-      "id": "salons_addstaff_name",
-      "community": 73,
-      "norm_label": "name"
-    },
-    {
-      "label": "phoneNumber",
-      "file_type": "code",
-      "source_file": "public/js/salons/addStaff.js",
-      "source_location": "L8",
-      "id": "salons_addstaff_phonenumber",
-      "community": 73,
-      "norm_label": "phonenumber"
-    },
-    {
-      "label": "email",
-      "file_type": "code",
-      "source_file": "public/js/salons/addStaff.js",
-      "source_location": "L9",
-      "id": "salons_addstaff_email",
-      "community": 73,
-      "norm_label": "email"
-    },
-    {
-      "label": "password",
-      "file_type": "code",
-      "source_file": "public/js/salons/addStaff.js",
-      "source_location": "L10",
-      "id": "salons_addstaff_password",
-      "community": 73,
-      "norm_label": "password"
-    },
-    {
-      "label": "token",
-      "file_type": "code",
-      "source_file": "public/js/salons/addStaff.js",
-      "source_location": "L16",
-      "id": "salons_addstaff_token",
-      "community": 73,
-      "norm_label": "token"
-    },
-    {
-      "label": "assignStaffService.js",
-      "file_type": "code",
-      "source_file": "public/js/salons/assignStaffService.js",
-      "source_location": "L1",
-      "id": "public_js_salons_assignstaffservice_js",
-      "community": 86,
-      "norm_label": "assignstaffservice.js"
-    },
-    {
-      "label": "staffList",
-      "file_type": "code",
-      "source_file": "public/js/salons/assignStaffService.js",
-      "source_location": "L4",
-      "id": "salons_assignstaffservice_stafflist",
-      "community": 86,
-      "norm_label": "stafflist"
-    },
-    {
-      "label": "token",
-      "file_type": "code",
-      "source_file": "public/js/salons/assignStaffService.js",
-      "source_location": "L8",
-      "id": "salons_assignstaffservice_token",
-      "community": 86,
-      "norm_label": "token"
-    },
-    {
-      "label": "card",
-      "file_type": "code",
-      "source_file": "public/js/salons/assignStaffService.js",
-      "source_location": "L28",
-      "id": "salons_assignstaffservice_card",
-      "community": 86,
-      "norm_label": "card"
-    },
-    {
-      "label": "changeSalonDetail.js",
-      "file_type": "code",
-      "source_file": "public/js/salons/changeSalonDetail.js",
-      "source_location": "L1",
-      "id": "public_js_salons_changesalondetail_js",
-      "community": 74,
-      "norm_label": "changesalondetail.js"
-    },
-    {
-      "label": "form",
-      "file_type": "code",
-      "source_file": "public/js/salons/changeSalonDetail.js",
-      "source_location": "L4",
-      "id": "salons_changesalondetail_form",
-      "community": 74,
-      "norm_label": "form"
-    },
-    {
-      "label": "token",
-      "file_type": "code",
-      "source_file": "public/js/salons/changeSalonDetail.js",
-      "source_location": "L7",
-      "id": "salons_changesalondetail_token",
-      "community": 74,
-      "norm_label": "token"
-    },
-    {
-      "label": "checkbox",
-      "file_type": "code",
-      "source_file": "public/js/salons/changeSalonDetail.js",
-      "source_location": "L29",
-      "id": "salons_changesalondetail_checkbox",
-      "community": 74,
-      "norm_label": "checkbox"
-    },
-    {
-      "label": "workingDays",
-      "file_type": "code",
-      "source_file": "public/js/salons/changeSalonDetail.js",
-      "source_location": "L42",
-      "id": "salons_changesalondetail_workingdays",
-      "community": 74,
-      "norm_label": "workingdays"
-    },
-    {
-      "label": "updatedDetails",
-      "file_type": "code",
-      "source_file": "public/js/salons/changeSalonDetail.js",
-      "source_location": "L44",
-      "id": "salons_changesalondetail_updateddetails",
-      "community": 74,
-      "norm_label": "updateddetails"
-    },
-    {
-      "label": "modifyForm.js",
-      "file_type": "code",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L1",
-      "id": "public_js_salons_modifyform_js",
-      "community": 47,
-      "norm_label": "modifyform.js"
-    },
-    {
-      "label": "fetchServiceDetails()",
-      "file_type": "code",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L3",
-      "id": "salons_modifyform_fetchservicedetails",
-      "community": 47,
-      "norm_label": "fetchservicedetails()"
-    },
-    {
-      "label": "populateForm()",
-      "file_type": "code",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L32",
-      "id": "salons_modifyform_populateform",
-      "community": 47,
-      "norm_label": "populateform()"
-    },
-    {
-      "label": "handleFormSubmit()",
-      "file_type": "code",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L39",
-      "id": "salons_modifyform_handleformsubmit",
-      "community": 47,
-      "norm_label": "handleformsubmit()"
-    },
-    {
-      "label": "urlParams",
-      "file_type": "code",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L76",
-      "id": "salons_modifyform_urlparams",
-      "community": 47,
-      "norm_label": "urlparams"
-    },
-    {
-      "label": "serviceId",
-      "file_type": "code",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L77",
-      "id": "salons_modifyform_serviceid",
-      "community": 47,
-      "norm_label": "serviceid"
-    },
-    {
-      "label": "confirmDelete",
-      "file_type": "code",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L84",
-      "id": "salons_modifyform_confirmdelete",
-      "community": 47,
-      "norm_label": "confirmdelete"
-    },
-    {
-      "label": "token",
-      "file_type": "code",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L88",
-      "id": "salons_modifyform_token",
-      "community": 47,
-      "norm_label": "token"
-    },
-    {
-      "label": "modifyServices.js",
-      "file_type": "code",
-      "source_file": "public/js/salons/modifyServices.js",
-      "source_location": "L1",
-      "id": "public_js_salons_modifyservices_js",
-      "community": 93,
-      "norm_label": "modifyservices.js"
-    },
-    {
-      "label": "fetchServices()",
-      "file_type": "code",
-      "source_file": "public/js/salons/modifyServices.js",
-      "source_location": "L3",
-      "id": "salons_modifyservices_fetchservices",
-      "community": 93,
-      "norm_label": "fetchservices()"
-    },
-    {
-      "label": "renderServices()",
-      "file_type": "code",
-      "source_file": "public/js/salons/modifyServices.js",
-      "source_location": "L36",
-      "id": "salons_modifyservices_renderservices",
-      "community": 93,
-      "norm_label": "renderservices()"
-    },
-    {
-      "label": "salonScheduledAppointments.js",
-      "file_type": "code",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L1",
-      "id": "public_js_salons_salonscheduledappointments_js",
-      "community": 62,
-      "norm_label": "salonscheduledappointments.js"
-    },
-    {
-      "label": "token",
-      "file_type": "code",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L4",
-      "id": "salons_salonscheduledappointments_token",
-      "community": 62,
-      "norm_label": "token"
-    },
-    {
-      "label": "upcomingContainer",
-      "file_type": "code",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L20",
-      "id": "salons_salonscheduledappointments_upcomingcontainer",
-      "community": 62,
-      "norm_label": "upcomingcontainer"
-    },
-    {
-      "label": "pastContainer",
-      "file_type": "code",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L21",
-      "id": "salons_salonscheduledappointments_pastcontainer",
-      "community": 62,
-      "norm_label": "pastcontainer"
-    },
-    {
-      "label": "today",
-      "file_type": "code",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L23",
-      "id": "salons_salonscheduledappointments_today",
-      "community": 62,
-      "norm_label": "today"
-    },
-    {
-      "label": "appointmentDate",
-      "file_type": "code",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L27",
-      "id": "salons_salonscheduledappointments_appointmentdate",
-      "community": 62,
-      "norm_label": "appointmentdate"
-    },
-    {
-      "label": "appointmentCard",
-      "file_type": "code",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L28",
-      "id": "salons_salonscheduledappointments_appointmentcard",
-      "community": 62,
-      "norm_label": "appointmentcard"
-    },
-    {
-      "label": "staffModifyForm.js",
-      "file_type": "code",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L1",
-      "id": "public_js_salons_staffmodifyform_js",
-      "community": 42,
-      "norm_label": "staffmodifyform.js"
-    },
-    {
-      "label": "staffDetails",
-      "file_type": "code",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L4",
-      "id": "salons_staffmodifyform_staffdetails",
-      "community": 42,
-      "norm_label": "staffdetails"
-    },
-    {
-      "label": "servicesList",
-      "file_type": "code",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L5",
-      "id": "salons_staffmodifyform_serviceslist",
-      "community": 42,
-      "norm_label": "serviceslist"
-    },
-    {
-      "label": "assignServicesForm",
-      "file_type": "code",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L6",
-      "id": "salons_staffmodifyform_assignservicesform",
-      "community": 42,
-      "norm_label": "assignservicesform"
-    },
-    {
-      "label": "staffId",
-      "file_type": "code",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L11",
-      "id": "salons_staffmodifyform_staffid",
-      "community": 42,
-      "norm_label": "staffid"
-    },
-    {
-      "label": "staffStatusDropdown",
-      "file_type": "code",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L43",
-      "id": "salons_staffmodifyform_staffstatusdropdown",
-      "community": 42,
-      "norm_label": "staffstatusdropdown"
-    },
-    {
-      "label": "isChecked",
-      "file_type": "code",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L78",
-      "id": "salons_staffmodifyform_ischecked",
-      "community": 42,
-      "norm_label": "ischecked"
-    },
-    {
-      "label": "checkbox",
-      "file_type": "code",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L79",
-      "id": "salons_staffmodifyform_checkbox",
-      "community": 42,
-      "norm_label": "checkbox"
-    },
-    {
-      "label": "selectedServices",
-      "file_type": "code",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L96",
-      "id": "salons_staffmodifyform_selectedservices",
-      "community": 42,
-      "norm_label": "selectedservices"
-    },
-    {
-      "label": "dashboard.js",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L1",
-      "id": "public_js_staff_dashboard_js",
-      "community": 23,
-      "norm_label": "dashboard.js"
-    },
-    {
-      "label": "token",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L3",
-      "id": "staff_dashboard_token",
-      "community": 23,
-      "norm_label": "token"
-    },
-    {
-      "label": "staffId",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L4",
-      "id": "staff_dashboard_staffid",
-      "community": 23,
-      "norm_label": "staffid"
-    },
-    {
-      "label": "staffName",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L5",
-      "id": "staff_dashboard_staffname",
-      "community": 23,
-      "norm_label": "staffname"
-    },
-    {
-      "label": "upcomingContainer",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L31",
-      "id": "staff_dashboard_upcomingcontainer",
-      "community": 23,
-      "norm_label": "upcomingcontainer"
-    },
-    {
-      "label": "completedContainer",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L32",
-      "id": "staff_dashboard_completedcontainer",
-      "community": 23,
-      "norm_label": "completedcontainer"
-    },
-    {
-      "label": "now",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L33",
-      "id": "staff_dashboard_now",
-      "community": 23,
-      "norm_label": "now"
-    },
-    {
-      "label": "appDate",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L36",
-      "id": "staff_dashboard_appdate",
-      "community": 23,
-      "norm_label": "appdate"
-    },
-    {
-      "label": "card",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L37",
-      "id": "staff_dashboard_card",
-      "community": 23,
-      "norm_label": "card"
-    },
-    {
-      "label": "reviewBtn",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L51",
-      "id": "staff_dashboard_reviewbtn",
-      "community": 23,
-      "norm_label": "reviewbtn"
-    },
-    {
-      "label": "form",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L56",
-      "id": "staff_dashboard_form",
-      "community": 23,
-      "norm_label": "form"
-    },
-    {
-      "label": "reviewText",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L78",
-      "id": "staff_dashboard_reviewtext",
-      "community": 23,
-      "norm_label": "reviewtext"
-    },
-    {
-      "label": "userReviewDiv",
-      "file_type": "code",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L85",
-      "id": "staff_dashboard_userreviewdiv",
-      "community": 23,
-      "norm_label": "userreviewdiv"
-    },
-    {
-      "label": "appointmentPage.js",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L1",
-      "id": "public_js_user_appointmentpage_js",
-      "community": 19,
-      "norm_label": "appointmentpage.js"
-    },
-    {
-      "label": "dateSelect",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L4",
-      "id": "user_appointmentpage_dateselect",
-      "community": 19,
-      "norm_label": "dateselect"
-    },
-    {
-      "label": "timeSelect",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L5",
-      "id": "user_appointmentpage_timeselect",
-      "community": 19,
-      "norm_label": "timeselect"
-    },
-    {
-      "label": "messageDiv",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L6",
-      "id": "user_appointmentpage_messagediv",
-      "community": 19,
-      "norm_label": "messagediv"
-    },
-    {
-      "label": "staffContainer",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L7",
-      "id": "user_appointmentpage_staffcontainer",
-      "community": 19,
-      "norm_label": "staffcontainer"
-    },
-    {
-      "label": "payNowButton",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L8",
-      "id": "user_appointmentpage_paynowbutton",
-      "community": 19,
-      "norm_label": "paynowbutton"
-    },
-    {
-      "label": "populateDateAndTimeDropdowns()",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L11",
-      "id": "user_appointmentpage_populatedateandtimedropdowns",
-      "community": 19,
-      "norm_label": "populatedateandtimedropdowns()"
-    },
-    {
-      "label": "form",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L73",
-      "id": "user_appointmentpage_form",
-      "community": 19,
-      "norm_label": "form"
-    },
-    {
-      "label": "FormData",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L81",
-      "id": "user_appointmentpage_formdata",
-      "community": 19,
-      "norm_label": "formdata"
-    },
-    {
-      "label": "staffCard",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L103",
-      "id": "user_appointmentpage_staffcard",
-      "community": 19,
-      "norm_label": "staffcard"
-    },
-    {
-      "label": "selectedStaff",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L116",
-      "id": "user_appointmentpage_selectedstaff",
-      "community": 19,
-      "norm_label": "selectedstaff"
-    },
-    {
-      "label": "paymentData",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L122",
-      "id": "user_appointmentpage_paymentdata",
-      "community": 19,
-      "norm_label": "paymentdata"
-    },
-    {
-      "label": "token",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L130",
-      "id": "user_appointmentpage_token",
-      "community": 19,
-      "norm_label": "token"
-    },
-    {
-      "label": "cashfree",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L140",
-      "id": "user_appointmentpage_cashfree",
-      "community": 19,
-      "norm_label": "cashfree"
-    },
-    {
-      "label": "checkoutOptions",
-      "file_type": "code",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L141",
-      "id": "user_appointmentpage_checkoutoptions",
-      "community": 19,
-      "norm_label": "checkoutoptions"
-    },
-    {
-      "label": "bookedAppointments.js",
-      "file_type": "code",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L1",
-      "id": "public_js_user_bookedappointments_js",
-      "community": 31,
-      "norm_label": "bookedappointments.js"
-    },
-    {
-      "label": "token",
-      "file_type": "code",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L4",
-      "id": "user_bookedappointments_token",
-      "community": 31,
-      "norm_label": "token"
-    },
-    {
-      "label": "userId",
-      "file_type": "code",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L5",
-      "id": "user_bookedappointments_userid",
-      "community": 31,
-      "norm_label": "userid"
-    },
-    {
-      "label": "upcomingContainer",
-      "file_type": "code",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L21",
-      "id": "user_bookedappointments_upcomingcontainer",
-      "community": 31,
-      "norm_label": "upcomingcontainer"
-    },
-    {
-      "label": "pastContainer",
-      "file_type": "code",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L22",
-      "id": "user_bookedappointments_pastcontainer",
-      "community": 31,
-      "norm_label": "pastcontainer"
-    },
-    {
-      "label": "today",
-      "file_type": "code",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L24",
-      "id": "user_bookedappointments_today",
-      "community": 31,
-      "norm_label": "today"
-    },
-    {
-      "label": "appointmentDate",
-      "file_type": "code",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L29",
-      "id": "user_bookedappointments_appointmentdate",
-      "community": 31,
-      "norm_label": "appointmentdate"
-    },
-    {
-      "label": "appointmentCard",
-      "file_type": "code",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L32",
-      "id": "user_bookedappointments_appointmentcard",
-      "community": 31,
-      "norm_label": "appointmentcard"
-    },
-    {
-      "label": "staffReviewDiv",
-      "file_type": "code",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L50",
-      "id": "user_bookedappointments_staffreviewdiv",
-      "community": 31,
-      "norm_label": "staffreviewdiv"
-    },
-    {
-      "label": "reviewButton",
-      "file_type": "code",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L57",
-      "id": "user_bookedappointments_reviewbutton",
-      "community": 31,
-      "norm_label": "reviewbutton"
-    },
-    {
-      "label": "form",
-      "file_type": "code",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L62",
-      "id": "user_bookedappointments_form",
-      "community": 31,
-      "norm_label": "form"
-    },
-    {
-      "label": "reviewText",
-      "file_type": "code",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L84",
-      "id": "user_bookedappointments_reviewtext",
-      "community": 31,
-      "norm_label": "reviewtext"
-    },
-    {
-      "label": "dashboard.js",
-      "file_type": "code",
-      "source_file": "public/js/user/dashboard.js",
-      "source_location": "L1",
-      "id": "public_js_user_dashboard_js",
-      "community": 94,
-      "norm_label": "dashboard.js"
-    },
-    {
-      "label": "salonsContainer",
-      "file_type": "code",
-      "source_file": "public/js/user/dashboard.js",
-      "source_location": "L4",
-      "id": "user_dashboard_salonscontainer",
-      "community": 94,
-      "norm_label": "salonscontainer"
-    },
-    {
-      "label": "card",
-      "file_type": "code",
-      "source_file": "public/js/user/dashboard.js",
-      "source_location": "L15",
-      "id": "user_dashboard_card",
-      "community": 94,
-      "norm_label": "card"
-    },
-    {
-      "label": "editProfile.js",
-      "file_type": "code",
-      "source_file": "public/js/user/editProfile.js",
-      "source_location": "L1",
-      "id": "public_js_user_editprofile_js",
-      "community": 89,
-      "norm_label": "editprofile.js"
-    },
-    {
-      "label": "userId",
-      "file_type": "code",
-      "source_file": "public/js/user/editProfile.js",
-      "source_location": "L2",
-      "id": "user_editprofile_userid",
-      "community": 89,
-      "norm_label": "userid"
-    },
-    {
-      "label": "token",
-      "file_type": "code",
-      "source_file": "public/js/user/editProfile.js",
-      "source_location": "L3",
-      "id": "user_editprofile_token",
-      "community": 89,
-      "norm_label": "token"
-    },
-    {
-      "label": "data",
-      "file_type": "code",
-      "source_file": "public/js/user/editProfile.js",
-      "source_location": "L32",
-      "id": "user_editprofile_data",
-      "community": 89,
-      "norm_label": "data"
-    },
-    {
-      "label": "salonservices.js",
-      "file_type": "code",
-      "source_file": "public/js/user/salonservices.js",
-      "source_location": "L1",
-      "id": "public_js_user_salonservices_js",
-      "community": 79,
-      "norm_label": "salonservices.js"
-    },
-    {
-      "label": "salonNameElement",
-      "file_type": "code",
-      "source_file": "public/js/user/salonservices.js",
-      "source_location": "L4",
-      "id": "user_salonservices_salonnameelement",
-      "community": 79,
-      "norm_label": "salonnameelement"
-    },
-    {
-      "label": "servicesContainer",
-      "file_type": "code",
-      "source_file": "public/js/user/salonservices.js",
-      "source_location": "L5",
-      "id": "user_salonservices_servicescontainer",
-      "community": 79,
-      "norm_label": "servicescontainer"
-    },
-    {
-      "label": "salonId",
-      "file_type": "code",
-      "source_file": "public/js/user/salonservices.js",
-      "source_location": "L9",
-      "id": "user_salonservices_salonid",
-      "community": 79,
-      "norm_label": "salonid"
-    },
-    {
-      "label": "card",
-      "file_type": "code",
-      "source_file": "public/js/user/salonservices.js",
-      "source_location": "L29",
-      "id": "user_salonservices_card",
-      "community": 79,
-      "norm_label": "card"
     },
     {
       "label": "adminRoutes.js",
@@ -30271,6 +29155,1122 @@
       "norm_label": "expanding the oxlint configuration"
     },
     {
+      "label": "log.json",
+      "file_type": "code",
+      "source_file": ".hallmark/log.json",
+      "source_location": "L1",
+      "community": 97,
+      "norm_label": "log.json",
+      "id": "hallmark_log_json"
+    },
+    {
+      "label": "cashfree.js",
+      "file_type": "code",
+      "source_file": "public/js/cashfree.js",
+      "source_location": "L1",
+      "community": 91,
+      "norm_label": "cashfree.js",
+      "id": "public_js_cashfree_js"
+    },
+    {
+      "label": "cashfree",
+      "file_type": "code",
+      "source_file": "public/js/cashfree.js",
+      "source_location": "L3",
+      "community": 91,
+      "norm_label": "cashfree",
+      "id": "js_cashfree_cashfree"
+    },
+    {
+      "label": "checkoutOptions",
+      "file_type": "code",
+      "source_file": "public/js/cashfree.js",
+      "source_location": "L20",
+      "community": 91,
+      "norm_label": "checkoutoptions",
+      "id": "js_cashfree_checkoutoptions"
+    },
+    {
+      "label": "login.js",
+      "file_type": "code",
+      "source_file": "public/js/login.js",
+      "source_location": "L1",
+      "community": 85,
+      "norm_label": "login.js",
+      "id": "public_js_login_js"
+    },
+    {
+      "label": "handleUserLogin()",
+      "file_type": "code",
+      "source_file": "public/js/login.js",
+      "source_location": "L3",
+      "community": 85,
+      "norm_label": "handleuserlogin()",
+      "id": "js_login_handleuserlogin"
+    },
+    {
+      "label": "handleSalonLogin()",
+      "file_type": "code",
+      "source_file": "public/js/login.js",
+      "source_location": "L42",
+      "community": 85,
+      "norm_label": "handlesalonlogin()",
+      "id": "js_login_handlesalonlogin"
+    },
+    {
+      "label": "handleStaffLogin()",
+      "file_type": "code",
+      "source_file": "public/js/login.js",
+      "source_location": "L80",
+      "community": 85,
+      "norm_label": "handlestafflogin()",
+      "id": "js_login_handlestafflogin"
+    },
+    {
+      "label": "signup.js",
+      "file_type": "code",
+      "source_file": "public/js/signup.js",
+      "source_location": "L1",
+      "community": 92,
+      "norm_label": "signup.js",
+      "id": "public_js_signup_js"
+    },
+    {
+      "label": "handleUserSignup()",
+      "file_type": "code",
+      "source_file": "public/js/signup.js",
+      "source_location": "L3",
+      "community": 92,
+      "norm_label": "handleusersignup()",
+      "id": "js_signup_handleusersignup"
+    },
+    {
+      "label": "handleSalonSignup()",
+      "file_type": "code",
+      "source_file": "public/js/signup.js",
+      "source_location": "L46",
+      "community": 92,
+      "norm_label": "handlesalonsignup()",
+      "id": "js_signup_handlesalonsignup"
+    },
+    {
+      "label": "appointments.js",
+      "file_type": "code",
+      "source_file": "public/js/admin/appointments.js",
+      "source_location": "L1",
+      "community": 72,
+      "norm_label": "appointments.js",
+      "id": "public_js_admin_appointments_js"
+    },
+    {
+      "label": "token",
+      "file_type": "code",
+      "source_file": "public/js/admin/appointments.js",
+      "source_location": "L4",
+      "community": 72,
+      "norm_label": "token",
+      "id": "admin_appointments_token"
+    },
+    {
+      "label": "container",
+      "file_type": "code",
+      "source_file": "public/js/admin/appointments.js",
+      "source_location": "L15",
+      "community": 72,
+      "norm_label": "container",
+      "id": "admin_appointments_container"
+    },
+    {
+      "label": "noAppointmentsDiv",
+      "file_type": "code",
+      "source_file": "public/js/admin/appointments.js",
+      "source_location": "L16",
+      "community": 72,
+      "norm_label": "noappointmentsdiv",
+      "id": "admin_appointments_noappointmentsdiv"
+    },
+    {
+      "label": "card",
+      "file_type": "code",
+      "source_file": "public/js/admin/appointments.js",
+      "source_location": "L30",
+      "community": 72,
+      "norm_label": "card",
+      "id": "admin_appointments_card"
+    },
+    {
+      "label": "delBtn",
+      "file_type": "code",
+      "source_file": "public/js/admin/appointments.js",
+      "source_location": "L40",
+      "community": 72,
+      "norm_label": "delbtn",
+      "id": "admin_appointments_delbtn"
+    },
+    {
+      "label": "index.js",
+      "file_type": "code",
+      "source_file": "public/js/admin/index.js",
+      "source_location": "L1",
+      "community": 90,
+      "norm_label": "index.js",
+      "id": "public_js_admin_index_js"
+    },
+    {
+      "label": "token",
+      "file_type": "code",
+      "source_file": "public/js/admin/index.js",
+      "source_location": "L4",
+      "community": 90,
+      "norm_label": "token",
+      "id": "admin_index_token"
+    },
+    {
+      "label": "logoutBtn",
+      "file_type": "code",
+      "source_file": "public/js/admin/index.js",
+      "source_location": "L11",
+      "community": 90,
+      "norm_label": "logoutbtn",
+      "id": "admin_index_logoutbtn"
+    },
+    {
+      "label": "user.js",
+      "file_type": "code",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L1",
+      "community": 61,
+      "norm_label": "user.js",
+      "id": "public_js_admin_user_js"
+    },
+    {
+      "label": "token",
+      "file_type": "code",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L4",
+      "community": 61,
+      "norm_label": "token",
+      "id": "admin_user_token"
+    },
+    {
+      "label": "usersContainer",
+      "file_type": "code",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L15",
+      "community": 61,
+      "norm_label": "userscontainer",
+      "id": "admin_user_userscontainer"
+    },
+    {
+      "label": "noUsersDiv",
+      "file_type": "code",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L16",
+      "community": 61,
+      "norm_label": "nousersdiv",
+      "id": "admin_user_nousersdiv"
+    },
+    {
+      "label": "searchBtn",
+      "file_type": "code",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L17",
+      "community": 61,
+      "norm_label": "searchbtn",
+      "id": "admin_user_searchbtn"
+    },
+    {
+      "label": "searchInput",
+      "file_type": "code",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L18",
+      "community": 61,
+      "norm_label": "searchinput",
+      "id": "admin_user_searchinput"
+    },
+    {
+      "label": "searchUsers()",
+      "file_type": "code",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L20",
+      "community": 61,
+      "norm_label": "searchusers()",
+      "id": "admin_user_searchusers"
+    },
+    {
+      "label": "addServices.js",
+      "file_type": "code",
+      "source_file": "public/js/salons/addServices.js",
+      "source_location": "L1",
+      "community": 96,
+      "norm_label": "addservices.js",
+      "id": "public_js_salons_addservices_js"
+    },
+    {
+      "label": "handleAddService()",
+      "file_type": "code",
+      "source_file": "public/js/salons/addServices.js",
+      "source_location": "L3",
+      "community": 96,
+      "norm_label": "handleaddservice()",
+      "id": "salons_addservices_handleaddservice"
+    },
+    {
+      "label": "addStaff.js",
+      "file_type": "code",
+      "source_file": "public/js/salons/addStaff.js",
+      "source_location": "L1",
+      "community": 73,
+      "norm_label": "addstaff.js",
+      "id": "public_js_salons_addstaff_js"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "public/js/salons/addStaff.js",
+      "source_location": "L7",
+      "community": 73,
+      "norm_label": "name",
+      "id": "salons_addstaff_name"
+    },
+    {
+      "label": "phoneNumber",
+      "file_type": "code",
+      "source_file": "public/js/salons/addStaff.js",
+      "source_location": "L8",
+      "community": 73,
+      "norm_label": "phonenumber",
+      "id": "salons_addstaff_phonenumber"
+    },
+    {
+      "label": "email",
+      "file_type": "code",
+      "source_file": "public/js/salons/addStaff.js",
+      "source_location": "L9",
+      "community": 73,
+      "norm_label": "email",
+      "id": "salons_addstaff_email"
+    },
+    {
+      "label": "password",
+      "file_type": "code",
+      "source_file": "public/js/salons/addStaff.js",
+      "source_location": "L10",
+      "community": 73,
+      "norm_label": "password",
+      "id": "salons_addstaff_password"
+    },
+    {
+      "label": "token",
+      "file_type": "code",
+      "source_file": "public/js/salons/addStaff.js",
+      "source_location": "L16",
+      "community": 73,
+      "norm_label": "token",
+      "id": "salons_addstaff_token"
+    },
+    {
+      "label": "assignStaffService.js",
+      "file_type": "code",
+      "source_file": "public/js/salons/assignStaffService.js",
+      "source_location": "L1",
+      "community": 86,
+      "norm_label": "assignstaffservice.js",
+      "id": "public_js_salons_assignstaffservice_js"
+    },
+    {
+      "label": "staffList",
+      "file_type": "code",
+      "source_file": "public/js/salons/assignStaffService.js",
+      "source_location": "L4",
+      "community": 86,
+      "norm_label": "stafflist",
+      "id": "salons_assignstaffservice_stafflist"
+    },
+    {
+      "label": "token",
+      "file_type": "code",
+      "source_file": "public/js/salons/assignStaffService.js",
+      "source_location": "L8",
+      "community": 86,
+      "norm_label": "token",
+      "id": "salons_assignstaffservice_token"
+    },
+    {
+      "label": "card",
+      "file_type": "code",
+      "source_file": "public/js/salons/assignStaffService.js",
+      "source_location": "L28",
+      "community": 86,
+      "norm_label": "card",
+      "id": "salons_assignstaffservice_card"
+    },
+    {
+      "label": "changeSalonDetail.js",
+      "file_type": "code",
+      "source_file": "public/js/salons/changeSalonDetail.js",
+      "source_location": "L1",
+      "community": 74,
+      "norm_label": "changesalondetail.js",
+      "id": "public_js_salons_changesalondetail_js"
+    },
+    {
+      "label": "form",
+      "file_type": "code",
+      "source_file": "public/js/salons/changeSalonDetail.js",
+      "source_location": "L4",
+      "community": 74,
+      "norm_label": "form",
+      "id": "salons_changesalondetail_form"
+    },
+    {
+      "label": "token",
+      "file_type": "code",
+      "source_file": "public/js/salons/changeSalonDetail.js",
+      "source_location": "L7",
+      "community": 74,
+      "norm_label": "token",
+      "id": "salons_changesalondetail_token"
+    },
+    {
+      "label": "checkbox",
+      "file_type": "code",
+      "source_file": "public/js/salons/changeSalonDetail.js",
+      "source_location": "L29",
+      "community": 74,
+      "norm_label": "checkbox",
+      "id": "salons_changesalondetail_checkbox"
+    },
+    {
+      "label": "workingDays",
+      "file_type": "code",
+      "source_file": "public/js/salons/changeSalonDetail.js",
+      "source_location": "L42",
+      "community": 74,
+      "norm_label": "workingdays",
+      "id": "salons_changesalondetail_workingdays"
+    },
+    {
+      "label": "updatedDetails",
+      "file_type": "code",
+      "source_file": "public/js/salons/changeSalonDetail.js",
+      "source_location": "L44",
+      "community": 74,
+      "norm_label": "updateddetails",
+      "id": "salons_changesalondetail_updateddetails"
+    },
+    {
+      "label": "modifyForm.js",
+      "file_type": "code",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L1",
+      "community": 47,
+      "norm_label": "modifyform.js",
+      "id": "public_js_salons_modifyform_js"
+    },
+    {
+      "label": "fetchServiceDetails()",
+      "file_type": "code",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L3",
+      "community": 47,
+      "norm_label": "fetchservicedetails()",
+      "id": "salons_modifyform_fetchservicedetails"
+    },
+    {
+      "label": "populateForm()",
+      "file_type": "code",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L32",
+      "community": 47,
+      "norm_label": "populateform()",
+      "id": "salons_modifyform_populateform"
+    },
+    {
+      "label": "handleFormSubmit()",
+      "file_type": "code",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L39",
+      "community": 47,
+      "norm_label": "handleformsubmit()",
+      "id": "salons_modifyform_handleformsubmit"
+    },
+    {
+      "label": "urlParams",
+      "file_type": "code",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L76",
+      "community": 47,
+      "norm_label": "urlparams",
+      "id": "salons_modifyform_urlparams"
+    },
+    {
+      "label": "serviceId",
+      "file_type": "code",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L77",
+      "community": 47,
+      "norm_label": "serviceid",
+      "id": "salons_modifyform_serviceid"
+    },
+    {
+      "label": "confirmDelete",
+      "file_type": "code",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L84",
+      "community": 47,
+      "norm_label": "confirmdelete",
+      "id": "salons_modifyform_confirmdelete"
+    },
+    {
+      "label": "token",
+      "file_type": "code",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L88",
+      "community": 47,
+      "norm_label": "token",
+      "id": "salons_modifyform_token"
+    },
+    {
+      "label": "modifyServices.js",
+      "file_type": "code",
+      "source_file": "public/js/salons/modifyServices.js",
+      "source_location": "L1",
+      "community": 93,
+      "norm_label": "modifyservices.js",
+      "id": "public_js_salons_modifyservices_js"
+    },
+    {
+      "label": "fetchServices()",
+      "file_type": "code",
+      "source_file": "public/js/salons/modifyServices.js",
+      "source_location": "L3",
+      "community": 93,
+      "norm_label": "fetchservices()",
+      "id": "salons_modifyservices_fetchservices"
+    },
+    {
+      "label": "renderServices()",
+      "file_type": "code",
+      "source_file": "public/js/salons/modifyServices.js",
+      "source_location": "L36",
+      "community": 93,
+      "norm_label": "renderservices()",
+      "id": "salons_modifyservices_renderservices"
+    },
+    {
+      "label": "salonScheduledAppointments.js",
+      "file_type": "code",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L1",
+      "community": 62,
+      "norm_label": "salonscheduledappointments.js",
+      "id": "public_js_salons_salonscheduledappointments_js"
+    },
+    {
+      "label": "token",
+      "file_type": "code",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L4",
+      "community": 62,
+      "norm_label": "token",
+      "id": "salons_salonscheduledappointments_token"
+    },
+    {
+      "label": "upcomingContainer",
+      "file_type": "code",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L20",
+      "community": 62,
+      "norm_label": "upcomingcontainer",
+      "id": "salons_salonscheduledappointments_upcomingcontainer"
+    },
+    {
+      "label": "pastContainer",
+      "file_type": "code",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L21",
+      "community": 62,
+      "norm_label": "pastcontainer",
+      "id": "salons_salonscheduledappointments_pastcontainer"
+    },
+    {
+      "label": "today",
+      "file_type": "code",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L23",
+      "community": 62,
+      "norm_label": "today",
+      "id": "salons_salonscheduledappointments_today"
+    },
+    {
+      "label": "appointmentDate",
+      "file_type": "code",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L27",
+      "community": 62,
+      "norm_label": "appointmentdate",
+      "id": "salons_salonscheduledappointments_appointmentdate"
+    },
+    {
+      "label": "appointmentCard",
+      "file_type": "code",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L28",
+      "community": 62,
+      "norm_label": "appointmentcard",
+      "id": "salons_salonscheduledappointments_appointmentcard"
+    },
+    {
+      "label": "staffModifyForm.js",
+      "file_type": "code",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L1",
+      "community": 42,
+      "norm_label": "staffmodifyform.js",
+      "id": "public_js_salons_staffmodifyform_js"
+    },
+    {
+      "label": "staffDetails",
+      "file_type": "code",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L4",
+      "community": 42,
+      "norm_label": "staffdetails",
+      "id": "salons_staffmodifyform_staffdetails"
+    },
+    {
+      "label": "servicesList",
+      "file_type": "code",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L5",
+      "community": 42,
+      "norm_label": "serviceslist",
+      "id": "salons_staffmodifyform_serviceslist"
+    },
+    {
+      "label": "assignServicesForm",
+      "file_type": "code",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L6",
+      "community": 42,
+      "norm_label": "assignservicesform",
+      "id": "salons_staffmodifyform_assignservicesform"
+    },
+    {
+      "label": "staffId",
+      "file_type": "code",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L11",
+      "community": 42,
+      "norm_label": "staffid",
+      "id": "salons_staffmodifyform_staffid"
+    },
+    {
+      "label": "staffStatusDropdown",
+      "file_type": "code",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L43",
+      "community": 42,
+      "norm_label": "staffstatusdropdown",
+      "id": "salons_staffmodifyform_staffstatusdropdown"
+    },
+    {
+      "label": "isChecked",
+      "file_type": "code",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L78",
+      "community": 42,
+      "norm_label": "ischecked",
+      "id": "salons_staffmodifyform_ischecked"
+    },
+    {
+      "label": "checkbox",
+      "file_type": "code",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L79",
+      "community": 42,
+      "norm_label": "checkbox",
+      "id": "salons_staffmodifyform_checkbox"
+    },
+    {
+      "label": "selectedServices",
+      "file_type": "code",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L96",
+      "community": 42,
+      "norm_label": "selectedservices",
+      "id": "salons_staffmodifyform_selectedservices"
+    },
+    {
+      "label": "dashboard.js",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L1",
+      "community": 23,
+      "norm_label": "dashboard.js",
+      "id": "public_js_staff_dashboard_js"
+    },
+    {
+      "label": "token",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L3",
+      "community": 23,
+      "norm_label": "token",
+      "id": "staff_dashboard_token"
+    },
+    {
+      "label": "staffId",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L4",
+      "community": 23,
+      "norm_label": "staffid",
+      "id": "staff_dashboard_staffid"
+    },
+    {
+      "label": "staffName",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L5",
+      "community": 23,
+      "norm_label": "staffname",
+      "id": "staff_dashboard_staffname"
+    },
+    {
+      "label": "upcomingContainer",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L31",
+      "community": 23,
+      "norm_label": "upcomingcontainer",
+      "id": "staff_dashboard_upcomingcontainer"
+    },
+    {
+      "label": "completedContainer",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L32",
+      "community": 23,
+      "norm_label": "completedcontainer",
+      "id": "staff_dashboard_completedcontainer"
+    },
+    {
+      "label": "now",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L33",
+      "community": 23,
+      "norm_label": "now",
+      "id": "staff_dashboard_now"
+    },
+    {
+      "label": "appDate",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L36",
+      "community": 23,
+      "norm_label": "appdate",
+      "id": "staff_dashboard_appdate"
+    },
+    {
+      "label": "card",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L37",
+      "community": 23,
+      "norm_label": "card",
+      "id": "staff_dashboard_card"
+    },
+    {
+      "label": "reviewBtn",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L51",
+      "community": 23,
+      "norm_label": "reviewbtn",
+      "id": "staff_dashboard_reviewbtn"
+    },
+    {
+      "label": "form",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L56",
+      "community": 23,
+      "norm_label": "form",
+      "id": "staff_dashboard_form"
+    },
+    {
+      "label": "reviewText",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L78",
+      "community": 23,
+      "norm_label": "reviewtext",
+      "id": "staff_dashboard_reviewtext"
+    },
+    {
+      "label": "userReviewDiv",
+      "file_type": "code",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L85",
+      "community": 23,
+      "norm_label": "userreviewdiv",
+      "id": "staff_dashboard_userreviewdiv"
+    },
+    {
+      "label": "appointmentPage.js",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L1",
+      "community": 19,
+      "norm_label": "appointmentpage.js",
+      "id": "public_js_user_appointmentpage_js"
+    },
+    {
+      "label": "dateSelect",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L4",
+      "community": 19,
+      "norm_label": "dateselect",
+      "id": "user_appointmentpage_dateselect"
+    },
+    {
+      "label": "timeSelect",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L5",
+      "community": 19,
+      "norm_label": "timeselect",
+      "id": "user_appointmentpage_timeselect"
+    },
+    {
+      "label": "messageDiv",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L6",
+      "community": 19,
+      "norm_label": "messagediv",
+      "id": "user_appointmentpage_messagediv"
+    },
+    {
+      "label": "staffContainer",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L7",
+      "community": 19,
+      "norm_label": "staffcontainer",
+      "id": "user_appointmentpage_staffcontainer"
+    },
+    {
+      "label": "payNowButton",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L8",
+      "community": 19,
+      "norm_label": "paynowbutton",
+      "id": "user_appointmentpage_paynowbutton"
+    },
+    {
+      "label": "populateDateAndTimeDropdowns()",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L11",
+      "community": 19,
+      "norm_label": "populatedateandtimedropdowns()",
+      "id": "user_appointmentpage_populatedateandtimedropdowns"
+    },
+    {
+      "label": "form",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L73",
+      "community": 19,
+      "norm_label": "form",
+      "id": "user_appointmentpage_form"
+    },
+    {
+      "label": "FormData",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L81",
+      "community": 19,
+      "norm_label": "formdata",
+      "id": "user_appointmentpage_formdata"
+    },
+    {
+      "label": "staffCard",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L103",
+      "community": 19,
+      "norm_label": "staffcard",
+      "id": "user_appointmentpage_staffcard"
+    },
+    {
+      "label": "selectedStaff",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L116",
+      "community": 19,
+      "norm_label": "selectedstaff",
+      "id": "user_appointmentpage_selectedstaff"
+    },
+    {
+      "label": "paymentData",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L122",
+      "community": 19,
+      "norm_label": "paymentdata",
+      "id": "user_appointmentpage_paymentdata"
+    },
+    {
+      "label": "token",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L130",
+      "community": 19,
+      "norm_label": "token",
+      "id": "user_appointmentpage_token"
+    },
+    {
+      "label": "cashfree",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L140",
+      "community": 19,
+      "norm_label": "cashfree",
+      "id": "user_appointmentpage_cashfree"
+    },
+    {
+      "label": "checkoutOptions",
+      "file_type": "code",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L141",
+      "community": 19,
+      "norm_label": "checkoutoptions",
+      "id": "user_appointmentpage_checkoutoptions"
+    },
+    {
+      "label": "bookedAppointments.js",
+      "file_type": "code",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L1",
+      "community": 31,
+      "norm_label": "bookedappointments.js",
+      "id": "public_js_user_bookedappointments_js"
+    },
+    {
+      "label": "token",
+      "file_type": "code",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L4",
+      "community": 31,
+      "norm_label": "token",
+      "id": "user_bookedappointments_token"
+    },
+    {
+      "label": "userId",
+      "file_type": "code",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L5",
+      "community": 31,
+      "norm_label": "userid",
+      "id": "user_bookedappointments_userid"
+    },
+    {
+      "label": "upcomingContainer",
+      "file_type": "code",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L21",
+      "community": 31,
+      "norm_label": "upcomingcontainer",
+      "id": "user_bookedappointments_upcomingcontainer"
+    },
+    {
+      "label": "pastContainer",
+      "file_type": "code",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L22",
+      "community": 31,
+      "norm_label": "pastcontainer",
+      "id": "user_bookedappointments_pastcontainer"
+    },
+    {
+      "label": "today",
+      "file_type": "code",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L24",
+      "community": 31,
+      "norm_label": "today",
+      "id": "user_bookedappointments_today"
+    },
+    {
+      "label": "appointmentDate",
+      "file_type": "code",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L29",
+      "community": 31,
+      "norm_label": "appointmentdate",
+      "id": "user_bookedappointments_appointmentdate"
+    },
+    {
+      "label": "appointmentCard",
+      "file_type": "code",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L32",
+      "community": 31,
+      "norm_label": "appointmentcard",
+      "id": "user_bookedappointments_appointmentcard"
+    },
+    {
+      "label": "staffReviewDiv",
+      "file_type": "code",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L50",
+      "community": 31,
+      "norm_label": "staffreviewdiv",
+      "id": "user_bookedappointments_staffreviewdiv"
+    },
+    {
+      "label": "reviewButton",
+      "file_type": "code",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L57",
+      "community": 31,
+      "norm_label": "reviewbutton",
+      "id": "user_bookedappointments_reviewbutton"
+    },
+    {
+      "label": "form",
+      "file_type": "code",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L62",
+      "community": 31,
+      "norm_label": "form",
+      "id": "user_bookedappointments_form"
+    },
+    {
+      "label": "reviewText",
+      "file_type": "code",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L84",
+      "community": 31,
+      "norm_label": "reviewtext",
+      "id": "user_bookedappointments_reviewtext"
+    },
+    {
+      "label": "dashboard.js",
+      "file_type": "code",
+      "source_file": "public/js/user/dashboard.js",
+      "source_location": "L1",
+      "community": 94,
+      "norm_label": "dashboard.js",
+      "id": "public_js_user_dashboard_js"
+    },
+    {
+      "label": "salonsContainer",
+      "file_type": "code",
+      "source_file": "public/js/user/dashboard.js",
+      "source_location": "L4",
+      "community": 94,
+      "norm_label": "salonscontainer",
+      "id": "user_dashboard_salonscontainer"
+    },
+    {
+      "label": "card",
+      "file_type": "code",
+      "source_file": "public/js/user/dashboard.js",
+      "source_location": "L15",
+      "community": 94,
+      "norm_label": "card",
+      "id": "user_dashboard_card"
+    },
+    {
+      "label": "editProfile.js",
+      "file_type": "code",
+      "source_file": "public/js/user/editProfile.js",
+      "source_location": "L1",
+      "community": 89,
+      "norm_label": "editprofile.js",
+      "id": "public_js_user_editprofile_js"
+    },
+    {
+      "label": "userId",
+      "file_type": "code",
+      "source_file": "public/js/user/editProfile.js",
+      "source_location": "L2",
+      "community": 89,
+      "norm_label": "userid",
+      "id": "user_editprofile_userid"
+    },
+    {
+      "label": "token",
+      "file_type": "code",
+      "source_file": "public/js/user/editProfile.js",
+      "source_location": "L3",
+      "community": 89,
+      "norm_label": "token",
+      "id": "user_editprofile_token"
+    },
+    {
+      "label": "data",
+      "file_type": "code",
+      "source_file": "public/js/user/editProfile.js",
+      "source_location": "L32",
+      "community": 89,
+      "norm_label": "data",
+      "id": "user_editprofile_data"
+    },
+    {
+      "label": "salonservices.js",
+      "file_type": "code",
+      "source_file": "public/js/user/salonservices.js",
+      "source_location": "L1",
+      "community": 79,
+      "norm_label": "salonservices.js",
+      "id": "public_js_user_salonservices_js"
+    },
+    {
+      "label": "salonNameElement",
+      "file_type": "code",
+      "source_file": "public/js/user/salonservices.js",
+      "source_location": "L4",
+      "community": 79,
+      "norm_label": "salonnameelement",
+      "id": "user_salonservices_salonnameelement"
+    },
+    {
+      "label": "servicesContainer",
+      "file_type": "code",
+      "source_file": "public/js/user/salonservices.js",
+      "source_location": "L5",
+      "community": 79,
+      "norm_label": "servicescontainer",
+      "id": "user_salonservices_servicescontainer"
+    },
+    {
+      "label": "salonId",
+      "file_type": "code",
+      "source_file": "public/js/user/salonservices.js",
+      "source_location": "L9",
+      "community": 79,
+      "norm_label": "salonid",
+      "id": "user_salonservices_salonid"
+    },
+    {
+      "label": "card",
+      "file_type": "code",
+      "source_file": "public/js/user/salonservices.js",
+      "source_location": "L29",
+      "community": 79,
+      "norm_label": "card",
+      "id": "user_salonservices_card"
+    },
+    {
       "label": "sess_536afe9b-205d-48d5-8cc3-8a68da993b3e.json",
       "file_type": "code",
       "source_file": ".mimosa/hook-state/sess_536afe9b-205d-48d5-8cc3-8a68da993b3e.json",
@@ -30311,7 +30311,7 @@
       "file_type": "code",
       "source_file": ".mimosa/hook-state/sess_536afe9b-205d-48d5-8cc3-8a68da993b3e.json",
       "source_location": "L1",
-      "community": 141,
+      "community": 146,
       "norm_label": "app.js",
       "id": "hook_state_sess_536afe9b_205d_48d5_8cc3_8a68da993b3e_files_app_js"
     },
@@ -30320,7 +30320,7 @@
       "file_type": "code",
       "source_file": ".mimosa/hook-state/sess_536afe9b-205d-48d5-8cc3-8a68da993b3e.json",
       "source_location": "L1",
-      "community": 141,
+      "community": 146,
       "norm_label": "existed",
       "id": "hook_state_sess_536afe9b_205d_48d5_8cc3_8a68da993b3e_app_js_existed"
     },
@@ -30329,7 +30329,7 @@
       "file_type": "code",
       "source_file": ".mimosa/hook-state/sess_536afe9b-205d-48d5-8cc3-8a68da993b3e.json",
       "source_location": "L1",
-      "community": 141,
+      "community": 146,
       "norm_label": "snapshot",
       "id": "hook_state_sess_536afe9b_205d_48d5_8cc3_8a68da993b3e_app_js_snapshot"
     },
@@ -33821,7 +33821,7 @@
       "file_type": "code",
       "source_file": ".mimosa/hook-state/sess_536afe9b-205d-48d5-8cc3-8a68da993b3e.json",
       "source_location": "L1",
-      "community": 146,
+      "community": 141,
       "norm_label": "frontend/package.json",
       "id": "hook_state_sess_536afe9b_205d_48d5_8cc3_8a68da993b3e_files_frontend_package_json"
     },
@@ -33830,7 +33830,7 @@
       "file_type": "code",
       "source_file": ".mimosa/hook-state/sess_536afe9b-205d-48d5-8cc3-8a68da993b3e.json",
       "source_location": "L1",
-      "community": 146,
+      "community": 141,
       "norm_label": "existed",
       "id": "hook_state_sess_536afe9b_205d_48d5_8cc3_8a68da993b3e_frontend_package_json_existed"
     },
@@ -33839,7 +33839,7 @@
       "file_type": "code",
       "source_file": ".mimosa/hook-state/sess_536afe9b-205d-48d5-8cc3-8a68da993b3e.json",
       "source_location": "L1",
-      "community": 146,
+      "community": 141,
       "norm_label": "snapshot",
       "id": "hook_state_sess_536afe9b_205d_48d5_8cc3_8a68da993b3e_frontend_package_json_snapshot"
     },
@@ -56201,1058 +56201,6 @@
       "confidence_score": 1.0,
       "source": "tests_waitlist_test_js",
       "target": "models_waitlistmodel_js"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/cashfree.js",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_cashfree_js",
-      "target": "js_cashfree_cashfree"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/cashfree.js",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_cashfree_js",
-      "target": "js_cashfree_checkoutoptions"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/login.js",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_login_js",
-      "target": "js_login_handleuserlogin"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/login.js",
-      "source_location": "L42",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_login_js",
-      "target": "js_login_handlesalonlogin"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/login.js",
-      "source_location": "L80",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_login_js",
-      "target": "js_login_handlestafflogin"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/signup.js",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_signup_js",
-      "target": "js_signup_handleusersignup"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/signup.js",
-      "source_location": "L46",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_signup_js",
-      "target": "js_signup_handlesalonsignup"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/appointments.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_appointments_js",
-      "target": "admin_appointments_token"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/appointments.js",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_appointments_js",
-      "target": "admin_appointments_container"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/appointments.js",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_appointments_js",
-      "target": "admin_appointments_noappointmentsdiv"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/appointments.js",
-      "source_location": "L30",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_appointments_js",
-      "target": "admin_appointments_card"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/appointments.js",
-      "source_location": "L40",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_appointments_js",
-      "target": "admin_appointments_delbtn"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/index.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_index_js",
-      "target": "admin_index_token"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/index.js",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_index_js",
-      "target": "admin_index_logoutbtn"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_user_js",
-      "target": "admin_user_token"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_user_js",
-      "target": "admin_user_userscontainer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_user_js",
-      "target": "admin_user_nousersdiv"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L17",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_user_js",
-      "target": "admin_user_searchbtn"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L18",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_user_js",
-      "target": "admin_user_searchinput"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/admin/user.js",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_admin_user_js",
-      "target": "admin_user_searchusers"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/addServices.js",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_addservices_js",
-      "target": "salons_addservices_handleaddservice"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/addStaff.js",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_addstaff_js",
-      "target": "salons_addstaff_name"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/addStaff.js",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_addstaff_js",
-      "target": "salons_addstaff_phonenumber"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/addStaff.js",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_addstaff_js",
-      "target": "salons_addstaff_email"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/addStaff.js",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_addstaff_js",
-      "target": "salons_addstaff_password"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/addStaff.js",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_addstaff_js",
-      "target": "salons_addstaff_token"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/assignStaffService.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_assignstaffservice_js",
-      "target": "salons_assignstaffservice_stafflist"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/assignStaffService.js",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_assignstaffservice_js",
-      "target": "salons_assignstaffservice_token"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/assignStaffService.js",
-      "source_location": "L28",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_assignstaffservice_js",
-      "target": "salons_assignstaffservice_card"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/changeSalonDetail.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_changesalondetail_js",
-      "target": "salons_changesalondetail_form"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/changeSalonDetail.js",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_changesalondetail_js",
-      "target": "salons_changesalondetail_token"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/changeSalonDetail.js",
-      "source_location": "L29",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_changesalondetail_js",
-      "target": "salons_changesalondetail_checkbox"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/changeSalonDetail.js",
-      "source_location": "L42",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_changesalondetail_js",
-      "target": "salons_changesalondetail_workingdays"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/changeSalonDetail.js",
-      "source_location": "L44",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_changesalondetail_js",
-      "target": "salons_changesalondetail_updateddetails"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_modifyform_js",
-      "target": "salons_modifyform_fetchservicedetails"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L32",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_modifyform_js",
-      "target": "salons_modifyform_populateform"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L39",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_modifyform_js",
-      "target": "salons_modifyform_handleformsubmit"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L76",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_modifyform_js",
-      "target": "salons_modifyform_urlparams"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L77",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_modifyform_js",
-      "target": "salons_modifyform_serviceid"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L84",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_modifyform_js",
-      "target": "salons_modifyform_confirmdelete"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L88",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_modifyform_js",
-      "target": "salons_modifyform_token"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/modifyForm.js",
-      "source_location": "L22",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "salons_modifyform_fetchservicedetails",
-      "target": "salons_modifyform_populateform"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/modifyServices.js",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_modifyservices_js",
-      "target": "salons_modifyservices_fetchservices"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/modifyServices.js",
-      "source_location": "L36",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_modifyservices_js",
-      "target": "salons_modifyservices_renderservices"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/modifyServices.js",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "salons_modifyservices_fetchservices",
-      "target": "salons_modifyservices_renderservices"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_salonscheduledappointments_js",
-      "target": "salons_salonscheduledappointments_token"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_salonscheduledappointments_js",
-      "target": "salons_salonscheduledappointments_upcomingcontainer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L21",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_salonscheduledappointments_js",
-      "target": "salons_salonscheduledappointments_pastcontainer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L23",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_salonscheduledappointments_js",
-      "target": "salons_salonscheduledappointments_today"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L27",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_salonscheduledappointments_js",
-      "target": "salons_salonscheduledappointments_appointmentdate"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/salonScheduledAppointments.js",
-      "source_location": "L28",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_salonscheduledappointments_js",
-      "target": "salons_salonscheduledappointments_appointmentcard"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_staffmodifyform_js",
-      "target": "salons_staffmodifyform_staffdetails"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_staffmodifyform_js",
-      "target": "salons_staffmodifyform_serviceslist"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_staffmodifyform_js",
-      "target": "salons_staffmodifyform_assignservicesform"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_staffmodifyform_js",
-      "target": "salons_staffmodifyform_staffid"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L43",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_staffmodifyform_js",
-      "target": "salons_staffmodifyform_staffstatusdropdown"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L78",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_staffmodifyform_js",
-      "target": "salons_staffmodifyform_ischecked"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L79",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_staffmodifyform_js",
-      "target": "salons_staffmodifyform_checkbox"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/salons/staffModifyForm.js",
-      "source_location": "L96",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_salons_staffmodifyform_js",
-      "target": "salons_staffmodifyform_selectedservices"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_staff_dashboard_js",
-      "target": "staff_dashboard_token"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_staff_dashboard_js",
-      "target": "staff_dashboard_staffid"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_staff_dashboard_js",
-      "target": "staff_dashboard_staffname"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L31",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_staff_dashboard_js",
-      "target": "staff_dashboard_upcomingcontainer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L32",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_staff_dashboard_js",
-      "target": "staff_dashboard_completedcontainer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L33",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_staff_dashboard_js",
-      "target": "staff_dashboard_now"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L36",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_staff_dashboard_js",
-      "target": "staff_dashboard_appdate"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L37",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_staff_dashboard_js",
-      "target": "staff_dashboard_card"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L51",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_staff_dashboard_js",
-      "target": "staff_dashboard_reviewbtn"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L56",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_staff_dashboard_js",
-      "target": "staff_dashboard_form"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L78",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_staff_dashboard_js",
-      "target": "staff_dashboard_reviewtext"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/staff/dashboard.js",
-      "source_location": "L85",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_staff_dashboard_js",
-      "target": "staff_dashboard_userreviewdiv"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_dateselect"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_timeselect"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_messagediv"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_staffcontainer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_paynowbutton"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_populatedateandtimedropdowns"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L73",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_form"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L81",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_formdata"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L101",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_staffcard"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L114",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_selectedstaff"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L120",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_paymentdata"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L128",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_token"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L138",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_cashfree"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/appointmentPage.js",
-      "source_location": "L139",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_appointmentpage_js",
-      "target": "user_appointmentpage_checkoutoptions"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_bookedappointments_js",
-      "target": "user_bookedappointments_token"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_bookedappointments_js",
-      "target": "user_bookedappointments_userid"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L21",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_bookedappointments_js",
-      "target": "user_bookedappointments_upcomingcontainer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L22",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_bookedappointments_js",
-      "target": "user_bookedappointments_pastcontainer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L24",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_bookedappointments_js",
-      "target": "user_bookedappointments_today"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L29",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_bookedappointments_js",
-      "target": "user_bookedappointments_appointmentdate"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L32",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_bookedappointments_js",
-      "target": "user_bookedappointments_appointmentcard"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L50",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_bookedappointments_js",
-      "target": "user_bookedappointments_staffreviewdiv"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L57",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_bookedappointments_js",
-      "target": "user_bookedappointments_reviewbutton"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L62",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_bookedappointments_js",
-      "target": "user_bookedappointments_form"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/bookedAppointments.js",
-      "source_location": "L84",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_bookedappointments_js",
-      "target": "user_bookedappointments_reviewtext"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/dashboard.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_dashboard_js",
-      "target": "user_dashboard_salonscontainer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/dashboard.js",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_dashboard_js",
-      "target": "user_dashboard_card"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/editProfile.js",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_editprofile_js",
-      "target": "user_editprofile_userid"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/editProfile.js",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_editprofile_js",
-      "target": "user_editprofile_token"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/editProfile.js",
-      "source_location": "L32",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_editprofile_js",
-      "target": "user_editprofile_data"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/salonservices.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_salonservices_js",
-      "target": "user_salonservices_salonnameelement"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/salonservices.js",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_salonservices_js",
-      "target": "user_salonservices_servicescontainer"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/salonservices.js",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_salonservices_js",
-      "target": "user_salonservices_salonid"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "public/js/user/salonservices.js",
-      "source_location": "L29",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "public_js_user_salonservices_js",
-      "target": "user_salonservices_card"
     },
     {
       "relation": "contains",
@@ -83751,6 +82699,1058 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "public/js/cashfree.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_cashfree_js",
+      "target": "js_cashfree_cashfree"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/cashfree.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_cashfree_js",
+      "target": "js_cashfree_checkoutoptions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/login.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_login_js",
+      "target": "js_login_handleuserlogin"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/login.js",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_login_js",
+      "target": "js_login_handlesalonlogin"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/login.js",
+      "source_location": "L80",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_login_js",
+      "target": "js_login_handlestafflogin"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/signup.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_signup_js",
+      "target": "js_signup_handleusersignup"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/signup.js",
+      "source_location": "L46",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_signup_js",
+      "target": "js_signup_handlesalonsignup"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/appointments.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_appointments_js",
+      "target": "admin_appointments_token"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/appointments.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_appointments_js",
+      "target": "admin_appointments_container"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/appointments.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_appointments_js",
+      "target": "admin_appointments_noappointmentsdiv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/appointments.js",
+      "source_location": "L30",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_appointments_js",
+      "target": "admin_appointments_card"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/appointments.js",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_appointments_js",
+      "target": "admin_appointments_delbtn"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/index.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_index_js",
+      "target": "admin_index_token"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/index.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_index_js",
+      "target": "admin_index_logoutbtn"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_user_js",
+      "target": "admin_user_token"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_user_js",
+      "target": "admin_user_userscontainer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_user_js",
+      "target": "admin_user_nousersdiv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_user_js",
+      "target": "admin_user_searchbtn"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_user_js",
+      "target": "admin_user_searchinput"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/admin/user.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_admin_user_js",
+      "target": "admin_user_searchusers"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/addServices.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_addservices_js",
+      "target": "salons_addservices_handleaddservice"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/addStaff.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_addstaff_js",
+      "target": "salons_addstaff_name"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/addStaff.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_addstaff_js",
+      "target": "salons_addstaff_phonenumber"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/addStaff.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_addstaff_js",
+      "target": "salons_addstaff_email"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/addStaff.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_addstaff_js",
+      "target": "salons_addstaff_password"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/addStaff.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_addstaff_js",
+      "target": "salons_addstaff_token"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/assignStaffService.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_assignstaffservice_js",
+      "target": "salons_assignstaffservice_stafflist"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/assignStaffService.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_assignstaffservice_js",
+      "target": "salons_assignstaffservice_token"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/assignStaffService.js",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_assignstaffservice_js",
+      "target": "salons_assignstaffservice_card"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/changeSalonDetail.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_changesalondetail_js",
+      "target": "salons_changesalondetail_form"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/changeSalonDetail.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_changesalondetail_js",
+      "target": "salons_changesalondetail_token"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/changeSalonDetail.js",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_changesalondetail_js",
+      "target": "salons_changesalondetail_checkbox"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/changeSalonDetail.js",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_changesalondetail_js",
+      "target": "salons_changesalondetail_workingdays"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/changeSalonDetail.js",
+      "source_location": "L44",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_changesalondetail_js",
+      "target": "salons_changesalondetail_updateddetails"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_modifyform_js",
+      "target": "salons_modifyform_fetchservicedetails"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_modifyform_js",
+      "target": "salons_modifyform_populateform"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_modifyform_js",
+      "target": "salons_modifyform_handleformsubmit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L76",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_modifyform_js",
+      "target": "salons_modifyform_urlparams"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L77",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_modifyform_js",
+      "target": "salons_modifyform_serviceid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L84",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_modifyform_js",
+      "target": "salons_modifyform_confirmdelete"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L88",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_modifyform_js",
+      "target": "salons_modifyform_token"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/modifyForm.js",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "salons_modifyform_fetchservicedetails",
+      "target": "salons_modifyform_populateform"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/modifyServices.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_modifyservices_js",
+      "target": "salons_modifyservices_fetchservices"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/modifyServices.js",
+      "source_location": "L36",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_modifyservices_js",
+      "target": "salons_modifyservices_renderservices"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/modifyServices.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "salons_modifyservices_fetchservices",
+      "target": "salons_modifyservices_renderservices"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_salonscheduledappointments_js",
+      "target": "salons_salonscheduledappointments_token"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_salonscheduledappointments_js",
+      "target": "salons_salonscheduledappointments_upcomingcontainer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_salonscheduledappointments_js",
+      "target": "salons_salonscheduledappointments_pastcontainer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L23",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_salonscheduledappointments_js",
+      "target": "salons_salonscheduledappointments_today"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_salonscheduledappointments_js",
+      "target": "salons_salonscheduledappointments_appointmentdate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/salonScheduledAppointments.js",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_salonscheduledappointments_js",
+      "target": "salons_salonscheduledappointments_appointmentcard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_staffmodifyform_js",
+      "target": "salons_staffmodifyform_staffdetails"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_staffmodifyform_js",
+      "target": "salons_staffmodifyform_serviceslist"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_staffmodifyform_js",
+      "target": "salons_staffmodifyform_assignservicesform"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_staffmodifyform_js",
+      "target": "salons_staffmodifyform_staffid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_staffmodifyform_js",
+      "target": "salons_staffmodifyform_staffstatusdropdown"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L78",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_staffmodifyform_js",
+      "target": "salons_staffmodifyform_ischecked"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L79",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_staffmodifyform_js",
+      "target": "salons_staffmodifyform_checkbox"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/salons/staffModifyForm.js",
+      "source_location": "L96",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_salons_staffmodifyform_js",
+      "target": "salons_staffmodifyform_selectedservices"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_staff_dashboard_js",
+      "target": "staff_dashboard_token"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_staff_dashboard_js",
+      "target": "staff_dashboard_staffid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_staff_dashboard_js",
+      "target": "staff_dashboard_staffname"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_staff_dashboard_js",
+      "target": "staff_dashboard_upcomingcontainer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_staff_dashboard_js",
+      "target": "staff_dashboard_completedcontainer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_staff_dashboard_js",
+      "target": "staff_dashboard_now"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L36",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_staff_dashboard_js",
+      "target": "staff_dashboard_appdate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_staff_dashboard_js",
+      "target": "staff_dashboard_card"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_staff_dashboard_js",
+      "target": "staff_dashboard_reviewbtn"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L56",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_staff_dashboard_js",
+      "target": "staff_dashboard_form"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L78",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_staff_dashboard_js",
+      "target": "staff_dashboard_reviewtext"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/staff/dashboard.js",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_staff_dashboard_js",
+      "target": "staff_dashboard_userreviewdiv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_dateselect"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_timeselect"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_messagediv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_staffcontainer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_paynowbutton"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_populatedateandtimedropdowns"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L73",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_form"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L81",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_formdata"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L101",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_staffcard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L114",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_selectedstaff"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L120",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_paymentdata"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L128",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_token"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L138",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_cashfree"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/appointmentPage.js",
+      "source_location": "L139",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_appointmentpage_js",
+      "target": "user_appointmentpage_checkoutoptions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_bookedappointments_js",
+      "target": "user_bookedappointments_token"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_bookedappointments_js",
+      "target": "user_bookedappointments_userid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_bookedappointments_js",
+      "target": "user_bookedappointments_upcomingcontainer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_bookedappointments_js",
+      "target": "user_bookedappointments_pastcontainer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_bookedappointments_js",
+      "target": "user_bookedappointments_today"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_bookedappointments_js",
+      "target": "user_bookedappointments_appointmentdate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_bookedappointments_js",
+      "target": "user_bookedappointments_appointmentcard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L50",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_bookedappointments_js",
+      "target": "user_bookedappointments_staffreviewdiv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L57",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_bookedappointments_js",
+      "target": "user_bookedappointments_reviewbutton"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L62",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_bookedappointments_js",
+      "target": "user_bookedappointments_form"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/bookedAppointments.js",
+      "source_location": "L84",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_bookedappointments_js",
+      "target": "user_bookedappointments_reviewtext"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/dashboard.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_dashboard_js",
+      "target": "user_dashboard_salonscontainer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/dashboard.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_dashboard_js",
+      "target": "user_dashboard_card"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/editProfile.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_editprofile_js",
+      "target": "user_editprofile_userid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/editProfile.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_editprofile_js",
+      "target": "user_editprofile_token"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/editProfile.js",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_editprofile_js",
+      "target": "user_editprofile_data"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/salonservices.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_salonservices_js",
+      "target": "user_salonservices_salonnameelement"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/salonservices.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_salonservices_js",
+      "target": "user_salonservices_servicescontainer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/salonservices.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_salonservices_js",
+      "target": "user_salonservices_salonid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/js/user/salonservices.js",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_js_user_salonservices_js",
+      "target": "user_salonservices_card"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": ".mimosa/hook-state/sess_536afe9b-205d-48d5-8cc3-8a68da993b3e.json",
       "source_location": "L1",
       "weight": 1.0,
@@ -88691,5 +88691,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a23273d722edf5e6b6969d11cc903def2bbe7e5f"
+  "built_at_commit": "7fcfe366461c5a3a44d5df86619b011cf659fbf3"
 }
