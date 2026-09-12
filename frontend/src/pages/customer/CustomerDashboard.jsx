@@ -6,6 +6,7 @@ import { SkeletonCardGrid } from '../../components/Skeleton.jsx';
 import NotificationsPanel from '../../components/NotificationsPanel.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
+import './customer.css';
 
 const CATEGORIES = [
   'Hair', 'Spa & Massage', 'Facial & Skin', 'Nails',
@@ -218,14 +219,14 @@ export default function CustomerDashboard() {
     : salons;
 
   return (
-    <div className="container" style={{ padding: '40px 24px' }}>
-      {/* Header + search */}
-      <div className="dashboard-header" style={{ marginBottom: '20px' }}>
+    <div className="container page-shell">
+      {/* Header + search — serif headline over a hairline rule (page-head) */}
+      <div className="dashboard-header page-head">
         <div>
           <h1 className="dashboard-title">Explore salons</h1>
           <p className="section-sub">Find a beauty partner near you.</p>
         </div>
-        <div className="search-bar-container">
+        <div className="search-bar-container dashboard-search">
           <div className="form-input-wrapper" style={{ flex: 1 }}>
             <Search className="form-input-icon" size={18} />
             <input
@@ -234,7 +235,6 @@ export default function CustomerDashboard() {
               placeholder="Search salon name or location…"
               value={searchInput}
               onChange={e => setSearchInput(e.target.value)}
-              style={{ paddingLeft: '48px' }}
             />
           </div>
           <button
@@ -247,10 +247,11 @@ export default function CustomerDashboard() {
           </button>
           <button
             onClick={() => setShowFavoritesOnly(v => !v)}
+            aria-pressed={showFavoritesOnly}
             className={`btn btn-sm ${showFavoritesOnly ? 'btn-primary' : 'btn-secondary'}`}
           >
             <Star size={16} fill={showFavoritesOnly ? 'currentColor' : 'none'} />
-            {showFavoritesOnly ? 'Favorites' : 'Favorites'}
+            {showFavoritesOnly ? 'Favorites Only' : 'Favorites'}
           </button>
           <button
             onClick={() => setShowNotifications(v => !v)}
@@ -307,7 +308,7 @@ export default function CustomerDashboard() {
       )}
 
       {/* Notifications (toggleable; panel reports its own unread count) */}
-      <div style={{ display: showNotifications ? 'block' : 'none', marginBottom: '24px', maxWidth: '800px' }}>
+      <div style={{ display: showNotifications ? 'block' : 'none', marginBottom: 'var(--space-md)', maxWidth: '800px' }}>
         <NotificationsPanel onUnreadChange={setUnreadNotifs} />
       </div>
 
@@ -325,9 +326,13 @@ export default function CustomerDashboard() {
         </div>
       )}
 
-      {/* Loyalty (#27/#28) + Waitlist (#30) cards */}
+      {/* Loyalty (#27/#28) + Waitlist (#30) cards. Full-width single row when
+          only one of the two exists — the 2fr/1fr split leaves a dead zone. */}
       {(loyalty || waitlistEntries.length > 0) && (
-        <div className="grid-dashboard-split" style={{ marginBottom: '24px' }}>
+        <div
+          className={loyalty && waitlistEntries.length > 0 ? 'grid-dashboard-split' : 'dashboard-row-single'}
+          style={{ marginBottom: 'var(--space-md)' }}
+        >
           {loyalty && (
             <div className="booking-panel loyalty-card">
               <h3 className="panel-title"><Gift size={18} /> Loyalty</h3>
@@ -380,20 +385,20 @@ export default function CustomerDashboard() {
       {loading ? (
         <SkeletonCardGrid count={6} />
       ) : loadError ? (
-        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
-          <Scissors size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+        <div className="empty-state">
+          <Scissors size={48} />
           <h3>Couldn't load salons</h3>
-          <p style={{ color: 'var(--color-ink-2)', marginTop: '8px' }}>Something went wrong on our end.</p>
-          <button onClick={() => { setPage(1); setSearchQuery(''); setRetryToken(t => t + 1); }} className="btn btn-primary btn-sm" style={{ marginTop: '16px' }}>Try again</button>
+          <p>Something went wrong on our end.</p>
+          <button onClick={() => { setPage(1); setSearchQuery(''); setRetryToken(t => t + 1); }} className="btn btn-primary btn-sm">Try again</button>
         </div>
       ) : displayed.length === 0 ? (
-        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
-          <Scissors size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+        <div className="empty-state">
+          <Scissors size={48} />
           <h3>No salons found</h3>
-          <p style={{ color: 'var(--color-ink-2)', marginTop: '8px' }}>
+          <p>
             {hasActiveFilters ? 'Try adjusting your filters.' : 'We couldn\'t find any partner salons.'}
           </p>
-          {hasActiveFilters && <button onClick={clearFilters} className="btn btn-primary btn-sm" style={{ marginTop: '16px' }}>Clear filters</button>}
+          {hasActiveFilters && <button onClick={clearFilters} className="btn btn-primary btn-sm">Clear filters</button>}
         </div>
       ) : (
         <>
@@ -412,7 +417,7 @@ export default function CustomerDashboard() {
                   </button>
                 </div>
                 <div className="card-body">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--space-2xs)', marginBottom: 'var(--space-2xs)' }}>
                     <h3 className="card-title" style={{ margin: 0 }}>{salon.name}</h3>
                     <div className="rating-inline">
                       {salon.avgRating ? (
@@ -429,15 +434,18 @@ export default function CustomerDashboard() {
                   <div className="card-info"><MapPin size={16} /> {salon.address}</div>
                   <div className="card-info"><Phone size={16} /> {salon.phoneNumber}</div>
                   {salon.openingTime && (
-                    <div className="card-info" style={{ marginTop: '4px' }}>
+                    <div className="card-info" style={{ marginTop: 'var(--space-3xs)' }}>
                       <Clock size={16} /> {salon.openingTime?.slice(0, 5)}–{salon.closingTime?.slice(0, 5)}
                     </div>
                   )}
                 </div>
                 <div className="card-footer">
+                  {/* Secondary (outline) style — accent discipline: viewing a
+                      salon is not a primary conversion action; solid accent is
+                      reserved for booking CTAs. */}
                   <button
                     onClick={() => navigate(`/customer/salon/${salon.id}`)}
-                    className="btn btn-primary btn-sm"
+                    className="btn btn-secondary btn-sm"
                     style={{ width: '100%' }}
                   >
                     View salon

@@ -1,0 +1,22 @@
+/* Owned by Navbar.jsx. Token-only helpers for the nav action cluster.
+ * Loads after index.css (component import order) so these win at equal
+ * specificity with the .btn-* rules there.
+ */
+
+/* Cluster holding the theme toggle + auth actions: a tighter gap than the
+ * .nav-links rhythm (--space-md) so the controls read as one group. */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+/* Theme toggle: fixed 36px circle. The diameter has no token in this system;
+ * padding, radius, border and colours all come from the .btn-secondary /
+ * .btn-icon-only token rules in index.css. */
+.nav-icon-btn {
+  width: 2.25rem; /* 36px */
+  height: 2.25rem; /* 36px */
+  padding: 0;
+  flex-shrink: 0;
+}

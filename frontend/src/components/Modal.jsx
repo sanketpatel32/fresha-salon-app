@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'react';
+import './Modal.css';
 
 /**
  * Accessible modal dialog.
@@ -84,8 +85,6 @@ export default function Modal({ open, onClose, title, labelledById, children, si
 
   const headingId = labelledById || 'modal-title';
 
-  const maxWidth = size === 'lg' ? '640px' : size === 'sm' ? '380px' : '500px';
-
   return (
     <div
       className="modal-backdrop"
@@ -96,13 +95,12 @@ export default function Modal({ open, onClose, title, labelledById, children, si
     >
       <div
         ref={dialogRef}
-        className="modal-content"
+        className={`modal-content modal-${size}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? headingId : undefined}
         tabIndex={-1}
         onKeyDown={handleKeyDown}
-        style={{ maxWidth, outline: 'none' }}
       >
         {title && (
           <h3 id={headingId} className="panel-title">

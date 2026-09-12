@@ -30,12 +30,8 @@ export default function ConfirmDialog({
 }) {
   return (
     <Modal open={open} onClose={onClose} title={title} size="sm">
-      {message && (
-        <p style={{ color: 'var(--color-ink-2)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-lg)' }}>
-          {message}
-        </p>
-      )}
-      <div style={{ display: 'flex', gap: 'var(--space-xs)', justifyContent: 'flex-end' }}>
+      {message && <p className="modal-message">{message}</p>}
+      <div className="modal-footer">
         <button onClick={onClose} className="btn btn-secondary btn-sm">
           {cancelLabel}
         </button>

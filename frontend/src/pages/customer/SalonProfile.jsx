@@ -5,6 +5,7 @@ import { MapPin, Phone, Clock, Star, Calendar, ArrowLeft, Scissors, ListOrdered 
 import Skeleton, { SkeletonCardGrid } from '../../components/Skeleton.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
+import './customer.css';
 
 const CATEGORY_ORDER = [
   'Hair', 'Spa & Massage', 'Facial & Skin', 'Nails',
@@ -87,7 +88,7 @@ export default function SalonProfile() {
 
   if (loading) {
     return (
-      <div className="container" style={{ padding: '40px 24px' }}>
+      <div className="container page-shell">
         <div className="salon-hero">
           <Skeleton height="2.2rem" width="50%" />
           <Skeleton height="1rem" width="70%" />
@@ -100,12 +101,12 @@ export default function SalonProfile() {
 
   if (error) {
     return (
-      <div className="container" style={{ padding: '40px 24px' }}>
-        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
-          <Scissors size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+      <div className="container page-shell">
+        <div className="empty-state">
+          <Scissors size={48} />
           <h3>Couldn't load this salon</h3>
-          <p style={{ color: 'var(--text-secondary)' }}>Something went wrong. Please try again.</p>
-          <button onClick={() => window.location.reload()} className="btn btn-primary btn-sm" style={{ marginTop: '20px' }}>Try again</button>
+          <p>Something went wrong. Please try again.</p>
+          <button onClick={() => window.location.reload()} className="btn btn-primary btn-sm">Try again</button>
         </div>
       </div>
     );
@@ -113,11 +114,11 @@ export default function SalonProfile() {
 
   if (!data || !data.salon) {
     return (
-      <div className="container" style={{ padding: '40px 24px' }}>
-        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
-          <Scissors size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+      <div className="container page-shell">
+        <div className="empty-state">
+          <Scissors size={48} />
           <h3>Salon not found</h3>
-          <Link to="/customer/dashboard" className="btn btn-primary btn-sm" style={{ marginTop: '20px' }}>Back to salons</Link>
+          <Link to="/customer/dashboard" className="btn btn-primary btn-sm">Back to salons</Link>
         </div>
       </div>
     );
@@ -127,40 +128,56 @@ export default function SalonProfile() {
   const grouped = groupByCategory(services);
 
   return (
-    <div className="container" style={{ padding: '40px 24px' }}>
+    <div className="container page-shell">
       <Link to="/customer/dashboard" className="back-link">
         <ArrowLeft size={16} /> All salons
       </Link>
 
-      {/* Hero */}
+      {/* Hero — the salon's page header: serif headline over a hairline rule */}
       <div className="salon-hero">
-        <h1 className="dashboard-title">{salon.name}</h1>
-        <p className="section-sub salon-address">
-          <MapPin size={16} /> {salon.address}
-        </p>
-        <div className="salon-meta">
-          <span className="chip">
-            <Star size={14} fill="currentColor" className="chip-star" />
-            <strong>{salon.avgRating ? Number(salon.avgRating).toFixed(1) : 'New'}</strong>
-            <span className="chip-muted">· {salon.reviewCount} review{salon.reviewCount === 1 ? '' : 's'}</span>
-          </span>
-          <span className="chip"><span className="chip-muted">Tier:</span> {salon.pricing || 'Premium'}</span>
-          {salon.workingDays && <span className="chip"><span className="chip-muted">Days:</span> {salon.workingDays}</span>}
-          <a href={`tel:${salon.phoneNumber}`} className="chip chip-link">
-            <Phone size={14} /> {salon.phoneNumber}
-          </a>
-          {salon.openingTime && (
-            <span className="chip"><Clock size={14} /> {salon.openingTime?.slice(0, 5)}–{salon.closingTime?.slice(0, 5)}</span>
-          )}
+        <div className="page-head" style={{ marginBottom: 0 }}>
+          <h1 className="dashboard-title">{salon.name}</h1>
+          <p className="section-sub salon-address">
+            <MapPin size={16} /> {salon.address}
+          </p>
+          <div className="salon-meta">
+            <span className="chip">
+              <Star size={14} fill="currentColor" className="chip-star" />
+              <strong>{salon.avgRating ? Number(salon.avgRating).toFixed(1) : 'New'}</strong>
+              <span className="chip-muted">· {salon.reviewCount} review{salon.reviewCount === 1 ? '' : 's'}</span>
+            </span>
+            <span className="chip"><span className="chip-muted">Tier:</span> {salon.pricing || 'Premium'}</span>
+            {salon.workingDays && (
+              <span className="chip">
+                <span className="chip-muted">Days:</span>{' '}
+                {/* API returns ["mon","tue",…]; a bare array renders with no
+                    separators ("montowed…"), so format it explicitly. */}
+                {(Array.isArray(salon.workingDays)
+                  ? salon.workingDays
+                  : String(salon.workingDays).split(',')
+                ).map(d => {
+                  const s = String(d).trim().slice(0, 3).toLowerCase();
+                  return s.charAt(0).toUpperCase() + s.slice(1);
+                }).join(', ')}
+              </span>
+            )}
+            <a href={`tel:${salon.phoneNumber}`} className="chip chip-link">
+              <Phone size={14} /> {salon.phoneNumber}
+            </a>
+            {salon.openingTime && (
+              <span className="chip"><Clock size={14} /> {salon.openingTime?.slice(0, 5)}–{salon.closingTime?.slice(0, 5)}</span>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Services, grouped by category */}
       <h2 className="section-head">Services menu</h2>
       {services.length === 0 ? (
-        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '32px' }}>
-          <Scissors size={40} style={{ color: 'var(--text-muted)', marginBottom: '12px' }} />
-          <p style={{ color: 'var(--color-ink-2)' }}>This salon hasn't listed any services yet.</p>
+        <div className="empty-state">
+          <Scissors size={48} />
+          <h3>No services listed</h3>
+          <p>This salon hasn't listed any services yet.</p>
         </div>
       ) : (
         grouped.map(({ category, services: catServices }) => (
@@ -195,18 +212,17 @@ export default function SalonProfile() {
       {/* Waitlist (#30) — for days when the salon is fully booked */}
       <div className="booking-panel waitlist-join-panel">
         <h3 className="panel-title"><ListOrdered size={18} /> Fully booked? Join the waitlist</h3>
-        <p className="section-sub" style={{ marginBottom: '12px' }}>
+        <p className="section-sub" style={{ marginBottom: 'var(--space-xs)' }}>
           If a slot opens up on your day, you'll be alerted automatically.
         </p>
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap', alignItems: 'flex-end' }}>
           <div className="form-group" style={{ margin: 0 }}>
             <label htmlFor="waitlist-date" className="form-label">Day</label>
             <input
               id="waitlist-date"
               type="date"
               min={todayLocal()}
-              className="form-input"
-              style={{ paddingLeft: '16px' }}
+              className="form-input form-input--plain"
               value={waitlistDate}
               onChange={e => setWaitlistDate(e.target.value)}
             />
@@ -219,8 +235,7 @@ export default function SalonProfile() {
               min="1"
               max="20"
               step="1"
-              className="form-input"
-              style={{ paddingLeft: '16px' }}
+              className="form-input form-input--plain"
               value={waitlistPartySize}
               onChange={e => {
                 const v = parseInt(e.target.value, 10);
@@ -232,7 +247,6 @@ export default function SalonProfile() {
             onClick={handleJoinWaitlist}
             disabled={joiningWaitlist || !waitlistDate}
             className="btn btn-primary btn-sm"
-            style={{ height: '42px' }}
           >
             {joiningWaitlist ? 'Joining…' : 'Join waitlist'}
           </button>
@@ -242,7 +256,11 @@ export default function SalonProfile() {
       {/* Reviews feed */}
       <h2 className="section-head">Reviews ({salon.reviewCount})</h2>
       {reviews.length === 0 ? (
-        <p className="section-sub" style={{ marginBottom: 'var(--space-xl)' }}>No reviews yet — be the first to leave one after your visit.</p>
+        <div className="empty-state">
+          <Star size={48} />
+          <h3>No reviews yet</h3>
+          <p>Be the first to leave one after your visit.</p>
+        </div>
       ) : (
         <div className="reviews-grid">
           {reviews.map((rev, i) => (

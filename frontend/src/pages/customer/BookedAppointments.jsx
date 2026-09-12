@@ -2,20 +2,26 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Calendar, Star } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
 import ConfirmDialog from '../../components/ConfirmDialog.jsx';
 import Modal from '../../components/Modal.jsx';
 import { SkeletonTable } from '../../components/Skeleton.jsx';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
+import './customer.css';
 
 export default function BookedAppointments() {
-  const { userSession } = useAuth();
   const showToast = useToast();
   const navigate = useNavigate();
   useDocumentTitle('My Appointments');
+  // History is paginated ("Load more") — the API clamps limit at 50, and a
+  // long demo history otherwise renders as one endless page.
+  const PAGE_SIZE = 20;
   const [appointments, setAppointments] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [loadError, setLoadError] = useState(false);
   const [stuckPayments, setStuckPayments] = useState([]);
   const [reviewText, setReviewText] = useState('');
@@ -24,32 +30,54 @@ export default function BookedAppointments() {
   const [rating, setRating] = useState(0);
   const [cancelTarget, setCancelTarget] = useState(null);
 
-  const fetchBookings = useCallback(async () => {
-    setLoading(true);
+  const fetchPage = useCallback(async (pageToLoad) => {
+    if (pageToLoad > 1) setLoadingMore(true); else setLoading(true);
     setLoadError(false);
     try {
-      const res = await axios.get(`/api/appointment/getAll?userId=${userSession.id}`);
-      setAppointments(res.data);
-      // Only probe for stuck payments when there's reason to: the list is short.
-      // This surfaces "paid but booking not created yet" instead of a bare empty state.
-      try {
-        const stuck = await axios.get('/api/pay/stuck');
-        setStuckPayments(stuck.data);
-      } catch {
-        // Non-critical — don't fail the whole page over this.
-        setStuckPayments([]);
+      const res = await axios.get(`/api/appointment/getAll?page=${pageToLoad}&limit=${PAGE_SIZE}`);
+      // page/limit opts the endpoint into the paginated envelope
+      // { data, page, total, totalPages }; fall back to the legacy bare array.
+      const rows = Array.isArray(res.data) ? res.data : (res.data.data || []);
+      setAppointments(prev => (pageToLoad > 1 ? [...prev, ...rows] : rows));
+      if (Array.isArray(res.data)) {
+        setTotal(rows.length);
+        setTotalPages(1);
+      } else {
+        setTotal(res.data.total ?? rows.length);
+        setTotalPages(res.data.totalPages || 1);
+      }
+      // Only probe for stuck payments on the initial load. This surfaces
+      // "paid but booking not created yet" instead of a bare empty state.
+      if (pageToLoad === 1) {
+        try {
+          const stuck = await axios.get('/api/pay/stuck');
+          setStuckPayments(stuck.data);
+        } catch {
+          // Non-critical — don't fail the whole page over this.
+          setStuckPayments([]);
+        }
       }
     } catch (err) {
       console.error('Error fetching appointments', err);
       setLoadError(true);
     } finally {
-      setLoading(false);
+      if (pageToLoad > 1) setLoadingMore(false); else setLoading(false);
     }
-  }, [userSession.id]);
+  }, []);
+
+  // First page (also re-runs from "Try again" and after review/cancel —
+  // both reset to page 1, which is correct since the data changed).
+  const fetchBookings = useCallback(() => fetchPage(1), [fetchPage]);
 
   useEffect(() => {
     fetchBookings();
   }, [fetchBookings]);
+
+  const handleLoadMore = () => {
+    const next = page + 1;
+    setPage(next);
+    fetchPage(next);
+  };
 
   const handleOpenReview = (apptId, currentReview, currentRating) => {
     setSelectedApptId(apptId);
@@ -86,8 +114,10 @@ export default function BookedAppointments() {
   };
 
   return (
-    <div className="container" style={{ padding: '40px 24px' }}>
-      <h1 className="dashboard-title" style={{ marginBottom: '24px' }}>My Appointments</h1>
+    <div className="container page-shell">
+      <div className="page-head">
+        <h1 className="dashboard-title">My Appointments</h1>
+      </div>
 
       {stuckPayments.length > 0 && (
         <div className="stuck-payments-banner">
@@ -114,22 +144,22 @@ export default function BookedAppointments() {
       {loading ? (
         <SkeletonTable rows={4} cols={6} />
       ) : loadError ? (
-        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
-          <Calendar size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+        <div className="empty-state">
+          <Calendar size={48} />
           <h3>Couldn't load your appointments</h3>
-          <p style={{ color: 'var(--text-secondary)' }}>Something went wrong on our end.</p>
-          <button onClick={fetchBookings} className="btn btn-primary btn-sm" style={{ marginTop: '20px' }}>Try again</button>
+          <p>Something went wrong on our end.</p>
+          <button onClick={fetchBookings} className="btn btn-primary btn-sm">Try again</button>
         </div>
       ) : appointments.length === 0 ? (
-        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
-          <Calendar size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+        <div className="empty-state">
+          <Calendar size={48} />
           <h3>No Appointments Booked</h3>
-          <p style={{ color: 'var(--text-secondary)' }}>You don't have any past or scheduled salon appointments.</p>
-          <Link to="/customer/dashboard" className="btn btn-primary btn-sm" style={{ marginTop: '20px' }}>Find Salons</Link>
+          <p>You don't have any past or scheduled salon appointments.</p>
+          <Link to="/customer/dashboard" className="btn btn-primary btn-sm">Find Salons</Link>
         </div>
       ) : (
         <div className="table-container">
-          <table className="premium-table">
+          <table className="premium-table appointments-table">
             <thead>
               <tr>
                 <th>Salon</th>
@@ -150,28 +180,31 @@ export default function BookedAppointments() {
                   <td>{appt.staff?.name}</td>
                   <td>
                     <div>{appt.date}</div>
-                    <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{appt.time} - {appt.endTime}</div>
+                    <div style={{ fontSize: 'var(--text-sm)', color: 'var(--color-ink-2)' }}>{appt.time} - {appt.endTime}</div>
                   </td>
                   <td>
-                    <span className={`badge ${appt.status === 'confirmed' ? 'badge-success' : appt.status === 'pending' ? 'badge-warning' : appt.status === 'completed' ? 'badge-info' : appt.status === 'cancelled' ? 'badge-danger' : appt.status === 'declined' ? 'badge-danger' : 'badge-warning'}`}>
+                    {/* Status colour mapping (shared across customer pages):
+                        confirmed → success · pending → warning ·
+                        cancelled/declined → danger · completed → neutral (terminal) */}
+                    <span className={`badge ${appt.status === 'confirmed' ? 'badge-success' : appt.status === 'pending' ? 'badge-warning' : appt.status === 'cancelled' || appt.status === 'declined' ? 'badge-danger' : appt.status === 'completed' ? 'badge-secondary' : 'badge-warning'}`}>
                       {appt.status || 'confirmed'}
                     </span>
                   </td>
                   <td>
                     {appt.userReview ? (
-                      <span style={{ fontSize: '13px', fontStyle: 'italic', color: 'var(--text-secondary)' }}>"{appt.userReview}"</span>
+                      <span style={{ fontSize: 'var(--text-sm)', fontStyle: 'italic', color: 'var(--color-ink-2)' }}>"{appt.userReview}"</span>
                     ) : (
                       <span className="badge badge-warning">No review left</span>
                     )}
                   </td>
                   <td>
                     {appt.staffReview ? (
-                      <span style={{ fontSize: '13px', fontStyle: 'italic', color: 'var(--primary)' }}>"{appt.staffReview}"</span>
+                      <span style={{ fontSize: 'var(--text-sm)', fontStyle: 'italic', color: 'var(--color-accent)' }}>"{appt.staffReview}"</span>
                     ) : (
-                      <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>None yet</span>
+                      <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-3)' }}>None yet</span>
                     )}
                   </td>
-                  <td style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <td style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
                     <button
                       onClick={() => navigate(`/customer/book/${appt.salon?.id || appt.salonId}/${appt.service?.id || appt.serviceId}`)}
                       className="btn btn-secondary btn-sm"
@@ -197,7 +230,6 @@ export default function BookedAppointments() {
                           disabled={within24h}
                           title={within24h ? 'Cancellations close 24 hours before the appointment' : undefined}
                           className="btn btn-danger btn-sm"
-                          style={within24h ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
                         >
                           Cancel
                         </button>
@@ -211,10 +243,19 @@ export default function BookedAppointments() {
         </div>
       )}
 
+      {/* Load more — the history API is paginated; append pages in place. */}
+      {!loading && !loadError && page < totalPages && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 'var(--space-md)' }}>
+          <button onClick={handleLoadMore} disabled={loadingMore} className="btn btn-secondary">
+            {loadingMore ? 'Loading…' : `Load more (${total - appointments.length} older)`}
+          </button>
+        </div>
+      )}
+
       <Modal open={showModal} onClose={() => setShowModal(false)} title="Write feedback">
-        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Share your experience with the team.</p>
+        <p style={{ color: 'var(--color-ink-2)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-sm)' }}>Share your experience with the team.</p>
         <fieldset className="star-fieldset">
-          <legend style={{ fontSize: '14px', marginBottom: '8px', color: 'var(--text-secondary)' }}>Your rating</legend>
+          <legend style={{ fontSize: 'var(--text-sm)', marginBottom: 'var(--space-2xs)', color: 'var(--color-ink-2)' }}>Your rating</legend>
           <div className="star-picker" role="radiogroup" aria-label="Star rating">
             {[1,2,3,4,5].map(n => (
               <button
@@ -242,7 +283,7 @@ export default function BookedAppointments() {
             onChange={e => setReviewText(e.target.value)}
           />
         </div>
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-xs)', justifyContent: 'flex-end', marginTop: 'var(--space-lg)' }}>
           <button onClick={() => setShowModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
           <button onClick={handleSubmitReview} className="btn btn-primary btn-sm">Submit Review</button>
         </div>

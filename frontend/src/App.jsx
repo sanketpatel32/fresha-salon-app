@@ -117,7 +117,7 @@ export default function App() {
               <a href="#main-content" className="skip-link">Skip to content</a>
               <Navbar />
               <main id="main-content" role="main">
-                <Suspense fallback={<div className="container" style={{ padding: '40px 24px' }}><SkeletonCardGrid count={4} /></div>}>
+                <Suspense fallback={<div className="container route-loading"><SkeletonCardGrid count={4} /></div>}>
                   <AuthGatedRoutes />
                 </Suspense>
               </main>

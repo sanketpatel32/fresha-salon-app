@@ -5,8 +5,18 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
 import ConfirmDialog from '../../components/ConfirmDialog.jsx';
 import { SkeletonTable } from '../../components/Skeleton.jsx';
+import '../workbench.css';
 
-/* System Admin Dashboard Console */
+/* Shared status-badge mapping (design.md): confirmed/paid → success,
+   pending → warning, completed → accent (info), cancelled/declined → danger.
+   Identical ternary on the admin, salon and staff consoles. */
+const statusBadgeClass = (status) =>
+  status === 'confirmed' ? 'badge-success'
+    : status === 'pending' ? 'badge-warning'
+      : status === 'completed' ? 'badge-info'
+        : 'badge-danger';
+
+/* System Admin Dashboard Console — Workbench family, densest tables. */
 export default function AdminDashboard() {
   const { userSession } = useAuth();
   const showToast = useToast();
@@ -92,26 +102,27 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <div className="container" style={{ padding: '40px 24px' }}>
-      <div className="dashboard-header" style={{ marginBottom: '32px' }}>
+    <div className="console-page">
+      <div className="console-head">
         <div>
-          <h1 className="dashboard-title">Admin console</h1>
+          <h1 className="dashboard-title">Admin Console</h1>
           <p className="section-sub">Monitor active users and bookings across the platform.</p>
         </div>
       </div>
 
-      {/* Platform stats — tips (#26) + outstanding loyalty points (#27) */}
+      {/* Platform stats — tips (#26) + outstanding loyalty points (#27).
+          Stat icons stay quiet hairline squares; the number carries emphasis. */}
       {stats && (
-        <div className="stats-grid" style={{ marginBottom: '24px' }}>
+        <div className="stats-grid">
           <div className="stat-card">
-            <div className="stat-icon warning"><CreditCard size={24} /></div>
+            <div className="stat-icon"><CreditCard size={24} /></div>
             <div>
               <div className="stat-value">₹{Number(stats.totalTips || 0).toLocaleString()}</div>
               <div className="stat-label">Tips captured (all time)</div>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon primary"><Star size={24} /></div>
+            <div className="stat-icon"><Star size={24} /></div>
             <div>
               <div className="stat-value">{Number(stats.totalLoyaltyOutstanding || 0).toLocaleString()}</div>
               <div className="stat-label">Loyalty points outstanding</div>
@@ -120,11 +131,23 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
-        <button onClick={() => setActiveTab('bookings')} className={`btn ${activeTab === 'bookings' ? 'btn-primary' : 'btn-secondary'} btn-sm`}>
+      <div className="tab-row" role="tablist" aria-label="Admin console sections">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === 'bookings'}
+          onClick={() => setActiveTab('bookings')}
+          className={`tab-btn ${activeTab === 'bookings' ? 'active' : ''}`}
+        >
           Manage Appointments ({appointments.length})
         </button>
-        <button onClick={() => setActiveTab('users')} className={`btn ${activeTab === 'users' ? 'btn-primary' : 'btn-secondary'} btn-sm`}>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === 'users'}
+          onClick={() => setActiveTab('users')}
+          className={`tab-btn ${activeTab === 'users' ? 'active' : ''}`}
+        >
           Manage Users
         </button>
       </div>
@@ -133,14 +156,15 @@ export default function AdminDashboard() {
         <div className="booking-panel">
           <h3 className="panel-title">Active Global Appointments</h3>
           {bookingsLoading ? (
-            <SkeletonTable rows={4} cols={6} />
+            <SkeletonTable rows={4} cols={7} />
           ) : appointments.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
-              No global schedules found.
+            <div className="empty-state">
+              <h3 className="empty-state-title">No global schedules found</h3>
+              <p className="empty-state-text">Platform-wide appointments will appear here once customers book.</p>
             </div>
           ) : (
-            <div className="table-container" style={{ border: 'none', boxShadow: 'none' }}>
-              <table className="premium-table">
+            <div className="table-container table-flush">
+              <table className="premium-table admin-table">
                 <thead>
                   <tr>
                     <th>Salon</th>
@@ -148,6 +172,7 @@ export default function AdminDashboard() {
                     <th>Requested Service</th>
                     <th>Assigned Staff</th>
                     <th>Scheduled Slot</th>
+                    <th>Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -157,13 +182,18 @@ export default function AdminDashboard() {
                       <td><strong>{appt.salon?.name}</strong></td>
                       <td>
                         <strong>{appt.user?.name}</strong>
-                        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{appt.user?.phoneNumber}</div>
+                        <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-2)' }}>{appt.user?.phoneNumber}</div>
                       </td>
                       <td>{appt.service?.name} (₹{appt.service?.price})</td>
                       <td>{appt.staff?.name}</td>
                       <td>{appt.date} @ {appt.time}</td>
                       <td>
-                        <button onClick={() => handleDeleteAppointment(appt.id)} className="btn btn-danger btn-sm" style={{ padding: '6px' }}>
+                        <span className={`badge ${statusBadgeClass(appt.status)}`}>
+                          {appt.status || 'confirmed'}
+                        </span>
+                      </td>
+                      <td>
+                        <button onClick={() => handleDeleteAppointment(appt.id)} className="btn btn-danger btn-sm">
                           <Trash2 size={14} /> Remove
                         </button>
                       </td>
@@ -179,7 +209,7 @@ export default function AdminDashboard() {
       {activeTab === 'users' && (
         <div className="booking-panel">
           <h3 className="panel-title">User Accounts Directory</h3>
-          <form onSubmit={handleSearchUsers} className="search-bar-container" style={{ margin: '16px 0 24px 0', maxWidth: '500px' }}>
+          <form onSubmit={handleSearchUsers} className="search-bar-container" style={{ margin: 'var(--space-sm) 0 var(--space-md)', maxWidth: '500px' }}>
             <div className="form-input-wrapper" style={{ flex: 1 }}>
               <Search className="form-input-icon" size={18} />
               <input
@@ -195,14 +225,15 @@ export default function AdminDashboard() {
           </form>
 
           {loading ? (
-            <div style={{ textAlign: 'center', padding: '24px' }}>Searching...</div>
+            <div style={{ textAlign: 'center', padding: 'var(--space-md)', color: 'var(--color-ink-3)' }}>Searching...</div>
           ) : users.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)' }}>
-              Search directory to display user accounts.
+            <div className="empty-state">
+              <h3 className="empty-state-title">No users listed</h3>
+              <p className="empty-state-text">Search the directory to display user accounts.</p>
             </div>
           ) : (
-            <div className="table-container" style={{ border: 'none', boxShadow: 'none' }}>
-              <table className="premium-table">
+            <div className="table-container table-flush">
+              <table className="premium-table admin-table">
                 <thead>
                   <tr>
                     <th>Customer Name</th>
@@ -220,7 +251,7 @@ export default function AdminDashboard() {
                       <td>{u.phoneNumber}</td>
                       <td>{new Date(u.createdAt).toLocaleDateString()}</td>
                       <td>
-                        <button onClick={() => handleDeleteUser(u.id)} className="btn btn-danger btn-sm" style={{ padding: '6px' }}>
+                        <button onClick={() => handleDeleteUser(u.id)} className="btn btn-danger btn-sm">
                           <Trash2 size={14} /> Delete User
                         </button>
                       </td>

@@ -1,0 +1,12 @@
+/* Landing — Long Document family (design.md): quiet typographic hero, generous
+   measure, hairline section dividers. Reads like a boutique salon's printed
+   menu. Tokens only; light + dark hold via tokens.css. */
+
+/* Hairline divider between the hero and each following document section.
+ * design.md: marketing sections use generous --space-3xl padding on BOTH sides
+ * of the divider, so the hero's 112px bottom padding mirrors the section's
+ * 112px top padding and the rule sits in even whitespace. */
+.landing-section {
+  border-top: 1px solid var(--color-rule);
+  padding: var(--space-3xl) 0;
+}

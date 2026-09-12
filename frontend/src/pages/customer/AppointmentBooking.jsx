@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { CreditCard } from 'lucide-react';
+import { CreditCard, AlertCircle } from 'lucide-react';
 import { useToast } from '../../context/ToastContext.jsx';
 import { SkeletonCardGrid } from '../../components/Skeleton.jsx';
+import Modal from '../../components/Modal.jsx';
+import useDocumentTitle from '../../hooks/useDocumentTitle.js';
+import './customer.css';
 
 export default function AppointmentBooking() {
   const showToast = useToast();
+  useDocumentTitle('Configure Booking');
   const { salonId, serviceId } = useParams();
   const [service, setService] = useState(null);
   const [salon, setSalon] = useState(null);
@@ -19,6 +23,10 @@ export default function AppointmentBooking() {
   const [selectedStaffId, setSelectedStaffId] = useState('');
   const [checkingAvailability, setCheckingAvailability] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
+  // Demo payments: when the server has no Cashfree keys it returns a session
+  // id prefixed "demo-" and we show a simulated checkout instead of the
+  // Cashfree drop-in (which would fail — there is no gateway order behind it).
+  const [demoCheckout, setDemoCheckout] = useState(null); // { orderId }
   const navigate = useNavigate();
 
   // Booking extras (#23/#25/#26): free-text note for the salon, group
@@ -51,9 +59,21 @@ export default function AppointmentBooking() {
       setFetchLoading(true);
       setFetchError(false);
       try {
-        const servRes = await axios.get(`/api/salonsdashboard/services/get/${serviceId}`);
-        setService(servRes.data);
-        const salonRes = await axios.get(`/api/buisness/getsalonbyId?salonId=${salonId}`);
+        // Customer-accessible endpoints only. The salon dashboard's
+        // /api/salonsdashboard/services/get/:id is salon-role-only and 403s
+        // for a customer token, so the service is resolved from the salon's
+        // public active-services list instead.
+        const [servRes, salonRes] = await Promise.all([
+          axios.get('/api/userdashboard/getAllActiveServicesBySalonId', { params: { salonId } }),
+          axios.get('/api/buisness/getsalonbyId', { params: { salonId } }),
+        ]);
+        const services = Array.isArray(servRes.data) ? servRes.data : [];
+        const found = services.find(s => s.id === Number(serviceId));
+        if (!found) {
+          setFetchError(true);
+          return;
+        }
+        setService(found);
         setSalon(salonRes.data);
       } catch (err) {
         console.error('Error fetching appointment data details', err);
@@ -126,7 +146,15 @@ export default function AppointmentBooking() {
       const res = await axios.post('/api/pay/', buildPaymentPayload());
       const { paymentSessionId, orderId } = res.data;
 
-      // 2. Launch Cashfree SDK checkout
+      // 2a. Demo mode — no gateway behind this session. Show the simulated
+      // checkout; the drop-in SDK cannot open a session that doesn't exist
+      // at Cashfree, so never hand it one.
+      if (typeof paymentSessionId === 'string' && paymentSessionId.startsWith('demo-')) {
+        setDemoCheckout({ orderId });
+        return;
+      }
+
+      // 2b. Launch Cashfree SDK checkout
       if (window.Cashfree) {
         // Mode must match the server environment — prod keys against the sandbox
         // gateway (or vice versa) will fail. The server selects env from NODE_ENV
@@ -158,18 +186,45 @@ export default function AppointmentBooking() {
     }
   };
 
+  // Demo checkout: settle the fake order on the server, then land on the same
+  // status page the real Cashfree redirect uses. `?simulate=failure` flips the
+  // order to Failure (it sticks — later plain polls keep it failed), so the
+  // failure UX is demonstrable too.
+  const handleDemoPay = async (simulateFailure) => {
+    const { orderId } = demoCheckout;
+    setDemoCheckout(null);
+    if (simulateFailure) {
+      try {
+        await axios.get(`/api/pay/${orderId}?simulate=failure`);
+      } catch (err) {
+        console.error('Demo failure simulation failed:', err);
+      }
+    }
+    navigate(`/payment-status?orderId=${orderId}`);
+  };
+
+  // Estimated charge for the demo modal (display only — the server computed
+  // the authoritative amount when it created the order).
+  const demoEstimate = (() => {
+    if (!demoCheckout || !service) return 0;
+    const tip = parseFloat(tipAmount);
+    return (parseFloat(service.price) || 0) + (!Number.isNaN(tip) && tip > 0 ? tip : 0);
+  })();
+
   return (
-    <div className="container" style={{ padding: '40px 24px' }}>
-      <h1 className="dashboard-title" style={{ marginBottom: '24px' }}>Configure Booking</h1>
+    <div className="container page-shell">
+      <div className="page-head">
+        <h1 className="dashboard-title">Configure Booking</h1>
+      </div>
 
       {fetchLoading ? (
         <SkeletonCardGrid count={2} />
       ) : fetchError ? (
-        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
-          <CreditCard size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
+        <div className="empty-state">
+          <CreditCard size={48} />
           <h3>Couldn't load this booking</h3>
-          <p style={{ color: 'var(--text-secondary)' }}>The service or salon couldn't be found. It may have been removed.</p>
-          <Link to="/customer/dashboard" className="btn btn-primary btn-sm" style={{ marginTop: '20px' }}>Back to salons</Link>
+          <p>The service or salon couldn't be found. It may have been removed.</p>
+          <Link to="/customer/dashboard" className="btn btn-primary btn-sm">Back to salons</Link>
         </div>
       ) : service && salon ? (
         <div className="booking-grid">
@@ -197,8 +252,8 @@ export default function AppointmentBooking() {
                         aria-label={`${dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`}
                         className={`slot-btn ${isSelected ? 'selected' : ''}`}
                       >
-                        <span style={{ fontSize: '12px', opacity: 0.8 }}>{dateObj.toLocaleDateString('en-US', { weekday: 'short' })}</span>
-                        <span style={{ fontSize: '18px', fontWeight: 'bold' }}>{dateObj.getDate()}</span>
+                        <span style={{ fontSize: 'var(--text-xs)', opacity: 0.8 }}>{dateObj.toLocaleDateString('en-US', { weekday: 'short' })}</span>
+                        <span style={{ fontSize: 'var(--text-lg)', fontWeight: 600 }}>{dateObj.getDate()}</span>
                       </button>
                     );
                   })}
@@ -240,9 +295,9 @@ export default function AppointmentBooking() {
             </form>
 
             {availableStaff.length > 0 ? (
-              <div style={{ marginTop: '16px' }}>
+              <div style={{ marginTop: 'var(--space-sm)' }}>
                 <h3 className="panel-title">Select Assigned Therapist</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
                   {availableStaff.map(staff => {
                     const isSelected = selectedStaffId === staff.id;
                     return (
@@ -266,7 +321,7 @@ export default function AppointmentBooking() {
                 </div>
               </div>
             ) : (
-              <div style={{ background: 'var(--bg-primary)', padding: '16px', borderRadius: 'var(--radius-md)', color: 'var(--text-secondary)', fontSize: '14px', textAlign: 'center', marginTop: '16px' }}>
+              <div style={{ background: 'var(--color-paper)', padding: 'var(--space-sm)', borderRadius: 'var(--radius-md)', color: 'var(--color-ink-2)', fontSize: 'var(--text-sm)', textAlign: 'center', marginTop: 'var(--space-sm)' }}>
                 Select a slot above and search for available staff members.
               </div>
             )}
@@ -276,31 +331,31 @@ export default function AppointmentBooking() {
           <div className="booking-panel" style={{ height: 'fit-content' }}>
             <h3 className="panel-title">Summary & Checkout</h3>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Salon</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--color-rule)', paddingBottom: 'var(--space-xs)' }}>
+                <span style={{ color: 'var(--color-ink-2)' }}>Salon</span>
                 <strong>{salon.name}</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Service</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--color-rule)', paddingBottom: 'var(--space-xs)' }}>
+                <span style={{ color: 'var(--color-ink-2)' }}>Service</span>
                 <strong>{service.name}</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Duration</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--color-rule)', paddingBottom: 'var(--space-xs)' }}>
+                <span style={{ color: 'var(--color-ink-2)' }}>Duration</span>
                 <span>{service.duration} mins</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Date / Time</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--color-rule)', paddingBottom: 'var(--space-xs)' }}>
+                <span style={{ color: 'var(--color-ink-2)' }}>Date / Time</span>
                 <span>{selectedDate} @ {selectedTime}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Amount Due</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--color-rule)', paddingBottom: 'var(--space-xs)' }}>
+                <span style={{ color: 'var(--color-ink-2)' }}>Amount Due</span>
                 <span className="summary-amount">₹{service.price}{Number(tipAmount) > 0 ? ` + ₹${Number(tipAmount)} tip` : ''}</span>
               </div>
 
               {/* Booking extras (#23 note · #25 party size · #26 tip) */}
               <div className="booking-extras">
-                <div className="form-group" style={{ marginBottom: '12px' }}>
+                <div className="form-group" style={{ marginBottom: 'var(--space-xs)' }}>
                   <label htmlFor="booking-note" className="form-label">
                     Note for the salon <span className="char-counter">{customerNote.length}/{NOTE_MAX}</span>
                   </label>
@@ -314,7 +369,7 @@ export default function AppointmentBooking() {
                     onChange={e => setCustomerNote(e.target.value.slice(0, NOTE_MAX))}
                   />
                 </div>
-                <div style={{ display: 'flex', gap: '12px' }}>
+                <div style={{ display: 'flex', gap: 'var(--space-xs)' }}>
                   <div className="form-group" style={{ flex: 1, marginBottom: 0 }}>
                     <label htmlFor="party-size" className="form-label">Party size (1–20)</label>
                     <input
@@ -323,8 +378,7 @@ export default function AppointmentBooking() {
                       min="1"
                       max="20"
                       step="1"
-                      className="form-input"
-                      style={{ paddingLeft: '16px' }}
+                      className="form-input form-input--plain"
                       value={partySize}
                       onChange={e => {
                         const v = parseInt(e.target.value, 10);
@@ -339,8 +393,7 @@ export default function AppointmentBooking() {
                       type="number"
                       min="0"
                       step="1"
-                      className="form-input"
-                      style={{ paddingLeft: '16px' }}
+                      className="form-input form-input--plain"
                       placeholder="0"
                       value={tipAmount}
                       onChange={e => {
@@ -357,7 +410,7 @@ export default function AppointmentBooking() {
               onClick={handlePayAndBook}
               disabled={bookingLoading || !selectedStaffId}
               className="btn btn-primary btn-lg"
-              style={{ width: '100%', marginTop: '16px' }}
+              style={{ width: '100%', marginTop: 'var(--space-sm)' }}
             >
               <CreditCard size={20} />
               {bookingLoading ? 'Launching Checkout...' : 'Secure Pay & Confirm'}
@@ -382,7 +435,7 @@ export default function AppointmentBooking() {
                   }
                 }}
                 className="btn btn-secondary btn-sm"
-                style={{ width: '100%', marginTop: '8px', fontSize: '12px', borderStyle: 'dashed' }}
+                style={{ width: '100%', marginTop: 'var(--space-2xs)', borderStyle: 'dashed' }}
               >
                 Simulate Secure Booking (Fast Dev Bypass)
               </button>
@@ -390,6 +443,37 @@ export default function AppointmentBooking() {
           </div>
         </div>
       ) : null}
+
+      {/* Demo checkout — shown when the backend has no Cashfree credentials
+          (or PAYMENTS_MODE=demo). Simulates the gateway so the full
+          book → pay → confirm flow works without real keys. */}
+      <Modal
+        open={!!demoCheckout}
+        onClose={() => setDemoCheckout(null)}
+        title="Demo checkout"
+      >
+        <div style={{ textAlign: 'center', padding: 'var(--space-xs) 0' }}>
+          <AlertCircle size={48} style={{ color: 'var(--color-accent)', marginBottom: 'var(--space-sm)' }} />
+          <p style={{ color: 'var(--color-ink-2)', marginBottom: 'var(--space-3xs)' }}>
+            This deployment runs payments in <strong>demo mode</strong> — no Cashfree
+            keys are configured, so no real money moves.
+          </p>
+          <p className="summary-amount" style={{ fontSize: 'var(--text-2xl)', margin: 'var(--space-md) 0 var(--space-3xs)' }}>
+            ₹{demoEstimate.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
+          </p>
+          <p style={{ color: 'var(--color-ink-3)', fontSize: 'var(--text-xs)', marginBottom: 'var(--space-md)' }}>
+            {service?.name} at {salon?.name}
+          </p>
+          <div style={{ display: 'flex', gap: 'var(--space-xs)', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button onClick={() => handleDemoPay(false)} className="btn btn-primary">
+              Pay (simulate success)
+            </button>
+            <button onClick={() => handleDemoPay(true)} className="btn btn-secondary">
+              Simulate failure
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

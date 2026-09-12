@@ -12,6 +12,23 @@ import Modal from '../../components/Modal.jsx';
 import NotificationsPanel from '../../components/NotificationsPanel.jsx';
 import { SkeletonTable } from '../../components/Skeleton.jsx';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
+import '../workbench.css';
+import './salon.css';
+
+/* Shared status-badge mapping (design.md): confirmed/paid → success,
+   pending → warning, completed → accent (info), cancelled/declined → danger.
+   Identical ternary on the admin, salon and staff consoles. */
+const statusBadgeClass = (status) =>
+  status === 'confirmed' ? 'badge-success'
+    : status === 'pending' ? 'badge-warning'
+      : status === 'completed' ? 'badge-info'
+        : 'badge-danger';
+
+/* Standard header right-slot badge — the same element on every console tab
+   so all tab headers read as one pattern (h1 · hairline · partner status). */
+const partnerStatusBadge = (
+  <span className="badge badge-success">Partner Status: Active</span>
+);
 
 /* Salon Dashboard for Partner Business Owners */
 export default function SalonDashboard() {
@@ -589,38 +606,38 @@ export default function SalonDashboard() {
         {activeTab === 'dashboard' && (
           <>
             <div className="dashboard-header">
-              <h2 className="dashboard-title">Console Dashboard</h2>
-              <span className="badge badge-info">Partner Status: Active</span>
+              <h1 className="dashboard-title">Console Dashboard</h1>
+              {partnerStatusBadge}
             </div>
 
             {analyticsLoading && !analytics ? (
-              <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Loading analytics...</div>
+              <div style={{ textAlign: 'center', padding: 'var(--space-xl)', color: 'var(--color-ink-3)' }}>Loading analytics...</div>
             ) : analytics ? (
               <>
                 <div className="stats-grid">
                   <div className="stat-card">
-                    <div className="stat-icon success"><CreditCard size={24} /></div>
+                    <div className="stat-icon"><CreditCard size={24} /></div>
                     <div>
                       <div className="stat-value">₹{Number(analytics.totalRevenue || 0).toLocaleString()}</div>
                       <div className="stat-label">Total Revenue (paid)</div>
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon primary"><Calendar size={24} /></div>
+                    <div className="stat-icon"><Calendar size={24} /></div>
                     <div>
                       <div className="stat-value">{Object.values(analytics.statusCounts).reduce((a, b) => a + b, 0)}</div>
                       <div className="stat-label">Total Bookings</div>
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon accent"><CheckCircle size={24} /></div>
+                    <div className="stat-icon"><CheckCircle size={24} /></div>
                     <div>
                       <div className="stat-value">{analytics.statusCounts.completed || 0}</div>
                       <div className="stat-label">Completed</div>
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon warning"><Clock size={24} /></div>
+                    <div className="stat-icon"><Clock size={24} /></div>
                     <div>
                       <div className="stat-value">{(analytics.statusCounts.pending || 0) + (analytics.statusCounts.confirmed || 0)}</div>
                       <div className="stat-label">Upcoming</div>
@@ -628,7 +645,7 @@ export default function SalonDashboard() {
                   </div>
                 </div>
 
-                <div className="grid-dashboard-split" style={{ marginTop: '24px' }}>
+                <div className="grid-dashboard-split">
                   {/* Bar chart: bookings per day, last 7 days */}
                   <div className="booking-panel">
                     <h3 className="panel-title">Bookings — Last 7 Days</h3>
@@ -636,19 +653,18 @@ export default function SalonDashboard() {
                       const data = analytics.bookingsPerDay || [];
                       const max = Math.max(1, ...data.map(d => d.count));
                       return (
-                        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '12px', height: '160px', padding: '12px 0', borderBottom: '1px solid var(--border-color)' }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 'var(--space-xs)', height: '160px', padding: 'var(--space-xs) 0', borderBottom: '1px solid var(--color-rule)' }}>
                           {data.map((d, i) => (
-                            <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
-                              <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{d.count}</div>
+                            <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-3xs)' }}>
+                              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-2)' }}>{d.count}</div>
                               <div style={{
                                 width: '100%', maxWidth: '48px',
                                 height: `${(d.count / max) * 120}px`,
                                 minHeight: d.count > 0 ? '8px' : '2px',
-                                background: d.count > 0 ? 'var(--primary)' : 'var(--border-color)',
-                                borderRadius: '6px 6px 0 0',
-                                transition: 'height 0.3s ease',
+                                background: d.count > 0 ? 'var(--color-accent)' : 'var(--color-rule)',
+                                borderRadius: 'var(--radius-xs) var(--radius-xs) 0 0',
                               }} />
-                              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-3)' }}>
                                 {new Date(d.date).toLocaleDateString('en-US', { weekday: 'short' })}
                               </div>
                             </div>
@@ -662,16 +678,19 @@ export default function SalonDashboard() {
                   <div className="booking-panel">
                     <h3 className="panel-title">Top Services</h3>
                     {(analytics.topServices || []).length === 0 ? (
-                      <div style={{ padding: '16px', color: 'var(--text-muted)', fontSize: '14px' }}>No bookings yet.</div>
+                      <div className="empty-state-text" style={{ padding: 'var(--space-xs) 0' }}>No bookings yet.</div>
                     ) : (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '8px 0' }}>
+                      <div className="top-services-list">
                         {(analytics.topServices || []).map((s, i) => (
-                          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              <span className="badge badge-info">{i + 1}</span>
-                              <strong>{s.name}</strong>
+                          <div key={i} className="top-service-row">
+                            <span className="top-service-main">
+                              <span className="badge badge-secondary">{i + 1}</span>
+                              <strong className="top-service-name">{s.name}</strong>
                             </span>
-                            <span style={{ color: 'var(--text-secondary)' }}>{s.count} booking{s.count === 1 ? '' : 's'}</span>
+                            <span className="top-service-count">
+                              <strong>{s.count}</strong>
+                              booking{s.count === 1 ? '' : 's'}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -679,12 +698,12 @@ export default function SalonDashboard() {
                   </div>
                 </div>
 
-                <div className="booking-panel" style={{ marginTop: '24px' }}>
+                <div className="booking-panel">
                   <h3 className="panel-title">Upcoming Client Bookings</h3>
                   {appointmentsLoading ? (
                     <SkeletonTable rows={3} cols={6} />
                   ) : appointments.filter(a => a.status === 'confirmed' || a.status === 'pending').length === 0 ? (
-                    <div style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)' }}>No upcoming bookings.</div>
+                    <div className="empty-state">No upcoming bookings.</div>
                   ) : (
                     <div className="table-container">
                       <table className="premium-table">
@@ -704,7 +723,7 @@ export default function SalonDashboard() {
                               <tr key={appt.id}>
                                 <td>
                                   <strong>{appt.user?.name}</strong>
-                                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{appt.user?.phoneNumber}</div>
+                                  <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-2)' }}>{appt.user?.phoneNumber}</div>
                                 </td>
                                 <td>{appt.service?.name}</td>
                                 <td>{appt.staff?.name}</td>
@@ -718,7 +737,7 @@ export default function SalonDashboard() {
                 </div>
               </>
             ) : (
-              <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Unable to load analytics.</div>
+              <div style={{ textAlign: 'center', padding: 'var(--space-xl)', color: 'var(--color-ink-3)' }}>Unable to load analytics.</div>
             )}
           </>
         )}
@@ -727,14 +746,15 @@ export default function SalonDashboard() {
         {activeTab === 'appointments' && (
           <>
             <div className="dashboard-header">
-              <h2 className="dashboard-title">Appointment Schedules</h2>
+              <h1 className="dashboard-title">Appointment Schedules</h1>
+              {partnerStatusBadge}
             </div>
 
             {appointments.length === 0 ? (
-              <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
-                <Calendar size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
-                <h3>No Bookings</h3>
-                <p style={{ color: 'var(--text-secondary)' }}>Your salon has no booked appointments yet.</p>
+              <div className="empty-state">
+                <Calendar size={40} />
+                <h3 className="empty-state-title">No bookings</h3>
+                <p className="empty-state-text">Your salon has no booked appointments yet.</p>
               </div>
             ) : (
               <div className="table-container">
@@ -742,7 +762,7 @@ export default function SalonDashboard() {
                   <thead>
                     <tr>
                       <th>Customer Details</th>
-                      <th>Service details</th>
+                      <th>Service Details</th>
                       <th>Assigned Therapist</th>
                       <th>Scheduled Slot</th>
                       <th>Status</th>
@@ -756,43 +776,45 @@ export default function SalonDashboard() {
                       <tr key={appt.id}>
                         <td>
                           <strong>{appt.user?.name}</strong>
-                          <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{appt.user?.phoneNumber}</div>
+                          <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-2)' }}>{appt.user?.phoneNumber}</div>
                         </td>
                         <td>{appt.service?.name}</td>
                         <td>{appt.staff?.name}</td>
                         <td>{appt.date} @ {appt.time}</td>
                         <td>
-                          <span className={`badge ${appt.status === 'confirmed' ? 'badge-success' : appt.status === 'pending' ? 'badge-warning' : appt.status === 'completed' ? 'badge-info' : 'badge-danger'}`}>
+                          <span className={`badge ${statusBadgeClass(appt.status)}`}>
                             {appt.status || 'confirmed'}
                           </span>
                         </td>
                         <td>
                           {appt.userReview ? (
-                            <span style={{ fontSize: '13px', fontStyle: 'italic', color: 'var(--text-secondary)' }}>"{appt.userReview}"</span>
+                            <span style={{ fontSize: 'var(--text-sm)', fontStyle: 'italic', color: 'var(--color-ink-2)' }}>"{appt.userReview}"</span>
                           ) : (
-                            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>No feedback</span>
+                            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-3)' }}>No feedback</span>
                           )}
                         </td>
                         <td>
                           {appt.staffReview ? (
-                            <span style={{ fontSize: '13px', fontStyle: 'italic', color: 'var(--primary)' }}>"{appt.staffReview}"</span>
+                            <span style={{ fontSize: 'var(--text-sm)', fontStyle: 'italic', color: 'var(--color-accent)' }}>"{appt.staffReview}"</span>
                           ) : (
-                            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>None</span>
+                            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-3)' }}>None</span>
                           )}
                         </td>
-                        <td style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                          {appt.status === 'pending' && (
-                            <>
-                              <button onClick={() => handleApptStatus(appt.id, 'confirmed')} className="btn btn-primary btn-sm">Accept</button>
-                              <button onClick={() => handleApptStatus(appt.id, 'declined')} className="btn btn-danger btn-sm">Decline</button>
-                            </>
-                          )}
-                          {appt.status === 'confirmed' && (
-                            <button onClick={() => handleApptStatus(appt.id, 'completed')} className="btn btn-secondary btn-sm">Mark Complete</button>
-                          )}
-                          <button onClick={() => handleOpenStaffNote(appt.id, appt.staffReview)} className="btn btn-secondary btn-sm">
-                            <Plus size={14} /> Staff Note
-                          </button>
+                        <td>
+                          <div className="appt-actions">
+                            {appt.status === 'pending' && (
+                              <>
+                                <button onClick={() => handleApptStatus(appt.id, 'confirmed')} className="btn btn-primary btn-sm">Accept</button>
+                                <button onClick={() => handleApptStatus(appt.id, 'declined')} className="btn btn-danger btn-sm">Decline</button>
+                              </>
+                            )}
+                            {appt.status === 'confirmed' && (
+                              <button onClick={() => handleApptStatus(appt.id, 'completed')} className="btn btn-secondary btn-sm">Mark Complete</button>
+                            )}
+                            <button onClick={() => handleOpenStaffNote(appt.id, appt.staffReview)} className="btn btn-secondary btn-sm">
+                              <Plus size={14} /> Staff Note
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -805,23 +827,26 @@ export default function SalonDashboard() {
 
         {activeTab === 'calendar' && (
           <>
-            <div className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 className="dashboard-title">Weekly Schedule</h2>
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <button onClick={() => {
-                  const prev = new Date(calendarWeek);
-                  prev.setDate(prev.getDate() - 7);
-                  const prevStr = prev.toISOString().slice(0, 10);
-                  setCalendarWeek(prevStr);
-                  fetchCalendar(prevStr);
-                }} className="btn btn-secondary btn-sm">← Prev Week</button>
-                <button onClick={() => {
-                  const next = new Date(calendarWeek);
-                  next.setDate(next.getDate() + 7);
-                  const nextStr = next.toISOString().slice(0, 10);
-                  setCalendarWeek(nextStr);
-                  fetchCalendar(nextStr);
-                }} className="btn btn-secondary btn-sm">Next Week →</button>
+            <div className="dashboard-header">
+              <h1 className="dashboard-title">Weekly Schedule</h1>
+              <div className="salon-header-controls">
+                {partnerStatusBadge}
+                <div className="window-selector">
+                  <button onClick={() => {
+                    const prev = new Date(calendarWeek);
+                    prev.setDate(prev.getDate() - 7);
+                    const prevStr = prev.toISOString().slice(0, 10);
+                    setCalendarWeek(prevStr);
+                    fetchCalendar(prevStr);
+                  }} className="btn btn-secondary btn-sm">← Prev Week</button>
+                  <button onClick={() => {
+                    const next = new Date(calendarWeek);
+                    next.setDate(next.getDate() + 7);
+                    const nextStr = next.toISOString().slice(0, 10);
+                    setCalendarWeek(nextStr);
+                    fetchCalendar(nextStr);
+                  }} className="btn btn-secondary btn-sm">Next Week →</button>
+                </div>
               </div>
             </div>
 
@@ -840,11 +865,11 @@ export default function SalonDashboard() {
               const staffRows = staff.length > 0 ? staff : [];
 
               if (calendarLoading) {
-                return <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Loading calendar...</div>;
+                return <div style={{ textAlign: 'center', padding: 'var(--space-xl)', color: 'var(--color-ink-3)' }}>Loading calendar...</div>;
               }
 
               if (staffRows.length === 0) {
-                return <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Add staff members to see the schedule grid.</div>;
+                return <div className="empty-state">Add staff members to see the schedule grid.</div>;
               }
 
               return (
@@ -852,11 +877,11 @@ export default function SalonDashboard() {
                   <table className="premium-table" style={{ minWidth: '900px' }}>
                     <thead>
                       <tr>
-                        <th style={{ position: 'sticky', left: 0, background: 'var(--bg-secondary)' }}>Staff</th>
+                        <th style={{ position: 'sticky', left: 0, background: 'var(--color-paper-2)' }}>Staff</th>
                         {days.map(d => (
                           <th key={d} style={{ textAlign: 'center' }}>
                             <div>{new Date(d + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short' })}</div>
-                            <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 400 }}>{new Date(d + 'T00:00:00').getDate()}</div>
+                            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-3)', fontWeight: 400 }}>{new Date(d + 'T00:00:00').getDate()}</div>
                           </th>
                         ))}
                       </tr>
@@ -864,20 +889,20 @@ export default function SalonDashboard() {
                     <tbody>
                       {staffRows.map(st => (
                         <tr key={st.id}>
-                          <td style={{ position: 'sticky', left: 0, background: 'var(--bg-secondary)', fontWeight: 600 }}>{st.name}</td>
+                          <td style={{ position: 'sticky', left: 0, background: 'var(--color-paper-2)', fontWeight: 600 }}>{st.name}</td>
                           {days.map(d => {
                             const dayAppts = calendarAppointments.filter(a => a.staffId === st.id && a.date === d);
                             return (
-                              <td key={d} style={{ verticalAlign: 'top', padding: '6px', minWidth: '120px' }}>
+                              <td key={d} style={{ verticalAlign: 'top', padding: 'var(--space-3xs)', minWidth: '120px' }}>
                                 {dayAppts.length === 0 ? (
-                                  <span style={{ color: 'var(--text-muted)', fontSize: '12px' }}>—</span>
+                                  <span style={{ color: 'var(--color-ink-3)', fontSize: 'var(--text-xs)' }}>—</span>
                                 ) : (
-                                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3xs)' }}>
                                     {dayAppts.map(a => (
                                       <div key={a.id} style={{
-                                        background: a.status === 'cancelled' || a.status === 'declined' ? 'var(--bg-tertiary)' : 'var(--primary)',
-                                        color: a.status === 'cancelled' || a.status === 'declined' ? 'var(--text-muted)' : 'white',
-                                        padding: '4px 6px', borderRadius: '4px', fontSize: '11px',
+                                        background: a.status === 'cancelled' || a.status === 'declined' ? 'var(--color-paper-3)' : 'var(--color-accent)',
+                                        color: a.status === 'cancelled' || a.status === 'declined' ? 'var(--color-ink-3)' : 'var(--color-accent-ink)',
+                                        padding: 'var(--space-3xs)', borderRadius: 'var(--radius-2xs)', fontSize: 'var(--text-xs)',
                                         textDecoration: a.status === 'cancelled' || a.status === 'declined' ? 'line-through' : 'none',
                                       }} title={`${a.user?.name || ''} — ${a.service?.name || ''} (${a.status})`}>
                                         <div style={{ fontWeight: 600 }}>{a.time}</div>
@@ -901,14 +926,19 @@ export default function SalonDashboard() {
 
         {/* Tab 3: Services Catalog */}
         {activeTab === 'services' && (
-          <div className="grid-with-sidebar">
-            <div className="booking-panel">
-              <h3 className="panel-title">Active Services menu</h3>
-              <div className="table-container" style={{ border: 'none', boxShadow: 'none' }}>
+          <>
+            <div className="dashboard-header">
+              <h1 className="dashboard-title">Catalog Services</h1>
+              {partnerStatusBadge}
+            </div>
+            <div className="grid-with-sidebar">
+              <div className="booking-panel">
+                <h3 className="panel-title">Active Services Menu</h3>
+              <div className="table-container table-flush">
                 {servicesLoading ? (
                   <SkeletonTable rows={3} cols={3} />
                 ) : services.length === 0 ? (
-                  <div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
+                  <div className="empty-state">
                     No services configured.
                   </div>
                 ) : (
@@ -928,9 +958,9 @@ export default function SalonDashboard() {
                           <td>{s.duration} mins</td>
                           <td>₹{s.price}</td>
                           <td>
-                            <div style={{ display: 'flex', gap: '8px' }}>
-                              <button onClick={() => handleEditService(s)} aria-label={`Edit service ${s.name}`} className="btn btn-secondary btn-sm" style={{ padding: '6px' }}><Edit size={14} /></button>
-                              <button onClick={() => handleDeleteService(s.id)} aria-label={`Delete service ${s.name}`} className="btn btn-danger btn-sm" style={{ padding: '6px' }}><Trash2 size={14} /></button>
+                            <div style={{ display: 'flex', gap: 'var(--space-2xs)' }}>
+                              <button onClick={() => handleEditService(s)} aria-label={`Edit service ${s.name}`} className="btn btn-secondary btn-sm"><Edit size={14} /></button>
+                              <button onClick={() => handleDeleteService(s.id)} aria-label={`Delete service ${s.name}`} className="btn btn-danger btn-sm"><Trash2 size={14} /></button>
                             </div>
                           </td>
                         </tr>
@@ -941,16 +971,16 @@ export default function SalonDashboard() {
               </div>
             </div>
 
-            <div className="booking-panel" style={{ height: 'fit-content' }}>
+            <div className="booking-panel salon-side-panel">
               <h3 className="panel-title">{editServiceId ? 'Edit Service' : 'Add New Service'}</h3>
               <form onSubmit={handleAddOrUpdateService}>
                 <div className="form-group">
                   <label htmlFor="service-name" className="form-label">Service Title</label>
-                  <input id="service-name" type="text" className="form-input" style={{ paddingLeft: '16px' }} placeholder="Hair Styling" value={serviceName} onChange={e => setServiceName(e.target.value)} required />
+                  <input id="service-name" type="text" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} placeholder="Hair Styling" value={serviceName} onChange={e => setServiceName(e.target.value)} required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="service-category" className="form-label">Category</label>
-                  <select id="service-category" className="form-select" style={{ paddingLeft: '16px' }} value={serviceCategory} onChange={e => setServiceCategory(e.target.value)}>
+                  <select id="service-category" className="form-select" style={{ paddingLeft: 'var(--space-sm)' }} value={serviceCategory} onChange={e => setServiceCategory(e.target.value)}>
                     <option value="Hair">Hair</option>
                     <option value="Spa & Massage">Spa & Massage</option>
                     <option value="Facial & Skin">Facial & Skin</option>
@@ -963,11 +993,11 @@ export default function SalonDashboard() {
                 </div>
                 <div className="form-group">
                   <label htmlFor="service-price" className="form-label">Price (INR)</label>
-                  <input id="service-price" type="number" min="1" step="1" className="form-input" style={{ paddingLeft: '16px' }} placeholder="500" value={servicePrice} onChange={e => setServicePrice(e.target.value)} required />
+                  <input id="service-price" type="number" min="1" step="1" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} placeholder="500" value={servicePrice} onChange={e => setServicePrice(e.target.value)} required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="service-duration" className="form-label">Duration (Minutes)</label>
-                  <select id="service-duration" className="form-select" style={{ paddingLeft: '16px' }} value={serviceDuration} onChange={e => setServiceDuration(e.target.value)}>
+                  <select id="service-duration" className="form-select" style={{ paddingLeft: 'var(--space-sm)' }} value={serviceDuration} onChange={e => setServiceDuration(e.target.value)}>
                     <option value="15">15 Minutes</option>
                     <option value="30">30 Minutes</option>
                     <option value="45">45 Minutes</option>
@@ -976,27 +1006,33 @@ export default function SalonDashboard() {
                     <option value="120">120 Minutes</option>
                   </select>
                 </div>
-                <div style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
+                <div style={{ display: 'flex', gap: 'var(--space-2xs)', marginTop: 'var(--space-sm)' }}>
                   <button type="submit" disabled={savingService} className="btn btn-primary btn-sm" style={{ flex: 1 }}>Save Service</button>
                   {editServiceId && (
                     <button type="button" onClick={() => { setEditServiceId(null); setServiceName(''); setServicePrice(''); setServiceCategory('Other'); }} className="btn btn-secondary btn-sm">Cancel</button>
                   )}
                 </div>
               </form>
+              </div>
             </div>
-          </div>
+          </>
         )}
 
         {/* Tab 4: Staff members */}
         {activeTab === 'staff' && (
-          <div className="grid-with-sidebar">
+          <>
+            <div className="dashboard-header">
+              <h1 className="dashboard-title">Manage Staff</h1>
+              {partnerStatusBadge}
+            </div>
+            <div className="grid-with-sidebar">
             <div className="booking-panel">
               <h3 className="panel-title">Therapist Directory</h3>
-              <div className="table-container" style={{ border: 'none', boxShadow: 'none' }}>
+              <div className="table-container table-flush">
                 {staffLoading ? (
                   <SkeletonTable rows={3} cols={4} />
                 ) : staff.length === 0 ? (
-                  <div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
+                  <div className="empty-state">
                     No staff members added.
                   </div>
                 ) : (
@@ -1014,15 +1050,15 @@ export default function SalonDashboard() {
                         <tr key={st.id}>
                           <td>
                             <strong>{st.name}</strong>
-                            <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{st.email}</div>
+                            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-2)' }}>{st.email}</div>
                           </td>
                           <td>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3xs)' }}>
                               {st.services && st.services.map(ser => (
-                                <span key={ser.id} className="badge badge-info" style={{ fontSize: '11px' }}>{ser.name}</span>
+                                <span key={ser.id} className="badge badge-secondary">{ser.name}</span>
                               ))}
                               {(!st.services || st.services.length === 0) && (
-                                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>No assigned services</span>
+                                <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-3)' }}>No assigned services</span>
                               )}
                             </div>
                           </td>
@@ -1032,23 +1068,23 @@ export default function SalonDashboard() {
                               onClick={() => toggleStaffStatus(st.id, st.statusbar)}
                               aria-pressed={st.statusbar !== 'inactive'}
                               aria-label={`Staff status: ${st.statusbar || 'active'}. Click to toggle.`}
-                              className={`badge ${st.statusbar === 'active' ? 'badge-success' : 'badge-danger'}`}
+                              className={`badge ${st.statusbar === 'active' ? 'badge-success' : 'badge-secondary'}`}
                               style={{ cursor: 'pointer', border: 'none', font: 'inherit' }}
                             >
                               {st.statusbar || 'active'}
                             </button>
                           </td>
                           <td>
-                            <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
+                            <div style={{ display: 'flex', gap: 'var(--space-3xs)', marginBottom: 'var(--space-2xs)' }}>
                               <button onClick={() => handleOpenAssign(st)} className="btn btn-secondary btn-sm">Assign</button>
                               <button onClick={() => handleOpenBlockout(st.id)} className="btn btn-secondary btn-sm">Block out</button>
                             </div>
                             {blockouts.filter(b => b.staffId === st.id).length > 0 && (
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3xs)' }}>
                                 {blockouts.filter(b => b.staffId === st.id).map(b => (
-                                  <span key={b.id} className="badge badge-warning" style={{ fontSize: '11px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '6px' }}>
+                                  <span key={b.id} className="badge badge-warning" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-2xs)' }}>
                                     <span>{b.date} {b.startTime}-{b.endTime}{b.reason ? ` · ${b.reason}` : ''}</span>
-                                    <button onClick={() => handleRemoveBlockout(b.id)} aria-label={`Remove blockout on ${b.date}`} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: 0 }}>×</button>
+                                    <button onClick={() => handleRemoveBlockout(b.id)} aria-label={`Remove blockout on ${b.date}`} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-ink-2)', padding: 0 }}>×</button>
                                   </span>
                                 ))}
                               </div>
@@ -1062,35 +1098,41 @@ export default function SalonDashboard() {
               </div>
             </div>
 
-            <div className="booking-panel" style={{ height: 'fit-content' }}>
+            <div className="booking-panel salon-side-panel">
               <h3 className="panel-title">Add Therapist</h3>
               <form onSubmit={handleAddStaff}>
                 <div className="form-group">
                   <label htmlFor="staff-name" className="form-label">Full Name</label>
-                  <input id="staff-name" type="text" className="form-input" style={{ paddingLeft: '16px' }} placeholder="Dr. Rose" value={staffName} onChange={e => setStaffName(e.target.value)} required />
+                  <input id="staff-name" type="text" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} placeholder="Dr. Rose" value={staffName} onChange={e => setStaffName(e.target.value)} required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="staff-phone" className="form-label">Phone Number</label>
-                  <input id="staff-phone" type="tel" pattern="[0-9]{10}" title="Enter a 10-digit phone number" className="form-input" style={{ paddingLeft: '16px' }} placeholder="9876543210" value={staffPhone} onChange={e => setStaffPhone(e.target.value)} required />
+                  <input id="staff-phone" type="tel" pattern="[0-9]{10}" title="Enter a 10-digit phone number" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} placeholder="9876543210" value={staffPhone} onChange={e => setStaffPhone(e.target.value)} required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="staff-email" className="form-label">Login Email</label>
-                  <input id="staff-email" type="email" className="form-input" style={{ paddingLeft: '16px' }} placeholder="rose@glowsalon.com" value={staffEmail} onChange={e => setStaffEmail(e.target.value)} required />
+                  <input id="staff-email" type="email" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} placeholder="rose@glowsalon.com" value={staffEmail} onChange={e => setStaffEmail(e.target.value)} required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="staff-password" className="form-label">Login Password</label>
-                  <input id="staff-password" type="password" minLength={8} title="At least 8 characters" className="form-input" style={{ paddingLeft: '16px' }} placeholder="••••••••" value={staffPassword} onChange={e => setStaffPassword(e.target.value)} required />
+                  <input id="staff-password" type="password" minLength={8} title="At least 8 characters" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} placeholder="••••••••" value={staffPassword} onChange={e => setStaffPassword(e.target.value)} required />
                 </div>
-                <button type="submit" disabled={savingStaff} className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: '12px' }}>Save Staff Member</button>
+                <button type="submit" disabled={savingStaff} className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: 'var(--space-xs)' }}>Save Staff Member</button>
               </form>
+              </div>
             </div>
-          </div>
+          </>
         )}
 
         {/* Tab: Reviews — aggregate rating + the customer reviews already cached */}
         {activeTab === 'reviews' && (
-          <div className="booking-panel" style={{ maxWidth: '800px' }}>
-            <h3 className="panel-title">Customer Reviews</h3>
+          <>
+            <div className="dashboard-header">
+              <h1 className="dashboard-title">Reviews</h1>
+              {partnerStatusBadge}
+            </div>
+            <div className="booking-panel" style={{ maxWidth: '800px' }}>
+              <h3 className="panel-title">Customer Reviews</h3>
             <div className="reviews-summary">
               <div className="reviews-summary-score">
                 <Star size={28} fill="currentColor" />
@@ -1109,7 +1151,7 @@ export default function SalonDashboard() {
                 .filter(a => a.rating || a.userReview)
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
               return reviewed.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
+                <div className="empty-state">
                   No reviews yet. Reviews appear here once customers leave feedback on completed appointments.
                 </div>
               ) : (
@@ -1129,7 +1171,7 @@ export default function SalonDashboard() {
                       {a.userReview ? (
                         <p className="review-card-owner-text">“{a.userReview}”</p>
                       ) : (
-                        <p className="review-card-owner-text" style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>Rating only — no written review.</p>
+                        <p className="review-card-owner-text" style={{ color: 'var(--color-ink-3)', fontStyle: 'italic' }}>Rating only — no written review.</p>
                       )}
                       <div className="review-card-owner-foot">
                         <span>{a.service?.name}</span>
@@ -1140,31 +1182,38 @@ export default function SalonDashboard() {
                 </div>
               );
             })()}
-          </div>
+            </div>
+          </>
         )}
 
         {/* Tab: Notifications — shared panel (own notifications, mark read) */}
         {activeTab === 'notifications' && (
-          <div style={{ maxWidth: '800px' }}>
-            <NotificationsPanel onUnreadChange={setNotifCount} />
-          </div>
+          <>
+            <div className="dashboard-header">
+              <h1 className="dashboard-title">Notifications</h1>
+              {partnerStatusBadge}
+            </div>
+            <div style={{ maxWidth: '800px' }}>
+              <NotificationsPanel onUnreadChange={setNotifCount} />
+            </div>
+          </>
         )}
 
         {/* Tab: Working Hours (#24) — per-day weekly schedule editor */}
         {activeTab === 'hours' && (
           <>
             <div className="dashboard-header">
-              <h2 className="dashboard-title">Weekly Working Hours</h2>
-              <span className="badge badge-info">Per-day schedule</span>
+              <h1 className="dashboard-title">Weekly Working Hours</h1>
+              {partnerStatusBadge}
             </div>
             {hoursLoading ? (
               <SkeletonTable rows={7} cols={4} />
             ) : !weeklyHours ? (
-              <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Unable to load working hours.</div>
+              <div style={{ textAlign: 'center', padding: 'var(--space-xl)', color: 'var(--color-ink-3)' }}>Unable to load working hours.</div>
             ) : (
               <div className="booking-panel" style={{ maxWidth: '720px' }}>
-                <h3 className="panel-title">Opening times by day</h3>
-                <p className="section-sub" style={{ marginBottom: '16px' }}>
+                <h3 className="panel-title">Opening Times by Day</h3>
+                <p className="section-sub" style={{ marginBottom: 'var(--space-sm)' }}>
                   Days marked closed ignore their times. Bookings outside these windows are rejected automatically.
                 </p>
                 <div className="hours-editor">
@@ -1206,7 +1255,7 @@ export default function SalonDashboard() {
                   onClick={handleSaveHours}
                   disabled={hoursSaving || hoursLoading}
                   className="btn btn-primary"
-                  style={{ marginTop: '16px' }}
+                  style={{ marginTop: 'var(--space-sm)' }}
                 >
                   {hoursSaving ? 'Saving…' : 'Save Weekly Hours'}
                 </button>
@@ -1218,26 +1267,29 @@ export default function SalonDashboard() {
         {/* Tab: Revenue Analytics (#31) — inline SVG chart + top services */}
         {activeTab === 'analytics' && (
           <>
-            <div className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-              <h2 className="dashboard-title">Revenue Analytics</h2>
-              <div className="window-selector" role="group" aria-label="Analytics window">
-                {[7, 30, 90].map(n => (
-                  <button
-                    key={n}
-                    onClick={() => { setRevenueDays(n); fetchRevenueAnalytics(n); }}
-                    aria-pressed={revenueDays === n}
-                    className={`btn btn-sm ${revenueDays === n ? 'btn-primary' : 'btn-secondary'}`}
-                  >
-                    {n} days
-                  </button>
-                ))}
+            <div className="dashboard-header">
+              <h1 className="dashboard-title">Revenue Analytics</h1>
+              <div className="salon-header-controls">
+                {partnerStatusBadge}
+                <div className="window-selector" role="group" aria-label="Analytics window">
+                  {[7, 30, 90].map(n => (
+                    <button
+                      key={n}
+                      onClick={() => { setRevenueDays(n); fetchRevenueAnalytics(n); }}
+                      aria-pressed={revenueDays === n}
+                      className={`btn btn-sm ${revenueDays === n ? 'btn-primary' : 'btn-secondary'}`}
+                    >
+                      {n} days
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
             {revenueLoading && !revenueData ? (
-              <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Loading analytics...</div>
+              <div style={{ textAlign: 'center', padding: 'var(--space-xl)', color: 'var(--color-ink-3)' }}>Loading analytics...</div>
             ) : !revenueData ? (
-              <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Unable to load revenue analytics.</div>
+              <div style={{ textAlign: 'center', padding: 'var(--space-xl)', color: 'var(--color-ink-3)' }}>Unable to load revenue analytics.</div>
             ) : (() => {
               const series = revenueData.series || [];
               const totals = revenueData.totals || {};
@@ -1256,30 +1308,30 @@ export default function SalonDashboard() {
               const ticks = [0, Math.floor(series.length / 2), series.length - 1].filter((v, i, a) => v >= 0 && a.indexOf(v) === i);
               return (
                 <>
-                  <div className="stats-grid" style={{ marginBottom: '24px' }}>
+                  <div className="stats-grid">
                     <div className="stat-card">
-                      <div className="stat-icon success"><CreditCard size={24} /></div>
+                      <div className="stat-icon"><CreditCard size={24} /></div>
                       <div>
                         <div className="stat-value">₹{Number(totals.revenue || 0).toLocaleString()}</div>
                         <div className="stat-label">Revenue ({revenueDays}d, incl. tips)</div>
                       </div>
                     </div>
                     <div className="stat-card">
-                      <div className="stat-icon warning"><CreditCard size={24} /></div>
+                      <div className="stat-icon"><CreditCard size={24} /></div>
                       <div>
                         <div className="stat-value">₹{Number(totals.tips || 0).toLocaleString()}</div>
                         <div className="stat-label">Tips</div>
                       </div>
                     </div>
                     <div className="stat-card">
-                      <div className="stat-icon accent"><Calendar size={24} /></div>
+                      <div className="stat-icon"><Calendar size={24} /></div>
                       <div>
                         <div className="stat-value">{totals.bookings || 0}</div>
                         <div className="stat-label">Paid bookings</div>
                       </div>
                     </div>
                     <div className="stat-card">
-                      <div className="stat-icon primary"><CheckCircle size={24} /></div>
+                      <div className="stat-icon"><CheckCircle size={24} /></div>
                       <div>
                         <div className="stat-value">₹{Number(totals.discounts || 0).toLocaleString()}</div>
                         <div className="stat-label">Promo discounts</div>
@@ -1287,8 +1339,8 @@ export default function SalonDashboard() {
                     </div>
                   </div>
 
-                  <div className="booking-panel" style={{ marginBottom: '24px' }}>
-                    <h3 className="panel-title">Daily revenue — last {revenueData.days} days</h3>
+                  <div className="booking-panel">
+                    <h3 className="panel-title">Daily Revenue — Last {revenueData.days} Days</h3>
                     <div className="revenue-chart">
                       <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Daily revenue over the last ${revenueData.days} days`} preserveAspectRatio="none">
                         <line x1={PAD_X} y1={H - PAD_Y} x2={W - PAD_X / 2} y2={H - PAD_Y} className="rev-axis" />
@@ -1314,16 +1366,19 @@ export default function SalonDashboard() {
                   <div className="booking-panel">
                     <h3 className="panel-title">Top Services ({revenueDays}d, completed)</h3>
                     {topServicesWindow.length === 0 ? (
-                      <div style={{ padding: '16px', color: 'var(--text-muted)', fontSize: '14px' }}>No completed bookings in this window yet.</div>
+                      <div className="empty-state-text" style={{ padding: 'var(--space-xs) 0' }}>No completed bookings in this window yet.</div>
                     ) : (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '8px 0' }}>
+                      <div className="top-services-list">
                         {topServicesWindow.map((s, i) => (
-                          <div key={s.serviceId ?? i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              <span className="badge badge-info">{i + 1}</span>
-                              <strong>{s.name}</strong>
+                          <div key={s.serviceId ?? i} className="top-service-row">
+                            <span className="top-service-main">
+                              <span className="badge badge-secondary">{i + 1}</span>
+                              <strong className="top-service-name">{s.name}</strong>
                             </span>
-                            <span style={{ color: 'var(--text-secondary)' }}>{s.bookings} booking{s.bookings === 1 ? '' : 's'}</span>
+                            <span className="top-service-count">
+                              <strong>{s.bookings}</strong>
+                              booking{s.bookings === 1 ? '' : 's'}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -1338,14 +1393,14 @@ export default function SalonDashboard() {
         {/* Tab: Waitlist day sheet (#30) */}
         {activeTab === 'waitlist' && (
           <>
-            <div className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-              <h2 className="dashboard-title">Waitlist</h2>
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <div className="dashboard-header">
+              <h1 className="dashboard-title">Waitlist</h1>
+              <div className="salon-header-controls">
+                {partnerStatusBadge}
                 <input
                   type="date"
                   aria-label="Waitlist date"
-                  className="form-input"
-                  style={{ paddingLeft: '16px', height: '38px' }}
+                  className="form-input salon-date-inline"
                   value={waitlistDay}
                   onChange={e => setWaitlistDay(e.target.value)}
                 />
@@ -1360,11 +1415,11 @@ export default function SalonDashboard() {
               {dayWaitlistLoading ? (
                 <SkeletonTable rows={3} cols={5} />
               ) : dayWaitlist.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
+                <div className="empty-state">
                   Nobody is waiting for this day.
                 </div>
               ) : (
-                <div className="table-container" style={{ border: 'none', boxShadow: 'none' }}>
+                <div className="table-container table-flush">
                   <table className="premium-table">
                     <thead>
                       <tr>
@@ -1399,16 +1454,21 @@ export default function SalonDashboard() {
 
         {/* Tab 5: Salon Profile Details */}
         {activeTab === 'details' && (
-          <div className="booking-panel" style={{ maxWidth: '800px' }}>
-            <h3 className="panel-title">Salon Settings</h3>
+          <>
+            <div className="dashboard-header">
+              <h1 className="dashboard-title">Salon Settings</h1>
+              {partnerStatusBadge}
+            </div>
+            <div className="booking-panel" style={{ maxWidth: '800px' }}>
+              <h3 className="panel-title">Business Profile</h3>
             <form onSubmit={handleSaveDetails} className="grid-two-col">
               <div className="form-group" style={{ gridColumn: 'span 2' }}>
                 <label htmlFor="salon-name-settings" className="form-label">Brand / Salon Name</label>
-                <input id="salon-name-settings" type="text" className="form-input" style={{ paddingLeft: '16px' }} value={salonName} onChange={e => setSalonName(e.target.value)} required />
+                <input id="salon-name-settings" type="text" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} value={salonName} onChange={e => setSalonName(e.target.value)} required />
               </div>
               <div className="form-group">
                 <label htmlFor="salon-phone-settings" className="form-label">Business Phone Number</label>
-                <input id="salon-phone-settings" type="tel" pattern="[0-9]{10}" title="10-digit phone number" className="form-input" style={{ paddingLeft: '16px' }} value={salonPhone} onChange={e => setSalonPhone(e.target.value)} required />
+                <input id="salon-phone-settings" type="tel" pattern="[0-9]{10}" title="10-digit phone number" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} value={salonPhone} onChange={e => setSalonPhone(e.target.value)} required />
               </div>
               <div className="form-group">
                 <label className="form-label">Working Days</label>
@@ -1442,17 +1502,17 @@ export default function SalonDashboard() {
               </div>
               <div className="form-group" style={{ gridColumn: 'span 2' }}>
                 <label htmlFor="salon-address-settings" className="form-label">Salon Address</label>
-                <input id="salon-address-settings" type="text" className="form-input" style={{ paddingLeft: '16px' }} value={salonAddress} onChange={e => setSalonAddress(e.target.value)} required />
+                <input id="salon-address-settings" type="text" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} value={salonAddress} onChange={e => setSalonAddress(e.target.value)} required />
               </div>
               <div className="form-group">
                 <label htmlFor="salon-open" className="form-label">Opening Time</label>
-                <input id="salon-open" type="time" className="form-input" style={{ paddingLeft: '16px' }} value={salonOpen} onChange={e => setSalonOpen(e.target.value)} required />
+                <input id="salon-open" type="time" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} value={salonOpen} onChange={e => setSalonOpen(e.target.value)} required />
               </div>
               <div className="form-group">
                 <label htmlFor="salon-close" className="form-label">Closing Time</label>
-                <input id="salon-close" type="time" className="form-input" style={{ paddingLeft: '16px' }} value={salonClose} onChange={e => setSalonClose(e.target.value)} required />
+                <input id="salon-close" type="time" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} value={salonClose} onChange={e => setSalonClose(e.target.value)} required />
               </div>
-              <div className="form-group" style={{ gridColumn: 'span 2', display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div className="form-group" style={{ gridColumn: 'span 2', display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
                 <input
                   type="checkbox"
                   id="requiresApproval"
@@ -1462,27 +1522,28 @@ export default function SalonDashboard() {
                 />
                 <label htmlFor="requiresApproval" style={{ cursor: 'pointer' }}>
                   <strong>Require approval for new bookings</strong>
-                  <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+                  <div style={{ fontSize: 'var(--text-sm)', color: 'var(--color-ink-2)' }}>
                     When on, new paid bookings start as "pending" until a staff member or you accept them. When off, bookings are "confirmed" instantly.
                   </div>
                 </label>
               </div>
-              <div style={{ gridColumn: 'span 2', marginTop: '12px' }}>
+              <div style={{ gridColumn: 'span 2', marginTop: 'var(--space-xs)' }}>
                 <button type="submit" className="btn btn-primary">Save Salon Profile</button>
               </div>
             </form>
-          </div>
+            </div>
+          </>
         )}
       </main>
 
       {/* Assign services modal */}
       <Modal open={showAssignModal} onClose={() => setShowAssignModal(false)} title="Assign Menu Services">
-        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Select services that this therapist can perform.</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '250px', overflowY: 'auto' }}>
+        <p style={{ color: 'var(--color-ink-2)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-sm)' }}>Select services that this therapist can perform.</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', maxHeight: '250px', overflowY: 'auto' }}>
           {services.map(ser => {
             const isChecked = selectedStaffServices.includes(ser.id);
             return (
-              <label key={ser.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '15px', cursor: 'pointer' }}>
+              <label key={ser.id} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2xs)', fontSize: 'var(--text-md)', cursor: 'pointer' }}>
                 <input
                   type="checkbox"
                   checked={isChecked}
@@ -1499,15 +1560,15 @@ export default function SalonDashboard() {
             );
           })}
         </div>
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-xs)', justifyContent: 'flex-end', marginTop: 'var(--space-md)' }}>
           <button onClick={() => setShowAssignModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
           <button onClick={handleSaveAssignedServices} className="btn btn-primary btn-sm">Save Assignments</button>
         </div>
       </Modal>
 
       {/* Staff Notes modal */}
-      <Modal open={showNoteModal} onClose={() => setShowNoteModal(false)} title="Add Therapist notes">
-        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Leave internal instructions or review notes regarding the service.</p>
+      <Modal open={showNoteModal} onClose={() => setShowNoteModal(false)} title="Add Therapist Notes">
+        <p style={{ color: 'var(--color-ink-2)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-sm)' }}>Leave internal instructions or review notes regarding the service.</p>
         <div className="form-group">
           <textarea
             className="form-textarea"
@@ -1516,33 +1577,33 @@ export default function SalonDashboard() {
             onChange={e => setStaffReviewText(e.target.value)}
           />
         </div>
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-xs)', justifyContent: 'flex-end', marginTop: 'var(--space-md)' }}>
           <button onClick={() => setShowNoteModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
           <button onClick={handleSaveStaffNote} className="btn btn-primary btn-sm">Save Note</button>
         </div>
       </Modal>
 
       <Modal open={showBlockoutModal} onClose={() => setShowBlockoutModal(false)} title="Block out staff time">
-        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>Mark this staff member unavailable for a specific date and time range. Blocked slots won't show as bookable.</p>
+        <p style={{ color: 'var(--color-ink-2)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-sm)' }}>Mark this staff member unavailable for a specific date and time range. Blocked slots won't show as bookable.</p>
         <div className="form-group">
           <label htmlFor="blockout-date" className="form-label">Date</label>
-          <input id="blockout-date" type="date" className="form-input" style={{ paddingLeft: '16px' }} value={blockoutDate} onChange={e => setBlockoutDate(e.target.value)} required />
+          <input id="blockout-date" type="date" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} value={blockoutDate} onChange={e => setBlockoutDate(e.target.value)} required />
         </div>
-        <div style={{ display: 'flex', gap: '12px' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-xs)' }}>
           <div className="form-group" style={{ flex: 1 }}>
             <label htmlFor="blockout-start" className="form-label">Start time</label>
-            <input id="blockout-start" type="time" className="form-input" style={{ paddingLeft: '16px' }} value={blockoutStart} onChange={e => setBlockoutStart(e.target.value)} required />
+            <input id="blockout-start" type="time" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} value={blockoutStart} onChange={e => setBlockoutStart(e.target.value)} required />
           </div>
           <div className="form-group" style={{ flex: 1 }}>
             <label htmlFor="blockout-end" className="form-label">End time</label>
-            <input id="blockout-end" type="time" className="form-input" style={{ paddingLeft: '16px' }} value={blockoutEnd} onChange={e => setBlockoutEnd(e.target.value)} required />
+            <input id="blockout-end" type="time" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} value={blockoutEnd} onChange={e => setBlockoutEnd(e.target.value)} required />
           </div>
         </div>
         <div className="form-group">
           <label htmlFor="blockout-reason" className="form-label">Reason (optional)</label>
-          <input id="blockout-reason" type="text" className="form-input" style={{ paddingLeft: '16px' }} placeholder="Lunch, leave, etc." value={blockoutReason} onChange={e => setBlockoutReason(e.target.value)} />
+          <input id="blockout-reason" type="text" className="form-input" style={{ paddingLeft: 'var(--space-sm)' }} placeholder="Lunch, leave, etc." value={blockoutReason} onChange={e => setBlockoutReason(e.target.value)} />
         </div>
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-xs)', justifyContent: 'flex-end', marginTop: 'var(--space-md)' }}>
           <button onClick={() => setShowBlockoutModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
           <button onClick={handleSaveBlockout} className="btn btn-primary btn-sm">Save Blockout</button>
         </div>

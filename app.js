@@ -224,7 +224,6 @@ app.get('/api-docs', apiDocsPageHandler);
 
 // Serve static files of compiled React frontend
 app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Root route serves the React SPA index.html for all non-api client routes
 app.get('*any', (req, res, next) => {
@@ -254,101 +253,11 @@ app.use((err, req, res, _next) => {
 
 
 
-// Automatic premium sample data seeding function
-const seedSampleData = async () => {
-  const { Salons, Staff, Services, User } = require('./models/associations');
-  const bcrypt = require('bcrypt');
-
-  try {
-    const salonCount = await Salons.count();
-    if (salonCount > 0) {
-      return; // Already populated
-    }
-
-    console.log('🌱 Database is empty. Seeding premium sample data...');
-
-    // 1. Create Sample Users (password: customer123)
-    const hashedCustomerPassword = await bcrypt.hash('customer123', 10);
-    await User.create({
-      name: 'Jane Doe',
-      email: 'jane@example.com',
-      password: hashedCustomerPassword,
-      phoneNumber: '9876543210'
-    });
-    await User.create({
-      name: 'John Smith',
-      email: 'john@example.com',
-      password: hashedCustomerPassword,
-      phoneNumber: '8765432109'
-    });
-
-    // 2. Create Salons (password: salon123)
-    const hashedSalonPassword = await bcrypt.hash('salon123', 10);
-    const salon1 = await Salons.create({
-      name: 'Orchid Luxury Hair & Spa',
-      email: 'owner@orchid.com',
-      password: hashedSalonPassword,
-      phoneNumber: '9876543201',
-      address: '102 Royal Boulevard, City Center',
-      pricing: 'Premium',
-      openingTime: '09:00',
-      closingTime: '20:00',
-      workingDays: 'Mon, Tue, Wed, Thu, Fri, Sat'
-    });
-
-    const salon2 = await Salons.create({
-      name: 'Aura Mens Grooming & Co',
-      email: 'owner@aura.com',
-      password: hashedSalonPassword,
-      phoneNumber: '9876543202',
-      address: '45 Metro Heights, Business Plaza',
-      pricing: 'Moderate',
-      openingTime: '10:00',
-      closingTime: '21:00',
-      workingDays: 'Mon, Tue, Wed, Thu, Fri, Sat, Sun'
-    });
-
-    const salon3 = await Salons.create({
-      name: 'Vibe Quick Cuts & Styles',
-      email: 'owner@vibe.com',
-      password: hashedSalonPassword,
-      phoneNumber: '9876543203',
-      address: '88 University Avenue, West Side',
-      pricing: 'Affordable',
-      openingTime: '08:00',
-      closingTime: '19:00',
-      workingDays: 'Mon, Wed, Thu, Fri, Sat, Sun'
-    });
-
-    // 3. Create Services (with categories)
-    const s1 = await Services.create({ name: 'Royal Keratin Hair Treatment', price: 2500, duration: 60, statusbar: 'active', category: 'Hair', salonId: salon1.id });
-    const s2 = await Services.create({ name: 'Aromatherapy Full Body Massage', price: 3200, duration: 90, statusbar: 'active', category: 'Spa & Massage', salonId: salon1.id });
-    const s3 = await Services.create({ name: 'Classic Hydrating Facial', price: 1800, duration: 45, statusbar: 'active', category: 'Facial & Skin', salonId: salon1.id });
-
-    const s4 = await Services.create({ name: 'Signature Beard Trim & Steam Shave', price: 800, duration: 30, statusbar: 'active', category: "Men's Grooming", salonId: salon2.id });
-    const s5 = await Services.create({ name: 'Executive Hair Styling & Wash', price: 1200, duration: 45, statusbar: 'active', category: 'Hair', salonId: salon2.id });
-
-    const s6 = await Services.create({ name: 'Express Dry Cut', price: 350, duration: 15, statusbar: 'active', category: 'Hair', salonId: salon3.id });
-    const s7 = await Services.create({ name: 'Basic Head Massage & Wash', price: 250, duration: 15, statusbar: 'active', category: 'Spa & Massage', salonId: salon3.id });
-
-    // 4. Create Staff (password: staff123) — hashed with bcrypt
-    const hashedStaffPassword = await bcrypt.hash('staff123', 10);
-    const staff1 = await Staff.create({ name: 'Dr. Sarah Jenkins', phoneNumber: '9876543101', email: 'sarah@orchid.com', password: hashedStaffPassword, statusbar: 'active', salonId: salon1.id });
-    const staff2 = await Staff.create({ name: 'Marcus Aurelius', phoneNumber: '9876543102', email: 'marcus@orchid.com', password: hashedStaffPassword, statusbar: 'active', salonId: salon1.id });
-    const staff3 = await Staff.create({ name: 'James Oliver', phoneNumber: '9876543103', email: 'james@aura.com', password: hashedStaffPassword, statusbar: 'active', salonId: salon2.id });
-    const staff4 = await Staff.create({ name: 'Tina Miller', phoneNumber: '9876543104', email: 'tina@vibe.com', password: hashedStaffPassword, statusbar: 'active', salonId: salon3.id });
-
-    // 5. Associate Staff with Services
-    await staff1.setServices([s1, s2, s3]);
-    await staff2.setServices([s1, s3]);
-    await staff3.setServices([s4, s5]);
-    await staff4.setServices([s6, s7]);
-
-    console.log('✅ Premium seed data loaded successfully!');
-  } catch (error) {
-    console.error('❌ Error during data seeding:', error);
-  }
-};
+// Automatic premium sample data seeding — the dataset lives in utils/seed.js
+// (5 salons, 12 free demo customers, staff, services, promos, six weeks of
+// booking + payment history). Kept out of app.js so it can also be run
+// standalone via `npm run seed`.
+const { seedSampleData } = require('./utils/seed');
 
 // Start the server immediately and sync database in the background
 const PORT = config.server.port;
@@ -416,8 +325,12 @@ const server = app.listen(PORT, config.server.host, () => {
       // tables freshly created by sync() the model already declared the
       // column UNIQUE, so this simply mirrors that constraint onto databases
       // whose users table predates the feature.
+      const referralCodeIdentifier = sequelize
+        .getQueryInterface()
+        .queryGenerator
+        .quoteIdentifier('referralCode');
       await sequelize.query(
-        'CREATE UNIQUE INDEX IF NOT EXISTS users_referral_code_uq ON users (referralCode)'
+        `CREATE UNIQUE INDEX IF NOT EXISTS users_referral_code_uq ON users (${referralCodeIdentifier})`
       );
       // Salon replies to customer reviews — TEXT is valid on both SQLite and
       // Postgres, so no dialect switch needed here. customerNote is the
@@ -464,7 +377,7 @@ const server = app.listen(PORT, config.server.host, () => {
       // the index at all.
       await sequelize.query(
         'CREATE UNIQUE INDEX IF NOT EXISTS appointments_series_occurrence_uq '
-        + 'ON "Appointments" (seriesId, occurrenceIndex) WHERE seriesId IS NOT NULL'
+        + 'ON "Appointments" ("seriesId", "occurrenceIndex") WHERE "seriesId" IS NOT NULL'
       ).catch((err) => {
         console.warn('⚠️ Could not create the series-occurrence index:', err.message);
       });
@@ -473,7 +386,7 @@ const server = app.listen(PORT, config.server.host, () => {
       // a pre-existing duplicate only logs a warning, like the indexes above.
       await sequelize.query(
         'CREATE UNIQUE INDEX IF NOT EXISTS waitlist_active_entry_uq '
-        + 'ON "Waitlists" (userId, salonId, date) WHERE status = \'waiting\''
+        + 'ON "Waitlists" ("userId", "salonId", "date") WHERE "status" = \'waiting\''
       ).catch((err) => {
         console.warn('⚠️ Could not create the waitlist uniqueness index:', err.message);
       });

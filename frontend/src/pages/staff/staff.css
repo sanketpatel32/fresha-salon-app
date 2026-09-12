@@ -1,0 +1,68 @@
+/* Staff console (Workbench family) — page-local patterns.
+   Co-located with StaffDashboard.jsx. Tokens only (see src/tokens.css), so
+   light + dark hold by construction. Shared chrome (console shell, tables,
+   badges, buttons) lives in index.css / workbench.css and is not overridden
+   here except through staff-scoped class names. */
+
+/* Page head: serif headline + sub closed by a hairline rule — the standard
+   treatment on the customer pages (.page-head in pages/customer/customer.css).
+   Replicated page-locally so the staff console matches without reaching into
+   another family's stylesheet. */
+.staff-page-head {
+  border-bottom: 1px solid var(--color-rule);
+  padding-bottom: var(--space-sm);
+}
+
+/* ─── Schedule table ─────────────────────────────────────────────────────
+   The seven-column schedule overflowed its container at 1440px, pushing the
+   Actions column off-canvas. Cap the two review columns to a fixed measure,
+   keep the slot and the action buttons on one line each, and let names and
+   services wrap instead: the table then fits the console width, and the
+   .table-container's horizontal scroll becomes a narrow-viewport safety net
+   rather than the default state. */
+.staff-table .staff-cell-when {
+  white-space: nowrap;
+}
+.staff-table .staff-cell-review {
+  max-width: 22ch;
+}
+/* Long headers ("Internal Therapist Notes") forced their columns past the
+   console width, pushing Actions behind a horizontal scroll — let them wrap. */
+.staff-table thead th {
+  max-width: 11rem;
+}
+.staff-table th:last-child,
+.staff-table td:last-child {
+  width: 1%; /* shrink-to-fit: Actions never starves the content columns */
+}
+.staff-cell-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-2xs);
+}
+.staff-cell-actions .btn {
+  white-space: nowrap;
+}
+
+/* Review copy: quoted client note vs the therapist's internal note. */
+.staff-quote {
+  font-size: var(--text-sm);
+  font-style: italic;
+  color: var(--color-ink-2);
+}
+.staff-quote--internal {
+  color: var(--color-accent);
+}
+.staff-review-empty {
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+}
+
+/* ─── Load-more pagination ───────────────────────────────────────────────
+   50+ schedule rows are paged client-side (the staff API has no limit/offset);
+   the control stays a quiet secondary button centered under the table. */
+.staff-load-more {
+  display: flex;
+  justify-content: center;
+}

@@ -57,8 +57,8 @@ const createSlotUniquenessIndex = async (sequelize) => {
   const quoted = dialect === 'postgres' ? '"Appointments"' : '"Appointments"';
   const sql =
     `CREATE UNIQUE INDEX IF NOT EXISTS appointments_staff_slot_active `
-    + `ON ${quoted} (staffId, date, time) `
-    + `WHERE status NOT IN ('cancelled', 'declined', 'no-show')`;
+    + `ON ${quoted} ("staffId", "date", "time") `
+    + `WHERE "status" NOT IN ('cancelled', 'declined', 'no-show')`;
   try {
     await sequelize.query(sql);
     logger.info('bookingGuard: slot uniqueness index is in place');

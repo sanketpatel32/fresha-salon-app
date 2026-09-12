@@ -52,7 +52,7 @@ of the same names).
 --color-accent-soft oklch(94% 0.030 50)   accent wash for tags/eyebrows
 --color-focus       oklch(55% 0.140 35)   focus ring
 --color-success     oklch(55% 0.110 150)  confirmed / paid
---color-warning     oklch(68% 0.120 70)   pending
+--color-warning     oklch(60% 0.120 65)   pending (shipped value; tokens.css is canonical)
 --color-danger      oklch(55% 0.170 25)   cancel / decline / delete
 ```
 

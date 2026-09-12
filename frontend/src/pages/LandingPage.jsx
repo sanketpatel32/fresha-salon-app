@@ -2,7 +2,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Scissors, Sparkles, User, ShieldAlert } from 'lucide-react';
 import useDocumentTitle from '../hooks/useDocumentTitle.js';
+import './LandingPage.css';
 
+/* Landing — Long Document family: quiet typographic hero (left-aligned, no
+   gradient text, no radial bloom), generous measure, hairline section
+   divider before the role-picker "menu". CTAs route to the real auth routes
+   defined in App.jsx (/user/login, /buisness/signup, /buisness/login,
+   /staff/login, /admin/login). */
 export default function LandingPage() {
   const navigate = useNavigate();
   useDocumentTitle(); // bare brand title on the landing page
@@ -10,7 +16,9 @@ export default function LandingPage() {
   return (
     <div className="container">
       <section className="hero">
-        <span className="hero-badge"><Sparkles size={14} style={{ marginRight: '4px' }} /> Discover & Book Beauty Services</span>
+        <span className="hero-badge">
+          <Sparkles size={14} style={{ marginRight: 'var(--space-3xs)' }} /> Discover &amp; Book Beauty Services
+        </span>
         <h1 className="hero-title">
           The Premium <span>Salon Experience</span> at Your Fingertips
         </h1>
@@ -19,10 +27,13 @@ export default function LandingPage() {
         </p>
         <div className="hero-cta">
           <button onClick={() => navigate('/user/login')} className="btn btn-primary btn-lg">Explore as Customer</button>
-          <button onClick={() => navigate('/buisness/signup')} className="btn btn-accent btn-lg">Join as Partner Salon</button>
+          {/* Secondary CTA voice: transparent fill, rule-strong border, ink text. */}
+          <button onClick={() => navigate('/buisness/signup')} className="btn btn-outline btn-lg">Join as Partner Salon</button>
         </div>
+      </section>
 
-        <h2 className="section-head">Who are you?</h2>
+      <section className="landing-section" aria-labelledby="choose-portal">
+        <h2 className="section-head" id="choose-portal">Who are you?</h2>
         <p className="section-sub">Choose your workspace portal below.</p>
 
         <div className="role-cards-grid">

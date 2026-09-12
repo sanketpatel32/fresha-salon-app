@@ -153,14 +153,14 @@ cp .env.example .env       # then edit .env — JWT_SECRET is MANDATORY:
 npm run dev                # nodemon on http://localhost:3000
 ```
 
-- **Database:** unset `DATABASE_URL` → file-based SQLite at `./database.sqlite` (auto-created, auto-seeded with sample salons/services/staff on first boot). Set it → Postgres.
-- **Emails/payments:** boot fine unconfigured; Brevo (`BREVO_API_KEY`, `SENDER_EMAIL`) and Cashfree (`CASHFREE_APP_ID`, `CASHFREE_SECRET_KEY`) enable those features. Set `REMINDERS_DISABLED=1` to skip the appointment-reminder scheduler.
+- **Database:** unset `DATABASE_URL` → file-based SQLite at `./database.sqlite` (auto-created, auto-seeded with the demo dataset — 5 salons, 12 free customer accounts, ~600 bookings of history — on first boot). Set it → Postgres. Reseed anytime with `npm run seed -- --force`.
+- **Emails/payments:** boot fine unconfigured; Brevo (`BREVO_API_KEY`, `SENDER_EMAIL`) and Cashfree (`CASHFREE_APP_ID`, `CASHFREE_SECRET_KEY`) enable those features. Without Cashfree keys the app runs payments in **demo mode** (`PAYMENTS_MODE=demo` to force it): checkout is simulated end-to-end, no real money moves — see `SAMPLE_DATA.md`. Set `REMINDERS_DISABLED=1` to skip the appointment-reminder scheduler.
 - **Admin console:** set `ADMIN_USER` / `ADMIN_PASS`.
 
 ### Tests
 
 ```bash
-npm test                   # 582 tests across tests/*.test.js (node:test runner)
+npm test                   # runs against a throwaway temp DB (never wipes your local demo data)
 ```
 
 ### Frontend build

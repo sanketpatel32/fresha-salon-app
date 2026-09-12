@@ -2,6 +2,7 @@ const {
   createOrder,
   getPaymentStatus,
   verifyWebhook,
+  isDemoSession,
 } = require("../services/cashfreeServices");
 const {
   finalizeAppointmentFromPayment,
@@ -234,7 +235,23 @@ exports.getPaymentStatus_ = async (req, res) => {
       return res.status(403).json({ message: "Not authorized to view this payment" });
     }
 
-    const orderStatus = await getPaymentStatus(orderId);
+    // Demo orders (session minted locally — see cashfreeServices) have no
+    // gateway behind them, so the status is simulated instead of fetched:
+    // a plain poll "captures" the order (Success), ?simulate=failure marks it
+    // failed, and a failure STICKS across later plain polls — the status page
+    // re-polls without the query param and must not resurrect a failed order.
+    // The simulate params are ignored for real gateway orders.
+    let orderStatus;
+    if (isDemoSession(order.paymentSessionId)) {
+      const sim = req.query.simulate;
+      orderStatus =
+        sim === "failure" ? "Failure"
+        : sim === "success" ? "Success"
+        : order.paymentStatus === "Failure" ? "Failure"
+        : "Success";
+    } else {
+      orderStatus = await getPaymentStatus(orderId);
+    }
 
     order.paymentStatus = orderStatus;
     await order.save();

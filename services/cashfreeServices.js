@@ -1,16 +1,32 @@
 const { Cashfree } = require("cashfree-pg");
-const dotenv = require("dotenv");
-dotenv.config();
+const crypto = require("node:crypto");
+const { config } = require("../utils/config");
 
 // Credentials come from the environment — never committed to source.
 // The environment is selected from NODE_ENV so prod talks to PRODUCTION
 // automatically once the live keys are configured.
-Cashfree.XClientId = process.env.CASHFREE_APP_ID;
-Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
+Cashfree.XClientId = config.payments.cashfreeAppId;
+Cashfree.XClientSecret = config.payments.cashfreeSecretKey;
 Cashfree.XEnvironment =
   process.env.NODE_ENV === "production"
     ? Cashfree.Environment.PRODUCTION
     : Cashfree.Environment.SANDBOX;
+
+// ── Demo ("fake") payments ─────────────────────────────────────────────
+// When no Cashfree credentials are configured (or PAYMENTS_MODE=demo), there
+// is no gateway to talk to. Instead of failing the whole booking flow, orders
+// get a demo session id: the checkout UI simulates the payment and the status
+// endpoint auto-settles it — see paymentController.getPaymentStatus_. Demo
+// session ids are recognizable by prefix so no gateway call is ever made for
+// them, and a real (keyed) deployment never produces them.
+const DEMO_SESSION_PREFIX = "demo-";
+
+/** True when the app is running payments in simulated demo mode. */
+exports.isDemoPayments = () => config.payments.demo;
+
+/** True when a paymentSessionId was minted locally by demo mode. */
+exports.isDemoSession = (sessionId) =>
+  typeof sessionId === "string" && sessionId.startsWith(DEMO_SESSION_PREFIX);
 
 exports.createOrder = async (
   orderId,
@@ -20,6 +36,13 @@ exports.createOrder = async (
   customerPhone,
   hostUrl = "https://fresha-salon-app.onrender.com"
 ) => {
+  // Demo mode: mint a local session id. No network call — no credentials
+  // exist (or demo was forced). The checkout UI detects the prefix and runs
+  // the simulated payment instead of the Cashfree drop-in.
+  if (config.payments.demo) {
+    return DEMO_SESSION_PREFIX + crypto.randomBytes(10).toString("hex");
+  }
+
   try {
 
     const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now

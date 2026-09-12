@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { User, Mail, Phone, Lock } from 'lucide-react';
 import { useToast } from '../../context/ToastContext.jsx';
+import './auth.css';
 
 /* User (Customer) Signup */
 export default function UserSignup() {
@@ -11,18 +12,22 @@ export default function UserSignup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     setLoading(true);
     try {
       await axios.post('/api/user/signup', { name, email, password, phoneNumber });
       showToast('Signup successful! Please sign in.', 'success');
       navigate('/user/login');
     } catch (err) {
-      showToast(err.response?.data?.message || 'Failed to sign up', 'error');
+      const message = err.response?.data?.message || 'Failed to sign up';
+      setError(message);
+      showToast(message, 'error');
     } finally {
       setLoading(false);
     }
@@ -35,6 +40,11 @@ export default function UserSignup() {
           <h2 className="auth-title">Create Account</h2>
           <p className="auth-subtitle">Register a new customer account</p>
         </div>
+        {error && (
+          <div id="user-signup-error" className="form-alert form-alert-error" role="alert">
+            {error}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="signup-name" className="form-label">Full Name</label>
@@ -43,6 +53,7 @@ export default function UserSignup() {
               <input
                 id="signup-name"
                 type="text"
+                autoComplete="name"
                 required
                 className="form-input"
                 placeholder="John Doe"
@@ -58,9 +69,12 @@ export default function UserSignup() {
               <input
                 id="signup-email"
                 type="email"
+                autoComplete="email"
                 required
                 className="form-input"
                 placeholder="john@example.com"
+                aria-invalid={error ? true : undefined}
+                aria-describedby={error ? 'user-signup-error' : undefined}
                 value={email}
                 onChange={e => setEmail(e.target.value)}
               />
@@ -75,6 +89,7 @@ export default function UserSignup() {
                 type="tel"
                 pattern="[0-9]{10}"
                 title="Enter a 10-digit phone number"
+                autoComplete="tel"
                 required
                 className="form-input"
                 placeholder="9876543210"
@@ -90,18 +105,21 @@ export default function UserSignup() {
               <input
                 id="signup-password"
                 type="password"
+                autoComplete="new-password"
                 minLength={8}
                 title="At least 8 characters"
                 required
                 className="form-input"
                 placeholder="••••••••"
+                aria-invalid={error ? true : undefined}
+                aria-describedby={error ? 'user-signup-error' : undefined}
                 value={password}
                 onChange={e => setPassword(e.target.value)}
               />
             </div>
           </div>
-          <button type="submit" disabled={loading} className="btn btn-primary" style={{ width: '100%', marginTop: '12px' }}>
-            {loading ? 'Creating Account...' : 'Create Account'}
+          <button type="submit" disabled={loading} className="btn btn-primary btn-block">
+            {loading ? 'Signing Up…' : 'Sign Up'}
           </button>
         </form>
         <div className="form-footer">

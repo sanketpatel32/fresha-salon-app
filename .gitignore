@@ -148,3 +148,9 @@ dist
 # Local tooling artifacts and DB backups (never ship)
 .mimosa/
 *.bak
+
+# Graphify AST cache (regenerable; graph.json is the tracked artifact)
+graphify-out/cache/
+
+# Hallmark tooling state
+.hallmark/

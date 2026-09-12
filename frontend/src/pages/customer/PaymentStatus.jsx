@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import useDocumentTitle from '../../hooks/useDocumentTitle.js';
+import './customer.css';
 
 /**
  * Post-checkout landing page.
@@ -15,6 +17,7 @@ import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
  * backend JSON endpoint, leaving the customer staring at raw JSON.
  */
 export default function PaymentStatus() {
+  useDocumentTitle('Payment Status');
   const [params] = useSearchParams();
   const orderId = params.get('orderId');
   const navigate = useNavigate();
@@ -85,45 +88,50 @@ export default function PaymentStatus() {
   }, [orderId]);
 
   return (
-    <div className="container" style={{ padding: '60px 24px', maxWidth: '560px' }}>
-      <div className="auth-card" style={{ textAlign: 'center', padding: '48px 32px' }}>
+    <div className="container page-shell" style={{ maxWidth: '560px' }}>
+      {/* Workbench page header — serif headline over a hairline rule */}
+      <div className="page-head">
+        <h1 className="dashboard-title">Payment status</h1>
+      </div>
+
+      <div className="booking-panel" style={{ textAlign: 'center' }}>
         {state === 'loading' && (
           <>
-            <Loader2 size={56} style={{ color: 'var(--color-accent)', marginBottom: '20px', animation: 'spin 1s linear infinite' }} />
+            <Loader2 size={56} className="spinner-icon" style={{ marginBottom: 'var(--space-md)' }} />
             <h2 className="auth-title">Confirming your payment</h2>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '8px' }}>{detail || 'One moment…'}</p>
+            <p style={{ color: 'var(--color-ink-2)', marginTop: 'var(--space-2xs)' }}>{detail || 'One moment…'}</p>
           </>
         )}
         {state === 'success' && (
           <>
-            <CheckCircle size={56} style={{ color: 'var(--color-success, #16a34a)', marginBottom: '20px' }} />
+            <CheckCircle size={56} style={{ color: 'var(--color-success)', marginBottom: 'var(--space-md)' }} />
             <h2 className="auth-title">Booking confirmed</h2>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '8px' }}>{detail || 'Your appointment has been booked successfully.'}</p>
-            <button onClick={() => navigate('/customer/bookings')} className="btn btn-primary" style={{ marginTop: '24px' }}>View my bookings</button>
+            <p style={{ color: 'var(--color-ink-2)', marginTop: 'var(--space-2xs)' }}>{detail || 'Your appointment has been booked successfully.'}</p>
+            <button onClick={() => navigate('/customer/bookings')} className="btn btn-primary" style={{ marginTop: 'var(--space-md)' }}>View my bookings</button>
           </>
         )}
         {state === 'failed' && (
           <>
-            <XCircle size={56} style={{ color: 'var(--color-danger, #dc2626)', marginBottom: '20px' }} />
+            <XCircle size={56} style={{ color: 'var(--color-danger)', marginBottom: 'var(--space-md)' }} />
             <h2 className="auth-title">Payment failed</h2>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '8px' }}>{detail}</p>
-            <button onClick={() => navigate('/customer/dashboard')} className="btn btn-primary" style={{ marginTop: '24px' }}>Back to salons</button>
+            <p style={{ color: 'var(--color-ink-2)', marginTop: 'var(--space-2xs)' }}>{detail}</p>
+            <button onClick={() => navigate('/customer/dashboard')} className="btn btn-primary" style={{ marginTop: 'var(--space-md)' }}>Back to salons</button>
           </>
         )}
         {state === 'slot-taken' && (
           <>
-            <XCircle size={56} style={{ color: 'var(--color-danger, #dc2626)', marginBottom: '20px' }} />
+            <XCircle size={56} style={{ color: 'var(--color-danger)', marginBottom: 'var(--space-md)' }} />
             <h2 className="auth-title">Slot no longer available</h2>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '8px' }}>{detail}</p>
-            <button onClick={() => navigate('/customer/dashboard')} className="btn btn-primary" style={{ marginTop: '24px' }}>Book another time</button>
+            <p style={{ color: 'var(--color-ink-2)', marginTop: 'var(--space-2xs)' }}>{detail}</p>
+            <button onClick={() => navigate('/customer/dashboard')} className="btn btn-primary" style={{ marginTop: 'var(--space-md)' }}>Book another time</button>
           </>
         )}
         {state === 'error' && (
           <>
-            <XCircle size={56} style={{ color: 'var(--color-danger, #dc2626)', marginBottom: '20px' }} />
+            <XCircle size={56} style={{ color: 'var(--color-danger)', marginBottom: 'var(--space-md)' }} />
             <h2 className="auth-title">Couldn't confirm payment</h2>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '8px' }}>{detail || 'Please check your bookings — if you were charged, the booking will appear shortly.'}</p>
-            <button onClick={() => navigate('/customer/bookings')} className="btn btn-primary" style={{ marginTop: '24px' }}>Go to bookings</button>
+            <p style={{ color: 'var(--color-ink-2)', marginTop: 'var(--space-2xs)' }}>{detail || 'Please check your bookings — if you were charged, the booking will appear shortly.'}</p>
+            <button onClick={() => navigate('/customer/bookings')} className="btn btn-primary" style={{ marginTop: 'var(--space-md)' }}>Go to bookings</button>
           </>
         )}
       </div>

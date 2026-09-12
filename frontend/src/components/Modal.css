@@ -1,0 +1,36 @@
+/* Owned by Modal.jsx; ConfirmDialog.jsx shares this treatment by composition.
+ *
+ * The base overlay/card treatment (scrim via --scrim-ink, hairline-rule card on
+ * paper-2, shadow via --shadow-ink) lives in index.css and is token-based —
+ * no overrides needed here. This file only adds what index.css does not have:
+ * size variants, the shared message style, and the shared footer row.
+ * Focus suppression: the dialog surface is programmatically focused
+ * (tabIndex -1); the global focus-visible ring belongs on interactive
+ * elements, not the surface.
+ */
+
+.modal-content:focus,
+.modal-content:focus-visible {
+  outline: none;
+}
+
+/* Size variants — the base .modal-content rule in index.css is the md (500px)
+ * default; max-width has no token in this system, so raw rem values stay. */
+.modal-content.modal-sm { max-width: 23.75rem; /* 380px */ }
+.modal-content.modal-lg { max-width: 40rem;    /* 640px */ }
+
+/* Shared body-message style (ConfirmDialog message line). */
+.modal-message {
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  margin: 0 0 var(--space-lg);
+}
+
+/* Shared action row (ConfirmDialog footer): right-aligned button pair. */
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+}

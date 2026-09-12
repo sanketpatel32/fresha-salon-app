@@ -1,8 +1,12 @@
 # Fresha Salon App: Sample Data & Credentials
 
-This project comes pre-seeded with premium mock data to help you test all the interactive dashboards and portals instantly out-of-the-box.
+This project comes pre-seeded with a realistic demo marketplace so every dashboard and portal is populated out-of-the-box: 5 salons, 27 live services, 12 staff, 12 free customer accounts, 5 promo codes, six weeks of booking history (~600 appointments with ratings, reviews, cancellations, tips and a full payment ledger), upcoming bookings, favorites, a waitlist and notifications.
 
-> **Setup note:** Sample data is auto-seeded into a local `database.sqlite` file on first boot. If the database already exists from an older version of the app (e.g. before staff password hashing), delete `database.sqlite` once and restart the server (`npm start`) to re-seed. Staff passwords are now stored hashed; the documented login passwords (`staff123`) are unchanged.
+> **Setup notes**
+> - Sample data is auto-seeded into a local `database.sqlite` on first boot (dev default; production needs `SEED_SAMPLE_DATA=true`).
+> - To (re)load the demo dataset on an existing database: `npm run seed -- --force` (wipes the demo tables — refused in production).
+> - `npm test` runs against a throwaway temp database, so running the tests never wipes your local demo data.
+> - All demo data is deterministic (fixed seed): two fresh databases look identical, and dates are generated relative to "now" so there is always a living history and upcoming bookings.
 
 ---
 
@@ -10,82 +14,82 @@ This project comes pre-seeded with premium mock data to help you test all the in
 
 Select a portal on the landing page and use the following pre-registered credentials:
 
-### 👤 1. Customer Portal
-Use these accounts to search for salons, choose booking dates/slots, assign therapists, checkout payments, and leave appointment feedback.
-*   **Jane Doe** (Email: `jane@example.com` | Password: `customer123`)
-*   **John Smith** (Email: `john@example.com` | Password: `customer123`)
+### 👤 1. Customer Portal (12 free accounts — password: `customer123`)
 
-### 💈 2. Partner Salon Owners
-Use these accounts to manage catalog menu items, register/modify salon employees, adjust opening hours, track upcoming customer appointments, and log internal staff notes.
-*   **Orchid Luxury Hair & Spa** (Email: `owner@orchid.com` | Password: `salon123` | *Premium pricing*)
-*   **Aura Mens Grooming & Co** (Email: `owner@aura.com` | Password: `salon123` | *Moderate pricing*)
-*   **Vibe Quick Cuts & Styles** (Email: `owner@vibe.com` | Password: `salon123` | *Affordable pricing*)
+Any of these can search salons, book, pay and leave feedback:
 
-### ✂️ 3. Salon Staff (Therapists)
-Use these accounts to inspect assigned duties, schedules, and check service logs.
-*   **Dr. Sarah Jenkins** (Email: `sarah@orchid.com` | Password: `staff123` | *Assigned to Orchid Hair & Spa*)
-*   **Marcus Aurelius** (Email: `marcus@orchid.com` | Password: `staff123` | *Assigned to Orchid Hair & Spa*)
-*   **James Oliver** (Email: `james@aura.com` | Password: `staff123` | *Assigned to Aura Grooming*)
-*   **Tina Miller** (Email: `tina@vibe.com` | Password: `staff123` | *Assigned to Vibe Cuts*)
+| Name | Email | Notable demo state |
+|---|---|---|
+| Jane Doe | `jane@example.com` | history + favorites + a "payment syncing" stuck-payment banner |
+| John Smith | `john@example.com` | history + favorites |
+| Aarav Sharma | `aarav@example.com` | history |
+| Priya Patel | `priya@example.com` | history + waitlisted at Orchid |
+| Vikram Mehta | `vikram@example.com` | history |
+| Sneha Iyer | `sneha@example.com` | history |
+| Rahul Verma | `rahul@example.com` | history |
+| Ananya Reddy | `ananya@example.com` | loyalty leader (~500 pts) |
+| Karan Malhotra | `karan@example.com` | history |
+| Meera Nair | `meera@example.com` | history + waitlisted at Orchid |
+| Diya Kapoor | `diya@example.com` | history |
+| Arjun Singh | `arjun@example.com` | history |
+
+### 💈 2. Partner Salon Owners (password: `salon123`)
+
+| Salon | Email | Pricing | Demo characteristics |
+|---|---|---|---|
+| Orchid Luxury Hair & Spa | `owner@orchid.com` | Premium | weekly schedule, gallery, 60-min lead time, 1 archived service |
+| Aura Mens Grooming & Co | `owner@aura.com` | Moderate | open all week |
+| Vibe Quick Cuts & Styles | `owner@vibe.com` | Affordable | closed Tuesdays |
+| Serenity Spa & Wellness | `owner@serenity.com` | Premium | **bookings require approval** (pending queue), 2-hour lead time |
+| Blush Beauty Bar | `owner@blush.com` | Moderate | nails & makeup focus, gallery |
+
+### ✂️ 3. Salon Staff (password: `staff123`)
+
+| Name | Email | Salon |
+|---|---|---|
+| Dr. Sarah Jenkins | `sarah@orchid.com` | Orchid |
+| Marcus Aurelius | `marcus@orchid.com` | Orchid |
+| Elena Rosseau | `elena@orchid.com` | Orchid |
+| James Oliver | `james@aura.com` | Aura |
+| Kabir Anand | `kabir@aura.com` | Aura |
+| Tina Miller | `tina@vibe.com` | Vibe |
+| Rhea D'Souza | `rhea@vibe.com` | Vibe |
+| Dr. Anjali Kulkarni | `anjali@serenity.com` | Serenity |
+| Feng Lin | `feng@serenity.com` | Serenity |
+| Natasha Pinto | `natasha@blush.com` | Blush |
+| Zoya Khan | `zoya@blush.com` | Blush |
+| Ishita Bose | `ishita@blush.com` | Blush |
+
+### 🎟️ Promo codes (try them at checkout)
+
+| Code | Deal | Scope |
+|---|---|---|
+| `WELCOME10` | 10% off (cap ₹300, min ₹500) | any salon |
+| `FLAT100` | ₹100 off (min ₹1500) | any salon |
+| `ORCHID15` | 15% off (cap ₹750) | Orchid only |
+| `SPADAY20` | 20% off (cap ₹1500, min ₹3000) | Serenity only |
+| `NEWYEAR25` | 25% off — **expired** (demonstrates the expiry rejection) | any salon |
 
 ---
 
-## 🛠️ Seeding Script Logic
+## 💳 Demo (fake) payments
 
-The seeding mechanism is built directly into [app.js](file:///C:/Users/sanpa/OneDrive/Desktop/Fun%20projects/Salon%20App/fresha-salon-app/app.js) and runs automatically during server synchronization if no salons exist in the database.
+No Cashfree account is needed to demo the full book → pay → confirm flow:
 
-Here is the structured seed logic that populates your `database.sqlite` file:
+- When `CASHFREE_APP_ID`/`CASHFREE_SECRET_KEY` are unset (or `PAYMENTS_MODE=demo`), `/api/pay/` returns a locally-minted `demo-…` session id.
+- The booking page shows a **Demo checkout** dialog — "Pay (simulate success)" completes the booking; "Simulate failure" walks the failure UX (and the failure sticks).
+- No real money moves and the Cashfree SDK is never contacted. Set real keys (sandbox or production) and the same flow switches to the genuine Cashfree drop-in automatically (`PAYMENTS_MODE=live` forces it).
 
-```javascript
-const seedSampleData = async () => {
-  const { Salons, Staff, Services, User } = require('./models/associations');
-  const bcrypt = require('bcrypt');
+---
 
-  try {
-    const salonCount = await Salons.count();
-    if (salonCount > 0) return; // Already populated, skipping.
+## 🛠️ Seeding internals
 
-    console.log('🌱 Database is empty. Seeding premium sample data...');
+The seed lives in [utils/seed.js](utils/seed.js) and runs at boot (via [app.js](app.js)) when the salons table is empty. It is deterministic (fixed-seed PRNG) and generates:
 
-    // 1. Create Hashed Passwords
-    const hashedCustomerPassword = await bcrypt.hash('customer123', 10);
-    const hashedSalonPassword = await bcrypt.hash('salon123', 10);
+1. 12 customers + 5 salons + 28 services (1 archived) + 12 staff, with staff↔service links
+2. 5 promo codes (one expired on purpose)
+3. ~600 appointments across the last 6 weeks and next 10 days — completed (with ratings/reviews/salon replies), cancelled (with reasons), no-shows, confirmed, and `pending` at the approval-required salon — each with a matching successful payment row (some discounted, some tipped)
+4. Denormalized salon rating caches, loyalty balances (10 pts per completed visit)
+5. Favorites (salons + staff), notifications for upcoming bookings, waitlist entries, and one "stuck" payment for the syncing-banner demo
 
-    // 2. Insert Customers
-    await User.create({ name: 'Jane Doe', email: 'jane@example.com', password: hashedCustomerPassword, phoneNumber: '9876543210' });
-    await User.create({ name: 'John Smith', email: 'john@example.com', password: hashedCustomerPassword, phoneNumber: '8765432109' });
-
-    // 3. Insert Partner Salons
-    const salon1 = await Salons.create({ name: 'Orchid Luxury Hair & Spa', email: 'owner@orchid.com', password: hashedSalonPassword, phoneNumber: '9876543201', address: '102 Royal Boulevard', pricing: 'Premium', openingTime: '09:00', closingTime: '20:00', workingDays: 'Mon, Tue, Wed, Thu, Fri, Sat' });
-    const salon2 = await Salons.create({ name: 'Aura Mens Grooming & Co', email: 'owner@aura.com', password: hashedSalonPassword, phoneNumber: '9876543202', address: '45 Metro Heights', pricing: 'Moderate', openingTime: '10:00', closingTime: '21:00', workingDays: 'Mon, Tue, Wed, Thu, Fri, Sat, Sun' });
-    const salon3 = await Salons.create({ name: 'Vibe Quick Cuts & Styles', email: 'owner@vibe.com', password: hashedSalonPassword, phoneNumber: '9876543203', address: '88 University Avenue', pricing: 'Affordable', openingTime: '08:00', closingTime: '19:00', workingDays: 'Mon, Wed, Thu, Fri, Sat, Sun' });
-
-    // 4. Insert Catalog Services
-    const s1 = await Services.create({ name: 'Royal Keratin Hair Treatment', price: 2500, duration: 60, statusbar: 'active', salonId: salon1.id });
-    const s2 = await Services.create({ name: 'Aromatherapy Full Body Massage', price: 3200, duration: 90, statusbar: 'active', salonId: salon1.id });
-    const s3 = await Services.create({ name: 'Classic Hydrating Facial', price: 1800, duration: 45, statusbar: 'active', salonId: salon1.id });
-
-    const s4 = await Services.create({ name: 'Signature Beard Trim & Steam Shave', price: 800, duration: 30, statusbar: 'active', salonId: salon2.id });
-    const s5 = await Services.create({ name: 'Executive Hair Styling & Wash', price: 1200, duration: 45, statusbar: 'active', salonId: salon2.id });
-
-    const s6 = await Services.create({ name: 'Express Dry Cut', price: 350, duration: 15, statusbar: 'active', salonId: salon3.id });
-    const s7 = await Services.create({ name: 'Basic Head Massage & Wash', price: 250, duration: 15, statusbar: 'active', salonId: salon3.id });
-
-    // 5. Insert Salon Staff
-    const staff1 = await Staff.create({ name: 'Dr. Sarah Jenkins', phoneNumber: '9876543101', email: 'sarah@orchid.com', password: 'staff123', statusbar: 'active', salonId: salon1.id });
-    const staff2 = await Staff.create({ name: 'Marcus Aurelius', phoneNumber: '9876543102', email: 'marcus@orchid.com', password: 'staff123', statusbar: 'active', salonId: salon1.id });
-    const staff3 = await Staff.create({ name: 'James Oliver', phoneNumber: '9876543103', email: 'james@aura.com', password: 'staff123', statusbar: 'active', salonId: salon2.id });
-    const staff4 = await Staff.create({ name: 'Tina Miller', phoneNumber: '9876543104', email: 'tina@vibe.com', password: 'staff123', statusbar: 'active', salonId: salon3.id });
-
-    // 6. Assign Staff-Service Relationships
-    await staff1.setServices([s1, s2, s3]);
-    await staff2.setServices([s1, s3]);
-    await staff3.setServices([s4, s5]);
-    await staff4.setServices([s6, s7]);
-
-    console.log('✅ Premium seed data loaded successfully!');
-  } catch (error) {
-    console.error('❌ Error during data seeding:', error);
-  }
-};
-```
+Re-run manually: `npm run seed` (empty DB) or `npm run seed -- --force` (wipe + reseed).

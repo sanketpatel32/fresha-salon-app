@@ -5,6 +5,7 @@ import {
   Ban, AlertTriangle, PartyPopper, Inbox, CheckCheck
 } from 'lucide-react';
 import { useToast } from '../context/ToastContext.jsx';
+import Skeleton from './Skeleton.jsx';
 
 /**
  * Maps a notification `type` to an icon + short label. Unknown types fall back
@@ -113,7 +114,7 @@ export default function NotificationsPanel({ onUnreadChange }) {
   const unreadCount = notifications.filter(n => !n.readAt).length;
 
   return (
-    <div className="booking-panel">
+    <div className="booking-panel" aria-busy={loading || undefined}>
       <div className="notifications-head">
         <h3 className="panel-title">Notifications</h3>
         <button
@@ -126,10 +127,24 @@ export default function NotificationsPanel({ onUnreadChange }) {
       </div>
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)' }}>Loading notifications…</div>
+        // Skeleton rows shaped like notification items: icon disc + two text lines.
+        <div
+          style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)', padding: 'var(--space-sm) 0' }}
+          aria-hidden="true"
+        >
+          {[0, 1, 2].map((i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)' }}>
+              <Skeleton height="32px" width="32px" radius="var(--radius-pill)" />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <Skeleton height="0.9em" width="38%" style={{ marginBottom: 'var(--space-2xs)' }} />
+                <Skeleton height="1em" width="85%" />
+              </div>
+            </div>
+          ))}
+        </div>
       ) : loadError ? (
-        <div style={{ textAlign: 'center', padding: '24px' }}>
-          <span style={{ color: 'var(--text-muted)', display: 'block', marginBottom: '12px' }}>Couldn't load notifications.</span>
+        <div style={{ textAlign: 'center', padding: 'var(--space-md)' }}>
+          <span style={{ color: 'var(--color-ink-3)', display: 'block', marginBottom: 'var(--space-xs)' }}>Couldn't load notifications.</span>
           <button onClick={fetchNotifications} className="btn btn-primary btn-sm">Try again</button>
         </div>
       ) : notifications.length === 0 ? (

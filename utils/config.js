@@ -162,10 +162,19 @@ const config = Object.freeze({
     cashfreeAppId: str('CASHFREE_APP_ID'),
     cashfreeSecretKey: str('CASHFREE_SECRET_KEY'),
     cashfreeEnv: str('CASHFREE_ENV', 'sandbox').toLowerCase(),
+    // '' (auto) | 'demo' | 'live'. 'demo' forces fake payments even when real
+    // keys exist; 'live' is explicit. Auto = demo whenever keys are missing,
+    // so an unconfigured deployment still demos the full booking flow.
+    mode: str('PAYMENTS_MODE', '').toLowerCase(),
     // Refund window offered to customers (hours after a cancelled booking).
     refundWindowHours: int('REFUND_WINDOW_HOURS', 24, { min: 0, max: 24 * 90 }),
     get configured() {
       return Boolean(this.cashfreeAppId && this.cashfreeSecretKey);
+    },
+    // Demo ("fake") payments: on when forced via PAYMENTS_MODE=demo, or when
+    // no Cashfree credentials are configured (there is no gateway to talk to).
+    get demo() {
+      return this.mode === 'demo' || (this.mode !== 'live' && !this.configured);
     },
   }),
 

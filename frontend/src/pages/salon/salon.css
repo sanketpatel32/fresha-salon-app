@@ -1,0 +1,77 @@
+/* Salon console (SalonDashboard) page-local styles.
+   Workbench family (design.md): tokens only, hairline rules, dense tables.
+   Shared shells (sidebar, stat cards, tables, badges) live in index.css /
+   workbench.css — this file only adds what the salon tabs need on top. */
+
+/* ── Tab headers ─────────────────────────────────────────────────────────
+   Every tab follows one pattern: h1 · hairline rule · right-side cluster of
+   the partner-status badge + that tab's functional controls. */
+.salon-header-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+/* Date input inline in a header row: .form-input defaults to width:100%
+   (would swallow the row) and a var(--space-xl) left padding meant for
+   leading icons. Height matches the .btn controls beside it. */
+.salon-date-inline {
+  width: auto;
+  height: 38px;
+  padding-left: var(--space-sm);
+}
+
+/* ── Top Services (Dashboard + Revenue Analytics) ────────────────────────
+   Rank chip · name · a right-aligned count column that never wraps: the
+   number stacks over the "bookings" unit so the right edge stays flush. */
+.top-services-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) 0;
+}
+.top-service-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+.top-service-main {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-width: 0; /* let long service names wrap instead of pushing the count */
+}
+.top-service-name { min-width: 0; }
+.top-service-count {
+  flex: none;
+  text-align: right;
+  white-space: nowrap;
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+  line-height: 1.3;
+}
+.top-service-count strong {
+  display: block;
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* ── Schedules action cell ───────────────────────────────────────────────
+   Vertical stack of row actions inside a real table cell (the cell itself
+   must keep its table-cell layout for row alignment). */
+.appt-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-2xs);
+}
+
+/* ── Two-column tabs (Catalog Services, Manage Staff) ────────────────────
+   The form panel beside a table should hug its content instead of
+   stretching to the row height. */
+.salon-side-panel {
+  height: fit-content;
+}

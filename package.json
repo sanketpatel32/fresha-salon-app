@@ -5,10 +5,11 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
+    "seed": "node utils/seed.js",
     "build": "npm run build --prefix frontend",
     "postinstall": "npm run install-frontend",
     "install-frontend": "npm install --prefix frontend --include=dev",
-    "test": "node --test --test-concurrency=1 \"tests/**/*.test.js\""
+    "test": "node scripts/run-tests.js"
   },
   "repository": {
     "type": "git",

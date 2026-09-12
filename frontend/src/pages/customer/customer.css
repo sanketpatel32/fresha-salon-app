@@ -1,0 +1,131 @@
+/* Customer app pages (Workbench family) — shared page chrome.
+ * Co-located with src/pages/customer/*.jsx. Tokens only (see src/tokens.css)
+ * so light + dark both hold. Patterns per design.md:
+ *   - page header: serif headline (+ optional sub) over a hairline rule
+ *   - card surfaces: --color-paper-2 + --color-rule
+ *   - empty / error states share one card shape
+ */
+
+/* Page container rhythm — Workbench app pages use --space-xl vertical.
+   Horizontal padding stays with .container (index.css). */
+.page-shell {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+/* Page header: serif headline + optional sub, closed by a hairline rule. */
+.page-head {
+  border-bottom: 1px solid var(--color-rule);
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+.page-head .dashboard-title {
+  margin-bottom: 0;
+}
+.page-sub {
+  font-size: var(--text-md);
+  color: var(--color-ink-2);
+  margin-top: var(--space-2xs);
+  margin-bottom: 0;
+}
+
+/* Text inputs without a leading icon clear the icon gutter
+   (same convention as .form-textarea in index.css). */
+.form-input--plain {
+  padding-left: var(--space-md);
+}
+
+/* Static format / validation hint under a field. */
+.form-hint {
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+  margin-top: var(--space-3xs);
+  margin-bottom: 0;
+}
+
+/* Empty / error / not-found state — one card shape for every list page.
+   Same surface as .card: paper-2 + hairline. */
+.empty-state {
+  background-color: var(--color-paper-2);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl) var(--space-lg);
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.empty-state svg {
+  color: var(--color-ink-3);
+  margin-bottom: var(--space-sm);
+}
+.empty-state h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  margin-bottom: var(--space-2xs);
+}
+.empty-state p {
+  color: var(--color-ink-2);
+  margin-bottom: 0;
+}
+.empty-state h3 + .btn,
+.empty-state p + .btn {
+  margin-top: var(--space-sm);
+}
+
+/* Loading spinner (PaymentStatus) — CSS-only, token-coloured.
+   Reduced motion is collapsed by the global rule in index.css. */
+@keyframes customer-spin {
+  to { transform: rotate(360deg); }
+}
+.spinner-icon {
+  color: var(--color-accent);
+  animation: customer-spin 1s linear infinite;
+}
+
+/* ── Find-salons header search ───────────────────────────────────────────
+   Shared .search-bar-container (index.css) caps at max-width: 560px, which
+   truncates the placeholder now that the Filters / Favorites / Alerts cluster
+   shares the row. Local override: let the field grow into the free width to
+   the left of the cluster instead of competing with it. Scoped to the local
+   .dashboard-search class so the shared class is untouched for other pages. */
+.dashboard-search {
+  max-width: none;
+  flex: 1 1 460px;
+  min-width: 280px;
+}
+.dashboard-search .btn {
+  flex-shrink: 0;
+}
+
+/* ── Loyalty / waitlist row ──────────────────────────────────────────────
+   When only one of the two cards exists, the shared 2fr/1fr
+   .grid-dashboard-split leaves a dead zone beside the single card.
+   A one-column grid gives the lone card the full content row. */
+.dashboard-row-single {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+/* ── My Appointments table ───────────────────────────────────────────────
+   Auto table layout lets the nowrap status/header columns starve the
+   salon-name column until it wraps one word per line. Fixed layout with
+   explicit column widths keeps every column reading horizontally; long
+   reviews still wrap inside their (wider) cells. */
+.appointments-table {
+  table-layout: fixed;
+}
+.appointments-table th:nth-child(1) { width: 16%; } /* Salon */
+.appointments-table th:nth-child(2) { width: 14%; } /* Service */
+.appointments-table th:nth-child(3) { width: 12%; } /* Staff assigned */
+.appointments-table th:nth-child(4) { width: 12%; } /* Scheduled slot */
+.appointments-table th:nth-child(5) { width: 9%; }  /* Status */
+.appointments-table th:nth-child(6) { width: 15%; } /* Your feedback */
+.appointments-table th:nth-child(7) { width: 12%; } /* Therapist note */
+.appointments-table th:nth-child(8) { width: 10%; } /* Actions */
+.appointments-table td {
+  overflow-wrap: break-word;
+}

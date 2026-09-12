@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Scissors, Mail, Phone, MapPin, CreditCard, Lock } from 'lucide-react';
 import { useToast } from '../../context/ToastContext.jsx';
+import './auth.css';
 
 /* Salon Signup */
 export default function SalonSignup() {
@@ -13,18 +14,22 @@ export default function SalonSignup() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
   const [pricing, setPricing] = useState('Premium');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     setLoading(true);
     try {
       await axios.post('/api/buisness/signup', { name, email, password, phoneNumber, address, pricing });
       showToast('Salon registered successfully! Please sign in.', 'success');
       navigate('/buisness/login');
     } catch (err) {
-      showToast(err.response?.data?.message || 'Failed to register salon', 'error');
+      const message = err.response?.data?.message || 'Failed to register salon';
+      setError(message);
+      showToast(message, 'error');
     } finally {
       setLoading(false);
     }
@@ -32,19 +37,25 @@ export default function SalonSignup() {
 
   return (
     <div className="auth-wrapper">
-      <div className="auth-card" style={{ maxWidth: '540px' }}>
+      <div className="auth-card">
         <div className="auth-header">
-          <h2 className="auth-title">Salon registration</h2>
-          <p className="auth-subtitle">Register your business to start booking customers</p>
+          <h2 className="auth-title">Register Your Salon</h2>
+          <p className="auth-subtitle">Register your business to start accepting bookings</p>
         </div>
+        {error && (
+          <div id="salon-signup-error" className="form-alert form-alert-error" role="alert">
+            {error}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="salon-name" className="form-label">Salon / Brand Name</label>
+            <label htmlFor="salon-name" className="form-label">Salon Name</label>
             <div className="form-input-wrapper">
               <Scissors className="form-input-icon" size={18} />
               <input
                 id="salon-name"
                 type="text"
+                autoComplete="organization"
                 required
                 className="form-input"
                 placeholder="Glow Hair & Spa"
@@ -60,9 +71,12 @@ export default function SalonSignup() {
               <input
                 id="salon-email"
                 type="email"
+                autoComplete="email"
                 required
                 className="form-input"
                 placeholder="contact@glowsalon.com"
+                aria-invalid={error ? true : undefined}
+                aria-describedby={error ? 'salon-signup-error' : undefined}
                 value={email}
                 onChange={e => setEmail(e.target.value)}
               />
@@ -77,6 +91,7 @@ export default function SalonSignup() {
                 type="tel"
                 pattern="[0-9]{10}"
                 title="Enter a 10-digit phone number"
+                autoComplete="tel"
                 required
                 className="form-input"
                 placeholder="9876543210"
@@ -92,6 +107,7 @@ export default function SalonSignup() {
               <input
                 id="salon-address"
                 type="text"
+                autoComplete="street-address"
                 required
                 className="form-input"
                 placeholder="123 Luxury Road, City Center"
@@ -112,28 +128,31 @@ export default function SalonSignup() {
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="salon-password" className="form-label">Secret Password</label>
+            <label htmlFor="salon-password" className="form-label">Password</label>
             <div className="form-input-wrapper">
               <Lock className="form-input-icon" size={18} />
               <input
                 id="salon-password"
                 type="password"
+                autoComplete="new-password"
                 minLength={8}
                 title="At least 8 characters"
                 required
                 className="form-input"
                 placeholder="••••••••"
+                aria-invalid={error ? true : undefined}
+                aria-describedby={error ? 'salon-signup-error' : undefined}
                 value={password}
                 onChange={e => setPassword(e.target.value)}
               />
             </div>
           </div>
-          <button type="submit" disabled={loading} className="btn btn-accent" style={{ width: '100%', marginTop: '12px' }}>
-            {loading ? 'Registering...' : 'Register Salon Partner'}
+          <button type="submit" disabled={loading} className="btn btn-primary btn-block">
+            {loading ? 'Signing Up…' : 'Sign Up'}
           </button>
         </form>
         <div className="form-footer">
-          Already registered? <Link to="/buisness/login" className="form-link">Sign In</Link>
+          Already have an account? <Link to="/buisness/login" className="form-link">Sign In</Link>
         </div>
       </div>
     </div>

@@ -5,8 +5,25 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
 import Modal from '../../components/Modal.jsx';
 import { SkeletonTable } from '../../components/Skeleton.jsx';
+import '../workbench.css';
+import './staff.css';
 
-/* Staff Dashboard Component */
+/* Status-badge mapping (design.md): confirmed → success, pending → warning,
+   completed → neutral, no-show/cancelled/declined → danger.
+   Note: the admin and salon consoles still map completed → badge-info; this
+   page follows the neutral mapping and the shared helper should converge on
+   one of the two. */
+const statusBadgeClass = (status) =>
+  status === 'confirmed' ? 'badge-success'
+    : status === 'pending' ? 'badge-warning'
+      : status === 'completed' ? 'badge-secondary'
+        : 'badge-danger';
+
+/* Rows shown per page. The staff API returns the full schedule (no
+   limit/offset), so paging happens client-side over the fetched list. */
+const PAGE_SIZE = 15;
+
+/* Staff Dashboard Component — Workbench family, single-view console. */
 export default function StaffDashboard() {
   const { userSession } = useAuth();
   const showToast = useToast();
@@ -15,6 +32,8 @@ export default function StaffDashboard() {
   const [noteApptId, setNoteApptId] = useState(null);
   const [noteText, setNoteText] = useState('');
   const [showNoteModal, setShowNoteModal] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const visibleAppointments = appointments.slice(0, visibleCount);
 
   useEffect(() => {
     const fetchStaffSchedules = async () => {
@@ -61,13 +80,11 @@ export default function StaffDashboard() {
   };
 
   return (
-    <div className="container" style={{ padding: '40px 24px' }}>
-      <div className="dashboard-header" style={{ marginBottom: '32px' }}>
+    <div className="console-page">
+      <div className="dashboard-header staff-page-head">
         <div>
-          <div>
-            <h1 className="dashboard-title">Staff console</h1>
-            <p className="section-sub">Your assigned client schedules and booking details.</p>
-          </div>
+          <h1 className="dashboard-title">Staff Console</h1>
+          <p className="section-sub">Your assigned client schedules and booking details.</p>
         </div>
         <span className="badge badge-success">Duty: Active</span>
       </div>
@@ -75,14 +92,14 @@ export default function StaffDashboard() {
       {loading ? (
         <SkeletonTable rows={4} cols={7} />
       ) : appointments.length === 0 ? (
-        <div className="auth-card" style={{ margin: '0 auto', textAlign: 'center', padding: '40px' }}>
-          <Calendar size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px' }} />
-          <h3>No assigned bookings</h3>
-          <p style={{ color: 'var(--text-secondary)' }}>You don't have any customer appointments assigned for today.</p>
+        <div className="empty-state">
+          <Calendar size={40} />
+          <h3 className="empty-state-title">No assigned bookings</h3>
+          <p className="empty-state-text">You don't have any customer appointments assigned for today.</p>
         </div>
       ) : (
         <div className="table-container">
-          <table className="premium-table">
+          <table className="premium-table admin-table staff-table">
             <thead>
               <tr>
                 <th>Customer Name</th>
@@ -95,48 +112,60 @@ export default function StaffDashboard() {
               </tr>
             </thead>
             <tbody>
-              {appointments.map(appt => (
+              {visibleAppointments.map(appt => (
                 <tr key={appt.id}>
                   <td><strong>{appt.user?.name}</strong></td>
                   <td>{appt.service?.name}</td>
-                  <td>{appt.date} @ {appt.time} - {appt.endTime}</td>
-                  <td>
+                  <td className="staff-cell-when">{appt.date} @ {appt.time} - {appt.endTime}</td>
+                  <td className="staff-cell-review">
                     {appt.userReview ? (
-                      <span style={{ fontSize: '13px', fontStyle: 'italic', color: 'var(--text-secondary)' }}>"{appt.userReview}"</span>
+                      <span className="staff-quote">"{appt.userReview}"</span>
                     ) : (
-                      <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>None</span>
+                      <span className="staff-review-empty">None</span>
                     )}
                   </td>
-                  <td>
+                  <td className="staff-cell-review">
                     {appt.staffReview ? (
-                      <span style={{ fontSize: '13px', fontStyle: 'italic', color: 'var(--primary)' }}>"{appt.staffReview}"</span>
+                      <span className="staff-quote staff-quote--internal">"{appt.staffReview}"</span>
                     ) : (
-                      <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>None entered by manager</span>
+                      <span className="staff-review-empty">None entered by manager</span>
                     )}
                   </td>
                   <td>
-                    <span className={`badge ${appt.status === 'confirmed' ? 'badge-success' : appt.status === 'pending' ? 'badge-warning' : appt.status === 'completed' ? 'badge-info' : 'badge-danger'}`}>
+                    <span className={`badge ${statusBadgeClass(appt.status)}`}>
                       {appt.status || 'confirmed'}
                     </span>
                   </td>
-                  <td style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    {appt.status === 'pending' && (
-                      <>
-                        <button onClick={() => handleStatusChange(appt.id, 'confirmed')} className="btn btn-primary btn-sm">Accept</button>
-                        <button onClick={() => handleStatusChange(appt.id, 'declined')} className="btn btn-danger btn-sm">Decline</button>
-                      </>
-                    )}
-                    {appt.status === 'confirmed' && (
-                      <button onClick={() => handleStatusChange(appt.id, 'completed')} className="btn btn-secondary btn-sm">Mark Complete</button>
-                    )}
-                    <button onClick={() => handleOpenNote(appt.id, appt.staffReview)} className="btn btn-secondary btn-sm">
-                      {appt.staffReview ? 'Edit Note' : 'Add Note'}
-                    </button>
+                  <td>
+                    <div className="staff-cell-actions">
+                      {appt.status === 'pending' && (
+                        <>
+                          <button onClick={() => handleStatusChange(appt.id, 'confirmed')} className="btn btn-primary btn-sm">Accept</button>
+                          <button onClick={() => handleStatusChange(appt.id, 'declined')} className="btn btn-danger btn-sm">Decline</button>
+                        </>
+                      )}
+                      {appt.status === 'confirmed' && (
+                        <button onClick={() => handleStatusChange(appt.id, 'completed')} className="btn btn-secondary btn-sm">Mark Complete</button>
+                      )}
+                      <button onClick={() => handleOpenNote(appt.id, appt.staffReview)} className="btn btn-secondary btn-sm">
+                        {appt.staffReview ? 'Edit Note' : 'Add Note'}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+      {visibleCount < appointments.length && (
+        <div className="staff-load-more">
+          <button
+            onClick={() => setVisibleCount(count => count + PAGE_SIZE)}
+            className="btn btn-secondary"
+          >
+            Load more (showing {visibleCount} of {appointments.length})
+          </button>
         </div>
       )}
       <Modal open={showNoteModal} onClose={() => setShowNoteModal(false)} title="Therapist Note">
@@ -150,7 +179,7 @@ export default function StaffDashboard() {
             onChange={e => setNoteText(e.target.value)}
           />
         </div>
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-xs)', justifyContent: 'flex-end', marginTop: 'var(--space-md)' }}>
           <button onClick={() => setShowNoteModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
           <button onClick={handleSaveNote} className="btn btn-primary btn-sm">Save Note</button>
         </div>
